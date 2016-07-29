@@ -2,9 +2,9 @@
 	"use strict";
 
 	require("babel-register")({
-		extensions: [".es6", ".es", ".jsx", ".js"],
-		plugins: ['transform-runtime'],
-		presets: ["es2015", "stage-0"]
+		extensions: [".js"],
+		plugins: ["transform-async-functions", "transform-export-extensions"],
+		presets: ["es2016", "stage-0"]
 	});
 
 	require("./index.js");

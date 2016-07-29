@@ -8,7 +8,10 @@
 
 	const LoadUtil = require("util/LoadUtil");
 
-	const app = new (LoadUtil.app(process.argv[2]));
+	console.log(process.argv[2])
+	
+	const App = LoadUtil.app(process.argv[2]);
+	const app = new App();
 
 	const DBUtil = require("util/DBUtil");
 

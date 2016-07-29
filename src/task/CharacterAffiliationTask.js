@@ -1,19 +1,17 @@
 
 	"use strict";
 
-	const BaseTask 					= require("task/BaseTask");
+	const XMLTask 					= require("task/XMLTask");
 	const rp 						= require("request-promise");
 	const config 					= require("util/../../config/");
 	const {parseString} 			= require("xml2js");
 	const DBUtil 					= require("util/DBUtil");
 
-	class CharacterAffiliationTask extends BaseTask {
+	class CharacterAffiliationTask extends XMLTask {
 
 		async start () {
 
-			let query = {};
-			for(let i in this.getData())
-				query[i] = (this.getData()[i] && typeof this.getData()[i] == "object" ? this.getData()[i].join(",") : this.getData()[i]);
+			let query = this.dataToForm();
 
 			// wait for a xml api queue spot
 			await this.enqueue();

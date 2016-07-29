@@ -1,9 +1,9 @@
 
 	"use strict";
 
-	const Store 					= require("store/Store");
+	const IdAndNameStore 			= require("store/IdAndNameStore");
 
-	class AllianceStore extends Store {
+	class AllianceStore extends IdAndNameStore {
 
 	}
 

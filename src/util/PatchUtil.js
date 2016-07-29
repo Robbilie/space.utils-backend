@@ -24,13 +24,8 @@
 
 		static store (store, filter) {
 			PatchUtil.filter(store, filter).forEach(p => {
-				var slt = name.split(/(?=[A-Z_])/).map(s => s.toLowerCase());
-				var params = slt.slice(["by","where"].map(f => params.indexOf(f)).find(f => f >= 0));
-
-				var query = { [params[0]]: arguments[0] };
-				for(let i = 2; i < params.length; i += 2) {
-					query = { ["$" + params[i - 1]]: [query, { [params[i]] : arguments[i / 2] }]};
-				}
+				var slt = p.split(/(?=[A-Z_])/).map(s => s.toLowerCase());
+				var params = slt.slice(["by","where"].map(f => slt.indexOf(f) + 1).find(f => f > 0));
 
 				var method;
 				switch (slt[0]) {
@@ -44,9 +39,19 @@
 						break;
 				}
 
+				var all = slt[1] == "all";
+
 				Object.defineProperty(store.prototype, p, {
-					value: function () {
-						return this[method](query);
+					value: async function (...args) {
+						
+						var query = { [params[0]]: args[0] };
+						for(let i = 2; i < params.length; i += 2) {
+							query = { ["$" + params[i - 1]]: [query, { [params[i]] : args[i / 2] }]};
+						}
+
+						let res = await this[method](query);
+						return all ? res : res[0];
+
 					},
 					configurable: false,
 					writable: false
@@ -54,10 +59,10 @@
 			});
 		}
 
-		static filter (obj, filter) {
+		static filter (obj, filter = []) {
 			return Object
 				.getOwnPropertyNames(obj.prototype)
-				.filter(p => Array.concat(["constructor"], filter || []).indexOf(p) === -1);
+				.filter(p => [].concat(["constructor"], filter).indexOf(p) === -1);
 		}
 
 	}
