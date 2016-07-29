@@ -7,12 +7,12 @@
 
 	class CharacterStore extends IdAndNameStore {
 
-		aggregate (data, lookups = [{ from: "corporations", name: "corporation" }, { from: "alliances", name: "corporation.alliance" }]) {
+		aggregate (data, lookups = ["corporation", "corporation.alliance"]) {
 			console.log(data);
 			return super.aggregate(data, lookups);
 		}
 
-		async getOrCreate (id, unverified, {} = $(2, {id}, "Number", {unverified}, "Boolean")) {
+		async getOrCreate (id, unverified, {} = $(1, {id}, "Number")) {
 			let character = await this.getById(id);
 			
 			if(character)

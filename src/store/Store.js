@@ -19,7 +19,7 @@
 					[].concat.apply([], lookups
 						.map(field => (
 							{ 
-								from: field.constructor.name == "Object" ? field.from : field + "s", 
+								from: field.constructor.name == "Object" ? field.from : field.split(".").slice(-1) + "s", 
 								name: field.constructor.name == "Object" ? field.name : field 
 							}
 						))
