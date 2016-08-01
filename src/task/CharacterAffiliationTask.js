@@ -2,66 +2,59 @@
 	"use strict";
 
 	const XMLTask 					= require("task/XMLTask");
-	const rp 						= require("request-promise");
-	const config 					= require("util/../../config/");
-	const {parseString} 			= require("xml2js");
 	const DBUtil 					= require("util/DBUtil");
 
 	class CharacterAffiliationTask extends XMLTask {
 
 		async start () {
 
-			let query = this.dataToForm();
+			let response;
+			try {
+				response = await this.getXML("EVE/CharacterAffiliation", this.dataToForm());
+			} catch (e) {
+				await this.update({ state: 0 });
+			}
 
-			// wait for a xml api queue spot
-			await this.enqueue();
+			if(response && response.eveapi && response.eveapi.result) {
 
-			let response = await rp({
-				method: 		"POST",
-				uri: 			`${config.ccp.api.url}/EVE/CharacterAffiliation.xml.aspx`,
-				headers: 		{ "User-Agent": config.site.userAgent },
-				form: 			query
-			});
+				const charStore = await DBUtil.getStore("Character");
+				const corpStore = await DBUtil.getStore("Corporation");
+				const alliStore = await DBUtil.getStore("Alliance");
 
-			let parsed = await new Promise(resolve => parseString(response, (e, r) => e ? reject(e) : resolve(r)));
+				let characteritems = response.eveapi.result[0].rowset[0].row;
 
-			let characteritems = parsed.eveapi.result[0].rowset[0].row;
+				await Promise.all(characteritems.map(async characteritem => {
 
-			const charStore = await DBUtil.getStore("Character");
-			const corpStore = await DBUtil.getStore("Corporation");
-			const alliStore = await DBUtil.getStore("Alliance");
+					let corporation = await corpStore.getOrCreate(characteritem.corporationID[0] - 0);
 
-			await Promise.all(characteritems.map(async characteritem => {
+					if(characteritem.$.allianceID - 0 != 0) {
 
-				// create alli obj and get alliance obj from db if alliance != 0
-				let alliance = {
-					id: 	characteritem.$.allianceID - 0,
-					name: 	characteritem.$.allianceName
-				};
-				let alli;
-				if(alliance.id)
-					alli = await alliStore.findAndModify({ id: alliance.id }, [], { $set: alliance }, { upsert: true, new: true });
+						// update corps' alliance if state differs or alli id
+						if(
+							(!!(characteritem.$.allianceID - 0) != !!corporation.getAlliance()) || 
+							(corporation.getAlliance() && corporation.getAlliance().getId() != characteritem.$.allianceID - 0)
+						)
+							await corpStore.findAndModify(
+								{ id: corporation.getId() }, 
+								[], 
+								Object.assign({}, characteritem.$.allianceID - 0 ? { $set: { alliance: (await alliStore.getById(characteritem.$.allianceID - 0)).get_id() } } : { $unset: { alliance: "" } })
+							);
 
-				// create corp obj and get corporation obj from db and assign alli ObjectId if exist
-				let corporation = {
-					id: 	characteritem.$.corporationID - 0,
-					name: 	characteritem.$.corporationName
-				};
-				if(alli)
-					corporation.alliance = alli.get_id();
-				let corp = await corpStore.findAndModify({ id: corporation.id }, [], { $set: corporation }, { upsert: true, new: true });
+					}
 
-				// create char obj and get character obj from db and assign corp ObjectId if exist
-				let character = {
-					id: 	characteritem.$.characterID - 0,
-					name: 	characteritem.$.characterName
-				};
-				if(corp)
-					character.corporation = corp.get_id();
-				let char = await charStore.findAndModify({ id: character.id }, [], { $set: character }, { upsert: true, new: true });
-			}));
+					let character = {
+						id: 			characteritem.$.characterID - 0,
+						name: 			characteritem.$.characterName,
+						corporation: 	corporation.get_id()
+					};
 
-			await this.update({ state: 0, timestamp: new Date(parsed.eveapi.cachedUntil[0] + "Z").getTime() });
+					await charStore.findAndModify({ id: character.id }, [], { $set: character }, { upsert: true });
+
+				}));
+
+				await this.update({ state: 0, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
+				
+			}
 		}
 
 	};

@@ -4,6 +4,7 @@
 	const IdAndNameStore 			= require("store/IdAndNameStore");
 	const CharacterInfoTask 		= require("task/CharacterInfoTask");
 	const CharacterAffiliationTask 	= require("task/CharacterAffiliationTask");
+	const DBUtil 					= require("util/DBUtil");
 
 	class CharacterStore extends IdAndNameStore {
 
@@ -23,11 +24,15 @@
 			
 			character = await this.getById(id);
 
+			if(!character)
+			console.log("MISSING CHAR", id);
+
 			if(character) {
 				let taskStore 	= await DBUtil.getStore("Task");
-				let task 		= await taskStore.get({ "info.name": "CharacterAffiliationTask", $where: "this.data.ids.length < 250" });
-				if(task)
-					await taskStore.findAndModify({ _id: task.get_id() }, [], { $push: { "data.ids": id }, $set: { info: Object.assign(task.getInfo(), { timestamp: 0 }) } });
+
+				let task = await taskStore.findAndModify({ "info.name": "CharacterAffiliationTask", $where: "this.data.ids.length < 250" }, [], { $push: { "data.ids": id } });
+				if(!task)
+					await CharacterAffiliationTask.create({ ids: [id] });
 			}
 
 			return character;

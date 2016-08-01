@@ -2,6 +2,12 @@
 	"use strict";
 
 	const DBUtil 					= require("util/DBUtil");
+	const {ObjectId} 				= require("mongodb");
+
+	const storage 					= {
+		tasks: 		{},
+		stream: 	undefined
+	};
 
 	class BaseTask {
 
@@ -54,35 +60,58 @@
 
 		static create (data = {}, info = {}) {
 			return new Promise(async (resolve, reject) => {
-				let tasks = await DBUtil.getStore("Task");
+				try {
+					let tasks = await DBUtil.getStore("Task");
+					
+					let _id = new ObjectId();
 
-				let cursor = await tasks.getUpdates();
-				const stream = cursor.stream();
-
-				const cb = log => {
-					if(
-						(log.op == "d" && log.o._id.toString() == task.get_id().toString()) ||
-						(log.op == "u" && log.o2._id.toString() == task.get_id().toString() && log.o.$set.info.state == 0)
-					) {
-						stream.removeListener("data", cb);
-						console.log("resolve");
-						resolve();
-					}
-				};
-
-				stream.on("data", cb);
-
-				const task = await tasks.insert(
-					{
-						data: data,
-						info: {
-							type: 		info.type 		|| typeof(Object.getPrototypeOf(this).prototype) != "undefined" ? Object.getPrototypeOf(this).prototype.constructor.getType() : undefined,
-							timestamp: 	info.timestamp 	|| 0,
-							state: 		info.state 		|| 0,
-							name: 		info.name 		|| this.prototype.constructor.name
+					BaseTask.waitForTask(_id.toString()).then(resolve).catch(e => console.log(e));
+					
+					let task = await tasks.insert(
+						{
+							_id,
+							data: data,
+							info: {
+								type: 		info.type 		|| typeof(Object.getPrototypeOf(this).prototype) != "undefined" ? Object.getPrototypeOf(this).prototype.constructor.getType() : undefined,
+								timestamp: 	info.timestamp 	|| 0,
+								state: 		info.state 		|| 0,
+								name: 		info.name 		|| this.prototype.constructor.name
+							}
 						}
+					);
+
+				} catch (e) { console.log(e)}
+			});
+		}
+
+		static waitForTask (id, {} = $(1, {id}, "String")) {
+			return new Promise(async resolve => {
+				try {
+					if(!storage.stream) {
+						let tasks = await DBUtil.getStore("Task");
+						let cursor = await tasks.getUpdates();
+					 	storage.stream = cursor.stream();
+					 	storage.stream.on("data", async log => {
+					 		let tid;
+					 		if(log.op == "d") {
+					 			tid = log.o._id.toString();
+					 		}
+					 		if(log.op == "u") {
+					 			if(log.o.$set.info && log.o.$set.info.state == 0) {
+					 				tid = log.o2._id.toString();
+					 			} else {
+				 					tid = await DBUtil.getStore("Task").then(store => store.getBy_id(log.o2._id)).then(task => task && task.getInfo().state == 0 ? task.get_id().toString() : undefined);
+					 			}
+				 			}
+					 		if(tid && storage.tasks[tid]) {
+					 			storage.tasks[tid]();
+					 			delete storage.tasks[tid];
+					 		}
+					 	});
 					}
-				);
+
+					storage.tasks[id] = resolve;
+				} catch (e) { console.log(e)}
 			});
 		}
 

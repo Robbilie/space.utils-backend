@@ -13,7 +13,7 @@
 			this.collection = db.collection(config.database.prefix + this.name);
 		}
 
-		aggregate (data, lookups) {
+		aggregate (data, lookups = []) {
 			return this.collection
 				.aggregate(
 					[].concat.apply([], lookups

@@ -1,9 +1,9 @@
 
 	"use strict";
 
-	const Base 						= require("model/Base");
+	const IdAndName 				= require("model/IdAndName");
 
-	class Character extends Base {
+	class Character extends IdAndName {
 
 	}
 

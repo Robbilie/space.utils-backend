@@ -7,22 +7,26 @@
 	class CorporationStore extends IdAndNameStore {
 
 		aggregate (data, lookups = ["alliance"]) {
-			console.log(data);
 			return super.aggregate(data, lookups);
 		}
 
 		async getOrCreate (id, unverified, {} = $(1, {id}, "Number")) {
-			let corporation = await this.getById(id);
-			
-			if(corporation)
-				return corporation;
-			
-			if(!unverified)
-				await CorporationSheetTask.create({ corporationID: id });
-			
-			corporation = await this.getById(id);
+			try {
+				let corporation = await this.getById(id);
+				
+				if(!corporation)
+					console.log("corp", !!corporation, id);
+				
+				if(corporation)
+					return corporation;
 
-			return corporation;
+				if(!unverified)
+					await CorporationSheetTask.create({ corporationID: id });
+
+				corporation = await this.getById(id);
+
+				return corporation;
+			} catch (e) { console.log(e)}
 		}
 
 	}

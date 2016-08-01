@@ -92,7 +92,7 @@
 				// do special processing stuff
 				new (LoadUtil.task(info.name))(this, task);
 			} catch (e) {
-				console.log(e);
+				console.log(info.name, e);
 			}
 
 		}
@@ -109,6 +109,7 @@
 			return new Promise((resolve) => {
 				if(this.taskTypes[type].timestamps.length < this.taskTypes[type].limit) {
 					this.enqueueTimestamp(type, ts);
+					console.log("resolving", type);
 					return resolve();
 				}
 

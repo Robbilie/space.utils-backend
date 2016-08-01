@@ -2,64 +2,73 @@
 	"use strict";
 
 	const XMLTask 					= require("task/XMLTask");
-	const rp 						= require("request-promise");
-	const config 					= require("util/../../config/");
-	const {parseString} 			= require("xml2js");
 	const DBUtil 					= require("util/DBUtil");
 
 	class CorporationSheetTask extends XMLTask {
 
 		async start () {
 
-			let query = this.dataToForm();
-
-			// wait for a xml api queue spot
-			await this.enqueue();
-
+			let response;
 			try {
-				let response = await rp({
-					method: 		"POST",
-					uri: 			`${config.ccp.api.url}/Corp/CorporationSheet.xml.aspx`,
-					headers: 		{ "User-Agent": config.site.userAgent },
-					form: 			query
-				});
-
-				let parsed = await new Promise(resolve => parseString(response, (e, r) => e ? reject(e) : resolve(r)));
-
-				if(parsed.eveapi.result) {
-					let corporationitem = parsed.eveapi.result[0];
-
-					const corpStore = await DBUtil.getStore("Corporation");
-					const alliStore = await DBUtil.getStore("Alliance");
-
-					// create alli obj and get alliance obj from db if alliance != null
-					let alli;
-					if(corporationitem.alliance) {
-						let alliance = {
-							id: 	corporationitem.allianceID[0] - 0,
-							name: 	corporationitem.allianceName[0]
-						};
-						if(alliance.id)
-							alli = await alliStore.findAndModify({ id: alliance.id }, [], { $set: alliance }, { upsert: true, new: true });
-					}
-
-					// create corp obj and get corporation obj from db and assign alli ObjectId if exist
-					let corporation = {
-						id: 	corporationitem.corporationID[0] - 0,
-						name: 	corporationitem.corporationName[0]
-					};
-					if(alli)
-						corporation.alliance = alli.get_id();
-					let corp = await corpStore.findAndModify({ id: corporation.id }, [], { $set: corporation }, { upsert: true, new: true });
-
-				} else {
-					console.log("invalid corp ", id);
-				}
+				response = await this.getXML("Corp/CorporationSheet", this.dataToForm());
 			} catch (e) {
 				console.log(e);
+				await this.update({ state: 0 });
 			}
 
-			await this.update({ state: 0, timestamp: new Date(parsed.eveapi.cachedUntil[0] + "Z").getTime() });
+			if(response && response.eveapi && response.eveapi.result) {
+
+				const charStore = await DBUtil.getStore("Character");
+				const corpStore = await DBUtil.getStore("Corporation");
+				const alliStore = await DBUtil.getStore("Alliance");
+
+				let corporationitem = response.eveapi.result[0];
+
+				let corporation = {
+					id: 			corporationitem.corporationID[0] - 0,
+					name: 			corporationitem.corporationName[0],
+					ticker: 		corporationitem.ticker[0],
+					taxRate: 		parseFloat(corporationitem.taxRate[0]),
+					memberCount: 	corporationitem.memberCount[0] - 0,
+					description: 	corporationitem.description[0]
+				};
+
+				// handle corp beeing in alliance
+				if(corporationitem.allianceID[0] - 0 != 0) {
+
+					let alliance = await alliStore.findAndModify(
+						{ id: corporationitem.allianceID[0] - 0 }, 
+						[], 
+						{ 
+							$set: {
+								id: 	corporationitem.allianceID[0] - 0,
+								name: 	corporationitem.allianceName[0]
+							} 
+						}, 
+						{ upsert: true, new: true }
+					);
+
+					corporation.alliance = alliance.get_id();
+
+				}
+
+				await corpStore.findAndModify({ id: corporation.id }, [], { $set: corporation }, { upsert: true });
+
+				// ceo is no the EVE System
+				if(corporationitem.ceoID[0] - 0 != 1) {
+
+					let ceo = await charStore.getOrCreate(corporationitem.ceoID[0] - 0);
+
+					await corpStore.findAndModify({ id: corporation.id }, [], { $set: { ceo: ceo.get_id() } });
+
+				}
+
+				await this.update({ state: 0, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
+
+			} else {
+				console.log("invalid corp", this.getData().corporationID);
+				await this.delete();
+			}
 		}
 
 	};

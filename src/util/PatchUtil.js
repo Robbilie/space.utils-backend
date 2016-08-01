@@ -2,6 +2,7 @@
 	"use strict";
 
 	const DBUtil 					= require("util/DBUtil");
+	const LoadUtil 					= require("util/LoadUtil");
 
 	class PatchUtil {
 
@@ -9,12 +10,13 @@
 			PatchUtil.filter(model, filter).forEach(p => {
 				// slice "get" off and lowercase the property
 				// TODO : add stuff like getCorporationId()
+				const type = LoadUtil.model(p.slice(3));
 				Object.defineProperty(model.prototype, p, {
 					value: function () {
 						let obj = this.data[p.slice(3).toLowerCase()];
 						return obj && obj.constructor.name == "ObjectId" ? 
 							DBUtil.getStore(p.slice(3)).then(store => store.getBy_id(obj)) : 
-							obj;
+							(obj && type ? new (type)(obj) : obj);
 					},
 					configurable: false,
 					writable: false

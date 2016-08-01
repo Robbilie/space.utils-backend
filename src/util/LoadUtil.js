@@ -33,7 +33,6 @@
 			try {
 				return require(name);
 			} catch (e) {
-				console.log(e);
 				return null;
 			}
 		}

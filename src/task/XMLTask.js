@@ -2,11 +2,38 @@
 	"use strict";
 	
 	const BaseTask 					= require("task/BaseTask");
+	const config 					= require("util/../../config/");
+	const rp 						= require("request-promise");
+	const {parseString} 			= require("xml2js");
 
 	class XMLTask extends BaseTask {
 
 		static getType () {
 			return "XML";
+		}
+
+		async getXML (url, query) {
+
+			// wait for a xml api queue spot
+			await this.enqueue();
+
+			console.log("url", url, "query", query);
+
+			let response;
+			try {
+				response = await rp(Object.assign({
+					method: 		"POST",
+					uri: 			`${config.ccp.api.url}/${url}.xml.aspx`,
+					headers: 		{ "User-Agent": config.site.userAgent }
+				}, query ? { form: query } : {}));
+			} catch (e) {
+				//console.log(e);
+				response = e.error;
+			}
+
+			let parsed = await new Promise((resolve, reject) => parseString(response, (e, r) => e ? reject(e) : resolve(r)));
+
+			return parsed;
 		}
 
 	};
