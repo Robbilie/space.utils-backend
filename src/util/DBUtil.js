@@ -27,6 +27,11 @@
 						.then(con => {
 							storage[field] = con;
 							resolve(storage[field]);
+						})
+						.catch(e => {
+							console.log(e);
+							console.log("Reconnecting…");
+							DBUtil.getConnection(field, db).then(r => resolve(r));
 						});
 				}
 			});

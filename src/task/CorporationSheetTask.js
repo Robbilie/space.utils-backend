@@ -18,52 +18,52 @@
 
 			if(response && response.eveapi && response.eveapi.result) {
 
-				const charStore = await DBUtil.getStore("Character");
-				const corpStore = await DBUtil.getStore("Corporation");
-				const alliStore = await DBUtil.getStore("Alliance");
+				try {
 
-				let corporationitem = response.eveapi.result[0];
+					let corp = response.eveapi.result[0];
 
-				let corporation = {
-					id: 			corporationitem.corporationID[0] - 0,
-					name: 			corporationitem.corporationName[0],
-					ticker: 		corporationitem.ticker[0],
-					taxRate: 		parseFloat(corporationitem.taxRate[0]),
-					memberCount: 	corporationitem.memberCount[0] - 0,
-					description: 	corporationitem.description[0]
-				};
-
-				// handle corp beeing in alliance
-				if(corporationitem.allianceID[0] - 0 != 0) {
-
-					let alliance = await alliStore.findAndModify(
-						{ id: corporationitem.allianceID[0] - 0 }, 
-						[], 
-						{ 
+					/*
+					 * Create basic corp entry so char and alli tasks can get the corp
+					 */
+					let corpStore = await DBUtil.getStore("Corporation");
+					let corporation = await corpStore.findAndModify(
+						{ id: corp.corporationID[0] - 0 },
+						[],
+						{
 							$set: {
-								id: 	corporationitem.allianceID[0] - 0,
-								name: 	corporationitem.allianceName[0]
-							} 
-						}, 
+								id: 			corp.corporationID[0] - 0,
+								name: 			corp.corporationName[0],
+								ticker: 		corp.ticker[0],
+								taxRate: 		parseFloat(corp.taxRate[0]),
+								memberCount: 	corp.memberCount[0] - 0,
+								description: 	corp.description[0]
+							}
+						},
 						{ upsert: true, new: true }
 					);
 
-					corporation.alliance = alliance.get_id();
+					/*
+					 * set the corp ceo unless EVE System
+					 */
+					if(corp.ceoID[0] - 0 != 1) {
+						let charStore = await DBUtil.getStore("Character");
+						let ceo = await charStore.getOrCreate(corp.ceoID[0] - 0);
+						if(ceo)
+							await corporation.modify([], { $set: { ceo: ceo.get_id() } });
+					}
 
-				}
+					/*
+					 * if in alliance set alliance
+					 */
+					if(corp.allianceID[0] - 0 != 0) {
+						let alliStore = await DBUtil.getStore("Alliance");
+						let alliance = await alliStore.getOrCreate(corp.allianceID[0] - 0);
+						await corporation.modify([], { $set: { alliance: alliance.get_id() } });
+					}
 
-				await corpStore.findAndModify({ id: corporation.id }, [], { $set: corporation }, { upsert: true });
+					await this.update({ state: 0, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
 
-				// ceo is no the EVE System
-				if(corporationitem.ceoID[0] - 0 != 1) {
-
-					let ceo = await charStore.getOrCreate(corporationitem.ceoID[0] - 0);
-
-					await corpStore.findAndModify({ id: corporation.id }, [], { $set: { ceo: ceo.get_id() } });
-
-				}
-
-				await this.update({ state: 0, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
+				} catch (e) { console.log(e) }
 
 			} else {
 				console.log("invalid corp", this.getData().corporationID);

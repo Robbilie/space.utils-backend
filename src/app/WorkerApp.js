@@ -9,6 +9,7 @@
 
 		constructor () {
 			this.taskTypes = { ["XML"]: { limit: 30, timestamps: [] } };
+			this.shuttingDown = false;
 
 			try {
 				this.init();
@@ -64,6 +65,10 @@
 		}
 
 		async process (_id, info_string) {
+			
+			if(this.shuttingDown)
+				return;
+
 			// parse info
 			let info = JSON.parse(info_string);
 

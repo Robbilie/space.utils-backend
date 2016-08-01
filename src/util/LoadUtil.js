@@ -33,6 +33,8 @@
 			try {
 				return require(name);
 			} catch (e) {
+				if(e.constructor.name == "SyntaxError")
+					console.log(e);
 				return null;
 			}
 		}

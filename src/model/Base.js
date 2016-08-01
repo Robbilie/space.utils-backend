@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const PatchUtil 				= require("util/PatchUtil");
+	const DBUtil 					= require("util/DBUtil");
 
 	class Base {
 
@@ -15,6 +15,18 @@
 
 		get_id () {
 			return this.data._id;
+		}
+
+		getStore () {
+			return DBUtil.getStore(this.constructor.name);
+		}
+
+		update (...args) {
+			return this.getStore().then(store => store.update({ _id: this.get_id() }, ...args));
+		}
+
+		modify (...args) {
+			return this.getStore().then(store => store.findAndModify({ _id: this.get_id() }, ...args));
 		}
 
 	}
