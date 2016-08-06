@@ -38,18 +38,14 @@
 		}
 
 		update (changes = {}) {
-			return this.worker.getTasks().findAndModify(
+			return this.worker.getTasks().update(
 				{ 
 					_id: this.task.get_id()
 				}, 
-				[], 
 				{ 
 					$set: { 
 						info: Object.assign(this.getInfo(), changes) 
 					} 
-				}, 
-				{ 
-					new: true 
 				}
 			);
 		}
@@ -61,11 +57,14 @@
 		static create (data = {}, info = {}) {
 			return new Promise(async (resolve, reject) => {
 				try {
+					
 					let tasks = await DBUtil.getStore("Task");
 					
 					let _id = new ObjectId();
 
-					BaseTask.waitForTask(_id.toString()).then(resolve).catch(e => console.log(e));
+					const d = Date.now();
+
+					BaseTask.waitForTask(_id.toString()).then(e => console.log(this.prototype.constructor.name, "cb", Date.now() - d) || resolve(e)).catch(e => console.log(e));
 					
 					let task = await tasks.insert(
 						{
@@ -88,7 +87,7 @@
 			return new Promise(async resolve => {
 				try {
 					if(!storage.stream) {
-						let tasks = await DBUtil.getStore("Task");
+						const tasks = await DBUtil.getStore("Task");
 						let cursor = await tasks.getUpdates();
 					 	storage.stream = cursor.stream();
 					 	storage.stream.on("data", async log => {
@@ -97,10 +96,13 @@
 					 			tid = log.o._id.toString();
 					 		}
 					 		if(log.op == "u") {
-					 			if(log.o.$set.info && log.o.$set.info.state == 0) {
-					 				tid = log.o2._id.toString();
+					 			if(log.o.$set.info && log.o.$set.info.state) {
+					 				if(log.o.$set.info.state == 2)
+					 					tid = log.o2._id.toString();
 					 			} else {
-				 					tid = await DBUtil.getStore("Task").then(store => store.getBy_id(log.o2._id)).then(task => task && task.getInfo().state == 0 ? task.get_id().toString() : undefined);
+				 					let task = await tasks.getBy_id(log.o2._id);
+				 					if(task && task.getInfo().state == 2)
+				 						tid = task.get_id().toString();
 					 			}
 				 			}
 					 		if(tid && storage.tasks[tid]) {

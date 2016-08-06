@@ -49,55 +49,56 @@
 		}
 
 		scheduleTask (task, timestamp) {
-			setTimeout(this.process.bind(this, task.get_id(), JSON.stringify(task.getInfo())), Math.max(timestamp - Date.now(), 0));
+			setTimeout(this.process.bind(this, task.get_id(), task.getInfo().timestamp), Math.max(timestamp - Date.now(), 0));
 		}
 
 		taskUpdate (data) {
 			if(data.op == "i") {
 				this.scheduleTask(new Task(data.o), data.o.info.timestamp);
 			} else if(data.op == "u") {
-				if(data.o.$set && data.o.$set.info) {
-					if(data.o.$set.info.state == 0) {
-						this.scheduleTask(new Task({ _id: data.o2._id, info: data.o.$set.info }), data.o.$set.info.timestamp);
-					}
+				if(data.o.$set && data.o.$set.info && data.o.$set.info.state == 0) {
+					this.scheduleTask(new Task({ _id: data.o2._id, info: data.o.$set.info }), data.o.$set.info.timestamp);
+				} else {
+					DBUtil.getStore("Task")
+						.then(store => store.getBy_id(data.o2._id))
+						.then(task => task && task.getInfo().state == 0 ? this.scheduleTask(task, task.getInfo().timestamp) : undefined)
+						.catch(e => console.log(e));
 				}
 			}
 		}
 
-		async process (_id, info_string) {
+		async process (_id, timestamp) {
 			
 			if(this.shuttingDown)
 				return;
-
-			// parse info
-			let info = JSON.parse(info_string);
 
 			// update state and check if still valid
 			let task = await this.getTasks().findAndModify(
 				{ 
 					_id, 
-					"info.timestamp": info.timestamp, 
+					"info.timestamp": timestamp, 
 					"info.state": 0 
 				}, 
 				[], 
 				{ 
 					$set: { 
-						info: Object.assign(info, { state: 1 }) 
+						"info.state": 1
 					} 
 				}, 
 				{ 
 					new: true 
 				}
 			);
+
 			// task has already been taken by another worker
 			if(!task)
 				return;
 
 			try {
 				// do special processing stuff
-				new (LoadUtil.task(info.name))(this, task);
+				new (LoadUtil.task(task.getInfo().name))(this, task);
 			} catch (e) {
-				console.log(info.name, e);
+				console.log(task.getInfo().name, e);
 			}
 
 		}
@@ -107,25 +108,26 @@
 			if(!fromDb)
 				this.ratelimits.insert({ type: type, timestamp: ts });
 			this.taskTypes[type].timestamps = this.taskTypes[type].timestamps.sort();
-			return setTimeout(() => this.taskTypes[type].timestamps = this.taskTypes[type].timestamps.filter(t => t != ts), Date.now() - ts + 1000);
+			return setTimeout(() => this.taskTypes[type].timestamps = this.taskTypes[type].timestamps.filter(t => t != ts), ts - Date.now() + 1000);
 		}
 
 		enqueue (type, ts = Date.now()) {
 			return new Promise((resolve) => {
 				if(this.taskTypes[type].timestamps.length < this.taskTypes[type].limit) {
 					this.enqueueTimestamp(type, ts);
-					console.log("resolving", type);
 					return resolve();
 				}
 
 				return Promise
 					.resolve()
-					.wait(ts - this.taskTypes[type].timestamps[this.taskTypes[type].timestamps.length - this.taskTypes[type].limit] + 1000 || 0)
+					.wait(ts - this.taskTypes[type].timestamps[this.taskTypes[type].timestamps.length - this.taskTypes[type].limit] || 0)
 					.then(c => this.enqueue(type))
-					.then(r => resolve());
+					.then(r => resolve())
+					.catch(e => console.log(e));
 			});
 		}
 
 	}
 
 	module.exports = WorkerApp;
+	

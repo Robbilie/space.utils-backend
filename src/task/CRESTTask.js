@@ -16,7 +16,7 @@
 			// wait for a xml api queue spot
 			await this.enqueue();
 
-			console.log("url", url, "query", query);
+			//console.log("url", url, "query", query);
 
 			let response;
 			try {

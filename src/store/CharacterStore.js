@@ -9,33 +9,44 @@
 	class CharacterStore extends IdAndNameStore {
 
 		aggregate (data, lookups = ["corporation", "corporation.alliance"]) {
-			console.log(data);
 			return super.aggregate(data, lookups);
 		}
 
 		async getOrCreate (id, unverified, {} = $(1, {id}, "Number")) {
-			let character = await this.getById(id);
-			
-			if(character)
+			try {
+
+				let character = await this.getById(id);
+				
+				if(!character) {
+					if(!unverified)
+						await CharacterInfoTask.create({ characterID: id });
+					character = await this.getById(id);
+					if(!character) {
+						console.log("MISSING CHAR", id);
+					} else {
+						let taskStore 	= await DBUtil.getStore("Task");
+						await taskStore.findAndModify(
+							{ "info.name": "CharacterAffiliationTask", $where: "this.data.ids.length < 250" }, 
+							[], 
+							{ 
+								$setOnInsert: {
+									info: {
+										type: "XML",
+										name: "CharacterAffiliationTask",
+										state: 0,
+										timestamp: 0
+									}
+								},
+								$push: { "data.ids": id }
+							}
+						);
+						
+					}
+				}
+
 				return character;
-			
-			if(!unverified)
-				await CharacterInfoTask.create({ characterID: id });
-			
-			character = await this.getById(id);
 
-			if(!character)
-			console.log("MISSING CHAR", id);
-
-			if(character) {
-				let taskStore 	= await DBUtil.getStore("Task");
-
-				let task = await taskStore.findAndModify({ "info.name": "CharacterAffiliationTask", $where: "this.data.ids.length < 250" }, [], { $push: { "data.ids": id } });
-				if(!task)
-					await CharacterAffiliationTask.create({ ids: [id] });
-			}
-
-			return character;
+			} catch (e) { console.log(e)}
 		}
 
 	}

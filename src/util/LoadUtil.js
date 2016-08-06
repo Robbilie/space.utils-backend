@@ -33,7 +33,8 @@
 			try {
 				return require(name);
 			} catch (e) {
-				if(e.constructor.name == "SyntaxError")
+				//if(e.constructor.name == "SyntaxError")
+				if(e.code != "MODULE_NOT_FOUND")
 					console.log(e);
 				return null;
 			}

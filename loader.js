@@ -5,8 +5,7 @@
 
 	require("babel-register")({
 		extensions: [".js"],
-		plugins: ["transform-async-functions", "transform-export-extensions"],
-		presets: ["es2016", "stage-0"]
+		plugins: ["transform-async-functions", "transform-async-to-generator", "transform-export-extensions"]
 	});
 
 	require("./index.js");

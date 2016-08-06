@@ -97,6 +97,14 @@
 			writable: true
 		});
 
+		Object.defineProperty(require("mongodb").ObjectID.prototype, 'toJSON', {
+			value: function () {
+				return undefined;
+			},
+			configurable: true,
+			writable: true
+		});
+
 		global.$ = function (num, ...params) {
 			params
 				.reduce((p, c, i, a) => i % 2 ? p : p.concat([[Object.keys(c)[0], c[Object.keys(c)[0]], a[i + 1]]]), [])

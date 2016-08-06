@@ -12,65 +12,45 @@
 			try {
 				response = await this.getXML("EVE/AllianceList");
 			} catch (e) {
-				await this.update({ state: 0 });
+				return await this.update({ state: 0 });
 			}
-
-			console.log(response);
 
 			if(response && response.eveapi && response.eveapi.result) {
 
 				try {
+
 					const alliStore = await DBUtil.getStore("Alliance");
 					const corpStore = await DBUtil.getStore("Corporation");
 
-					await Promise.all(response.eveapi.result[0].rowset[0].row.map(async alli => {
-						
-						let alliance = await alliStore.findAndModify(
-							{ id: alli.$.allianceID - 0 },
-							[],
-							{
-								$set: {
-									id: 			alli.$.allianceID - 0, 
-									name: 			alli.$.name, 
-									shortName: 		alli.$.shortName, 
-									startDate: 		new Date(alli.$.startDate + "Z").getTime(), 
-									memberCount: 	alli.$.memberCount - 0
-								}
-							},
-							{ upsert: true, new: true }
-						);
+					let execToAlli = {};
+					const corpids = [];
+					let alliances = response.eveapi.result[0].rowset[0].row.map(alli => {
 
-						let corporation = await corpStore.getOrCreate(alli.$.executorCorpID - 0);
-						await alliance.modify([], { $set: { executorCorp: corporation.get_id() } });
+						execToAlli[alli.$.executorCorpID - 0] = alli.$.allianceID - 0;
 
-					}));
+						corpids.push(alli.rowset[0].row.map(c => c.$.corporationID - 0));
 
-					let corpids = [].concat(...response.eveapi.result[0].rowset[0].row
-						.map(item => item.rowset[0].row) // get corplists
-						.map(item => item.map(c => c.$.corporationID - 0)));
+						return {
+							id: 			alli.$.allianceID - 0, 
+							name: 			alli.$.name, 
+							shortName: 		alli.$.shortName, 
+							startDate: 		new Date(alli.$.startDate + "Z").getTime(), 
+							memberCount: 	alli.$.memberCount - 0
+						};
+					});
+					let concatcorpids = [].concat(...corpids);
 
-					let dbids = (await corpStore.getList(corpids)).map(corp => corp.getId());
+					await Promise.all(alliances.map(alliance => alliStore.findAndModify({ id: alliance.id }, [], { $set: alliance }, { upsert: true })));
 
-					let filtered = corpids.filter(cid => !dbids.some(did => did == cid));
-
-					await Promise.all(filtered.map(id => corpStore.getOrCreate(id)));
-
-
-					/*
-					const filtered = corpids.filter(cid => !dbids.some(did => did == cid)).chunk(300);
-
-					console.log("CHUNK COUNT", filtered.length)
-
-					for(let i in filtered) {
-						console.log("chunk", i);
-						await Promise.all(filtered[i].map(id => corpStore.getOrCreate(id)));
-					}*/
+					Promise.all(concatcorpids.map(cid => corpStore.getOrCreate(cid).then(corporation => execToAlli[corporation.getId()] ? alliStore.update({ id: execToAlli[corporation.getId()] }, { $set: { executor: corporation.get_id() } }) : undefined)));
+					
 				} catch(e) { console.log(e) }
 
-				await this.update({ state: 0, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
-			} else {
-				await this.update({ state: 0 });
+				await this.update({ state: 2, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
+
 			}
+
+			await this.update({ state: 0 });
 
 			console.log("done with alliance list");
 

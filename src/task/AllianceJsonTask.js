@@ -12,11 +12,9 @@
 			try {
 				response = await this.getCREST(`/alliances/${this.getData().allianceID}/`);
 			} catch (e) {
-				console.log(e);
-				await this.update({ state: 0 });
+				console.log("CRESTERROR");
+				return await this.update({ state: 0 });
 			}
-
-			console.log(response);
 
 			if(response && !response.exceptionType) {
 
@@ -45,7 +43,7 @@
 					 */
 					let corpStore = await DBUtil.getStore("Corporation");
 					let corporation = await corpStore.getOrCreate(response.executorCorporation.id);
-					await alliance.modify([], { $set: { executorCorp: corporation.get_id() } });
+					await alliance.update({ $set: { executorCorp: corporation.get_id() } });
 
 				} catch(e) { console.log(e) }
 

@@ -17,21 +17,26 @@
 			// wait for a xml api queue spot
 			await this.enqueue();
 
-			console.log("url", url, "query", query);
-
 			let response;
 			try {
 				response = await rp(Object.assign({
 					method: 		"POST",
 					uri: 			`${config.ccp.api.url}/${url}.xml.aspx`,
 					headers: 		{ "User-Agent": config.site.userAgent }
-				}, query ? { form: query } : {}));
+				}, query ? { form: query } : {}));	
 			} catch (e) {
 				//console.log(e);
 				response = e.error;
 			}
 
-			let parsed = await new Promise((resolve, reject) => parseString(response, (e, r) => e ? reject(e) : resolve(r)));
+			let parsed = await new Promise((resolve, reject) => parseString(response, (e, r) => {
+				if(e) {
+					console.log(response);
+					reject(e);
+				} else {
+					resolve(r);
+				}
+			}));
 
 			return parsed;
 		}
