@@ -96,7 +96,7 @@
 
 			try {
 				// do special processing stuff
-				new (LoadUtil.task(task.getInfo().name))(this, task);
+				new (LoadUtil.task(task.getInfo().name + "Task"))(this, task);
 			} catch (e) {
 				console.log(task.getInfo().name, e);
 			}

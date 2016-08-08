@@ -53,12 +53,38 @@
 			writable: true
 		});
 
+		Object.defineProperty(String.prototype, 'lowercaseFirstLetter', {
+			value: function () {
+				return this
+					.charAt(0)
+					.toLowerCase() + this.slice(1);
+			},
+			configurable: true,
+			writable: true
+		});
+
 		Object.defineProperty(String.prototype, 'escapeName', {
 			value: function () {
 				return this
 					.toLowerCase()
 					.replace(new RegExp(" ", "g"), "_")
 					.replace(new RegExp("'", "g"), ".");
+			},
+			configurable: true,
+			writable: true
+		});
+
+		Object.defineProperty(String.prototype, 'pluralize', {
+			value: function () {
+				return this + (this.slice(-1) == "s" ? "" : "s");
+			},
+			configurable: true,
+			writable: true
+		});
+
+		Object.defineProperty(String.prototype, 'singularize', {
+			value: function () {
+				return this.slice(-1) == "s" ? this.slice(0, -1) : this;
 			},
 			configurable: true,
 			writable: true
@@ -97,13 +123,13 @@
 			writable: true
 		});
 
-		Object.defineProperty(require("mongodb").ObjectID.prototype, 'toJSON', {
+		/*Object.defineProperty(require("mongodb").ObjectID.prototype, 'toJSON', {
 			value: function () {
 				return undefined;
 			},
 			configurable: true,
 			writable: true
-		});
+		});*/
 
 		global.$ = function (num, ...params) {
 			params

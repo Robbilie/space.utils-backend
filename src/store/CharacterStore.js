@@ -3,7 +3,6 @@
 
 	const IdAndNameStore 			= require("store/IdAndNameStore");
 	const CharacterInfoTask 		= require("task/CharacterInfoTask");
-	const CharacterAffiliationTask 	= require("task/CharacterAffiliationTask");
 	const DBUtil 					= require("util/DBUtil");
 
 	class CharacterStore extends IdAndNameStore {
@@ -24,15 +23,15 @@
 					if(!character) {
 						console.log("MISSING CHAR", id);
 					} else {
-						let taskStore 	= await DBUtil.getStore("Task");
+						let taskStore 	= await DBUtil.getStore("");
 						await taskStore.findAndModify(
-							{ "info.name": "CharacterAffiliationTask", $where: "this.data.ids.length < 250" }, 
+							{ "info.name": "CharacterAffiliation", $where: "this.data.ids.length < 250" }, 
 							[], 
 							{ 
 								$setOnInsert: {
 									info: {
 										type: "XML",
-										name: "CharacterAffiliationTask",
+										name: "CharacterAffiliation",
 										state: 0,
 										timestamp: 0
 									}

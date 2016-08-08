@@ -6,7 +6,7 @@
 
 	class PatchUtil {
 
-		static model (model, filter) {
+		static model (model, filter, alias = {}) {
 			PatchUtil.filter(model, filter).forEach(p => {
 				// slice "get" off and lowercase the property
 				// TODO : add stuff like getCorporationId()
@@ -14,9 +14,9 @@
 				Object.defineProperty(model.prototype, p, {
 					value: function () {
 						let obj = this.data[p.slice(3).toLowerCase()];
-						return obj && obj.constructor.name == "ObjectId" ? 
-							DBUtil.getStore(p.slice(3)).then(store => store.getBy_id(obj)) : 
-							(obj && type ? new (type)(obj) : obj);
+						return obj && obj.constructor.name == "ObjectID" ? 
+							DBUtil.getStore(alias[p.slice(3)] || p.slice(3)).then(store => store.getBy_id(obj)) : 
+							(obj && type ? new (type)(obj) : (obj || DBUtil.getStore(this.constructor.name).then(store => store[p](this))));
 					},
 					configurable: false,
 					writable: false

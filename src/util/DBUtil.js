@@ -34,7 +34,8 @@
 		static getStore (storeName) {
 			return DBUtil
 				.getDB()
-				.then(db => storage.stores[storeName] || ((storage.stores[storeName] = new (LoadUtil.store(storeName))(db)) === !storage.stores[storeName] || storage.stores[storeName]));
+				.then(db => storage.stores[storeName] || ((storage.stores[storeName] = new (LoadUtil.store(storeName))(db)) === !storage.stores[storeName] || storage.stores[storeName]))
+				.catch(e => console.log(storeName, e));
 		}
 
 		static getOplogCursor (properties = {}) {

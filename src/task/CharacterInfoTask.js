@@ -73,7 +73,7 @@
 
 			await this.delete();
 
-			console.log("CharacterInfoTask", ...tss.map(t => t - d));
+			console.log("CharacterInfo", ...tss.map(t => t - d));
 		}
 
 	};

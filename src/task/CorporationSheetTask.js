@@ -87,7 +87,7 @@
 			}
 
 
-			console.log("CorporationSheetTask", ...tss.map(t => t - d));
+			console.log("CorporationSheet", ...tss.map(t => t - d));
 		}
 
 	};

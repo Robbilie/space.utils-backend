@@ -8,8 +8,10 @@
 
 		getAlliance () {}
 
+		getCeo () {}
+
 	}
 	
-	PatchUtil.model(Corporation);
+	PatchUtil.model(Corporation, [], { Ceo: "Character" });
 
 	module.exports = Corporation;

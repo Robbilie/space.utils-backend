@@ -13,33 +13,31 @@
 			this.collection = db.collection(config.database.prefix + this.name);
 		}
 
-		aggregate (data, lookups = []) {
+		aggregate (data, lookups = [], intercept) {
 			return this.collection
 				.aggregate([{ $match: data }, ...[].concat.apply([], lookups
 						.map(field => (
 							{ 
-								from: field.constructor.name == "Object" ? field.from : field.split(".").slice(-1) + "s", 
-								name: field.constructor.name == "Object" ? field.name : field 
+								from: 			field.from 			|| field.split(".").slice(-1)[0].pluralize(), 
+								localField: 	field.localField 	|| field,
+								foreignField: 	field.foreignField 	|| "_id",
+								as: 			field.as 			|| (field.localField || field) 
 							}
 						))
 						.map(field => [
 							{ 
-								$lookup: { 
-									from: 			field.from, 
-									localField: 	field.name, 
-									foreignField: 	"_id", 
-									as: 			field.name
-								}
+								$lookup: field
 							},
 							{ 
 								$unwind: { 
-									path: 			"$" + field.name, 
+									path: 		"$" + field.localField, 
 									preserveNullAndEmptyArrays: true
 								}
 							}
 						]))
 				])
 				.toArray()
+				.then(docs => intercept ? docs.map(intercept) : docs)
 				.then(docs => docs.map(doc => new this.type(doc)));
 		}
 
