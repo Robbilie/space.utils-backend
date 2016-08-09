@@ -12,7 +12,11 @@
 			return super.aggregate(
 				data, 
 				lookups, 
-				doc => Object.assign(doc, { executor: new Corporation(doc.executor), corporations: doc.corporations.map(corporation => new Corporation(corporation)) })
+				doc => Object.assign(
+					doc, 
+					doc.executor ? { executor: new Corporation(doc.executor) } : {}, 
+					doc.corporations ? { corporations: doc.corporations.map(corporation => new Corporation(corporation)) } : {}
+				)
 			);
 		}
 

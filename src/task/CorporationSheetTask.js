@@ -8,11 +8,6 @@
 
 		async start () {
 
-			let d = Date.now();
-
-			let tss = []
-
-
 			let response;
 			try {
 				response = await this.getXML("Corp/CorporationSheet", this.dataToForm());
@@ -54,15 +49,11 @@
 					 * set the corp ceo unless EVE System
 					 */
 					if(corp.ceoID[0] - 0 != 1) {
-						const ceoID = corp.ceoID[0] - 0;
-						new Promise(async (a, d) => {
-							let charStore = await DBUtil.getStore("Character");
-							let ceo = await charStore.getOrCreate(ceoID);
-							if(ceo) {
-								await corporation.update({ $set: { ceo: ceo.get_id() } });
-							}
-							return a();
-						});
+						let charStore = await DBUtil.getStore("Character");
+						let ceo = await charStore.getOrCreate(corp.ceoID[0] - 0);
+						if(ceo) {
+							await corporation.update({ $set: { ceo: ceo.get_id() } });
+						}
 					}
 
 					/*
@@ -71,9 +62,9 @@
 					if(corp.allianceID[0] - 0) {
 						let alliStore = await DBUtil.getStore("Alliance");
 						let alliance = await alliStore.getOrCreate(corp.allianceID[0] - 0);
-						corporation.update({ $set: { alliance: alliance.get_id() } });
+						await corporation.update({ $set: { alliance: alliance.get_id() } });
 					} else {
-						corporation.update({ $unset: { alliance: "" } });
+						await corporation.update({ $unset: { alliance: "" } });
 					}
 
 				} catch (e) { console.log(e) }
@@ -86,8 +77,6 @@
 				await this.delete();
 			}
 
-
-			console.log("CorporationSheet", ...tss.map(t => t - d));
 		}
 
 	};

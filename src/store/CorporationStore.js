@@ -3,11 +3,21 @@
 
 	const IdAndNameStore 			= require("store/IdAndNameStore");
 	const CorporationSheetTask 		= require("task/CorporationSheetTask");
+	const Character 				= require("model/Character");
+	const Alliance 					= require("model/Alliance");
 
 	class CorporationStore extends IdAndNameStore {
 
-		aggregate (data, lookups = ["alliance"]) {
-			return super.aggregate(data, lookups);
+		aggregate (data, lookups = ["alliance", { from: "characters", localField: "ceo" }]) {
+			return super.aggregate(
+				data, 
+				lookups,
+				doc => Object.assign(
+					doc, 
+					doc.ceo ? { ceo: new Character(doc.ceo) } : {}, 
+					doc.alliance ? { alliance: new Alliance(doc.alliance) } : {}
+				)
+			);
 		}
 
 		async getOrCreate (id, unverified, {} = $(1, {id}, "Number")) {

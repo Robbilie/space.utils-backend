@@ -47,18 +47,6 @@
 				if(key == "_id")
 					continue;
 				switch (obj[key].constructor.name) {
-					/*
-					case "Object":
-						let m1 = LoadUtil.model(name.capitalizeFirstLetter());
-						let k1 = m1 && m1.getAliases ? (m1.getAliases()[key.capitalizeFirstLetter()] || key).toLowerCase() : key;
-						data[key] = Base.toJSON(k1, obj[key]);
-						break;
-					case "Array":
-						let m2 = LoadUtil.model(name.capitalizeFirstLetter());
-						let k2 = m2 && m2.getAliases ? (m2.getAliases()[key.capitalizeFirstLetter()] || key).toLowerCase() : key;
-						data[key] = obj[key].map(el => Base.toJSON(k2, el));
-						break;
-					*/
 					case "ObjectID":
 						data[key] = { href: `${config.site.url}/${fieldName}/${obj["id"]}/${key}/` };
 						break;

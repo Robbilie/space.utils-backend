@@ -7,11 +7,6 @@
 	class CharacterInfoTask extends XMLTask {
 
 		async start () {
-
-			let d = Date.now();
-
-			let tss = []
-
 			
 			let response;
 			try {
@@ -32,8 +27,6 @@
 					 * Create basic char entry so corp tasks can get the ceo
 					 */
 					let charStore = await DBUtil.getStore("Character");
-
-
 					let character = await charStore.findAndModify(
 						{ id: char.characterID[0] - 0 },
 						[],
@@ -52,7 +45,7 @@
 					let corpStore = await DBUtil.getStore("Corporation");
 					let corporation = await corpStore.getOrCreate(char.corporationID[0] - 0);
 					if(corporation)
-						character.update({ $set: { corporation: corporation.get_id() } });
+						await character.update({ $set: { corporation: corporation.get_id() } });
 
 					/*
 					 * Since this task should be perfectly new we can update the corps alli if it changed
@@ -60,9 +53,9 @@
 					if(char.allianceID ? char.allianceID[0] - 0 : 0) {
 						let alliStore = await DBUtil.getStore("Alliance");
 						let alliance = await alliStore.getOrCreate(char.allianceID[0] - 0);
-						corporation.update({ $set: { alliance: alliance.get_id() } });
+						await corporation.update({ $set: { alliance: alliance.get_id() } });
 					} else {
-						corporation.update({ $unset: { alliance: "" } });
+						await corporation.update({ $unset: { alliance: "" } });
 					}
 
 				} catch(e) { console.log(e) }
@@ -73,7 +66,6 @@
 
 			await this.delete();
 
-			console.log("CharacterInfo", ...tss.map(t => t - d));
 		}
 
 	};

@@ -25,7 +25,7 @@
 					switch (req.method) {
 						case "GET":
 							if(req.params.field) {
-								entity = Base.toJSON(req.params.store.singularize(), await entity[`get${req.params.field.capitalizeFirstLetter()}`]());
+								entity = await entity[`get${req.params.field.capitalizeFirstLetter()}`]();
 							}
 							res.json(entity);
 							break;

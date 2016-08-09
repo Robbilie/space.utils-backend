@@ -55,9 +55,9 @@
 						 */
 						if(characteritem.$.allianceID - 0) {
 							let alliance = await alliStore.getOrCreate(characteritem.$.allianceID - 0);
-							corporation.update({ $set: { alliance: alliance.get_id() } });
+							await corporation.update({ $set: { alliance: alliance.get_id() } });
 						} else {
-							corporation.update({ $unset: { alliance: "" } });
+							await corporation.update({ $unset: { alliance: "" } });
 						}
 
 					}));
