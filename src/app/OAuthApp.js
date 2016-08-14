@@ -6,6 +6,7 @@
 	const cookieParser 				= require("cookie-parser");
 	const bodyParser 				= require("body-parser");
 	const expressSession 			= require("express-session");
+	const RedisStore 				= require("connect-redis")(expressSession);
 	const path 						= require("path");
 	const routes 					= require("util/../../routes/oauth");
 	const config 					= require("util/../../config/");
@@ -34,12 +35,16 @@
 			web.use(cookieParser());
 
 			web.use(expressSession({
+				store: 		new RedisStore({
+					host: 	config.redis.host,
+					port: 	config.redis.port,
+					ttl: 	config.cookies.time
+				}),
+				cookie: 	{ maxAge: config.cookies.time },
+				secret: 	config.cookies.secret,
+				resave: 	true,
 				saveUninitialized: true,
-				resave: true,
-				secret: config.session.secret,
-				store: sessionStorage,
-				key: "authorization.sid",
-				cookie: {maxAge: config.session.maxAge}
+				key: 		"oauth.sid"
 			}));
 
 			web.use(bodyParser.urlencoded({extended: true}));
@@ -192,9 +197,7 @@
 					}
 
 				} catch (e) {
-
 					return done(e);
-
 				}
 
 			}));
