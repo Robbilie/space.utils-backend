@@ -22,8 +22,8 @@
 
       //replace the host name from the URL and replace all the links we have with the host name as well.
       $(".hostname").text(host);
-      $("#authcode").attr("href", "/dialog/authorize?redirect_uri=" + host + "&response_type=code&client_id=abc123&scope=offline_access");
-      $("#implicit").attr("href", "/dialog/authorize?redirect_uri=" + host + "&response_type=token&client_id=abc123");
+      $("#authcode").attr("href", "/dialog/authorize?redirect_uri=" + host + "&response_type=code&client_id=57b0ce7ae61822ca1c8b4567&scope=offline_access");
+      $("#implicit").attr("href", "/dialog/authorize?redirect_uri=" + host + "&response_type=token&client_id=57b0ce7ae61822ca1c8b4567");
 
       if (!fragment) {
         //They did not come from the implicit work flow, so show the main work flow of the page.
@@ -63,8 +63,8 @@
           dataType: 'json',
           url: "/oauth/token",
           headers: {
-            //This is abc123:ssh-secret base 64 encoded
-            "Authorization": "Basic YWJjMTIzOnNzaC1zZWNyZXQ="
+            //This is 57b0ce7ae61822ca1c8b4567:asdjkajsjkldhlajkshdl base 64 encoded
+            "Authorization": "Basic NTdiMGNlN2FlNjE4MjJjYTFjOGI0NTY3OmFzZGprYWpzamtsZGhsYWprc2hkbA=="
           },
           data: 'grant_type=password&username=bob&password=secret&scope=offline_access',
           success: function (result) {
@@ -102,8 +102,8 @@
           dataType: 'json',
           url: "/oauth/token",
           headers: {
-            //This is abc123:ssh-secret base 64 encoded
-            "Authorization": "Basic YWJjMTIzOnNzaC1zZWNyZXQ="
+            //This is 57b0ce7ae61822ca1c8b4567:asdjkajsjkldhlajkshdl base 64 encoded
+            "Authorization": "Basic NTdiMGNlN2FlNjE4MjJjYTFjOGI0NTY3OmFzZGprYWpzamtsZGhsYWprc2hkbA=="
           },
           data: 'grant_type=client_credentials',
           success: function (result) {
@@ -155,7 +155,7 @@
   <span class="hostname">https://localhost:3000</span>/dialog/authorize?
   redirect_uri=<span class="hostname">https://localhost:3000</span>&
   response_type=code&
-  client_id=abc123&
+  client_id=57b0ce7ae61822ca1c8b4567&
   scope=offline_access
                 </pre>
   </a>
@@ -172,7 +172,7 @@
   <span class="hostname">https://localhost:3000/</span>/dialog/authorize?
   redirect_uri=<span class="hostname">https://localhost:3000</span>&
   response_type=token&
-  client_id=abc123
+  client_id=57b0ce7ae61822ca1c8b4567
             </pre>
   </a>
 

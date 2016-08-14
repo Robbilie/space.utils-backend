@@ -31,6 +31,9 @@
 			login.ensureLoggedIn(),
 			OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
 
+				if(clientID.length != 24)
+					return done(new Error("Invalid ClientID length"));
+
 				let clientStore = await DBUtil.getStore("OAuthClient");
 
 				try {
