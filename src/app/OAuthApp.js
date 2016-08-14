@@ -136,7 +136,7 @@
 
 				try {
 
-					let client = await clientStore.getBy_id(username);
+					let client = await clientStore.getBy_id(id);
 
 					if(!client)
 						return done(null, false);
