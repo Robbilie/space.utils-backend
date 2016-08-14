@@ -16,7 +16,7 @@
 						let obj = this.data[p.slice(3).toLowerCase()];
 						return obj && obj.constructor.name == "ObjectID" ? 
 							DBUtil.getStore(alias[p.slice(3)] || p.slice(3)).then(store => store.getBy_id(obj)) : 
-							(obj && type ? new (type)(obj) : (!obj ? obj : (obj || DBUtil.getStore(this.constructor.name).then(store => store[p](this)))));
+							(obj && type ? new (type)(obj) : (typeof(obj) != "undefined" ? obj : DBUtil.getStore(this.constructor.name).then(store => store[p](this))));
 					},
 					configurable: false,
 					writable: false
