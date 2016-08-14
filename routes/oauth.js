@@ -4,7 +4,7 @@
 	const {Router} 					= require("express");
 	const passport 					= require("passport");
 	const login 					= require("connect-ensure-login");
-	//const DBUtil 					= require("util/DBUtil");
+	const DBUtil 					= require("util/DBUtil");
 	const RESTUtil 					= require("util/RESTUtil");
 
 
