@@ -51,9 +51,9 @@
 				console.log("invalid alli", this.getData().allianceID);
 			}
 
-			await this.delete();
+			await this.destroy();
 		}
 
-	};
+	}
 
 	module.exports = AllianceJsonTask;

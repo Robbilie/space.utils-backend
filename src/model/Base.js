@@ -2,7 +2,6 @@
 	"use strict";
 
 	const DBUtil 					= require("util/DBUtil");
-	const LoadUtil 					= require("util/LoadUtil");
 	const config 					= require("util/../../config/");
 
 	class Base {
@@ -25,6 +24,10 @@
 
 		update (...args) {
 			return this.getStore().then(store => store.update({ _id: this.get_id() }, ...args));
+		}
+
+		destroy () {
+			return this.getStore().then(store => store.destroy({ _id: this.get_id() }));
 		}
 
 		modify (...args) {

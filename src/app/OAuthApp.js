@@ -1,0 +1,223 @@
+
+	"use strict";
+
+	const http 						= require("http");
+	const express 					= require("express");
+	const cookieParser 				= require("cookie-parser");
+	const bodyParser 				= require("body-parser");
+	const expressSession 			= require("express-session");
+	const path 						= require("path");
+	const routes 					= require("util/../../routes/oauth");
+	const config 					= require("util/../../config/");
+
+	const passport 					= require("passport");
+	const LocalStrategy 			= require("passport-local").Strategy;
+	const BasicStrategy 			= require("passport-http").BasicStrategy;
+	const ClientPasswordStrategy 	= require("passport-oauth2-client-password").Strategy;
+	const BearerStrategy 			= require("passport-http-bearer").Strategy;
+
+	class OAuthApp {
+
+		constructor () {
+			try {
+				this.init();
+			} catch (e) {
+				console.log(e);
+			}
+		}
+
+		async init () {
+
+			const web = express();
+
+			web.set('view engine', 'ejs');
+			web.use(cookieParser());
+
+			web.use(expressSession({
+				saveUninitialized: true,
+				resave: true,
+				secret: config.session.secret,
+				store: sessionStorage,
+				key: "authorization.sid",
+				cookie: {maxAge: config.session.maxAge}
+			}));
+
+			web.use(bodyParser.urlencoded({extended: true}));
+			web.use(bodyParser.json());
+			web.use(passport.initialize());
+			web.use(passport.session());
+
+			this.initPassport();
+
+			web.use(routes);
+
+			web.use(express.static(path.join(__dirname, 'public')));
+
+			web.use(function (err, req, res, next) {
+				if (err) {
+					res.status(err.status);
+					res.json(err);
+				} else {
+					next();
+				}
+			});
+
+			web.set("json spaces", 2);
+			web.enable("trust proxy");
+
+			this.web 		= web;
+			this.webServer 	= http.createServer(this.web).listen(3000);
+
+			setInterval(async () => {
+
+				let accessTokenStore = await DBUtil.getStore("OAuthAccessToken");
+
+				await accessTokenStore.removeExpired();
+
+			}, 1000 * 60 * 60)
+
+		}
+
+		initPassport () {
+
+			passport.use(new LocalStrategy(async (username, password, done) => {
+
+				let userStore = await DBUtil.getStore("User");
+
+				try {
+
+					let user = await userStore.getByName(username);
+
+					if(!user)
+						return done(null, false);
+
+					if(user.getPassword() != password)
+						return done(null, false);
+
+					return done(null, user);
+
+				} catch (e) {
+					return done(e);
+				}
+
+			}));
+
+			passport.use(new BasicStrategy(async (id, secret, done) => {
+
+				let clientStore = await DBUtil.getStore("OAuthClient");
+
+				try {
+
+					let client = await clientStore.getBy_id(username);
+
+					if(!client)
+						return done(null, false);
+
+					if(client.getSecret() != secret)
+						return done(null, false);
+
+					return done(null, client);
+
+				} catch (e) {
+					return done(e);
+				}
+
+			}));
+
+
+			passport.use(new ClientPasswordStrategy(async (id, secret, done) => {
+
+				let clientStore = await DBUtil.getStore("OAuthClient");
+
+				try {
+
+					let client = await clientStore.getBy_id(username);
+
+					if(!client)
+						return done(null, false);
+
+					if(client.getSecret() != secret)
+						return done(null, false);
+
+					return done(null, client);
+
+				} catch (e) {
+					return done(e);
+				}
+
+			}));
+
+			passport.use(new BearerStrategy(async (token, done) => {
+
+				let accessTokenStore = await DBUtil.getStore("OAuthAccessToken");
+
+				try {
+
+					let accessToken = await accessTokenStore.getByToken(token);
+
+					if(!accessToken)
+						return done(null, false);
+
+					if(Date.now() > accessToken.getExpirationDate()) {
+						await accessToken.destroy();
+						return done(null, false);
+					}
+
+					if(accessToken.getUserId() !== null) {
+
+						let userStore = await DBUtil.getStore("User");
+
+						let user = await userStore.getBy_id(accessToken.getUserId());
+
+						if(!user)
+							return done(null, false);
+
+						let info = { scope: "*" };
+
+						return done(null, user, info);
+
+					} else {
+
+						let clientStore = await DBUtil.getStore("OAuthClient");
+
+						let client = await clientStore.getBy_id(accessToken.getClientId());
+
+						if(!client)
+							return done(null, false);
+
+						let info = { scope: "*" };
+
+						return done(null, client, info);
+
+					}
+
+				} catch (e) {
+
+					return done(e);
+
+				}
+
+			}));
+
+			passport.serializeUser((user, done) => {
+				done(null, user.get_id());
+			});
+
+			passport.deserializeUser(async (_id, done) => {
+
+				let userStore = await DBUtil.getStore("User");
+
+				try {
+					let user = await userStore.getBy_id(_id);
+					done(null, user);
+				} catch (e) {
+					done(e);
+				}
+
+			});
+
+		}
+
+	}
+
+	module.exports = OAuthApp;

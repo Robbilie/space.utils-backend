@@ -5,7 +5,7 @@
 	const express 					= require("express");
 	const cookieParser 				= require("cookie-parser");
 	const bodyParser 				= require("body-parser");
-	const routes 					= require("util/../../routes/");
+	const routes 					= require("util/../../routes/web");
 	const config 					= require("util/../../config/");
 
 	class WebApp {

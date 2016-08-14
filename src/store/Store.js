@@ -9,7 +9,7 @@
 
 		constructor (db, type, collectionName) {
 			this.type 		= type || LoadUtil.model(this.constructor.name.slice(0, -5));
-			this.name 		= collectionName || this.type.prototype.constructor.name.toLowerCase() + "s";
+			this.name 		= collectionName || this.type.prototype.constructor.name.toLowerCase().pluralize();
 			this.collection = db.collection(config.database.prefix + this.name);
 		}
 
@@ -80,7 +80,7 @@
 				.then(res => res.value ? new this.type(res.value) : null);
 		}
 
-		delete (where) {
+		destroy (where) {
 			return this.collection
 				.remove(where)
 				.then(docs => null);

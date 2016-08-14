@@ -64,10 +64,10 @@
 				console.log("invalid char", this.getData().characterID);
 			}
 
-			await this.delete();
+			await this.destroy();
 
 		}
 
-	};
+	}
 
 	module.exports = CharacterInfoTask;

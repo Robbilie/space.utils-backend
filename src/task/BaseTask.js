@@ -50,12 +50,12 @@
 			);
 		}
 
-		delete () {
-			return this.worker.getTasks().delete({ _id: this.task.get_id() });
+		destroy () {
+			return this.worker.getTasks().destroy({ _id: this.task.get_id() });
 		}
 
 		static create (data = {}, info = {}) {
-			return new Promise(async (resolve, reject) => {
+			return new Promise(async resolve => {
 				try {
 					
 					let tasks = await DBUtil.getStore("Task");
@@ -66,7 +66,7 @@
 
 					BaseTask.waitForTask(_id.toString()).then(e => console.log(this.prototype.constructor.name, "cb", Date.now() - d) || resolve(e)).catch(e => console.log(e));
 					
-					let task = await tasks.insert(
+					await tasks.insert(
 						{
 							_id,
 							data: data,
@@ -117,6 +117,6 @@
 			});
 		}
 
-	};
+	}
 
 	module.exports = BaseTask;

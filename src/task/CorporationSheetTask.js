@@ -74,11 +74,11 @@
 
 			} else {
 				console.log("invalid corp", this.getData().corporationID);
-				await this.delete();
+				await this.destroy();
 			}
 
 		}
 
-	};
+	}
 
 	module.exports = CorporationSheetTask;
