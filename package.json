@@ -16,6 +16,7 @@
     "babel-plugin-transform-export-extensions": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.9.0",
     "body-parser": "^1.15.2",
+    "connect-redis": "^3.1.0",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
