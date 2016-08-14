@@ -1,6 +1,7 @@
 
 	"use strict";
 
+	const DBUtil 					= require("util/DBUtil");
 	const uuid 						= require("node-uuid");
 	const oauth2orize 				= require("oauth2orize");
 	const server 					= oauth2orize.createServer();
