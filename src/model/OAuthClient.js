@@ -8,6 +8,12 @@
 
 		getSecret () {}
 
+		getRedirect () {}
+
+		getTrusted () {}
+
+		getScope () {}
+
 	}
 
 	PatchUtil.model(OAuthClient);

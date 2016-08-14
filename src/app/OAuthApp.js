@@ -113,7 +113,7 @@
 
 				try {
 
-					let client = await clientStore.getBy_id(username);
+					let client = await clientStore.getBy_id(id);
 
 					if(!client)
 						return done(null, false);
@@ -202,9 +202,7 @@
 
 			}));
 
-			passport.serializeUser((user, done) => {
-				done(null, user.get_id());
-			});
+			passport.serializeUser((user, done) => done(null, user.get_id()));
 
 			passport.deserializeUser(async (_id, done) => {
 
