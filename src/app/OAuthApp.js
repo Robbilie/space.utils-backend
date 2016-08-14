@@ -7,7 +7,7 @@
 	const bodyParser 				= require("body-parser");
 	const expressSession 			= require("express-session");
 	const RedisStore 				= require("connect-redis")(expressSession);
-	const path 						= require("path");
+	const DBUtil 					= require("util/DBUtil");
 	const routes 					= require("util/../../routes/oauth");
 	const config 					= require("util/../../config/");
 
