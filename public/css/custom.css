@@ -1,0 +1,179 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+*, *::before, *::after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+}
+body {
+	background: #000 url(https://service.eneticum.de/static/img/bg_main.jpg) no-repeat 50% 50%;
+	font-family: Roboto;
+	padding: 20px;
+	position: absolute;
+}
+body::before {
+	content: " ";
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: -webkit-linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,0));
+}
+#blur {
+	position: absolute;
+	top: -15px;
+	left: -15px;
+	right: -15px;
+	bottom: -15px;
+	filter: blur(15px);
+	-webkit-filter: blur(15px);
+}
+#blur::before {
+	content: " ";
+	background: #000 url(https://service.eneticum.de/static/img/bg_main.jpg) no-repeat 50% 50%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+#blur::after {
+	content: " ";
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,0));
+	background: -webkit-linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,0));
+}
+#window {
+	position: relative;
+	width: 400px;
+	margin: auto;
+	margin-top: 10%;
+	overflow: hidden;
+	max-width: 100%;
+}
+#window::after {
+	content: " ";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,.65) inset;
+}
+#content {
+	position: relative;
+	margin: 5px;
+	padding: 20px;
+	z-index: 1;
+}
+input[type="text"]:first-child {
+	margin-top: 0;
+}
+input[type="text"], input[type="password"] {
+	display: block;
+	width: 100%;
+	background-color: rgba(255,255,255,.2);
+	border: 4px solid rgba(255,255,255,.25);
+	margin-top: 15px;
+	line-height: 40px;
+	text-align: center;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,.6), 0 0 10px 0 rgba(0,0,0,.6) inset;
+	color: rgba(0,0,0,.7);
+	font-weight: bold;
+	outline: none;
+	font-family: Roboto;
+	transition: .2s;
+	font-size: 1.1em;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+	border: 4px solid rgba(255,255,255,.5);
+}
+::-webkit-input-placeholder {
+	color: rgba(0,0,0,.5);
+	font-weight: bold;
+}
+button, select {
+	display: block;;
+	width: 100%;
+	border: none;
+	margin-top: 30px;
+	height: 50px;
+	background-color: rgba(255,255,255,.2);
+	position: relative;
+	box-shadow: 0 0 5px 0 rgba(0,0,0,.6);
+	color: rgba(0,0,0,.7);
+	outline: none;
+	font-family: Roboto;
+	font-weight: bold;
+	font-size: 1.3em;
+	transition: .2s;
+}
+button {
+	cursor: pointer;
+}
+button:hover, button:focus {
+	background-color: rgba(255,255,255,.4);
+}
+h2 {
+	position: relative;
+	text-align: center;
+	color: white;
+	text-shadow: 0 0 5px rgb(0, 0, 0);
+	text-transform: uppercase;
+	-webkit-font-smoothing: antialiased;
+	font-family: Roboto;
+//font-weight: bold;
+//font-size: 2em;
+//line-height: 40px;
+	margin-bottom: 25px;
+}
+.error {
+	margin-top: 20px;
+	padding: 10px;
+	border: 1px solid rgba(255,0,0,.5);
+	background: rgba(255,0,0,.3);
+}
+.error:empty {
+	display: none;
+}
+.half {
+	display: inline-block;
+	width: 48%;
+	margin-left: 2%;
+}
+.half:first-child {
+	margin-right: 2%;
+	margin-left: 0%;
+}
+.center {
+	text-align: center;
+}
+.thinblock {
+	font-weight: normal;
+	font-size: large;
+	display: block;
+	padding: 10px;
+}
+select {
+	padding-left: 10px;
+}
+fieldset {
+	text-align: left;
+	margin: 0;
+	margin-top: 20px;
+	color: white;
+	text-shadow: 0 0 5px rgb(0, 0, 0);
+	-webkit-font-smoothing: antialiased;
+	font-family: Roboto;
+	border: 1px solid rgba(255,255,255,.5);
+	box-shadow: 0 0 5px 0 rgba(0,0,0,.65);
+}
