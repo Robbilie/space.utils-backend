@@ -6,6 +6,8 @@
 
 	class OAuthClient extends Base {
 
+		getName () {}
+
 		getSecret () {}
 
 		getRedirect () {}
