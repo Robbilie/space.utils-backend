@@ -10,7 +10,7 @@ html, body {
 	margin: 0;
 }
 body {
-	background: #000 url(https://service.eneticum.de/static/img/bg_main.jpg) no-repeat 50% 50%;
+	background: #000 no-repeat 50% 50%;
 	font-family: Roboto;
 	padding: 20px;
 	position: absolute;
@@ -35,7 +35,7 @@ body::before {
 }
 #blur::before {
 	content: " ";
-	background: #000 url(https://service.eneticum.de/static/img/bg_main.jpg) no-repeat 50% 50%;
+	background: #000 no-repeat 50% 50%;
 	position: fixed;
 	top: 0;
 	left: 0;

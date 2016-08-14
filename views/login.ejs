@@ -9,7 +9,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="/css/custom.css" />
   </head>
-  <body>
+  <body class="bgurl" onload="[].slice.call(document.querySelectorAll('.bgurl')).forEach(function (el) { el.style.backgroundImage = 'url(/static/img/bg_main.jpg)'; });">
     <div id="window">
       <div id="blur"></div>
       <form id="content" method="post" action="/login">
@@ -19,6 +19,13 @@
         <div class="error"></div>
       </form>
     </div>
+    <script>
+        window.addEventListener("load", function () {
+            var style = document.createElement("style");
+                style.innerHTML = "body, #blur::before { background-image: url(https://service.eneticum.de/static/img/bg_main.jpg); }";
+            document.body.appendChild(style);
+        });
+    </script>
   </body>
 </html>
 
