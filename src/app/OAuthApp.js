@@ -47,7 +47,7 @@
 				key: 		"oauth.sid"
 			}));
 
-			web.use(bodyParser.urlencoded({extended: true}));
+			web.use(bodyParser.urlencoded({ extended: true }));
 			web.use(bodyParser.json());
 			web.use(passport.initialize());
 			web.use(passport.session());
@@ -56,7 +56,7 @@
 
 			web.use(routes);
 
-			web.use(express.static(path.join(__dirname, 'public')));
+			web.use(express.static(process.env.NODE_PATH + "/../public"));
 
 			web.use(function (err, req, res, next) {
 				if (err) {
