@@ -29,7 +29,7 @@
 
 		.get("/dialog/authorize", [
 			login.ensureLoggedIn(),
-			DBUtil.authorization(async (clientID, redirectURI, scope, done) => {
+			OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
 
 				let clientStore = await DBUtil.getStore("OAuthClient");
 
