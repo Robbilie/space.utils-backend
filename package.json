@@ -17,6 +17,7 @@
     "babel-plugin-transform-runtime": "^6.9.0",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.1",
     "express": "^4.14.0",
     "express-session": "^1.14.0",
     "heapdump": "^0.3.7",
