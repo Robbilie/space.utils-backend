@@ -65,7 +65,7 @@
 			if(!authorizationCode)
 				return done(null, false);
 
-			if(client.get_id().toString() != authorizationCode.getClientId().toString())
+			if(client.get_id().toString() != authorizationCode.getData()["clientId"].toString())
 				return done(null, false);
 
 			if(redirectURI != authorizationCode.getRedirect())
@@ -85,6 +85,7 @@
 				scope: 			authorizationCode.getScope()
 			});
 
+			console.log("scope", authorizationCode.getScope());
 			if(authorizationCode.getScope() && authorizationCode.getScope().indexOf("offline_access") === 0) {
 
 				let refreshToken = uuid.v4();
@@ -196,7 +197,7 @@
 			if(!refreshToken)
 				return done(null, false);
 
-			if(client.get_id().toString() != refreshToken.getClientId().toString())
+			if(client.get_id().toString() != refreshToken.getData()["clientId"].toString())
 				return done(null, false);
 
 			let token = uuid.v4();
