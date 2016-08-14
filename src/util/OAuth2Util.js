@@ -85,8 +85,7 @@
 				scope: 			authorizationCode.getScope()
 			});
 
-			console.log("scope", authorizationCode.getScope());
-			if(authorizationCode.getScope() && authorizationCode.getScope().indexOf("offline_access") === 0) {
+			if(authorizationCode.getScope() && authorizationCode.getScope().indexOf && authorizationCode.getScope().indexOf("offline_access") === 0) {
 
 				let refreshToken = uuid.v4();
 
