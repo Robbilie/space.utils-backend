@@ -13,7 +13,7 @@
 				const type = LoadUtil.model(p.slice(3));
 				Object.defineProperty(model.prototype, p, {
 					value: function () {
-						let obj = this.data[p.slice(3).toLowerCase()];
+						let obj = this.data[p.slice(3).lowercaseFirstLetter()];
 						return obj && obj.constructor.name == "ObjectID" ? 
 							DBUtil.getStore(alias[p.slice(3)] || p.slice(3)).then(store => store.getBy_id(obj)) : 
 							(obj && type ? new (type)(obj) : (typeof(obj) != "undefined" ? obj : DBUtil.getStore(this.constructor.name).then(store => store[p](this))));

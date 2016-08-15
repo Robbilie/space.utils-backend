@@ -20,8 +20,8 @@
 
 			await authorizationCodeStore.insert({
 				token: 			code,
-				clientId: 		client ? client.get_id() : undefined,
-				characterId: 	character ? character.get_id() : undefined,
+				clientId: 		client ? client.get_id().toString() : undefined,
+				characterId: 	character ? character.get_id().toString() : undefined,
 				redirect: 		redirectURI,
 				scope: 			client ? client.getScope() : undefined
 			});
@@ -44,8 +44,8 @@
 
 			await accessTokenStore.insert({
 				token: 			token,
-				characterId: 	character ? character.get_id() : undefined,
-				clientId: 		client ? client.get_id() : undefined,
+				characterId: 	character ? character.get_id().toString() : undefined,
+				clientId: 		client ? client.get_id().toString() : undefined,
 				expirationDate: Date.now() + (1000 * 60 * 60),
 				scope: 			client ? client.getScope() : undefined
 			});
@@ -69,7 +69,7 @@
 			if(!authorizationCode)
 				return done(null, false);
 
-			if(client.get_id().toString() != authorizationCode.getData()["clientId"].toString())
+			if(client.get_id().toString() != authorizationCode.getClientId())
 				return done(null, false);
 
 			if(redirectURI != authorizationCode.getRedirect())
@@ -202,7 +202,7 @@
 			if(!refreshToken)
 				return done(null, false);
 
-			if(client.get_id().toString() != refreshToken.getData()["clientId"].toString())
+			if(client.get_id().toString() != refreshToken.getClientId())
 				return done(null, false);
 
 			let token = uuid.v4();
