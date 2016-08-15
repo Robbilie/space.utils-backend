@@ -10,7 +10,7 @@
 
 		getExpirationDate () {}
 
-		getUserId () {}
+		getCharacterId () {}
 
 		getClientId () {}
 

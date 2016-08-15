@@ -19,11 +19,11 @@
 			let authorizationCodeStore = await DBUtil.getStore("OAuthAuthorizationCode");
 
 			await authorizationCodeStore.insert({
-				token: 		code,
-				clientId: 	client ? client.get_id() : undefined,
-				userId: 	user ? user.get_id() : undefined,
-				redirect: 	redirectURI,
-				scope: 		client ? client.getScope() : undefined
+				token: 			code,
+				clientId: 		client ? client.get_id() : undefined,
+				characterId: 	character ? character.get_id() : undefined,
+				redirect: 		redirectURI,
+				scope: 			client ? client.getScope() : undefined
 			});
 
 			return done(null, code);
@@ -34,7 +34,7 @@
 
 	}));
 
-	server.grant(oauth2orize.grant.token(async (client, user, ares, done) => {
+	server.grant(oauth2orize.grant.token(async (client, { user, character }, ares, done) => {
 
 		try {
 
@@ -44,7 +44,7 @@
 
 			await accessTokenStore.insert({
 				token: 			token,
-				userId: 		user ? user.get_id() : undefined,
+				characterId: 	character ? character.get_id() : undefined,
 				clientId: 		client ? client.get_id() : undefined,
 				expirationDate: Date.now() + (1000 * 60 * 60),
 				scope: 			client ? client.getScope() : undefined
@@ -83,7 +83,7 @@
 
 			await accessTokenStore.insert({
 				token: 			token,
-				userId: 		authorizationCode.getUserId(),
+				characterId: 	authorizationCode.getCharacterId(),
 				clientId: 		authorizationCode.getClientId(),
 				expirationDate: Date.now() + (1000 * 60 * 60),
 				scope: 			authorizationCode.getScope()
@@ -96,10 +96,10 @@
 				let refreshTokenStore = await DBUtil.getStore("OAuthRefreshToken");
 
 				await refreshTokenStore.insert({
-					token: 		refreshToken,
-					userId: 	authorizationCode.getUserId(),
-					clientId: 	authorizationCode.getClientId(),
-					scope: 		authorizationCode.getScope()
+					token: 			refreshToken,
+					characterId: 	authorizationCode.getCharacterId(),
+					clientId: 		authorizationCode.getClientId(),
+					scope: 			authorizationCode.getScope()
 				});
 
 				return done(null, token, refreshToken, { expires_in: 1000 * 60 * 60 });
@@ -114,6 +114,7 @@
 
 	}));
 
+	/*
 	server.exchange(oauth2orize.exchange.password(async (client, username, password, scope, done) => {
 
 		try {
@@ -188,6 +189,7 @@
 		}
 
 	}));
+	*/
 
 	server.exchange(oauth2orize.exchange.refreshToken(async (client, rftoken, scope, done) => {
 
@@ -209,7 +211,7 @@
 
 			await accessTokenStore.insert({
 				token: 			token,
-				userId: 		refreshToken.getUserId(),
+				characterId: 	refreshToken.getCharacterId(),
 				clientId: 		refreshToken.getClientId(),
 				expirationDate: Date.now() + (1000 * 60 * 60),
 				scope: 			refreshToken.getScope()

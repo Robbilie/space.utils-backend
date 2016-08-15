@@ -12,7 +12,7 @@
 
 		getScope () {}
 
-		getUserId () {}
+		getCharacterId () {}
 
 		getClientId () {}
 
