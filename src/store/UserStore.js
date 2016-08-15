@@ -26,7 +26,10 @@
 					}
 				},
 				{
-					$unwind: "$characters"
+					$unwind: {
+						path: "$characters",
+						preserveNullAndEmptyArrays: true
+					}
 				},
 				{
 					$group: {
