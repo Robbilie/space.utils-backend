@@ -214,7 +214,7 @@
 					done(null, (user || character) ? {
 						user: user ? await userStore.getByName(user) : null,
 						character: character ? await characterStore.getById(character) : null
-					}: null);
+					} : undefined);
 
 				} catch (e) {
 					done(e);
