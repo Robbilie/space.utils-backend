@@ -86,7 +86,7 @@
 					let hash = bcrypt.hashSync(req.body.password, 10);
 
 					user = await userStore.insert({
-						name: req.body.name,
+						name: req.body.username,
 						password: hash,
 						characters: []
 					});
