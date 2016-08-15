@@ -211,6 +211,8 @@
 					let userStore = await DBUtil.getStore("User");
 					let characterStore = await DBUtil.getStore("Character");
 
+					console.log(user, character);
+
 					done(undefined, (user || character) ? {
 						user: user ? await userStore.getByName(user) : null,
 						character: character ? await characterStore.getById(character) : null
