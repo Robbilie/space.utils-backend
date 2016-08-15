@@ -91,7 +91,13 @@
 						characters: []
 					});
 
-					req.session.passport = Object.assign(req.session.passport || {}, { user: req.body.username });
+					if(!req.session.passport)
+						req.session.passport = {};
+
+					if(!req.session.passport.user)
+						req.session.passport.user = {};
+
+					req.session.passport.user.user = req.body.username;
 					res.redirect("/account");
 
 				} catch (e) {
