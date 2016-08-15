@@ -27,7 +27,7 @@
 		.get("/account",
 			[login.ensureLoggedIn(), (req, res) => res.render("account", { user: req.user })])
 
-		.get("/dialog/authorize", [
+		.get("/oauth/authorize", [
 			login.ensureLoggedIn(),
 			OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
 
@@ -66,11 +66,11 @@
 
 			}
 		])
-		.post("/dialog/authorize/decision", [
+		.post("/oauth/authorize/decision", [
 			login.ensureLoggedIn(),
 			async (req, res, next) => {
 
-				if (req.body.character - 0) {
+				if (req.body.character - 0 && req.user.user.getCharacters().some(char => char.id == req.body.character - 0)) {
 					try {
 
 						let characterStore = await DBUtil.getStore("Character");
@@ -80,12 +80,15 @@
 						req.user.character = character;
 						req.session.passport.character = req.body.character - 0;
 
+						next();
+
 					} catch (e) {
 						console.log(e);
 					}
+				} else {
+					res.status(400);
+					res.json({ error: "invalid_character" });
 				}
-
-				next();
 
 			},
 			OAuth2Util.decision()
@@ -95,6 +98,43 @@
 			OAuth2Util.token(),
 			OAuth2Util.errorHandler()
 		])
+
+		.get("/oauth/verify",
+			async (req, res) => {
+
+
+				if (req.query.access_token) {
+
+					try {
+
+						let accessTokenStore = await DBUtil.getStore("OAuthAccessToken");
+
+						let accessToken = await accessTokenStore.getByToken(req.query.access_token);
+
+						if (Date.now() > accessToken.getExpirationDate()) {
+							res.status(400);
+							res.json({ error: "invalid_token" });
+						} else {
+
+							let characterStore = await DBUtil.getStore("Character");
+
+							let character = await characterStore.getBy_id(accessToken.getCharacterId());
+
+							res.json({ CharacterID: character.getId(), CharacterName: character.getName() });
+
+						}
+
+					} catch (e) {
+						res.status(400);
+						res.json({ error: "invalid_token" });
+					}
+
+				} else {
+					res.status(400);
+					res.json({ error: "invalid_token" });
+				}
+
+			})
 
 		.get("/api/userinfo", () => {})
 		.get("/api/clientinfo", () => {})

@@ -202,7 +202,7 @@
 
 			}));
 
-			passport.serializeUser(({user, character}, done) => console.log(user, character) || done(null, { user: user ? user.getName() : null, character: character ? character.getId() : null }));
+			passport.serializeUser(({user, character}, done) => done(null, { user: user ? user.getName() : null, character: character ? character.getId() : null }));
 
 			passport.deserializeUser(async ({user, character}, done) => {
 
