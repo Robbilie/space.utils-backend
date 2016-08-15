@@ -168,18 +168,18 @@
 						return done(null, false);
 					}
 
-					if(accessToken.getUserId() !== null) {
+					if(accessToken.getCharacterId() !== null) {
 
-						let userStore = await DBUtil.getStore("User");
+						let userStore = await DBUtil.getStore("Character");
 
-						let user = await userStore.getBy_id(accessToken.getUserId());
+						let character = await userStore.getBy_id(accessToken.getCharacterId());
 
-						if(!user)
+						if(!character)
 							return done(null, false);
 
 						let info = { scope: "*" };
 
-						return done(null, user, info);
+						return done(null, character, info);
 
 					} else {
 

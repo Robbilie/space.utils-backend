@@ -99,41 +99,10 @@
 			OAuth2Util.errorHandler()
 		])
 
-		.get("/oauth/verify",
-			async (req, res) => {
-
-				if (req.query.access_token) {
-
-					try {
-
-						let accessTokenStore = await DBUtil.getStore("OAuthAccessToken");
-
-						let accessToken = await accessTokenStore.getByToken(req.query.access_token);
-
-						if (Date.now() > accessToken.getExpirationDate()) {
-							res.status(400);
-							res.json({ error: "invalid_token" });
-						} else {
-
-							let characterStore = await DBUtil.getStore("Character");
-
-							let character = await characterStore.getBy_id(accessToken.getCharacterId());
-
-							res.json({ CharacterID: character.getId(), CharacterName: character.getName() });
-
-						}
-
-					} catch (e) {
-						res.status(400);
-						res.json({ error: "invalid_token" });
-					}
-
-				} else {
-					res.status(400);
-					res.json({ error: "invalid_token" });
-				}
-
-			})
+		.get("/oauth/verify", [
+			passport.authenticate('bearer', { session: false }),
+			(req, res) => res.json({ CharacterID: req.user.getId(), CharacterName: req.user.getName() })
+		])
 
 		.get("/api/userinfo", () => {})
 		.get("/api/clientinfo", () => {})
