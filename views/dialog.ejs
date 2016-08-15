@@ -1,57 +1,34 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>OAuth2Orize Recipes Decision</title>
-  <!-- Needed for mobile sites to work -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Style sheets -->
-  <link rel="stylesheet" type="text/css" href="../stylesheets/pure-min.css">
-  <link rel="stylesheet" type="text/css" href="../stylesheets/base.css">
-  <link rel="stylesheet" type="text/css" href="../stylesheets/dialog-modules.css">
-</head>
-<body>
-
-<form action="/dialog/authorize/decision" method="post" class="pure-form pure-form-stacked">
-  <input name="transaction_id" type="hidden" value="<%= transactionID %>">
-  <fieldset>
-    <!-- Upper box with Title, username, and password -->
-    <div class="upper-box">
-      <!-- Title -->
-      <div>
-        <div class="main-text">Decision</div>
-        <div class="subtext">Authorization Server</div>
-      </div>
-      <div class="pure-control-group labels">
-        <p>
-
-        <p><%= user.getName() %>,</p>
-        The application <b><%= client.getName() %></b> is requesting access to your account.
-        <p>Do you approve?</p>
-        </p>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Consent</title>
+    <link rel="stylesheet" href="/css/custom.css" />
+  </head>
+  <body>
+    <div id="window">
+      <div id="blur"></div>
+      <div id="content" class="center">
+        <h2><span class="thinblock">The application </span><strong><%= client.getName() %></strong><span class="thinblock"> is requesting access to your data.</span></h2>
+        <form id="accept" method="post" action="/dialog/authorize/decision">
+          <input name="transaction_id" type="hidden" value="<%= transactionID %>">
+          <select name="CHARACTER">
+            <c:forEach items="${user.characters}" var="character">
+              <option value="${character.id}">
+                ${character.name}
+              </option>
+            </c:forEach>
+          </select>
+          <div class="form-actions">
+            <input type="submit" value="Accept" id="allow">
+            <input type="submit" value="Deny" name="cancel" id="deny">
+          </div>
+        </form>
       </div>
     </div>
-    <!-- Bottom box with Sign in -->
-    <div class="bottom-box">
-      <div class="pure-controls accept-cancel-buttons">
-        <div>
-          <input class="pure-button pure-button-primary" type="submit" value="Accept" id="allow">
-          <!-- Cheat to make a bit of spacing -->
-          <span>&nbsp&nbsp</span>
-          <input class="pure-button" type="submit" value="Deny" name="cancel" id="deny">
-        </div>
-      </div>
-    </div>
-  </fieldset>
-  <div class="from-text">
-    <a href="https://github.com/FrankHassanabad/Oauth2orizeRecipes">
-      From OAuth2OrizeRecipes
-    </a>
-  </div>
-</form>
-
-</body>
+  </body>
 </html>
-
-
