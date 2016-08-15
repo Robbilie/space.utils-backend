@@ -68,6 +68,26 @@
 		])
 		.post("/dialog/authorize/decision", [
 			login.ensureLoggedIn(),
+			async (req, res, next) => {
+
+				if (req.body.character - 0) {
+					try {
+
+						let characterStore = await DBUtil.getStore("Character");
+
+						let character = await characterStore.getById(req.body.character - 0);
+
+						req.user.character = character;
+						req.session.passport.character = req.body.character - 0;
+
+					} catch (e) {
+						console.log(e);
+					}
+				}
+
+				next();
+
+			},
 			OAuth2Util.decision()
 		])
 		.post("/oauth/token", [
