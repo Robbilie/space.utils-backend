@@ -170,9 +170,9 @@
 
 					if(accessToken.getCharacterId() !== null) {
 
-						let userStore = await DBUtil.getStore("Character");
+						let characterStore = await DBUtil.getStore("Character");
 
-						let character = await userStore.getBy_id(accessToken.getCharacterId());
+						let character = await characterStore.getBy_id(accessToken.getCharacterId());
 
 						if(!character)
 							return done(null, false);
@@ -211,10 +211,10 @@
 					let userStore = await DBUtil.getStore("User");
 					let characterStore = await DBUtil.getStore("Character");
 
-					done(null, {
+					done(null, (user || character) ? {
 						user: user ? await userStore.getByName(user) : null,
 						character: character ? await characterStore.getById(character) : null
-					});
+					}: null);
 
 				} catch (e) {
 					done(e);
