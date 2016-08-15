@@ -102,7 +102,6 @@
 		.get("/oauth/verify",
 			async (req, res) => {
 
-
 				if (req.query.access_token) {
 
 					try {
