@@ -85,13 +85,13 @@
 
 					let hash = bcrypt.hashSync(req.body.password, 10);
 
-					user = await userStore.insert({
+					await userStore.insert({
 						name: req.body.username,
 						password: hash,
 						characters: []
 					});
 
-					req.session.passport = Object.assign(req.session.passport || {}, { user: user.get_id().toString() });
+					req.session.passport = Object.assign(req.session.passport || {}, { user: req.body.username });
 					res.redirect("/account");
 
 				} catch (e) {
