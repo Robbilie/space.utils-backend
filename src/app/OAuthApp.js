@@ -99,7 +99,7 @@
 					if(!user)
 						return done(null, false);
 
-					if(bcrypt.compareSync(password, user.getPassword()))
+					if(!bcrypt.compareSync(password, user.getPassword()))
 						return done(null, false);
 
 					return done(null, { user });
