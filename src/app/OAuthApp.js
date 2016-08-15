@@ -5,11 +5,13 @@
 	const express 					= require("express");
 	const cookieParser 				= require("cookie-parser");
 	const bodyParser 				= require("body-parser");
+	const flash 					= require("connect-flash");
 	const expressSession 			= require("express-session");
 	const RedisStore 				= require("connect-redis")(expressSession);
 	const DBUtil 					= require("util/DBUtil");
 	const routes 					= require("util/../../routes/oauth");
 	const config 					= require("util/../../config/");
+	const bcrypt 					= require("bcrypt");
 
 	const passport 					= require("passport");
 	const LocalStrategy 			= require("passport-local").Strategy;
@@ -51,6 +53,7 @@
 
 			web.use(bodyParser.urlencoded({ extended: true }));
 			web.use(bodyParser.json());
+			web.use(flash());
 			web.use(passport.initialize());
 			web.use(passport.session());
 
@@ -96,7 +99,7 @@
 					if(!user)
 						return done(null, false);
 
-					if(user.getPassword() != password)
+					if(user.getPassword() != bcrypt.compareSync(password))
 						return done(null, false);
 
 					return done(null, { user });

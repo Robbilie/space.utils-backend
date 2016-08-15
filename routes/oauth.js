@@ -6,9 +6,9 @@
 	const login 					= require("connect-ensure-login");
 	const DBUtil 					= require("util/DBUtil");
 	const RESTUtil 					= require("util/RESTUtil");
-
-
+	const config 					= require("util/../../config/");
 	const OAuth2Util 				= require("util/OAuth2Util");
+	const OAuthHandler 				= require("handler/OAuthHandler");
 
 
 
@@ -19,13 +19,17 @@
 		.get("/",
 			(req, res) => !req.query.code ? res.render("index") : res.render("index-with-code"))
 		.get("/login",
-			(req, res) => res.render("login"))
+			(req, res) => res.render("login", { error: req.flash("error") || "" }))
 		.post("/login",
-			[passport.authenticate("local", { successReturnToOrRedirect: "/", failureRedirect: "/login" })])
+			[passport.authenticate("local", { successReturnToOrRedirect: "/", failureRedirect: "/login", failureFlash: 'Invalid username or password.' })])
 		.get("/logout",
 			(req, res) => { req.logout(); req.redirect("/"); })
 		.get("/account",
 			[login.ensureLoggedIn(), (req, res) => res.render("account", { user: req.user })])
+		.get("/register",
+			(req, res) => res.render("register", { siteKey: config.captcha.siteKey, error: req.flash("error") || "" }))
+		.post("/register",
+			OAuthHandler.register())
 
 		.get("/oauth/authorize", [
 			login.ensureLoggedIn(),
@@ -52,45 +56,11 @@
 				}
 
 			}),
-			async (req, res, next) => {
-
-				let clientStore = await DBUtil.getStore("OAuthClient");
-
-				let client = await clientStore.getBy_id(req.query.client_id);
-
-				if(client && client.getTrusted()) {
-					OAuth2Util.decision({ loadTransaction: false }, (req, cb) => cb(null, { allow: true }))(req, res, next);
-				} else {
-					res.render("dialog", { transactionID: req.oauth2.transactionID, user: req.user.user, client: req.oauth2.client })
-				}
-
-			}
+			OAuthHandler.authorize()
 		])
 		.post("/oauth/authorize/decision", [
 			login.ensureLoggedIn(),
-			async (req, res, next) => {
-
-				if (req.body.character - 0 && req.user.user.getCharacters().some(char => char.id == req.body.character - 0)) {
-					try {
-
-						let characterStore = await DBUtil.getStore("Character");
-
-						let character = await characterStore.getById(req.body.character - 0);
-
-						req.user.character = character;
-						req.session.passport.character = req.body.character - 0;
-
-						next();
-
-					} catch (e) {
-						console.log(e);
-					}
-				} else {
-					res.status(400);
-					res.json({ error: "invalid_character" });
-				}
-
-			},
+			OAuthHandler.decision(),
 			OAuth2Util.decision()
 		])
 		.post("/oauth/token", [
