@@ -202,14 +202,14 @@
 
 			}));
 
-			passport.serializeUser((user, done) => done(null, user.get_id()));
+			passport.serializeUser((user, done) => done(null, user.getName()));
 
-			passport.deserializeUser(async (_id, done) => {
+			passport.deserializeUser(async (name, done) => {
 
 				let userStore = await DBUtil.getStore("User");
 
 				try {
-					let user = await userStore.getBy_id(_id);
+					let user = await userStore.getByName(name);
 					done(null, user);
 				} catch (e) {
 					done(e);
