@@ -31,6 +31,8 @@
 
 			const web = express();
 
+			web.use("/static", express.static(process.env.NODE_PATH + "/../public"));
+
 			web.set('view engine', 'ejs');
 			web.use(cookieParser());
 
@@ -55,8 +57,6 @@
 			this.initPassport();
 
 			web.use(routes);
-
-			web.use(express.static(process.env.NODE_PATH + "/../public"));
 
 			web.use(function (err, req, res, next) {
 				if (err) {
