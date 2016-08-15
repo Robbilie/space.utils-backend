@@ -17,12 +17,10 @@
                 <h2><span class="thinblock">The application </span><strong><%= client.getName() %></strong><span class="thinblock"> is requesting access to your data.</span></h2>
                 <form id="accept" method="post" action="/dialog/authorize/decision">
                     <input name="transaction_id" type="hidden" value="<%= transactionID %>">
-                    <select name="CHARACTER">
-                        <c:forEach items="${user.characters}" var="character">
-                        <option value="${character.id}">
-                        ${character.name}
-                        </option>
-                        </c:forEach>
+                    <select name="character">
+                        <% for(let character of user.getCharacters()) { %>
+                            <option value="<%= character.id %>"><%= character.name %></option>
+                        <% } %>
                     </select>
                     <div class="form-actions"><input class="half" type="submit" value="Accept" id="allow"><input class="half" type="submit" value="Deny" name="cancel" id="deny"></div>
                 </form>

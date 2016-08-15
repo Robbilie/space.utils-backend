@@ -10,6 +10,8 @@
 
 		getPassword () {}
 
+		getCharacters () {}
+
 	}
 
 	PatchUtil.model(User);
