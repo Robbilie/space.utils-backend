@@ -202,15 +202,20 @@
 
 			}));
 
-			passport.serializeUser((user, done) => done(null, user.getName()));
+			passport.serializeUser(({user, character}, done) => done(null, { user: user.getName(), character: character ? character.getId() : null }));
 
-			passport.deserializeUser(async (name, done) => {
-
-				let userStore = await DBUtil.getStore("User");
+			passport.deserializeUser(async ({user, character}, done) => {
 
 				try {
-					let user = await userStore.getByName(name);
-					done(null, user);
+
+					let userStore = await DBUtil.getStore("User");
+					let characterStore = await DBUtil.getStore("Character");
+
+					done(null, {
+						user: await userStore.getByName(user),
+						character: character ? await characterStore.getById(character) : null
+					});
+
 				} catch (e) {
 					done(e);
 				}

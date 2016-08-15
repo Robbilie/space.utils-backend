@@ -12,11 +12,12 @@
 
 	server.grant(oauth2orize.grant.code(async (client, redirectURI, user, ares, done) => {
 
-		let code = uuid.v4();
-
-		let authorizationCodeStore = await DBUtil.getStore("OAuthAuthorizationCode");
-
 		try {
+
+			let code = uuid.v4();
+
+			let authorizationCodeStore = await DBUtil.getStore("OAuthAuthorizationCode");
+
 			await authorizationCodeStore.insert({
 				token: 		code,
 				clientId: 	client ? client.get_id() : undefined,
@@ -24,21 +25,23 @@
 				redirect: 	redirectURI,
 				scope: 		client ? client.getScope() : undefined
 			});
+
+			return done(null, code);
+
 		} catch (e) {
 			return done(e);
 		}
-
-		return done(null, code);
 
 	}));
 
 	server.grant(oauth2orize.grant.token(async (client, user, ares, done) => {
 
-		let token = uuid.v4();
-
-		let accessTokenStore = await DBUtil.getStore("OAuthAccessToken");
-
 		try {
+
+			let token = uuid.v4();
+
+			let accessTokenStore = await DBUtil.getStore("OAuthAccessToken");
+
 			await accessTokenStore.insert({
 				token: 			token,
 				userId: 		user ? user.get_id() : undefined,
@@ -46,19 +49,20 @@
 				expirationDate: Date.now() + (1000 * 60 * 60),
 				scope: 			client ? client.getScope() : undefined
 			});
+
+			return done(null, token, { expires_in: 1000 * 60 * 60 });
+
 		} catch (e) {
 			return done(e);
 		}
-
-		return done(null, token, { expires_in: 1000 * 60 * 60 });
 
 	}));
 
 	server.exchange(oauth2orize.exchange.code(async (client, code, redirectURI, done) => {
 
-		let authorizationCodeStore = await DBUtil.getStore("OAuthAuthorizationCode");
-
 		try {
+
+			let authorizationCodeStore = await DBUtil.getStore("OAuthAuthorizationCode");
 
 			let authorizationCode = await authorizationCodeStore.getByToken(code);
 
@@ -112,9 +116,9 @@
 
 	server.exchange(oauth2orize.exchange.password(async (client, username, password, scope, done) => {
 
-		let userStore = await DBUtil.getStore("User");
-
 		try {
+
+			let userStore = await DBUtil.getStore("User");
 
 			let user = await userStore.getByName(username);
 
