@@ -99,7 +99,7 @@
 					if(user.getPassword() != password)
 						return done(null, false);
 
-					return done(null, user);
+					return done(null, { user });
 
 				} catch (e) {
 					return done(e);
