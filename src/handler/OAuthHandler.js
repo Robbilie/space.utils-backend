@@ -91,7 +91,7 @@
 						characters: []
 					});
 
-					req.session.passport.user = user.get_id().toString();
+					req.session.passport = Object.assign(req.session.passport || {}, { user: user.get_id().toString() });
 					res.redirect("/account");
 
 				} catch (e) {
