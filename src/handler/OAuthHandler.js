@@ -54,43 +54,49 @@
 		static register () {
 			return async (req, res, next) => {
 
-				if(!req.body.username || !req.body.password || !req.body['g-recaptcha-response']) {
-					req.flash("error", "Invalid form data.");
-					res.redirect("/register");
-					return;
+				try {
+
+					if(!req.body.username || !req.body.password || !req.body['g-recaptcha-response']) {
+						req.flash("error", "Invalid form data.");
+						res.redirect("/register");
+						return;
+					}
+
+					let userStore = await DBUtil.getStore("User");
+
+					let user = await userStore.getByName(req.body.username);
+
+					if(user) {
+						req.flash("error", "Name already taken.");
+						res.redirect("/register");
+						return;
+					}
+
+					const verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + config.captcha.secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+
+					let response = await rp(verificationUrl);
+					let body = JSON.parse(response);
+
+					if(body.success !== undefined && !body.success) {
+						req.flash("error", "Invalid captcha.");
+						res.redirect("/register");
+						return;
+					}
+
+					let hash = bcrypt.hashSync(req.body.password, 10);
+
+					user = await userStore.insert({
+						name: req.body.name,
+						password: hash,
+						characters: []
+					});
+
+					req.session.passport.user = user.get_id().toString();
+					res.redirect("/account");
+
+				} catch (e) {
+					console.log(e);
 				}
-
-				let userStore = await DBUtil.getStore("User");
-
-				let user = await userStore.getByName(req.body.username);
-
-				if(user) {
-					req.flash("error", "Name already taken.");
-					res.redirect("/register");
-					return;
-				}
-
-				const verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + config.captcha.secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
-
-				let response = await rp(verificationUrl);
-				let body = JSON.parse(response);
-
-				if(body.success !== undefined && !body.success) {
-					req.flash("error", "Invalid captcha.");
-					res.redirect("/register");
-					return;
-				}
-
-				let hash = bcrypt.hashSync(req.body.password, 10);
-
-				user = await userStore.insert({
-					name: req.body.name,
-					password: hash,
-					characters: []
-				});
-
-				req.session.passport.user = user.get_id().toString();
-				res.redirect("/account");
 
 			};
 		}
