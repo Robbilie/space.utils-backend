@@ -51,7 +51,7 @@
               $.ajax({
                 type: 'GET',
                 dataType: 'json',
-                url: '/api/userinfo',
+                url: '/oauth/verify',
                 headers: {
                   "Authorization": "Bearer " + access_token
                 },
@@ -116,7 +116,7 @@ grant_type=authorization_code
     To do this, set the Authorization Bearer to have your access token. Press the
     Call API EndPoint button and look at your network tab.
   </p>
-        <pre>GET /api/userinfo HTTP/1.1
+        <pre>GET /oauth/verify HTTP/1.1
 Host: <span class="hostname">https://localhost:3000</span>
 Authorization: Bearer <span id="access_token"></span>
         </pre>
