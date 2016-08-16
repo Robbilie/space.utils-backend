@@ -25,6 +25,8 @@
 
 					let mailStore = await DBUtil.getStore("Mail");
 
+					const toInt = i => i - 0;
+
 					await Promise.all(mailheads
 						.map(mailhead => ({
 							messageId: 			mailhead.$.messageId - 0,
