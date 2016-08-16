@@ -12,6 +12,12 @@
 			return "XML";
 		}
 
+		static getTasks () {
+			return [
+				{ type: ["Character", "Account"], accessMask: 2048, name: "MailMessagesTask" }
+			];
+		}
+
 		async getXML (url, query) {
 
 			// wait for a xml api queue spot

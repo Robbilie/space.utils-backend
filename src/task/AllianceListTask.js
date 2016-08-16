@@ -40,7 +40,7 @@
 					});
 					let concatcorpids = [].concat(...corpids);
 
-					await Promise.all(alliances.map(alliance => alliStore.findAndModify({ id: alliance.id }, [], { $set: alliance }, { upsert: true })));
+					await Promise.all(alliances.map(alliance => alliStore.alliStore({ id: alliance.id }, { $set: alliance }, { upsert: true })));
 
 					Promise.all(concatcorpids.map(cid => corpStore.getOrCreate(cid).then(corporation => execToAlli[corporation.getId()] ? alliStore.update({ id: execToAlli[corporation.getId()] }, { $set: { executor: corporation.get_id() } }) : undefined)));
 					

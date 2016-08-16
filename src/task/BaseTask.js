@@ -71,7 +71,7 @@
 							_id,
 							data: data,
 							info: {
-								type: 		info.type 		|| typeof(Object.getPrototypeOf(this).prototype) != "undefined" ? Object.getPrototypeOf(this).prototype.constructor.getType() : undefined,
+								type: 		info.type 		|| typeof(Object.getPrototypeOf(this).prototype) != "undefined" && Object.getPrototypeOf(this).prototype.constructor.getType ? Object.getPrototypeOf(this).prototype.constructor.getType() : undefined,
 								timestamp: 	info.timestamp 	|| 0,
 								state: 		info.state 		|| 0,
 								name: 		info.name 		|| this.prototype.constructor.name
