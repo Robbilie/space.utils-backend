@@ -29,8 +29,8 @@
 
 					await Promise.all(mailheads
 						.map(mailhead => ({
-							messageId: 			mailhead.$.messageId - 0,
-							senderId: 			mailhead.$.senderId - 0,
+							messageId: 			mailhead.$.messageID - 0,
+							senderId: 			mailhead.$.senderID - 0,
 							senderName: 		mailhead.$.senderName,
 							senderTypeId: 		mailhead.$.senderTypeID - 0,
 							sentDate: 			new Date(mailhead.$.sentDate + "Z").getTime(),
