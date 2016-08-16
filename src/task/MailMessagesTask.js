@@ -10,7 +10,7 @@
 
 			let response;
 			try {
-				response = await this.getXML("Account/APIKeyInfo", this.dataToForm());
+				response = await this.getXML("Char/MailMessages", this.dataToForm());
 			} catch (e) {
 				console.log("XMLERROR");
 				return await this.update({ state: 0 });
