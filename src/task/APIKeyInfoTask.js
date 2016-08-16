@@ -70,8 +70,8 @@
 
 							taskClass.create(Object.assign({
 								keyID: 	this.getData().keyID,
-								vCode: 	this.getData().vCode
-
+								vCode: 	this.getData().vCode,
+								accessMask: task.accessMask
 							}, key.type == "Corporation" ? {} : { characterID: character.characterID - 0 }));
 						});
 					});
