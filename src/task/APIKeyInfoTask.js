@@ -51,7 +51,7 @@
 					// clear all tasks that are not associated with this account anymore
 					let taskStore = await DBUtil.getStore("Task");
 					charIDs.push(null);
-					await taskStore.destroy({ "data.keyID": this.getData().keyID, "data.characterId": { $nin: charIDs } });
+					await taskStore.destroy({ "data.keyID": this.getData().keyID, "data.characterID": { $nin: charIDs } });
 					charIDs.pop();
 
 					// tasks that are no longer valid for the accessMask
