@@ -55,7 +55,7 @@
 					charIDs.pop();
 
 					// tasks that are no longer valid for the accessMask
-					await taskStore.destroy({ "data.keyID": this.getData().keyID, "data.accessMask": { $bitsAllSet: key.accessMask - 0 } });
+					await taskStore.destroy({ "data.keyID": this.getData().keyID, "data.accessMask": { $bitsAllClear: key.accessMask - 0 } });
 
 					// get tasks that are  within accessmask, get the total bitmask and get the missing ones
 					let tasks = await taskStore.getAll({ "data.keyID": this.getData().keyID, "data.accessMask": { $bitsAnySet: key.accessMask - 0 } });
