@@ -58,7 +58,7 @@
 					await taskStore.destroy({ "data.keyID": this.getData().keyID, "data.accessMask": { $bitsAllSet: key.accessMask - 0 } });
 
 					// get tasks that are  within accessmask, get the total bitmask and get the missing ones
-					let tasks = await taskStore.getAll({ "data.keyID": this.getData().keyId, "data.accessMask": { $bitsAnySet: key.accessMask - 0 } });
+					let tasks = await taskStore.getAll({ "data.keyID": this.getData().keyID, "data.accessMask": { $bitsAnySet: key.accessMask - 0 } });
 					let tasksMask = tasks.map(task => task.getData().accessMask).reduce((p, c) => p | c, 0);
 					let missingTasks = XMLTask.getTasks().filter(task => task.type.indexOf(key.type) !== -1 && (tasksMask & task.accessMask) != task.accessMask);
 
