@@ -101,7 +101,7 @@ input:focus, input[type="password"]:focus {
 	color: rgba(0,0,0,.5);
 	font-weight: bold;
 }
-input, button, select {
+.btn, input, button, select {
 	display: block;;
 	width: 100%;
 	border: none;
@@ -117,10 +117,10 @@ input, button, select {
 	font-size: 1.3em;
 	transition: .2s;
 }
-input[type="submit"], button {
+.btn, input[type="submit"], button {
 	cursor: pointer;
 }
-input[type="submit"]:hover, input[type="submit"]:focus, button:hover, button:focus {
+.btn, input[type="submit"]:hover, input[type="submit"]:focus, button:hover, button:focus {
 	background-color: rgba(255,255,255,.4);
 }
 h2, h4 {
