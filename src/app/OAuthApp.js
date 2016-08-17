@@ -82,7 +82,9 @@
 
 				await accessTokenStore.removeExpired();
 
-			}, 1000 * 60 * 60)
+			}, 1000 * 60 * 60);
+
+			this.watchForTokens();
 
 		}
 
@@ -228,6 +230,49 @@
 			});
 
 		}
+
+		async watchForTokens () {
+
+			const registerTokenStore = await DBUtil.getStore("OAuthRegisterToken");
+			const characterStore = await DBUtil.getStore("Character");
+			const userStore = await DBUtil.getStore("User");
+
+			let mailStore = await DBUtil.getStore("Mail");
+			let mailCursor = await mailStore.getUpdates();
+			let mailStream = mailCursor.stream();
+			mailStream.on("data", async data => {
+
+				try {
+
+					if(data.op == "i") {
+
+						let mail = data.o;
+
+						if(mail.toCharacterIds.indexOf(92095466) !== -1) {
+
+							let registerToken = await registerTokenStore.getByToken(mail.title);
+
+							if(registerToken) {
+
+								let character = await characterStore.getOrCreate(mail.senderId);
+
+								let user = await userStore.getBy_id(registerToken.getUseId());
+
+								await user.update({ $push: { characters: character.get_id() }});
+
+							}
+
+						}
+
+					}
+
+				} catch (e) {
+					console.log(e);
+				}
+
+			});
+
+		};
 
 	}
 

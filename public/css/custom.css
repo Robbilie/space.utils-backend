@@ -139,6 +139,9 @@ h2, h4 {
 a {
 	color: white;
 }
+.desc {
+	text-align: left;
+}
 .error {
 	/* margin-top: 20px; */
 	padding: 10px;
