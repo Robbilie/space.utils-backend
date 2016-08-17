@@ -190,3 +190,12 @@ fieldset {
 .g-recaptcha > div {
 	margin: auto;
 }
+ul.character {
+	text-align: left;
+}
+ul.character > li {
+	display: block;
+}
+ul.character > li > * {
+	vertical-align: middle;
+}
