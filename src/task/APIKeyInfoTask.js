@@ -26,6 +26,13 @@
 
 					let apikeyinfoStore = await DBUtil.getStore("APIKeyInfo");
 
+
+					// get all chars on that apikey
+					let characters = response.eveapi.result[0].key[0].rowset[0].row;
+					let charIDs = characters.map(m => m.$.characterID - 0);
+					const characterStore = await DBUtil.getStore("Character");
+					let chars = await Promise.all(charIDs.map(id => characterStore.getOrCreate(id)));
+
 					await apikeyinfoStore.update(
 						{
 							keyId: this.getData().keyID
@@ -36,17 +43,12 @@
 								vCode: 			this.getData().vCode,
 								accessMask: 	key.accessMask - 0,
 								type: 			key.type,
-								expires: 		key.expires != "" ? new Date(key.expires + "Z").getTime() : null
+								expires: 		key.expires != "" ? new Date(key.expires + "Z").getTime() : null,
+								characters: 	chars.map(char => char.get_id())
 							}
 						},
 						{ upsert: true, new: true }
 					);
-
-					// get all chars on that apikey
-					let characters = response.eveapi.result[0].key[0].rowset[0].row;
-					let charIDs = characters.map(m => m.$.characterID - 0);
-					const characterStore = await DBUtil.getStore("Character");
-					await Promise.all(charIDs.map(id => characterStore.getOrCreate(id)));
 
 					// clear all tasks that are not associated with this account anymore
 					let taskStore = await DBUtil.getStore("Task");

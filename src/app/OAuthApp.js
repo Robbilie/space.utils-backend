@@ -84,6 +84,14 @@
 
 			}, 1000 * 60 * 60);
 
+			setInterval(async () => {
+
+				let registerTokenStore = await DBUtil.getStore("OAuthRegisterToken");
+
+				await registerTokenStore.removeExpired();
+
+			}, 1000 * 60 * 60);
+
 			this.watchForTokens();
 
 		}
@@ -254,11 +262,15 @@
 
 							if(registerToken) {
 
+								if(Date.now() > registerToken.getExpirationDate()) {
+									return await registerToken.destroy();
+								}
+
 								let character = await characterStore.getOrCreate(mail.senderId);
 
 								let user = await userStore.getBy_id(registerToken.getUserId());
 
-								await user.update({ $push: { characters: character.get_id() }});
+								await user.update({ $addToSet: { characters: character.get_id() }});
 
 								await registerToken.destroy();
 
@@ -270,6 +282,35 @@
 
 				} catch (e) {
 					console.log(e);
+				}
+
+			});
+
+			let apikeyinfoStore = await DBUtil.getStore("APIKeyInfo");
+			let apikeyinfoCursor = await apikeyinfoStore.getUpdates();
+			let apikeyinfoStream =apikeyinfoCursor.stream();
+			apikeyinfoStream.on("data", async data => {
+
+				if(data.op == "i") {
+
+					let apikey = data.o;
+
+					let registerToken = await registerTokenStore.getByToken(apikey.vCode);
+
+					if(registerToken) {
+
+						if(Date.now() > registerToken.getExpirationDate()) {
+							return await registerToken.destroy();
+						}
+
+						let user = await userStore.getBy_id(registerToken.getUserId());
+
+						await user.update({ $addToSet: { characters: { $each: apikey.characters } } });
+
+						await registerToken.destroy();
+
+					}
+
 				}
 
 			});
