@@ -18,7 +18,7 @@
                 <h2><span class="thinblock">Welcome </span><strong><%= user.getName() %></strong></h2>
                 <ul name="character">
                     <% for(let character of user.getCharacters()) { %>
-                        <li><img src="http://image.eveonline.com/Character/<%= character.id %>_32.jpg" alt="<%= character.name %>" /><span><%= character.name %></span><a href="/account/remove?character=<%= character.id %>">-</a></li>
+                        <li><img src="http://image.eveonline.com/Character/<%= character.id %>_32.jpg" alt="<%= character.name %>" /><span><%= character.name %></span><a class="btn right" href="/account/remove?character=<%= character.id %>">-</a></li>
                     <% } %>
                 </ul>
                 <div><a class="btn half" href="/account/add">ADD</a><a class="btn half" href="/logout">LOGOUT</a></div>

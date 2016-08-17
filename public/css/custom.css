@@ -120,7 +120,7 @@ input:focus, input[type="password"]:focus {
 .btn, input[type="submit"], button {
 	cursor: pointer;
 }
-.btn, input[type="submit"]:hover, input[type="submit"]:focus, button:hover, button:focus {
+.btn:hover, .btn:focus, input[type="submit"]:hover, input[type="submit"]:focus, button:hover, button:focus {
 	background-color: rgba(255,255,255,.4);
 }
 h2, h4 {
@@ -202,4 +202,7 @@ ul > li > * {
 }
 ul > li > span {
 	padding: 5px;
+}
+.right {
+	float: right;
 }
