@@ -118,6 +118,13 @@
 			};
 		}
 
+		static logout () {
+			return async (req, res, next) => {
+				req.logout();
+				res.redirect("/");
+			};
+		}
+
 	}
 
 	module.exports = OAuthHandler;
