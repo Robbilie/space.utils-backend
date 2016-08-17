@@ -25,7 +25,7 @@
 		.get("/logout",
 			(req, res) => { req.logout(); req.redirect("/"); })
 		.get("/account",
-			[login.ensureLoggedIn(), (req, res) => res.render("account", { user: req.user })])
+			[login.ensureLoggedIn(), (req, res) => res.render("account", { user: req.user.user, error: req.flash("error") || "" })])
 		.get("/register",
 			(req, res) => res.render("register", { siteKey: config.captcha.siteKey, error: req.flash("error") || "" }))
 		.post("/register",
