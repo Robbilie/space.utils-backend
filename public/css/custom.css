@@ -137,7 +137,7 @@ h2 {
 	margin-bottom: 25px;
 }
 .error {
-	margin-top: 20px;
+	/* margin-top: 20px; */
 	padding: 10px;
 	border: 1px solid rgba(255,0,0,.5);
 	background: rgba(255,0,0,.3);
