@@ -43,7 +43,7 @@
 			OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
 
 				if(clientID.length != 24)
-					return done(new Error("Invalid ClientID length"));
+					return done("Invalid ClientID length");
 
 				let clientStore = await DBUtil.getStore("OAuthClient");
 
@@ -52,10 +52,10 @@
 					let client = await clientStore.getBy_id(clientID);
 
 					if(client && client.getRedirect() != redirectURI)
-						return done(new Error("Invalid Redirect URI"));
+						return done("Invalid Redirect URI");
 
 					if(client && scope.some(s => (client.getScope() || []).indexOf(s) === -1))
-						return done(new Error("Invalid scope requested"));
+						return done("Invalid scope requested");
 
 					return done(null, client, redirectURI);
 
