@@ -14,7 +14,7 @@
         <div id="window">
             <div id="blur"></div>
             <div class="content center">
-                <h2><strong><%= client.getName() %></strong><span class="thinblock"> is requesting the following scopes: <%= JSON.stringify(scopes) %>.</span></h2>
+                <h2><strong><%= client.getName() %></strong></h2>
                 <form id="accept" method="post" action="/oauth/authorize/decision">
                     <input name="transaction_id" type="hidden" value="<%= transactionID %>">
                     <select name="character">
@@ -22,6 +22,18 @@
                             <option value="<%= character.getId() %>"><%= character.getName() %></option>
                         <% } %>
                     </select>
+                    <div>
+                        <% if(scopes.length > 0) { %>
+                            <strong><%= client.getName() %></strong><span class="thinblock"> is asking you to authenticate with your selected character.</span>
+                        <% } else { %>
+                            <strong><%= client.getName() %></strong><span class="thinblock"> is asking for the following permissions for your selected character.</span>
+                            <ul>
+                                <% for(let scope of scopes) { %>
+                                    <li><%= scope %></li>
+                                <% } %>
+                            </ul>
+                        <% } %>
+                    </div>
                     <div class="form-actions"><input class="half" type="submit" value="Accept" id="allow"><input class="half" type="submit" value="Deny" name="cancel" id="deny"></div>
                 </form>
             </div>
