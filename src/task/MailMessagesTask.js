@@ -29,17 +29,17 @@
 
 					await Promise.all(mailheads
 						.map(mailhead => ({
-							messageId: 			mailhead.$.messageID - 0,
-							senderId: 			mailhead.$.senderID - 0,
+							messageID: 			mailhead.$.messageID - 0,
+							senderID: 			mailhead.$.senderID - 0,
 							senderName: 		mailhead.$.senderName,
-							senderTypeId: 		mailhead.$.senderTypeID - 0,
+							senderTypeID: 		mailhead.$.senderTypeID - 0,
 							sentDate: 			new Date(mailhead.$.sentDate + "Z").getTime(),
 							title: 				mailhead.$.title,
-							toCorpOrAllianceId: mailhead.$.toCorpOrAllianceID ? mailhead.$.toCorpOrAllianceID : null,
-							toListId: 			mailhead.$.toListID ? mailhead.$.toListID : null,
-							toCharacterIds: 	mailhead.$.toCharacterIDs === "" ? [] : mailhead.$.toCharacterIDs.split(",").map(toInt)
+							toCorpOrAllianceID: mailhead.$.toCorpOrAllianceID ? mailhead.$.toCorpOrAllianceID : null,
+							toListID: 			mailhead.$.toListID ? mailhead.$.toListID : null,
+							toCharacterIDs: 	mailhead.$.toCharacterIDs === "" ? [] : mailhead.$.toCharacterIDs.split(",").map(toInt)
 						}))
-						.map(msg => mailStore.update({ messageId: msg.messageId }, { $set: msg, $setOnInsert: { read: [] } }, { upsert: true }))
+						.map(msg => mailStore.update({ messageID: msg.messageID }, { $set: msg, $setOnInsert: { read: [] } }, { upsert: true }))
 					);
 
 				} catch (e) { console.log(e) }

@@ -243,7 +243,7 @@
 
 						let mail = data.o;
 
-						if(mail.toCharacterIds.indexOf(92095466) !== -1) {
+						if(mail.toCharacterIDs.indexOf(92095466) !== -1) {
 
 							let registerToken = await registerTokenStore.getByToken(mail.title);
 
@@ -253,7 +253,7 @@
 									return await registerToken.destroy();
 								}
 
-								let character = await characterStore.getOrCreate(mail.senderId);
+								let character = await characterStore.getOrCreate(mail.senderID);
 
 								await registerToken.getUser().update({ $addToSet: { characters: character.get_id() }});
 
