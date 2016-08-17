@@ -26,7 +26,7 @@
 
 		static store (store, filter) {
 			PatchUtil.filter(store, filter).forEach(p => {
-				var slt = p.split(/(?=[A-Z_])/).map(s => s.toLowerCase());
+				var slt = p.split(/(?=[A-Z_][Ia-z_$])/).map(s => s.lowercaseFirstLetter());
 				var params = slt.slice(["by","where"].map(f => slt.indexOf(f) + 1).find(f => f > 0));
 
 				var method;
