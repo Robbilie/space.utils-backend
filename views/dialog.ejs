@@ -19,7 +19,7 @@
                     <input name="transaction_id" type="hidden" value="<%= transactionID %>">
                     <select name="character">
                         <% for(let character of user.getCharacters()) { %>
-                            <option value="<%= character.id %>"><%= character.name %></option>
+                            <option value="<%= character.getId() %>"><%= character.getName() %></option>
                         <% } %>
                     </select>
                     <div class="form-actions"><input class="half" type="submit" value="Accept" id="allow"><input class="half" type="submit" value="Deny" name="cancel" id="deny"></div>
