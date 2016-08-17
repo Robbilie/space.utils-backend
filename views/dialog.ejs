@@ -23,7 +23,7 @@
                         <% } %>
                     </select>
                     <div>
-                        <% if(scopes.length > 0) { %>
+                        <% if(scopes.length == 0) { %>
                             <strong><%= client.getName() %></strong><span class="thinblock"> is asking you to authenticate with your selected character.</span>
                         <% } else { %>
                             <strong><%= client.getName() %></strong><span class="thinblock"> is asking for the following permissions for your selected character.</span>
