@@ -118,6 +118,26 @@
 			};
 		}
 
+		static addToken () {
+			return async (req, res, next) => {
+
+				let registerTokenStore = await DBUtil.getStore("OAuthRegisterToken");
+
+				let token = uuid.v4();
+
+				await registerTokenStore.insert({
+					token: 			token,
+					userId: 		req.user.user.get_id().toString(),
+					expirationDate: Date.now() + (1000 * 60 * 60),
+				});
+
+				req.flash("info", token);
+
+				next();
+
+			};
+		}
+
 		static logout () {
 			return async (req, res, next) => {
 				req.logout();

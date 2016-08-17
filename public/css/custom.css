@@ -123,7 +123,7 @@ input[type="submit"], button {
 input[type="submit"]:hover, input[type="submit"]:focus, button:hover, button:focus {
 	background-color: rgba(255,255,255,.4);
 }
-h2 {
+h2, h4 {
 	position: relative;
 	text-align: center;
 	color: white;
@@ -135,6 +135,9 @@ h2 {
 //font-size: 2em;
 //line-height: 40px;
 	margin-bottom: 25px;
+}
+a {
+	color: white;
 }
 .error {
 	/* margin-top: 20px; */

@@ -14,21 +14,10 @@
         <div id="window">
             <div id="blur"></div>
             <div id="content" class="center">
-                <div class="error"><%= error %></div>
                 <h2><span class="thinblock">Welcome </span><strong><%= user.getName() %></strong></h2>
-                <ul name="character">
-                    <% for(let character of user.getCharacters()) { %>
-                        <li><img src="http://image.eveonline.com/Character/<%= character.id %>_32.jpg" alt="<%= character.name %>" /><%= character.name %></li>
-                    <% } %>
-                </ul>
-                <div class="form-actions"><form class="half" action="/account/add"><button type="submit" >ADD CHARACTER</button></form><form class="half" action="/logout"><button type="submit" >LOGOUT</button></form></div>
+                <input type="text" disabled value="<%= token %>"/>
+                <form action="/account"><button type="submit" >BACK</button></form>
             </div>
         </div>
     </body>
 </html>
-
-
-
-
-
-

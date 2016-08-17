@@ -26,6 +26,8 @@
 			OAuthHandler.logout())
 		.get("/account",
 			[login.ensureLoggedIn(), (req, res) => res.render("account", { user: req.user.user, error: req.flash("error") || "" })])
+		.get("/account/add",
+			[login.ensureLoggedIn(), OAuthHandler.addToken(), (req, res) => res.render("account-add", { user: req.user.user, token: req.flash("info") || "" })])
 		.get("/register",
 			(req, res) => res.render("register", { siteKey: config.captcha.siteKey, error: req.flash("error") || "" }))
 		.post("/register",
