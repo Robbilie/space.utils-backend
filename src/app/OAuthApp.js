@@ -63,7 +63,7 @@
 
 			web.use(function (err, req, res, next) {
 				if (err) {
-					res.status(err.status);
+					res.status(err.status || 400); // when unknown, its the clients fault :D
 					res.json(err);
 				} else {
 					next();
