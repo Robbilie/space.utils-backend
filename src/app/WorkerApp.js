@@ -8,7 +8,7 @@
 	class WorkerApp {
 
 		constructor () {
-			this.taskTypes = { ["XML"]: { limit: 30, timestamps: [] } };
+			this.taskTypes = { ["XML"]: { limit: 30, timestamps: [] }, ["CREST"]: { limit: 150, timestamps: [] } };
 			this.shuttingDown = false;
 
 			try {
