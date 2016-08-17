@@ -58,8 +58,8 @@
 			return this.getAll();
 		}
 
-		getBy_id (_id) {
-			return this.get({ _id: DBUtil.to_id(_id) });
+		getBy_id (_id, bare) {
+			return bare ? this.get({ _id: DBUtil.to_id(_id) }) : this.aggregate({ _id: DBUtil.to_id(_id) })[0];
 		}
 
 		getUpdates (op) {

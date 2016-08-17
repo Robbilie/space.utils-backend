@@ -54,8 +54,6 @@
 				.then(docs => docs.map(doc => new this.type(doc)));
 		}
 
-		getBy_id () {}
-
 		getByName () {}
 
 	}

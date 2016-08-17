@@ -21,8 +21,6 @@
 			);
 		}
 
-		getBy_id () {}
-
 		async getOrCreate (id, unverified, {} = $(1, {id}, "Number")) {
 			try {
 
