@@ -48,7 +48,7 @@
 				secret: 	config.cookies.secret,
 				resave: 	true,
 				saveUninitialized: true,
-				key: 		"oauth.sid"
+				key: 		config.cookies.name
 			}));
 
 			web.use(bodyParser.urlencoded({ extended: true }));
@@ -181,37 +181,25 @@
 						return done(null, false);
 					}
 
-					if(accessToken.getCharacterId() !== null) {
-
-						let characterStore = await DBUtil.getStore("Character");
-
-						let character = await characterStore.getBy_id(accessToken.getCharacterId());
-
-						if(!character)
-							return done(null, false);
+					if(accessToken.getCharacter()) {
 
 						let info = { scope: "*" };
 
-						return done(null, character, info);
+						return done(null, accessToken.getCharacter(), info);
 
-					} else {
-
-						let clientStore = await DBUtil.getStore("OAuthClient");
-
-						let client = await clientStore.getBy_id(accessToken.getClientId());
-
-						if(!client)
-							return done(null, false);
+					} else if(accessToken.getClient()) {
 
 						let info = { scope: "*" };
 
-						return done(null, client, info);
+						return done(null, accessToken.getClient(), info);
 
 					}
 
 				} catch (e) {
 					return done(e);
 				}
+
+				return done(null, false);
 
 			}));
 

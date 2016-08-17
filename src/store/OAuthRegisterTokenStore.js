@@ -6,9 +6,13 @@
 
 	class OAuthRegisterTokenStore extends Store {
 
+		aggregate (data, lookups = ["user"]) {
+			return super.aggregate(data, lookups);
+		}
+
 		getByToken () {}
 
-		getByUserId () {}
+		getByUser () {}
 
 		removeExpired () {
 			return this.destroy({ expirationDate: { $lt: Date.now() } });

@@ -10,9 +10,9 @@
 
 		getExpirationDate () {}
 
-		getCharacterId () {}
+		getCharacter () {}
 
-		getClientId () {}
+		getClient () {}
 
 		getScope () {}
 

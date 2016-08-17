@@ -8,7 +8,7 @@
 
 		getToken () {}
 
-		getUserId () {}
+		getUser () {}
 
 		getExpirationDate () {}
 

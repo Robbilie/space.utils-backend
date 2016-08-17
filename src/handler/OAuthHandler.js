@@ -41,15 +41,13 @@
 		static decision () {
 			return async (req, res, next) => {
 
-				if (req.body.character - 0 && req.user.user.getCharacters().some(char => char.id == req.body.character - 0)) {
+				let character = req.user.user.getCharacters().find(char => char.getId() == req.body.character - 0);
+
+				if (character) {
 					try {
 
-						let characterStore = await DBUtil.getStore("Character");
-
-						let character = await characterStore.getById(req.body.character - 0);
-
 						req.user.character = character;
-						req.session.passport.character = req.body.character - 0;
+						req.session.passport.character = character.getId();
 
 						next();
 
@@ -98,7 +96,7 @@
 
 					let hash = bcrypt.hashSync(req.body.password, 10);
 
-					await userStore.insert({
+					user = await userStore.insert({
 						name: req.body.username,
 						password: hash,
 						characters: []
@@ -110,7 +108,7 @@
 					if(!req.session.passport.user)
 						req.session.passport.user = {};
 
-					req.session.passport.user.user = req.body.username;
+					req.session.passport.user.user = user.get_id();
 					res.redirect("/account");
 
 				} catch (e) {
@@ -131,7 +129,7 @@
 
 					await registerTokenStore.insert({
 						token: 			token,
-						userId: 		req.user.user.get_id().toString(),
+						user: 		req.user.user.get_id(),
 						expirationDate: Date.now() + (1000 * 60 * 60),
 					});
 
@@ -166,12 +164,10 @@
 		static removeCharacter () {
 			return async (req, res, next) => {
 
-				if (req.query.character - 0 && req.user.user.getCharacters().some(char => char.id == req.query.character - 0)) {
+				let character = req.user.user.getCharacters().find(char => char.getId() == req.query.character - 0);
+
+				if (character) {
 					try {
-
-						let characterStore = await DBUtil.getStore("Character");
-
-						let character = await characterStore.getById(req.query.character - 0);
 
 						await req.user.user.update({ $pull: { characters: character.get_id() } });
 

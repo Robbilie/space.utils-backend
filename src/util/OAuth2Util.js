@@ -20,10 +20,10 @@
 
 			await authorizationCodeStore.insert({
 				token: 			code,
-				clientId: 		client ? client.get_id().toString() : undefined,
-				characterId: 	character ? character.get_id().toString() : undefined,
+				client: 		client.get_id(),
+				character: 		character.get_id(),
 				redirect: 		redirectURI,
-				scope: 			client ? client.getScope() : undefined
+				scope: 			client.getScope()
 			});
 
 			return done(null, code);
@@ -44,10 +44,10 @@
 
 			await accessTokenStore.insert({
 				token: 			token,
-				characterId: 	character ? character.get_id().toString() : undefined,
-				clientId: 		client ? client.get_id().toString() : undefined,
+				character: 		character.get_id(),
+				client: 		client.get_id(),
 				expirationDate: Date.now() + (1000 * 60 * 60),
-				scope: 			client ? client.getScope() : undefined
+				scope: 			client.getScope()
 			});
 
 			return done(null, token, { expires_in: 1000 * 60 * 60 });
@@ -69,7 +69,7 @@
 			if(!authorizationCode)
 				return done(null, false);
 
-			if(client.get_id().toString() != authorizationCode.getClientId())
+			if(!client.get_id().equals(authorizationCode.getClient().get_id()))
 				return done(null, false);
 
 			if(redirectURI != authorizationCode.getRedirect())
@@ -83,8 +83,8 @@
 
 			await accessTokenStore.insert({
 				token: 			token,
-				characterId: 	authorizationCode.getCharacterId(),
-				clientId: 		authorizationCode.getClientId(),
+				character: 		authorizationCode.getCharacter().get_id(),
+				client: 		authorizationCode.getClient().get_id(),
 				expirationDate: Date.now() + (1000 * 60 * 60),
 				scope: 			authorizationCode.getScope()
 			});
@@ -97,8 +97,8 @@
 
 				await refreshTokenStore.insert({
 					token: 			refreshToken,
-					characterId: 	authorizationCode.getCharacterId(),
-					clientId: 		authorizationCode.getClientId(),
+					character: 		authorizationCode.getCharacter().get_id(),
+					client: 		authorizationCode.getClient().get_id(),
 					scope: 			authorizationCode.getScope()
 				});
 
@@ -202,7 +202,7 @@
 			if(!refreshToken)
 				return done(null, false);
 
-			if(client.get_id().toString() != refreshToken.getClientId())
+			if(!client.get_id().equals(refreshToken.getClient().get_id()))
 				return done(null, false);
 
 			let token = uuid.v4();
@@ -211,8 +211,8 @@
 
 			await accessTokenStore.insert({
 				token: 			token,
-				characterId: 	refreshToken.getCharacterId(),
-				clientId: 		refreshToken.getClientId(),
+				character: 		refreshToken.getCharacter().get_id(),
+				client: 		refreshToken.getClient().get_id(),
 				expirationDate: Date.now() + (1000 * 60 * 60),
 				scope: 			refreshToken.getScope()
 			});
