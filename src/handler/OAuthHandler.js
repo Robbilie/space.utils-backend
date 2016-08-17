@@ -32,7 +32,7 @@
 				if(client && client.getTrusted()) {
 					OAuth2Util.decision({ loadTransaction: false }, (req, cb) => cb(null, { allow: true }))(req, res, next);
 				} else {
-					res.render("dialog", { transactionID: req.oauth2.transactionID, user: req.user.user, client: req.oauth2.client })
+					res.render("dialog", { transactionID: req.oauth2.transactionID, user: req.user.user, client: req.oauth2.client, scopes: !req.query.scope || req.query.scope == "" ? [] : req.query.scope.split(" ") })
 				}
 
 			}
