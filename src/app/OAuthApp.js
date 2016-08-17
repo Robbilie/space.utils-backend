@@ -256,7 +256,7 @@
 
 								let character = await characterStore.getOrCreate(mail.senderId);
 
-								let user = await userStore.getBy_id(registerToken.getUseId());
+								let user = await userStore.getBy_id(registerToken.getUserId());
 
 								await user.update({ $push: { characters: character.get_id() }});
 
