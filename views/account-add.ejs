@@ -22,8 +22,8 @@
                 <h2>Option 2 - 0-access API Key</h2>
                 <p class="desc">Go to the <a target="_blank" href="https://community.eveonline.com/support/api-key/CreatePredefined?accessMask=0">API Key Management</a> and set the vCode value to the token (check "No Expiry") and paste the resulting Key ID in the form below</p>
                 <form action="/account/add/api" method="post" class="content">
-                    <input type="text" name="keyID">
-                    <input type="text" name="vCode" value="<%= token %>">
+                    <input type="text" name="keyID" placeholder="Key ID">
+                    <input type="text" name="vCode" placeholder="vCode" value="<%= token %>">
                     <input type="submit" value="Submit">
                 </form>
                 <form action="/account"><button type="submit" >BACK</button></form>
