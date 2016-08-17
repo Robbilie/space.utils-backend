@@ -205,4 +205,11 @@ ul > li > span {
 }
 .right {
 	float: right;
+	width: 26px;
+	height: 26px;
+	text-decoration: none;
+	margin: 3px;
+	text-align: center;
+	vertical-align: bottom;
+	padding-right: 1px;
 }
