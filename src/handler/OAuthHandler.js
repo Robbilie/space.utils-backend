@@ -166,12 +166,12 @@
 		static removeCharacter () {
 			return async (req, res, next) => {
 
-				if (req.body.character - 0 && req.user.user.getCharacters().some(char => char.id == req.body.character - 0)) {
+				if (req.query.character - 0 && req.user.user.getCharacters().some(char => char.id == req.query.character - 0)) {
 					try {
 
 						let characterStore = await DBUtil.getStore("Character");
 
-						let character = await characterStore.getById(req.body.character - 0);
+						let character = await characterStore.getById(req.query.character - 0);
 
 						await req.user.user.update({ $pop: { characters: character.get_id() } });
 
