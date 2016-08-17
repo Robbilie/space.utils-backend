@@ -6,9 +6,9 @@
 
 	class APIKeyInfo extends Base {
 
-		getKeyId () {}
+		getKeyID () {}
 
-		getVCode () {}
+		getvCode () {}
 
 		getAccessMask () {}
 

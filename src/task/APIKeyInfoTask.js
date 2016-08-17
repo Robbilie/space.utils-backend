@@ -35,11 +35,11 @@
 
 					await apikeyinfoStore.update(
 						{
-							keyId: this.getData().keyID
+							keyID: this.getData().keyID
 						},
 						{
 							$set: {
-								keyId: 			this.getData().keyID,
+								keyID: 			this.getData().keyID,
 								vCode: 			this.getData().vCode,
 								accessMask: 	key.accessMask - 0,
 								type: 			key.type,
