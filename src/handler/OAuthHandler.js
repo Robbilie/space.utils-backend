@@ -5,6 +5,7 @@
 	const OAuth2Util 				= require("util/OAuth2Util");
 	const rp 						= require("request-promise");
 	const bcrypt 					= require("bcrypt");
+	const uuid 						= require("node-uuid");
 	const config 					= require("util/../../config/");
 
 	class OAuthHandler {
