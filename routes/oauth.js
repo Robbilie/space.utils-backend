@@ -23,7 +23,7 @@
 		.post("/login",
 			[passport.authenticate("local", { successReturnToOrRedirect: "/", failureRedirect: "/login", failureFlash: 'Invalid username or password.' })])
 		.get("/logout",
-			(req, res) => { req.logout(); req.redirect("/"); })
+			(req, res) => { req.logout(); res.redirect("/"); })
 		.get("/account",
 			[login.ensureLoggedIn(), (req, res) => res.render("account", { user: req.user.user, error: req.flash("error") || "" })])
 		.get("/register",
