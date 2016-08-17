@@ -85,6 +85,7 @@
 				await this.update({ state: 0 });
 
 			} else {
+				console.log(JSON.stringify(response, null, 2));
 				await this.destroy();
 			}
 
