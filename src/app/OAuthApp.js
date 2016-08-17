@@ -260,6 +260,8 @@
 
 								await user.update({ $push: { characters: character.get_id() }});
 
+								await registerToken.destroy();
+
 							}
 
 						}
