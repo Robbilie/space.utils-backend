@@ -62,7 +62,11 @@
 					// get tasks that are  within accessmask, get the total bitmask and get the missing ones
 					let tasks = await taskStore.getAll({ "data.keyID": this.getData().keyID, "data.accessMask": { $bitsAnySet: key.accessMask - 0 } });
 					let tasksMask = tasks.map(task => task.getData().accessMask).reduce((p, c) => p | c, 0);
-					let missingTasks = XMLTask.getTasks().filter(task => task.type.indexOf(key.type) !== -1 && (tasksMask & task.accessMask) != task.accessMask);
+					let missingTasks = XMLTask.getTasks()
+						.filter(task =>
+						task.type.indexOf(key.type) !== -1 && 							// only use those of correct type
+						(tasksMask & task.accessMask) != task.accessMask && 			// only use those who are not in the db yet
+						(key.accessMask - 0 & task.accessMask) == task.accessMask);		// only use those who are in the keys mask
 
 
 					characters.forEach(char => {
