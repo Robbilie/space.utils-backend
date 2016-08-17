@@ -173,7 +173,7 @@
 
 						let character = await characterStore.getById(req.query.character - 0);
 
-						await req.user.user.update({ $pop: { characters: character.get_id() } });
+						await req.user.user.update({ $pull: { characters: character.get_id() } });
 
 						res.redirect("/account");
 
