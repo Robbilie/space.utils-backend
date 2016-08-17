@@ -116,6 +116,8 @@ input:focus, input[type="password"]:focus {
 	font-weight: bold;
 	font-size: 1.3em;
 	transition: .2s;
+	text-decoration: none;
+	line-height: 50px;
 }
 .btn, input[type="submit"], button {
 	cursor: pointer;
