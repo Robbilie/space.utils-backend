@@ -127,7 +127,7 @@
 
 					let registerTokenStore = await DBUtil.getStore("OAuthRegisterToken");
 
-					let token = uuid.v4();
+					let token = uuid.v4().split("-").join("");
 
 					await registerTokenStore.insert({
 						token: 			token,
