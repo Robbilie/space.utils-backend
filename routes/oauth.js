@@ -55,6 +55,7 @@
 						return done(new Error("Invalid Redirect URI"));
 
 					// something something scope
+					console.log(scope);
 
 					return done(null, client, redirectURI);
 
