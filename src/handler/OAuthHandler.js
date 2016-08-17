@@ -2,6 +2,7 @@
 	"use strict";
 
 	const DBUtil 					= require("util/DBUtil");
+	const APIKeyInfoTask 			= require("task/APIKeyInfoTask");
 	const OAuth2Util 				= require("util/OAuth2Util");
 	const rp 						= require("request-promise");
 	const bcrypt 					= require("bcrypt");
@@ -141,6 +142,23 @@
 				}
 
 				next();
+
+			};
+		}
+
+		static addAPI () {
+			return async (req, res, next) => {
+
+				try {
+
+					await APIKeyInfoTask.create({ keyID: req.body.keyID - 0, vCode: req.body.vCode });
+
+					res.redirect("/account");
+
+				} catch (e) {
+					console.log(e);
+					res.json({ error: e });
+				}
 
 			};
 		}

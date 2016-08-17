@@ -13,12 +13,31 @@
     <body>
         <div id="window">
             <div id="blur"></div>
-            <div id="content" class="center">
+            <div class="content center">
                 <h2><span class="thinblock">Welcome </span><strong><%= user.getName() %></strong></h2>
                 <input type="text" disabled value="<%= token %>"/>
+                <h4>Token expires in <span id="expiry">60 minutes</span>.</h4>
+                <h2>Option 1 - EVE Mail</h2>
                 <p class="desc">Send an EVE Mail to <a href="https://gate.eveonline.com/Mail/Compose/Vincent Eneticum">Vincent Eneticum</a> and use the token provided above for the subject. The character used to send the mail will then be added to your account. This can take up to 15 minutes.</p>
+                <h2>Option 2 - 0-access API Key</h2>
+                <p class="desc">Go to the <a href="https://community.eveonline.com/support/api-key/CreatePredefined?accessMask=0">API Key Management</a> and set the vCode value to the token (check "No Expiry") and paste the resulting Key ID in the form below</p>
+                <form action="/account/add/api" method="post" class="content">
+                    <input type="text" name="keyID">
+                    <input type="text" name="vCode" value="<%= token %>" disabled="">
+                    <input type="submit" value="Submit">
+                </form>
                 <form action="/account"><button type="submit" >BACK</button></form>
             </div>
         </div>
+        <script>
+            window.addEventListener("load", function () {
+                var minutes = 60;
+                var interval = setInterval(function () {
+                    document.getElementById("expiry").innerHTML = (--minutes) + " minutes";
+                    if(minutes == 0)
+                        clearInterval(interval);
+                }, 1000 * 60);
+            });
+        </script>
     </body>
 </html>

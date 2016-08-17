@@ -13,7 +13,7 @@
     <body>
         <div id="window">
             <div id="blur"></div>
-            <div id="content" class="center">
+            <div class="content center">
                 <h2><strong><%= client.getName() %></strong><span class="thinblock"> is requesting access to your data.</span></h2>
                 <form id="accept" method="post" action="/oauth/authorize/decision">
                     <input name="transaction_id" type="hidden" value="<%= transactionID %>">
