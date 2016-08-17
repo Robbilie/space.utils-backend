@@ -291,26 +291,32 @@
 			let apikeyinfoStream =apikeyinfoCursor.stream();
 			apikeyinfoStream.on("data", async data => {
 
-				if(data.op == "i") {
+				try {
 
-					let apikey = data.o;
+					if(data.op == "i") {
 
-					let registerToken = await registerTokenStore.getByToken(apikey.vCode);
+						let apikey = data.o;
 
-					if(registerToken) {
+						let registerToken = await registerTokenStore.getByToken(apikey.vCode);
 
-						if(Date.now() > registerToken.getExpirationDate()) {
-							return await registerToken.destroy();
+						if(registerToken) {
+
+							if(Date.now() > registerToken.getExpirationDate()) {
+								return await registerToken.destroy();
+							}
+
+							let user = await userStore.getBy_id(registerToken.getUserId());
+
+							await user.update({ $addToSet: { characters: { $each: apikey.characters } } });
+
+							await registerToken.destroy();
+
 						}
-
-						let user = await userStore.getBy_id(registerToken.getUserId());
-
-						await user.update({ $addToSet: { characters: { $each: apikey.characters } } });
-
-						await registerToken.destroy();
 
 					}
 
+				} catch (e) {
+					console.log(e);
 				}
 
 			});
