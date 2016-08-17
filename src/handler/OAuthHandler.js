@@ -163,6 +163,31 @@
 			};
 		}
 
+		static removeCharacter () {
+			return async (req, res, next) => {
+
+				if (req.body.character - 0 && req.user.user.getCharacters().some(char => char.id == req.body.character - 0)) {
+					try {
+
+						let characterStore = await DBUtil.getStore("Character");
+
+						let character = await characterStore.getById(req.body.character - 0);
+
+						await req.user.user.update({ $pop: { characters: character.get_id() } });
+
+						res.redirect("/account");
+
+					} catch (e) {
+						console.log(e);
+					}
+				} else {
+					res.status(400);
+					res.json({ error: "invalid_character" });
+				}
+
+			};
+		}
+
 		static logout () {
 			return async (req, res, next) => {
 				req.logout();
