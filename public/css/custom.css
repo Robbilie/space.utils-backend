@@ -215,3 +215,9 @@ ul > li > span {
 	vertical-align: bottom;
 	padding-right: 1px;
 }
+.top {
+	vertical-align: top;
+}
+.wide {
+	width: 600px !important;
+}
