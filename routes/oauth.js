@@ -33,6 +33,7 @@
 
 		.get("/oauth/authorize", [
 			login.ensureLoggedIn(),
+			OAuthHandler.preauth(),
 			OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
 
 				if(clientID.length != 24)

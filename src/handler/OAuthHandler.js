@@ -9,6 +9,17 @@
 
 	class OAuthHandler {
 
+		static preauth () {
+			return async (req, res, next) => {
+				if (req.user.user.getCharacters().length == 0) {
+					req.flash("error", "You need to add at least one character first.");
+					res.redirect("/account");
+				} else {
+					next();
+				}
+			};
+		}
+
 		static authorize () {
 			return async (req, res, next) => {
 
