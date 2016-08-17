@@ -20,6 +20,6 @@
 
 	}
 
-	PatchUtil.store(OAuthRegisterTokenStore, ["removeExpired"]);
+	PatchUtil.store(OAuthRegisterTokenStore, ["aggregate", "removeExpired"]);
 
 	module.exports = OAuthRegisterTokenStore;

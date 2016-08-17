@@ -25,6 +25,6 @@
 
 	}
 
-	PatchUtil.store(OAuthAuthorizationCodeStore);
+	PatchUtil.store(OAuthAuthorizationCodeStore, ["aggregate"]);
 
 	module.exports = OAuthAuthorizationCodeStore;

@@ -29,6 +29,6 @@
 
 	}
 
-	PatchUtil.store(OAuthAccessTokenStore, ["removeExpired"]);
+	PatchUtil.store(OAuthAccessTokenStore, ["aggregate", "removeExpired"]);
 
 	module.exports = OAuthAccessTokenStore;

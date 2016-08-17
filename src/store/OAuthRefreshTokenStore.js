@@ -25,6 +25,6 @@
 
 	}
 
-	PatchUtil.store(OAuthRefreshTokenStore);
+	PatchUtil.store(OAuthRefreshTokenStore, ["aggregate"]);
 
 	module.exports = OAuthRefreshTokenStore;
