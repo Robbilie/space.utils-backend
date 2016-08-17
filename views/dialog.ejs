@@ -14,7 +14,7 @@
         <div id="window">
             <div id="blur"></div>
             <div class="content center">
-                <h2><strong><%= client.getName() %></strong><span class="thinblock"> is requesting access to your data.</span></h2>
+                <h2><strong><%= client.getName() %></strong><span class="thinblock"> is requesting access to <%= client.getScope() %>.</span></h2>
                 <form id="accept" method="post" action="/oauth/authorize/decision">
                     <input name="transaction_id" type="hidden" value="<%= transactionID %>">
                     <select name="character">
