@@ -17,12 +17,10 @@
                 <h2><span class="thinblock">Welcome </span><strong><%= user.getName() %></strong></h2>
                 <input type="text" disabled value="<%= token %>"/>
                 <h4>Token expires in <span id="expiry">60 minutes</span>.</h4>
-                <div>
-                    <div class="half top">
+                <div><div class="half top">
                         <h2>Option 1 - EVE Mail</h2>
                         <p class="desc">Send an EVE Mail to <a target="_blank" href="https://gate.eveonline.com/Mail/Compose/Vincent Eneticum">Vincent Eneticum</a> and use the token provided above for the subject. The character used to send the mail will then be added to your account. This can take up to 15 minutes.</p>
-                    </div>
-                    <div class="half top">
+                    </div><div class="half top">
                         <h2>Option 2 - 0-access API Key</h2>
                         <p class="desc">Go to the <a target="_blank" href="https://community.eveonline.com/support/api-key/CreatePredefined?accessMask=0">API Key Management</a> and set the vCode value to the token (check "No Expiry") and paste the resulting Key ID in the form below</p>
                         <form action="/account/add/api" method="post" class="content">
@@ -30,8 +28,7 @@
                             <input type="text" name="vCode" placeholder="vCode" value="<%= token %>">
                             <input type="submit" value="Submit">
                         </form>
-                    </div>
-                </div>
+                </div></div>
                 <a class="btn" href="/account">BACK</a>
             </div>
         </div>
