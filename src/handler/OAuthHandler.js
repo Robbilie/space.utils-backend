@@ -121,17 +121,23 @@
 		static addToken () {
 			return async (req, res, next) => {
 
-				let registerTokenStore = await DBUtil.getStore("OAuthRegisterToken");
+				try {
 
-				let token = uuid.v4();
+					let registerTokenStore = await DBUtil.getStore("OAuthRegisterToken");
 
-				await registerTokenStore.insert({
-					token: 			token,
-					userId: 		req.user.user.get_id().toString(),
-					expirationDate: Date.now() + (1000 * 60 * 60),
-				});
+					let token = uuid.v4();
 
-				req.flash("info", token);
+					await registerTokenStore.insert({
+						token: 			token,
+						userId: 		req.user.user.get_id().toString(),
+						expirationDate: Date.now() + (1000 * 60 * 60),
+					});
+
+					req.flash("info", token);
+
+				} catch (e) {
+					console.log(e);
+				}
 
 				next();
 
