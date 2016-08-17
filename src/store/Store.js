@@ -59,7 +59,7 @@
 		}
 
 		getBy_id (_id, bare) {
-			return bare ? this.get({ _id: DBUtil.to_id(_id) }) : this.aggregate({ _id: DBUtil.to_id(_id) })[0];
+			return bare ? this.get({ _id: DBUtil.to_id(_id) }) : this.aggregate({ _id: DBUtil.to_id(_id) }).then(results => results[0]);
 		}
 
 		getUpdates (op) {
