@@ -54,8 +54,8 @@
 					if(client && client.getRedirect() != redirectURI)
 						return done(new Error("Invalid Redirect URI"));
 
-					// something something scope
-					console.log(scope);
+					if(client && scope.some(s => (client.getScope() || []).indexOf(s) === -1))
+						return done(new Error("Invalid scope requested"));
 
 					return done(null, client, redirectURI);
 
