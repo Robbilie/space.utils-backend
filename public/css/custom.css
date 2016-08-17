@@ -192,10 +192,14 @@ fieldset {
 }
 ul {
 	text-align: left;
+	padding: 0px 40px;
 }
 ul > li {
 	display: block;
 }
 ul > li > * {
 	vertical-align: middle;
+}
+ul > li > span {
+	padding: 5px;
 }
