@@ -231,7 +231,6 @@
 
 			const registerTokenStore = await DBUtil.getStore("OAuthRegisterToken");
 			const characterStore = await DBUtil.getStore("Character");
-			const userStore = await DBUtil.getStore("User");
 
 			let mailStore = await DBUtil.getStore("Mail");
 			let mailCursor = await mailStore.getUpdates();
@@ -256,9 +255,7 @@
 
 								let character = await characterStore.getOrCreate(mail.senderId);
 
-								let user = await userStore.getBy_id(registerToken.getUserId());
-
-								await user.update({ $addToSet: { characters: character.get_id() }});
+								await registerToken.getUser().update({ $addToSet: { characters: character.get_id() }});
 
 								await registerToken.destroy();
 
@@ -293,9 +290,7 @@
 								return await registerToken.destroy();
 							}
 
-							let user = await userStore.getBy_id(registerToken.getUserId());
-
-							await user.update({ $addToSet: { characters: { $each: apikey.characters } } });
+							await registerToken.getUser().update({ $addToSet: { characters: { $each: apikey.characters } } });
 
 							await registerToken.destroy();
 
