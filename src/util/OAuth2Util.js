@@ -10,11 +10,9 @@
 	 * < SERVER SETUP >
 	 */
 
-	server.grant(oauth2orize.grant.code(async (client, data, { user, character }, ares, done) => {
+	server.grant(oauth2orize.grant.code(async (client, redirectURI, { user, character, scope }, ares, done) => {
 
 		try {
-
-			let { redirectURI, scope } = JSON.parse(data);
 
 			let code = uuid.v4();
 
@@ -25,8 +23,10 @@
 				client: 		client.get_id(),
 				character: 		character.get_id(),
 				redirect: 		redirectURI,
-				scope: 			scope
+				scope: 			client.getScope()
 			});
+
+			console.log(scope);
 
 			return done(null, code);
 

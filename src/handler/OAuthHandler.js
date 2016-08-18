@@ -47,6 +47,7 @@
 					try {
 
 						req.user.character = character;
+						req.user.scope = req.query.scope;
 						req.session.passport.character = character.getId();
 
 						next();
