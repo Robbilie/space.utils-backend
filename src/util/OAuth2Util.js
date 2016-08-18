@@ -23,7 +23,7 @@
 				client: 		client.get_id(),
 				character: 		character.get_id(),
 				redirect: 		redirectURI,
-				scope: 			client.getScope()
+				scope: 			ares.scope
 			});
 
 			return done(null, code);
