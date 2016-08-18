@@ -40,7 +40,7 @@
 		.get("/oauth/authorize", [
 			login.ensureLoggedIn(),
 			OAuthHandler.preauth(),
-			(req, res, next) => OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
+			OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
 
 				if(clientID.length != 24)
 					return done({ status: 400, error: "Invalid ClientID length" });
@@ -57,15 +57,13 @@
 					if(client && (scope || []).some(s => (client.getScope() || []).indexOf(s) === -1))
 						return done({ status: 400, error: "Invalid scope requested" });
 
-					res.scope = scope;
-
-					return done(null, client, redirectURI);
+					return done(null, client, { redirectURI, scope });
 
 				} catch (e) {
 					return done(e);
 				}
 
-			})(req, res, next),
+			}),
 			OAuthHandler.authorize()
 		])
 		.post("/oauth/authorize/decision", [

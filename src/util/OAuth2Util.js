@@ -10,7 +10,7 @@
 	 * < SERVER SETUP >
 	 */
 
-	server.grant(oauth2orize.grant.code(async (client, redirectURI, { user, character }, ares, done) => {
+	server.grant(oauth2orize.grant.code(async (client, { redirectURI, scope }, { user, character }, ares, done) => {
 
 		try {
 
@@ -23,10 +23,8 @@
 				client: 		client.get_id(),
 				character: 		character.get_id(),
 				redirect: 		redirectURI,
-				scope: 			ares.scope
+				scope: 			scope
 			});
-
-			console.log(ares);
 
 			return done(null, code);
 
