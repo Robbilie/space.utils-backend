@@ -75,7 +75,7 @@ body::before {
 	padding: 20px;
 	z-index: 1;
 }
-.error + input[type="text"], input[type="text"]:first-child {
+.error:empty + input[type="text"], input[type="text"]:first-child {
 	margin-top: 0;
 }
 input[type="text"], input[type="password"] {
