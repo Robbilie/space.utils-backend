@@ -26,6 +26,8 @@
 				scope: 			ares.scope
 			});
 
+			console.log(ares);
+
 			return done(null, code);
 
 		} catch (e) {
