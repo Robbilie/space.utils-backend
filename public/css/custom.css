@@ -202,7 +202,7 @@ ul > li {
 ul > li > * {
 	vertical-align: middle;
 }
-ul > li > span {
+#character > li > span {
 	padding: 5px;
 }
 .right {

@@ -24,9 +24,9 @@
                     </select>
                     <fieldset class="desc">
                         <% if(scopes.length == 0) { %>
-                            <strong><%= client.getName() %></strong><span class="thinblock"> is asking you to authenticate with your selected character.</span>
+                            <strong><%= client.getName() %></strong><span > is asking you to authenticate with your selected character.</span>
                         <% } else { %>
-                            <strong><%= client.getName() %></strong><span class="thinblock"> is asking you to authorize the use of the following permissions for your selected character.</span>
+                            <strong><%= client.getName() %></strong><span> is asking you to authorize the use of the following permissions for your selected character.</span>
                             <ul>
                                 <% for(let scope of scopes) { %>
                                     <li><%= scope %></li>

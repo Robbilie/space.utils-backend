@@ -16,7 +16,7 @@
             <div class="content center">
                 <div class="error"><%= error %></div>
                 <h2><span class="thinblock">Welcome </span><strong><%= user.getName() %></strong></h2>
-                <ul name="character">
+                <ul id="character">
                     <% for(let character of user.getCharacters()) { %>
                         <li><img src="http://image.eveonline.com/Character/<%= character.getId() %>_32.jpg" alt="<%= character.getName() %>" /><span><%= character.getName() %></span><a class="right" href="/account/remove?character=<%= character.getId() %>">&times;</a></li>
                     <% } %>
