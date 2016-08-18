@@ -40,7 +40,7 @@
 		.get("/oauth/authorize", [
 			login.ensureLoggedIn(),
 			OAuthHandler.preauth(),
-			OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
+			(req, res, next) => OAuth2Util.authorization(async (clientID, redirectURI, scope, done) => {
 
 				if(clientID.length != 24)
 					return done({ status: 400, error: "Invalid ClientID length" });
@@ -65,7 +65,7 @@
 					return done(e);
 				}
 
-			}),
+			})(req, res, next),
 			OAuthHandler.authorize()
 		])
 		.post("/oauth/authorize/decision", [
