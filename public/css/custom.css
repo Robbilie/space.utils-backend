@@ -196,13 +196,13 @@ ul {
 	text-align: left;
 	padding: 0px 40px;
 }
-ul > li {
+#character > li {
 	display: block;
 }
 ul > li > * {
 	vertical-align: middle;
 }
-#character > li > span {
+ul > li > span {
 	padding: 5px;
 }
 .right {
