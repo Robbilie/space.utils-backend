@@ -12,9 +12,9 @@
         <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body>
-        <div class="window">
+        <div id="window">
             <div id="blur"></div>
-            <form id="content" method="post" action="/register">
+            <form class="content" method="post" action="/register">
                 <input type="text" placeholder="Username" id="username" name="username" />
                 <input type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" id="password" name="password" />
                 <div class="g-recaptcha" data-sitekey="<%= siteKey %>"></div><br>
