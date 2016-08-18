@@ -89,8 +89,9 @@
 				await this.update({ state: 0 });
 
 			} else {
-				console.log(this.dataToForm(), JSON.stringify(response, null, 2));
-				await this.destroy();
+				console.log("APIKEYINFO", this.dataToForm(), JSON.stringify(response, null, 2));
+				console.log("Retrying…");
+				await this.update({ state: 0 });
 			}
 
 		}
