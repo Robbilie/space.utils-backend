@@ -57,9 +57,7 @@
 					if(client && (scope || []).some(s => (client.getScope() || []).indexOf(s) === -1))
 						return done({ status: 400, error: "Invalid scope requested" });
 
-					client.getData().scope = scope;
-
-					return done(null, client, redirectURI);
+					return done(null, client, JSON.stringify({ redirectURI, scope }));
 
 				} catch (e) {
 					return done(e);
