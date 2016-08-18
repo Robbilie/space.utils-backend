@@ -17,6 +17,7 @@
                 <h2><strong><%= client.getName() %></strong></h2>
                 <form id="accept" method="post" action="/oauth/authorize/decision">
                     <input name="transaction_id" type="hidden" value="<%= transactionID %>">
+                    <input name="scope" type="hidden" value="<%= scopes.join("+") %>">
                     <select name="character">
                         <% for(let character of user.getCharacters()) { %>
                             <option value="<%= character.getId() %>"><%= character.getName() %></option>
