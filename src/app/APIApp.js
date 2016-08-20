@@ -3,6 +3,7 @@
 
 	const http 						= require("http");
 	const express 					= require("express");
+	const cors 						= require("cors");
 	const cookieParser 				= require("cookie-parser");
 	const bodyParser 				= require("body-parser");
 	const routes 					= require("util/../../routes/web");
@@ -25,6 +26,7 @@
 			web.set("json spaces", 2);
 			web.enable("trust proxy");
 
+			web.use(cors());
 			web.use(bodyParser.json());
 			web.use(bodyParser.urlencoded({ extended: false }));
 			web.use(cookieParser(config.cookies.secret));
