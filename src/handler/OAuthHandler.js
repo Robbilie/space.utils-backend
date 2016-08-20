@@ -109,7 +109,7 @@
 					if(!req.session.passport.user)
 						req.session.passport.user = {};
 
-					req.session.passport.user.user = user.get_id();
+					req.session.passport.user.user = user.getName();
 					res.redirect("/account");
 
 				} catch (e) {
