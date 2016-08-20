@@ -74,7 +74,7 @@
 			web.enable("trust proxy");
 
 			this.web 		= web;
-			this.webServer 	= http.createServer(this.web).listen(3000);
+			this.webServer 	= http.createServer(this.web).listen(config.site.oauthport);
 
 			setInterval(async () => {
 
