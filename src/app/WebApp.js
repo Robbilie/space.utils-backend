@@ -32,7 +32,7 @@
 			web.use(routes);
 
 			this.web 		= web;
-			this.webServer 	= http.createServer(this.web).listen(config.site.port);
+			this.webServer 	= http.createServer(this.web).listen(config.site.webport);
 
 		}
 

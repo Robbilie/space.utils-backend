@@ -4,7 +4,8 @@
 	module.exports = {
 		site: {
 			url: 		"<theUrlYouAreServing>",
-			port: 		80,
+			webport: 	4001,
+			oauthport: 	4002,
 			debug: 		true,
 			userAgent: 	"<theUserAgentForTheApiAndSuch>",
 			localIP: 	"<yourLocalAddressSetUndefinedIfDefault>"
