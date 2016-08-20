@@ -8,7 +8,7 @@
 	const routes 					= require("util/../../routes/web");
 	const config 					= require("util/../../config/");
 
-	class WebApp {
+	class APIApp {
 
 		constructor () {
 			try {
@@ -38,4 +38,4 @@
 
 	}
 
-	module.exports = WebApp;
+	module.exports = APIApp;
