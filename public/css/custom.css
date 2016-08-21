@@ -225,7 +225,7 @@ ul > li > span {
 	margin-top: 0;
 	margin-bottom: 0;
 }
-:target {
+.tab:target {
 	display: block;
 }
 .tab {
