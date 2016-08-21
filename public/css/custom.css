@@ -158,7 +158,7 @@ a {
 	width: 48%;
 	margin-left: 2%;
 }
-.half:first-child {
+.half:nth-child(odd) {
 	margin-right: 2%;
 	margin-left: 0%;
 }
@@ -220,4 +220,14 @@ ul > li > span {
 }
 .wide {
 	width: 600px !important;
+}
+.mtbn {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+:target {
+	display: block;
+}
+.tab {
+	display: none;
 }
