@@ -8,15 +8,15 @@
 				["div", { className: "welcome-vp" }, [
 					["img", { src: "./img/1x2.png" }],
 					["div", { className: "welcome-conti" }, [
-						new Link(this, { id: "search", href: "/eas-ui/search/#search" }, [
+						new Link(this, { id: "search", href: "/search/#search" }, [
 							["h2", { innerHTML: "SEARCH" }],
 							["img", { src: "./img/1x2.png" }]
 						]),
-						new Link(this, { id: "killboard", href: "/eas-ui/killboard/#killboard" }, [
+						new Link(this, { id: "killboard", href: "/killboard/#killboard" }, [
 							["h2", { innerHTML: "KILLBOARD" }],
 							["img", { src: "./img/1x2.png" }]
 						]),
-						new Link(this, { id: "service", href: "/eas-ui/service/#service" }, [
+						new Link(this, { id: "service", href: "/service/#service" }, [
 							["h2", { innerHTML: "SERVICE" }],
 							["img", { src: "./img/1x2.png" }]
 						])
