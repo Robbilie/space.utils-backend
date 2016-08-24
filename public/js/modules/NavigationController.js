@@ -66,7 +66,7 @@
 
 		routeChange () {
 			console.log("trigger");
-			this.getApp().getRouter()(location.pathname.slice(7), this.getApp());
+			this.getApp().getRouter()(location.pathname, this.getApp());
 		}
 
 	}
