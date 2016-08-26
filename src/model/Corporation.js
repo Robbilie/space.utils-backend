@@ -10,6 +10,16 @@
 
 		getCeo () {}
 
+		static lookups () {
+			return {
+				"alliance":
+					"alliance",
+				"ceo": {
+					from: "characters"
+				}
+			};
+		}
+
 	}
 	
 	PatchUtil.model(Corporation, [], { Ceo: "Character" });

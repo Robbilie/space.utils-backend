@@ -16,6 +16,20 @@
 			return { Executor: "Corporation", Members: "Character" };
 		}
 
+		static lookups () {
+			return {
+				"executor": {
+					from: "corporations"
+				},
+				"corporations": {
+					from: 			"corporations",
+					localField: 	"_id",
+					foreignField: 	"alliance",
+					as: 			"corporations"
+				}
+			};
+		}
+
 	}
 
 	PatchUtil.model(Alliance, [], Alliance.getAliases());
