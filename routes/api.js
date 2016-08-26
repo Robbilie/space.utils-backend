@@ -5,7 +5,8 @@
 	const {
 		CharacterHandler,
 		CorporationHandler,
-		AllianceHandler
+		AllianceHandler,
+		KillmailHandler
 	} = require("handler");
 	const m = { mergeParams: true };
 
@@ -41,9 +42,9 @@
 			.get("/:id/corporations/",
 				AllianceHandler.getCorporations())
 		)
-		.use("/kills", Router(m)
+		.use("/killmails", Router(m)
 			.get("/",
-				KillHandler.filter())
+				KillmailHandler.filter())
 			.get("/:id/",
-				KillHandler.getById())
+				KillmailHandler.getById())
 		);

@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class KillHandler {
+	class KillmailHandler {
 
 		static filter () {
 			return async (req, res, next) => {
@@ -17,4 +17,4 @@
 
 	}
 
-	module.exports = KillHandler;
+	module.exports = KillmailHandler;

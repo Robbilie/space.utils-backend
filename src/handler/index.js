@@ -6,5 +6,5 @@
 		CharacterHandler: 		require("./CharacterHandler"),
 		CorporationHandler: 	require("./CorporationHandler"),
 		AllianceHandler: 		require("./AllianceHandler"),
-		KillHandler: 			require("./KillHandler")
+		KillmailHandler: 		require("./KillmailHandler")
 	};
