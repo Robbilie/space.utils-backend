@@ -64,7 +64,7 @@
 		static filter (obj, filter = []) {
 			return Object
 				.getOwnPropertyNames(obj.prototype)
-				.filter(p => [].concat(["constructor"], filter).indexOf(p) === -1);
+				.filter(p => [].concat(["constructor", "lookups"], filter).indexOf(p) === -1);
 		}
 
 	}
