@@ -56,7 +56,7 @@
 			return this.getCollection()
 				.aggregate(
 					{ $match: match },
-					...LoadUtil.scheme(this.getType().name)
+					...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
 				);
 		}
 
