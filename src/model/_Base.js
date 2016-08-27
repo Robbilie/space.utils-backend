@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { PatchUtil, DBUtil } = require("util");
+	const { PatchUtil, DBUtil, LoadUtil } = require("util");
 
 	class _Base {
 
@@ -31,6 +31,39 @@
 		}
 
 		get_id () {}
+
+		toJSON () {
+			return Base.toJSON(this.constructor.name, this.getFuture());
+		}
+
+		static toJSON (name, future) {
+			return async () => {
+				
+				let data = await future;
+
+				let fieldName = name.pluralize();
+				let result = data.constructor.name == "Object" ? {} : [];
+	
+				let { types } = LoadUtil.scheme(name);
+
+				for(let key in data) {
+
+					if(!types[key])
+						continue;
+
+					if(data[key].constructor.name != types[key].name)
+						result[key] = { href: `${config.site.url}/${fieldName}/${obj["id"]}/${key}/` };
+					else if(types[key].prototype instanceof Base)
+						result[key] = await new types[key](data[key]).toJSON();
+					else
+						results[key] = data[key];
+					
+				}
+
+				return result;
+				
+			};
+		}
 
 	}
 

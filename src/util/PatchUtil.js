@@ -4,13 +4,12 @@
 	const { DBUtil, LoadUtil } = require("util");
 	const { _Base } = require("model");
 
-
 	class PatchUtil {
 
 		static _model (model) {
 			PatchUtil._filter(model).forEach(prop => {
 
-				const types = LoadUtil.scheme(model.constructor.name);
+				const { types } = LoadUtil.scheme(model.constructor.name);
 				const field = prop.slice(3).lowercaseFirstLetter();
 				const type = types[field];
 
