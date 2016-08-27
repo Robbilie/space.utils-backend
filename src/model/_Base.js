@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { PatchUtil, DBUtil, LoadUtil } = require("util");
+	const config 					= require("util/../../config/");
 
 	class _Base {
 
