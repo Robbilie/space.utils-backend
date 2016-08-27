@@ -4,9 +4,10 @@
 	const { 
 		ObjectID, 
 		MongoClient,
-		Timestamp } 				= require("mongodb");
+		Timestamp
+	} = require("mongodb");
+	const { LoadUtil } 				= require("util");
 	const config 					= require("util/../../config/");
-	const LoadUtil 					= require("util/LoadUtil");
 
 	const storage 					= {
 		db: 		undefined,

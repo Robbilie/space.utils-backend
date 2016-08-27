@@ -1,99 +1,97 @@
 
 	"use strict";
 
-	const DBUtil 					= require("util/DBUtil");
-	const LoadUtil 					= require("util/LoadUtil");
+	const { DBUtil, LoadUtil } 		= require("util");
 	const config 					= require("util/../../config/");
 
 	class Store {
 
 		constructor (db, type, collectionName) {
 			this.type 		= type || LoadUtil.model(this.constructor.name.slice(0, -5));
-			this.name 		= collectionName || this.type.prototype.constructor.name.toLowerCase().pluralize();
+			this.name 		= collectionName || this.type.name.toLowerCase().pluralize();
 			this.collection = db.collection(config.database.prefix + this.name);
 		}
 
-		aggregate (data, lookups = [], intercept) {
-			return this.collection
-				.aggregate([{ $match: data }, ...[].concat.apply([], lookups
-						.map(field => (
-							{ 
-								from: 			field.from 			|| field.split(".").slice(-1)[0].pluralize(), 
-								localField: 	field.localField 	|| field,
-								foreignField: 	field.foreignField 	|| "_id",
-								as: 			field.as 			|| (field.localField || field) 
-							}
-						))
-						.map(field => [
-							{ 
-								$lookup: field
-							},
-							{ 
-								$unwind: { 
-									path: 		"$" + field.localField, 
-									preserveNullAndEmptyArrays: true
-								}
-							}
-						]))
-				])
-				.toArray()
-				.then(docs => intercept ? docs.map(intercept) : docs)
-				.then(docs => docs.map(doc => new this.type(doc)));
+		getType () {
+			return this.type;
 		}
 
-		get (data = {}, options) {
-			return this.collection
-				.findOne(data, options)
-				.then(doc => doc ? new this.type(doc) : doc);
+		getName () {
+			return this.name;
 		}
 
-		getAll (data = {}, options) {
-			return this.collection
-				.find(data, options)
-				.toArray()
-				.then(docs => docs.map(doc => new this.type(doc)));
+		getCollection () {
+			return this.collection;
 		}
 
-		all () {
-			return this.getAll();
+		findByPK () {
+			return this.findBy_id();
 		}
 
-		getBy_id (_id, bare) {
-			return bare ? this.get({ _id: DBUtil.to_id(_id) }) : this.aggregate({ _id: DBUtil.to_id(_id) }).then(results => results[0]);
+		findBy_id (_id, bare) {
+			return this.findOne({ _id: DBUtil.to_id(_id) });
+		}
+
+		findOne (data = {}, options, bare) {
+			return (
+				bare ?
+					this.getCollection().findOne(data, options) :
+					this.aggregate(data).toArray().then(results => results[0])
+			).then(doc => new this.getType()(doc));
+		}
+
+		find (data = {}, options, bare) {
+			return (
+				bare ?
+					this.getCollection().find(data, options) :
+					this.aggregate(data)
+			).toArray().then(docs => docs.map(doc => new this.getType()(doc)));
+		}
+		
+		all (bare) {
+			return find({}, null, bare);
+		}
+		
+		aggregate (match) {
+			return this.getCollection()
+				.aggregate(
+					{ $match: match },
+					...LoadUtil.scheme(this.getType().name)
+				);
 		}
 
 		getUpdates (op) {
-			return DBUtil.getOplogCursor(Object.assign({ ns: this.name }, op ? {op} : {}));
+			return DBUtil.getOplogCursor(Object.assign({ ns: this.getName() }, op ? { op } : {}));
 		}
 
 		update (where, data, options, ignore) {
 			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
-			return this.collection
+			return this.getCollection()
 				.update(where, data, options)
 				.then(docs => null);
 		}
 
 		findAndModify (where, arr, data, options, ignore) {
 			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
-			return this.collection
+			return this.getCollection()
 				.findAndModify(where, arr, data, options)
-				.then(res => res.value ? new this.type(res.value) : null);
+				.then(res => res.value ? new this.getType()(res.value) : null);
 		}
 
 		destroy (where) {
-			return this.collection
+			return this.getCollection()
 				.remove(where)
 				.then(docs => null);
 		}
 
-		insert (data = {}) {
-			return this.collection
+		insertOne (data = {}) {
+			return this.getCollection()
 				.insertOne(data)
-				.then(doc => doc.result.ok ? new this.type(data) : null);
+				.then(doc => doc.result.ok ? new this.getType()(data) : null);
 		}
 
-		getList (list, id) {
-			return this.getAll({ [id ? id : "id"]: { $in: list } });
+		findList (list, id, bare) {
+			return this.find({ [id ? id : "id"]: { $in: list } }, bare);
 		}
 
 	}

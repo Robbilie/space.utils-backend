@@ -9,12 +9,20 @@
 			name: 				String,
 			executor: 			_Corporation
 		},
-		lookups: [
+		aggregations: [
 			{
-				from: 			"corporations",
-				localField: 	"executor",
-				foreignField: 	"id",
-				as: 			"executor"
+				$lookup: {
+					from: 			"corporations",
+					localField: 	"executor",
+					foreignField: 	"id",
+					as: 			"executor"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$executor",
+					preserveNullAndEmptyArrays: true
+				}
 			}
 		]
 	};

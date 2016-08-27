@@ -10,18 +10,34 @@
 			ceo: 				_Character,
 			alliance: 			_Alliance
 		},
-		lookups: [
+		aggregations: [
 			{
-				from: 			"alliances",
-				localField: 	"alliance",
-				foreignField: 	"id",
-				as: 			"alliance"
+				$lookup: {
+					from: 			"alliances",
+					localField: 	"alliance",
+					foreignField: 	"id",
+					as: 			"alliance"
+				}
 			},
 			{
-				from: 			"characters",
-				localField: 	"ceo",
-				foreignField: 	"id",
-				as: 			"ceo"
+				$unwind: {
+					path: 			"$alliance",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"characters",
+					localField: 	"ceo",
+					foreignField: 	"id",
+					as: 			"ceo"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$ceo",
+					preserveNullAndEmptyArrays: true
+				}
 			}
 		]
 	};

@@ -9,18 +9,34 @@
 			name: 				String,
 			corporation: 		_Corporation
 		},
-		lookups: [
+		aggregations: [
 			{
-				from: 			"corporations",
-				localField: 	"corporation",
-				foreignField: 	"id",
-				as: 			"corporation"
+				$lookup: {
+					from: 			"corporations",
+					localField: 	"corporation",
+					foreignField: 	"id",
+					as: 			"corporation"
+				}
 			},
 			{
-				from: 			"alliances",
-				localField: 	"corporation.alliance",
-				foreignField: 	"id",
-				as: 			"corporation.alliance"
+				$unwind: {
+					path: 			"$corporation",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"alliances",
+					localField: 	"corporation.alliance",
+					foreignField: 	"id",
+					as: 			"corporation.alliance"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$alliance",
+					preserveNullAndEmptyArrays: true
+				}
 			}
 		]
 	};
