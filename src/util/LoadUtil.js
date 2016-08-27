@@ -14,7 +14,7 @@
 		}
 
 		static scheme (name) {
-			return LoadUtil.file(`scheme/${name}.json`);
+			return LoadUtil.file(`scheme/${name}Scheme`);
 		}
 
 		static handler (name) {

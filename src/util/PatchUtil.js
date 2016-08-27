@@ -1,10 +1,43 @@
 
 	"use strict";
 
-	const DBUtil 					= require("util/DBUtil");
-	const LoadUtil 					= require("util/LoadUtil");
+	const { DBUtil, LoadUtil } = require("util");
+	const { _Base } = require("model");
+
 
 	class PatchUtil {
+
+		static _model (model) {
+			PatchUtil._filter(model).forEach(prop => {
+
+				const types = LoadUtil.scheme(model.constructor.name);
+				const field = prop.slice(3).lowercaseFirstLetter();
+				const type = types[field];
+
+				if(type.prototype instanceof _Base)
+					Object.defineProperty(model.prototype, prop, {
+						value: function () {
+							return (new type(
+								this.getFuture()
+									.then(data => data[field])
+							));
+						}
+					});
+				else
+					Object.defineProperty(model.prototype, prop, {
+						value: function () {
+							return this.getFuture().then(data => data[field]);
+						}
+					});
+
+			});
+		}
+
+		static _filter (model) {
+			return Object
+				.getOwnPropertyNames(model.prototype)
+				.filter(prop => model[prop].toString().slice(-2) == "{}");
+		}
 
 		static model (model, filter, alias = {}) {
 			PatchUtil.filter(model, filter).forEach(p => {
