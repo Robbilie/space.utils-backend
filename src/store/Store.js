@@ -54,10 +54,10 @@
 		
 		aggregate (match) {
 			return this.getCollection()
-				.aggregate(
+				.aggregate([
 					{ $match: match },
 					...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
-				);
+				]);
 		}
 
 		getUpdates (op) {
