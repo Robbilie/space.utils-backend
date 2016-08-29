@@ -9,7 +9,7 @@
 		static model (model) {
 			PatchUtil.filter(model).forEach(prop => {
 
-				const { types } = LoadUtil.scheme(model.constructor.name);
+				const { types } = LoadUtil.scheme(model.name);
 				const field = prop.slice(3).lowercaseFirstLetter();
 				const type = types[field];
 
