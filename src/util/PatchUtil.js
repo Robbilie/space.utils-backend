@@ -15,7 +15,7 @@
 
 				console.log(field, type, type.name, type.prototype)
 
-				if(type.prototype instanceof Base)
+				if(typeof(type.prototype) === "function" && type.prototype instanceof Base)
 					Object.defineProperty(model.prototype, prop, {
 						value: function () {
 							return (new type(
