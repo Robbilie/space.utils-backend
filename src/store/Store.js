@@ -52,8 +52,8 @@
 			).toArray().then(docs => docs.map(doc => new (this.getType())(doc)));
 		}
 		
-		all (bare) {
-			return find({}, null, bare);
+		all () {
+			return find({});
 		}
 		
 		aggregate (match) {
