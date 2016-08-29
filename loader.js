@@ -1,7 +1,7 @@
 	
 	"use strict";
 
-	var heapdump = require("heapdump");
+	const heapdump = require("heapdump");
 
 	require("babel-register")({
 		extensions: [".js"],

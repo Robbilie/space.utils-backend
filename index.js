@@ -4,13 +4,11 @@
 	process.env.NODE_PATH = __dirname + "/src";
 	require("module").Module._initPaths();
 
-	const heapdump = require("heapdump");
-
 	require("lib/extendings")();
 
-	const LoadUtil = require("util/LoadUtil");
+	const { LoadUtil } = require("util");
 
-	console.log(process.argv[2])
+	console.log(process.argv[2]);
 	
 	const App = LoadUtil.app(process.argv[2]);
 	const app = new App();
