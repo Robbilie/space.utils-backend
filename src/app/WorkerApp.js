@@ -60,7 +60,7 @@
 				} else {
 					DBUtil.getStore("Task")
 						.then(store => store.findBy_id(data.o2._id))
-						.then(async (task) => task && (await task.getInfo()).state == 0 ? this.scheduleTask(task, (await task.getInfo()).timestamp) : undefined)
+						.then(async (task) => (!await task.isNull()) && (await task.getInfo()).state == 0 ? this.scheduleTask(task, (await task.getInfo()).timestamp) : undefined)
 						.catch(e => console.log(e));
 				}
 			}
