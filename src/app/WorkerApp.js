@@ -1,9 +1,8 @@
 
 	"use strict";
 
-	const DBUtil 					= require("util/DBUtil");
-	const LoadUtil 					= require("util/LoadUtil");
-	const Task 						= require("model/Task");
+	const { DBUtil, LoadUtil } 			= require("util/");
+	const { Task } 						= require("model/");
 
 	class WorkerApp {
 

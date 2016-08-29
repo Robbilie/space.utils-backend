@@ -53,7 +53,7 @@
 		}
 		
 		all () {
-			return find({});
+			return this.find({});
 		}
 		
 		aggregate (match) {
