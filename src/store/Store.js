@@ -41,7 +41,7 @@
 				bare ?
 					this.getCollection().findOne(data, options) :
 					this.aggregate(data).toArray().then(results => results[0])
-			).then(doc => new this.getType()(doc));
+			).then(doc => new (this.getType())(doc));
 		}
 
 		find (data = {}, options, bare) {
@@ -49,7 +49,7 @@
 				bare ?
 					this.getCollection().find(data, options) :
 					this.aggregate(data)
-			).toArray().then(docs => docs.map(doc => new this.getType()(doc)));
+			).toArray().then(docs => docs.map(doc => new (this.getType())(doc)));
 		}
 		
 		all (bare) {
@@ -79,7 +79,7 @@
 			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
 			return this.getCollection()
 				.findAndModify(where, arr, data, options)
-				.then(res => res.value ? new this.getType()(res.value) : null);
+				.then(res => res.value ? new (this.getType())(res.value) : null);
 		}
 
 		destroy (where) {
@@ -91,7 +91,7 @@
 		insertOne (data = {}) {
 			return this.getCollection()
 				.insertOne(data)
-				.then(doc => doc.result.ok ? new this.getType()(data) : null);
+				.then(doc => doc.result.ok ? new (this.getType())(data) : null);
 		}
 
 		findList (list, id, bare) {
