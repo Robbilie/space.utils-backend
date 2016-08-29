@@ -28,20 +28,35 @@
 					 */
 					let corpStore = await DBUtil.getStore("Corporation");
 
-					const corporation = await corpStore.findAndModify(
-						{ id: corp.corporationID[0] - 0 },
-						[],
-						{
-							$set: {
-								id: 			corp.corporationID[0] - 0,
-								name: 			corp.corporationName[0],
-								ticker: 		corp.ticker[0],
-								taxRate: 		parseFloat(corp.taxRate[0]),
-								memberCount: 	corp.memberCount[0] - 0,
-								description: 	corp.description[0]
-							}
-						},
-						{ upsert: true, new: true }
+					let data = {};
+					let setData = {
+						id: 			corp.corporationID[0] - 0,
+						name: 			corp.corporationName[0],
+						ticker: 		corp.ticker[0],
+						taxRate: 		parseFloat(corp.taxRate[0]),
+						memberCount: 	corp.memberCount[0] - 0,
+						description: 	corp.description[0]
+					};
+					let unsetData = {};
+
+					if(corp.ceoID[0] - 0 != 1)
+						setData.ceo = corp.ceoID[0] - 0;
+
+					if(corp.allianceID[0] - 0)
+						setData.alliance = corp.allianceID[0];
+					else
+						unsetData.alliance = "";
+
+					if(Object.keys(setData).length > 0)
+						data.$set = setData;
+
+					if(Object.keys(unsetData).length > 0)
+						data.$unset = unsetData;
+
+					await corpStore.update(
+						{ id: setData.id },
+						data,
+						{ upsert: true }
 					);
 
 					/*
@@ -49,10 +64,7 @@
 					 */
 					if(corp.ceoID[0] - 0 != 1) {
 						let charStore = await DBUtil.getStore("Character");
-						let ceo = await charStore.findOrCreate(corp.ceoID[0] - 0);
-						if(!await ceo.isNull()) {
-							await corporation.update({ $set: { ceo: await ceo.getId() } });
-						}
+						await charStore.findOrCreate(corp.ceoID[0] - 0);
 					}
 
 					/*
@@ -60,10 +72,7 @@
 					 */
 					if(corp.allianceID[0] - 0) {
 						let alliStore = await DBUtil.getStore("Alliance");
-						let alliance = await alliStore.findOrCreate(corp.allianceID[0] - 0);
-						await corporation.update({ $set: { alliance: await alliance.getId() } });
-					} else {
-						await corporation.update({ $unset: { alliance: "" } });
+						await alliStore.findOrCreate(corp.allianceID[0] - 0);
 					}
 
 				} catch (e) { console.log(e); }

@@ -22,27 +22,24 @@
 					const alliStore = await DBUtil.getStore("Alliance");
 					const corpStore = await DBUtil.getStore("Corporation");
 
-					let execToAlli = {};
-					const corpids = [];
+					const cidArrays = [];
 					let alliances = response.eveapi.result[0].rowset[0].row.map(alli => {
 
-						execToAlli[alli.$.executorCorpID - 0] = alli.$.allianceID - 0;
-
-						corpids.push(alli.rowset[0].row.map(c => c.$.corporationID - 0));
+						cidArrays.push(alli.rowset[0].row.map(c => c.$.corporationID - 0));
 
 						return {
 							id: 			alli.$.allianceID - 0, 
 							name: 			alli.$.name, 
 							shortName: 		alli.$.shortName, 
 							startDate: 		new Date(alli.$.startDate + "Z").getTime(), 
-							memberCount: 	alli.$.memberCount - 0
+							memberCount: 	alli.$.memberCount - 0,
+							executor: 		alli.$.executorCorpID - 0
 						};
 					});
-					let concatcorpids = [].concat(...corpids);
 
 					await Promise.all(alliances.map(alliance => alliStore.update({ id: alliance.id }, { $set: alliance }, { upsert: true })));
 
-					Promise.all(concatcorpids.map(cid => corpStore.findOrCreate(cid).then(corporation => execToAlli[corporation.getId()] ? alliStore.update({ id: execToAlli[corporation.getId()] }, { $set: { executor: corporation.getId() } }) : undefined)));
+					Promise.all([].concat(...cidArrays).map(corporationID => corpStore.findOrCreate(corporationID)));
 					
 				} catch(e) { console.log(e); }
 

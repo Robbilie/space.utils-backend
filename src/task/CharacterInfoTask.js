@@ -27,29 +27,28 @@
 					 * Create basic char entry so corp tasks can get the ceo
 					 */
 					let charStore = await DBUtil.getStore("Character");
-					let character = await charStore.findAndModify(
+					await charStore.update(
 						{ id: char.characterID[0] - 0 },
-						[],
 						{
 							$set: {
-								id: 	char.characterID[0] - 0,
-								name: 	char.characterName[0]
+								id: 			char.characterID[0] - 0,
+								name: 			char.characterName[0],
+								corporation: 	char.corporationID[0] - 0
 							}
 						},
-						{ upsert: true, new: true }
+						{ upsert: true }
 					);
 
 					/*
 					 * get or create corp and assign it to the char
 					 */
 					let corpStore = await DBUtil.getStore("Corporation");
-					let corporation = await corpStore.findOrCreate(char.corporationID[0] - 0);
-					if(!await corporation.isNull())
-						await character.update({ $set: { corporation: await corporation.getId() } });
+					await corpStore.findOrCreate(char.corporationID[0] - 0);
 
 					/*
 					 * Since this task should be perfectly new we can update the corps alli if it changed
 					 */
+					/*
 					if(char.allianceID ? char.allianceID[0] - 0 : 0) {
 						let alliStore = await DBUtil.getStore("Alliance");
 						let alliance = await alliStore.findOrCreate(char.allianceID[0] - 0);
@@ -57,10 +56,11 @@
 					} else {
 						await corporation.update({ $unset: { alliance: "" } });
 					}
+					*/
 
 					// add to charaff
 					let taskStore 	= await DBUtil.getStore("Task");
-					await taskStore.findAndModify(
+					taskStore.findAndModify(
 						{ "info.name": "CharacterAffiliation", $where: "this.data.ids.length < 250" },
 						[],
 						{

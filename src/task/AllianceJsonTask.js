@@ -24,26 +24,25 @@
 					 * Create basic alli entry
 					 */
 					let alliStore = await DBUtil.getStore("Alliance");
-					let alliance = await alliStore.findAndModify(
+					await alliStore.update(
 						{ id: response.id },
-						[],
 						{
 							$set: {
 								id: 		response.id,
 								name: 		response.name,
 								shortName: 	response.shortName,
-								startDate: 	new Date(response.startDate + "Z").getTime()
+								startDate: 	new Date(response.startDate + "Z").getTime(),
+								executor: 	response.executorCorporation.id
 							}
 						},
-						{ upsert: true, new: true }
+						{ upsert: true }
 					);
 
 					/*
 					 * set exec corp
 					 */
 					let corpStore 		= await DBUtil.getStore("Corporation");
-					let corporation 	= await corpStore.findOrCreate(response.executorCorporation.id);
-					await alliance.update({ $set: { executorCorp: await corporation.getId() } });
+					await corpStore.findOrCreate(response.executorCorporation.id);
 
 				} catch(e) { console.log(e); }
 
