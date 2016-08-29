@@ -13,6 +13,8 @@
 				const field = prop.slice(3).lowercaseFirstLetter();
 				const type = types[field];
 
+				console.log(field, type, type.name, type.prototype)
+
 				if(type.prototype instanceof Base)
 					Object.defineProperty(model.prototype, prop, {
 						value: function () {
