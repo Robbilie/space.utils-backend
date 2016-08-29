@@ -47,7 +47,7 @@
 						 * get or create corp and assign it to the char
 						 */
 						let corporation = await corpStore.findOrCreate(characteritem.$.corporationID - 0);
-						if(corporation)
+						if(!await corporation.isNull())
 							await character.update({ $set: { corporation: await corporation.getId() } });
 
 						/*

@@ -74,7 +74,7 @@
 
 			let authorizationCode = await authorizationCodeStore.findByToken(code);
 
-			if(!authorizationCode)
+			if(await authorizationCode.isNull())
 				return done(null, false);
 
 			if(!(await client.get_id()).equals(await authorizationCode.getClient().get_id()))
@@ -131,7 +131,7 @@
 
 			let refreshToken = await refreshTokenStore.findByToken(rftoken);
 
-			if(!refreshToken)
+			if(await refreshToken.isNull())
 				return done(null, false);
 
 			if(!(await client.get_id()).equals(await refreshToken.getClient().get_id()))
@@ -211,7 +211,7 @@
 
 					let user = await userStore.findByName(username);
 
-					if(!user)
+					if(await user.isNull())
 						return done(null, false);
 
 					if(!bcrypt.compareSync(password, await user.getPassword()))
@@ -233,7 +233,7 @@
 
 					let client = await clientStore.findBy_id(id);
 
-					if(!client)
+					if(await client.isNull())
 						return done(null, false);
 
 					if(await client.getSecret() != secret)
@@ -256,7 +256,7 @@
 
 					let client = await clientStore.findBy_id(id);
 
-					if(!client)
+					if(await client.isNull())
 						return done(null, false);
 
 					if(await client.getSecret() != secret)
@@ -278,7 +278,7 @@
 
 					let accessToken = await accessTokenStore.findByToken(token);
 
-					if(!accessToken)
+					if(await accessToken.isNull())
 						return done(null, false);
 
 					if(Date.now() > await accessToken.getExpirationDate()) {

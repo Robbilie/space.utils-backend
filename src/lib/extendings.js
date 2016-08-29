@@ -90,16 +90,15 @@
 			writable: true
 		});
 
+		const map = {
+			'&': '&amp;',
+			'<': '&lt;',
+			'>': '&gt;',
+			'"': '&quot;',
+			"'": '&#039;'
+		};
 		Object.defineProperty(String.prototype, 'escapeHTML', {
 			value: function () {
-				const map = {
-					'&': '&amp;',
-					'<': '&lt;',
-					'>': '&gt;',
-					'"': '&quot;',
-					"'": '&#039;'
-				};
-
 				return this.replace(/[&<>"']/g, m => map[m]);
 			},
 			configurable: true,

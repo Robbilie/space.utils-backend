@@ -90,7 +90,7 @@
 			);
 
 			// task has already been taken by another worker
-			if(!task)
+			if(await task.isNull())
 				return;
 
 			try {

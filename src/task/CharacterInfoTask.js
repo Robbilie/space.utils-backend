@@ -44,7 +44,7 @@
 					 */
 					let corpStore = await DBUtil.getStore("Corporation");
 					let corporation = await corpStore.findOrCreate(char.corporationID[0] - 0);
-					if(corporation)
+					if(!await corporation.isNull())
 						await character.update({ $set: { corporation: await corporation.getId() } });
 
 					/*
