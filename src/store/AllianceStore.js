@@ -12,7 +12,7 @@
 
 				let alliance = await this.findById(id);
 				
-				if(!await alliance.isNull()) {
+				if(await alliance.isNull()) {
 					console.log("alli", !!alliance, id);
 					await AllianceJsonTask.create({ allianceID: id });
 					alliance = await this.findById(id);

@@ -12,7 +12,7 @@
 
 				let character = await this.findById(id);
 				
-				if(!await character.isNull()) {
+				if(await character.isNull()) {
 					await CharacterInfoTask.create({ characterID: id });
 					character = await this.findById(id);
 					if(!await character.isNull()) {
