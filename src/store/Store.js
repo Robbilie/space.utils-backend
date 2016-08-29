@@ -88,7 +88,7 @@
 				.then(docs => null);
 		}
 
-		insertOne (data = {}) {
+		insert (data = {}) {
 			return this.getCollection()
 				.insertOne(data)
 				.then(doc => doc.result.ok ? new (this.getType())(data) : null);
