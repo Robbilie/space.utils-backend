@@ -7,7 +7,7 @@
 	class Base {
 
 		constructor (data) {
-			this.future = (data.constructor.name == "Promise" ? data : Promise.resolve(data))
+			this.future = (data && data.constructor.name == "Promise" ? data : Promise.resolve(data))
 				.then(res =>
 					res && res.constructor.name != "Object" && res.constructor.name != "Array" ?
 						this.getStore().findByPK(res) :
