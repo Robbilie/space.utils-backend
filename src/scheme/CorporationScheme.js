@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { Character, Alliance } = require("model");
+	const { Character, Alliance } = require("model/");
 
 	module.exports = {
 		types: {

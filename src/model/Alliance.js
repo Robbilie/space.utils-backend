@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { PatchUtil } 	= require("util");
-	const { Entity } 		= require("model");
+	const { PatchUtil } 	= require("util/");
+	const { Entity } 		= require("model/");
 
 	class Alliance extends Entity {
 

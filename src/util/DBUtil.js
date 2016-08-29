@@ -6,7 +6,7 @@
 		MongoClient,
 		Timestamp
 	} = require("mongodb");
-	const { LoadUtil } 				= require("util");
+	const { LoadUtil } 				= require("util/");
 	const config 					= require("util/../../config/");
 
 	const storage 					= {

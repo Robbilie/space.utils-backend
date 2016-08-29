@@ -1,7 +1,7 @@
 	
 	"use strict";
 	
-	const { Character, OAuthClient } = require("model");
+	const { Character, OAuthClient } = require("model/");
 	
 	module.exports = {
 		types: {

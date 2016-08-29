@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { Base } 					= require("model");
-	const { PatchUtil } 			= require("util");
+	const { Base } 					= require("model/");
+	const { PatchUtil } 			= require("util/");
 
 	class OAuthAccessToken extends Base {
 

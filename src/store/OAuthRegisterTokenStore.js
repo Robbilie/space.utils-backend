@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { PatchUtil } 			= require("util");
-	const { Store } 				= require("store");
+	const { PatchUtil } 			= require("util/");
+	const { Store } 				= require("store/");
 
 	class OAuthRegisterTokenStore extends Store {
 

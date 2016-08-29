@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { User } = require("model");
+	const { User } = require("model/");
 
 	module.exports = {
 		types: {

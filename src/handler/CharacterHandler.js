@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { CharacterStore } = require("store");
+	const { CharacterStore } = require("store/");
 
 	class CharacterHandler {
 

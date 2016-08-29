@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { AllianceStore } = require("store");
+	const { AllianceStore } = require("store/");
 
 	class AllianceHandler {
 
@@ -36,4 +36,3 @@
 	}
 
 	module.exports = AllianceHandler;
-	

@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { XMLTask } 				= require("task");
-	const { DBUtil } 				= require("util");
+	const { XMLTask } 				= require("task/");
+	const { DBUtil } 				= require("util/");
 
 	class MailMessagesTask extends XMLTask {
 

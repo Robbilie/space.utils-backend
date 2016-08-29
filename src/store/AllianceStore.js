@@ -1,9 +1,9 @@
 
 	"use strict";
 
-	const { DBUtil }				= require("util");
-	const { EntityStore } 			= require("store");
-	const { AllianceJsonTask } 		= require("task");
+	const { DBUtil }				= require("util/");
+	const { EntityStore } 			= require("store/");
+	const { AllianceJsonTask } 		= require("task/");
 
 	class AllianceStore extends EntityStore {
 

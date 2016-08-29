@@ -1,7 +1,7 @@
 
 	"use strict";
 	
-	const { BaseTask } 				= require("task");
+	const { BaseTask } 				= require("task/");
 	const config 					= require("util/../../config/");
 	const rp 						= require("request-promise");
 

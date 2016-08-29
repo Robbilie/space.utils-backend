@@ -7,7 +7,7 @@
 		CorporationHandler,
 		AllianceHandler,
 		KillmailHandler
-	} = require("handler");
+	} = require("handler/");
 	const config 		= require("util/../../config/");
 	const m = { mergeParams: true };
 

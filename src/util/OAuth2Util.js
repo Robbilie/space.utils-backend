@@ -12,7 +12,7 @@
 	const ClientPasswordStrategy 	= require("passport-oauth2-client-password").Strategy;
 	const BearerStrategy 			= require("passport-http-bearer").Strategy;
 
-	const { DBUtil } 				= require("util");
+	const { DBUtil } 				= require("util/");
 
 	/*
 	 * < SERVER SETUP >

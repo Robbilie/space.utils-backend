@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { CRESTTask } 			= require("task");
-	const { DBUtil } 				= require("util");
+	const { CRESTTask } 			= require("task/");
+	const { DBUtil } 				= require("util/");
 
 	class AllianceJsonTask extends CRESTTask {
 

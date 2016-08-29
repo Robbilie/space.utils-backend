@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { DBUtil } 			= require("util");
+	const { DBUtil } 			= require("util/");
 	const { ObjectId } 			= require("mongodb");
 
 	const storage 					= {

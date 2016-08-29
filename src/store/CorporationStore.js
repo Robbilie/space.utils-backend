@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { EntityStore } 				= require("store");
-	const { CorporationSheetTask } 		= require("task");
+	const { EntityStore } 				= require("store/");
+	const { CorporationSheetTask } 		= require("task/");
 
 	class CorporationStore extends EntityStore {
 

@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { PatchUtil, DBUtil } 	= require("util");
-	const { Base } 					= require("model");
+	const { PatchUtil, DBUtil } 	= require("util/");
+	const { Base } 					= require("model/");
 	
 	class Entity extends Base {
 

@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { Corporation } = require("model");
+	const { Corporation } = require("model/");
 
 	module.exports = {
 		types: {

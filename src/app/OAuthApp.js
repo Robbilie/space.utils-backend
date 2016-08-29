@@ -12,7 +12,7 @@
 	const config 					= require("util/../../config/");
 	const passport 					= require("passport");
 
-	const { DBUtil, OAuth2Util } 	= require("util");
+	const { DBUtil, OAuth2Util } 	= require("util/");
 
 	class OAuthApp {
 

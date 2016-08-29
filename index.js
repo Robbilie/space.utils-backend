@@ -6,7 +6,7 @@
 
 	require("lib/extendings")();
 
-	const { LoadUtil } = require("util");
+	const { LoadUtil } = require("util/");
 
 	console.log(process.argv[2]);
 	

@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { XMLTask } 				= require("task");
-	const { DBUtil, LoadUtil } 		= require("util");
+	const { XMLTask } 				= require("task/");
+	const { DBUtil, LoadUtil } 		= require("util/");
 
 	class APIKeyInfoTask extends XMLTask {
 

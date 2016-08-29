@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { CorporationStore } = require("store");
+	const { CorporationStore } = require("store/");
 
 	class CorporationHandler {
 

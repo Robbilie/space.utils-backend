@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { APIKeyInfoTask } 		= require("task");
-	const { DBUtil, OAuth2Util } 	= require("util");
+	const { APIKeyInfoTask } 		= require("task/");
+	const { DBUtil, OAuth2Util } 	= require("util/");
 	const rp 						= require("request-promise");
 	const bcrypt 					= require("bcrypt");
 	const uuid 						= require("node-uuid");

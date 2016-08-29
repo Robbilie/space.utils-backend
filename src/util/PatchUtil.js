@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { LoadUtil } 	= require("util");
-	const { Base } 		= require("model");
+	const { LoadUtil } 	= require("util/");
+	const { Base } 		= require("model/");
 
 	class PatchUtil {
 

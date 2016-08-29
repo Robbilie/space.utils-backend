@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { EntityStore } 			= require("store");
-	const { CharacterInfoTask } 	= require("task");
+	const { EntityStore } 			= require("store/");
+	const { CharacterInfoTask } 	= require("task/");
 
 	class CharacterStore extends EntityStore {
 
