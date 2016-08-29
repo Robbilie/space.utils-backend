@@ -35,7 +35,7 @@
 		static filter (model) {
 			return Object
 				.getOwnPropertyNames(model.prototype)
-				.filter(prop => model[prop].toString().slice(-2) == "{}");
+				.filter(prop => model.prototype[prop].toString().slice(-2) == "{}");
 		}
 
 		static store (store) {
