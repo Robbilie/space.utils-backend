@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const DBUtil 					= require("util/DBUtil");
-	const {ObjectId} 				= require("mongodb");
+	const { DBUtil } 			= require("util");
+	const { ObjectId } 			= require("mongodb");
 
 	const storage 					= {
 		tasks: 		{},
@@ -26,32 +26,33 @@
 			return this.task.getInfo();
 		}
 
-		enqueue () {
-			return this.worker.enqueue(this.getInfo().type);
+		async enqueue () {
+			return this.worker.enqueue((await this.getInfo()).type);
 		}
 
-		dataToForm () {
+		async dataToForm () {
 			let query = {};
-			for(let i in this.getData())
-				query[i] = (this.getData()[i] && typeof this.getData()[i] == "object" ? this.getData()[i].join(",") : this.getData()[i]);
+			let data = await this.getData();
+			for(let i in data)
+				query[i] = (data[i] && typeof data[i] == "object" ? data[i].join(",") : data[i]);
 			return query;
 		}
 
-		update (changes = {}) {
+		async update (changes = {}) {
 			return this.worker.getTasks().update(
 				{ 
-					_id: this.task.get_id()
+					_id: await this.task.get_id()
 				}, 
 				{ 
 					$set: { 
-						info: Object.assign(this.getInfo(), changes) 
+						info: Object.assign(await this.getInfo(), changes)
 					} 
 				}
 			);
 		}
 
-		destroy () {
-			return this.worker.getTasks().destroy({ _id: this.task.get_id() });
+		async destroy () {
+			return this.worker.getTasks().destroy({ _id: await this.task.get_id() });
 		}
 
 		static create (data = {}, info = {}) {
@@ -79,7 +80,7 @@
 						}
 					);
 
-				} catch (e) { console.log(e)}
+				} catch (e) { console.log(e); }
 			});
 		}
 
@@ -100,9 +101,9 @@
 					 				if(log.o.$set.info.state == 2)
 					 					tid = log.o2._id.toString();
 					 			} else {
-				 					let task = await tasks.getBy_id(log.o2._id);
-				 					if(task && task.getInfo().state == 2)
-				 						tid = task.get_id().toString();
+				 					let task = await tasks.findBy_id(log.o2._id);
+				 					if(task && (await task.getInfo()).state == 2)
+				 						tid = (await task.get_id()).toString();
 					 			}
 				 			}
 					 		if(tid && storage.tasks[tid]) {

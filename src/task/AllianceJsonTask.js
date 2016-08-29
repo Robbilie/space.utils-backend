@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const CRESTTask 				= require("task/CRESTTask");
-	const DBUtil 					= require("util/DBUtil");
+	const { CRESTTask } 			= require("task");
+	const { DBUtil } 				= require("util");
 
 	class AllianceJsonTask extends CRESTTask {
 
@@ -10,7 +10,7 @@
 
 			let response;
 			try {
-				response = await this.getCREST(`/alliances/${this.getData().allianceID}/`);
+				response = await this.getCREST(`/alliances/${(await this.getData()).allianceID}/`);
 			} catch (e) {
 				console.log("CRESTERROR");
 				return await this.update({ state: 0 });
@@ -41,14 +41,14 @@
 					/*
 					 * set exec corp
 					 */
-					let corpStore = await DBUtil.getStore("Corporation");
-					let corporation = await corpStore.getOrCreate(response.executorCorporation.id);
-					await alliance.update({ $set: { executorCorp: corporation.get_id() } });
+					let corpStore 		= await DBUtil.getStore("Corporation");
+					let corporation 	= await corpStore.findOrCreate(response.executorCorporation.id);
+					await alliance.update({ $set: { executorCorp: await corporation.getId() } });
 
-				} catch(e) { console.log(e) }
+				} catch(e) { console.log(e); }
 
 			} else {
-				console.log("invalid alli", this.getData().allianceID);
+				console.log("invalid alli", (await this.getData()).allianceID);
 			}
 
 			await this.destroy();

@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const XMLTask 					= require("task/XMLTask");
-	const DBUtil 					= require("util/DBUtil");
+	const { XMLTask } 		= require("task");
+	const { DBUtil } 		= require("util");
 
 	class CharacterInfoTask extends XMLTask {
 
@@ -10,7 +10,7 @@
 			
 			let response;
 			try {
-				response = await this.getXML("EVE/CharacterInfo", this.dataToForm());
+				response = await this.getXML("EVE/CharacterInfo", await this.dataToForm());
 			} catch (e) {
 				console.log("XMLERROR");
 				return await this.update({ state: 0 });
@@ -43,25 +43,43 @@
 					 * get or create corp and assign it to the char
 					 */
 					let corpStore = await DBUtil.getStore("Corporation");
-					let corporation = await corpStore.getOrCreate(char.corporationID[0] - 0);
+					let corporation = await corpStore.findOrCreate(char.corporationID[0] - 0);
 					if(corporation)
-						await character.update({ $set: { corporation: corporation.get_id() } });
+						await character.update({ $set: { corporation: await corporation.getId() } });
 
 					/*
 					 * Since this task should be perfectly new we can update the corps alli if it changed
 					 */
 					if(char.allianceID ? char.allianceID[0] - 0 : 0) {
 						let alliStore = await DBUtil.getStore("Alliance");
-						let alliance = await alliStore.getOrCreate(char.allianceID[0] - 0);
-						await corporation.update({ $set: { alliance: alliance.get_id() } });
+						let alliance = await alliStore.findOrCreate(char.allianceID[0] - 0);
+						await corporation.update({ $set: { alliance: await alliance.getId() } });
 					} else {
 						await corporation.update({ $unset: { alliance: "" } });
 					}
 
-				} catch(e) { console.log(e) }
+					// add to charaff
+					let taskStore 	= await DBUtil.getStore("Task");
+					await taskStore.findAndModify(
+						{ "info.name": "CharacterAffiliation", $where: "this.data.ids.length < 250" },
+						[],
+						{
+							$setOnInsert: {
+								info: {
+									type: "XML",
+									name: "CharacterAffiliation",
+									state: 0,
+									timestamp: 0
+								}
+							},
+							$push: { "data.ids": char.characterID[0] - 0 }
+						}
+					);
+
+				} catch(e) { console.log(e); }
 
 			} else {
-				console.log("invalid char", this.getData().characterID);
+				console.log("invalid char", (await this.getData()).characterID);
 			}
 
 			await this.destroy();

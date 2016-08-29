@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const XMLTask 					= require("task/XMLTask");
-	const DBUtil 					= require("util/DBUtil");
+	const { XMLTask } 				= require("task");
+	const { DBUtil } 				= require("util");
 
 	class MailMessagesTask extends XMLTask {
 
@@ -10,12 +10,11 @@
 
 			let response;
 			try {
-				response = await this.getXML("Char/MailMessages", this.dataToForm());
+				response = await this.getXML("Char/MailMessages", await this.dataToForm());
 			} catch (e) {
 				console.log("XMLERROR");
 				return await this.update({ state: 0 });
 			}
-
 
 			if(response && response.eveapi && response.eveapi.result) {
 

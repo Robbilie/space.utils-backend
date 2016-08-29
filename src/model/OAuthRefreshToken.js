@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const Base 						= require("model/Base");
-	const PatchUtil 				= require("util/PatchUtil");
+	const { Base } 					= require("model");
+	const { PatchUtil } 			= require("util");
 
 	class OAuthRefreshToken extends Base {
 
@@ -21,3 +21,4 @@
 	PatchUtil.model(OAuthRefreshToken);
 
 	module.exports = OAuthRefreshToken;
+	

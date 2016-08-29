@@ -7,6 +7,7 @@
 		"escape":		true,
 		"unescape":		true,
 		"gc": 			true,
-		"__base": 		true
+		"__base": 		true,
+		"require": 		true
 	}
 }

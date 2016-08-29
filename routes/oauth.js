@@ -10,8 +10,6 @@
 	const OAuth2Util 				= require("util/OAuth2Util");
 	const OAuthHandler 				= require("handler/OAuthHandler");
 
-
-
 	const m 	= { mergeParams: true };
 
 	module.exports = Router(m)
@@ -25,9 +23,9 @@
 		.get("/logout",
 			OAuthHandler.logout())
 		.get("/account",
-			[login.ensureLoggedIn(), (req, res) => res.render("account", { user: req.user.user, error: req.flash("error") || "" })])
+			[login.ensureLoggedIn(), async (req, res) => res.render("account", { user: await req.user.user.toJSON(), error: req.flash("error") || "" })])
 		.get("/account/add",
-			[login.ensureLoggedIn(), OAuthHandler.addToken(), (req, res) => res.render("account-add", { user: req.user.user, token: req.flash("info") || "" })])
+			[login.ensureLoggedIn(), OAuthHandler.addToken(), async (req, res) => res.render("account-add", { user: await req.user.user.toJSON(), token: req.flash("info") || "" })])
 		.post("/account/add/api",
 			[login.ensureLoggedIn(), OAuthHandler.addAPI()])
 		.get("/account/remove",
@@ -49,13 +47,16 @@
 
 				try {
 
-					let client = await clientStore.getBy_id(clientID);
+					let client = await clientStore.findBy_id(clientID);
 
-					if(client && client.getRedirect() != redirectURI)
+					if(client && await client.getRedirect() != redirectURI)
 						return done({ status: 400, error: "Invalid Redirect URI" });
 
-					if(client && (scope || []).some(s => (client.getScope() || []).indexOf(s) === -1))
-						return done({ status: 400, error: "Invalid scope requested" });
+					if(!await client.isNull()) {
+						let cscope = await client.getScope();
+						if((scope || []).some(s => (cscope || []).indexOf(s) === -1))
+							return done({ status: 400, error: "Invalid scope requested" });
+					}
 
 					return done(null, client, redirectURI);
 
@@ -79,7 +80,7 @@
 
 		.get("/oauth/verify", [
 			passport.authenticate('bearer', { session: false }),
-			(req, res) => res.json({ CharacterID: req.user.getId(), CharacterName: req.user.getName() })
+			async (req, res) => res.json({ CharacterID: await req.user.getId(), CharacterName: await req.user.getName() })
 		])
 
 		.get("/api/userinfo", () => {})

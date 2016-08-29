@@ -1,7 +1,7 @@
 
 	"use strict";
 	
-	const BaseTask 					= require("task/BaseTask");
+	const { BaseTask } 				= require("task");
 	const config 					= require("util/../../config/");
 	const rp 						= require("request-promise");
 
@@ -16,8 +16,6 @@
 			// wait for a xml api queue spot
 			await this.enqueue();
 
-			//console.log("url", url, "query", query);
-
 			let response;
 			try {
 				response = await rp({
@@ -26,13 +24,12 @@
 					headers: 		{ "User-Agent": config.site.userAgent }
 				});
 			} catch (e) {
-				//console.log(e);
 				response = e.error;
 			}
 
 			return JSON.parse(response);
 		}
 
-	};
+	}
 
 	module.exports = CRESTTask;

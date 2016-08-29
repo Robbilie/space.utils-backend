@@ -14,20 +14,20 @@
         <div id="window">
             <div id="blur"></div>
             <div class="content center">
-                <h2><strong><%= client.getName() %></strong></h2>
+                <h2><strong><%= client.name %></strong></h2>
                 <form id="accept" method="post" action="/oauth/authorize/decision">
                     <input name="transaction_id" type="hidden" value="<%= transactionID %>">
                     <input name="scope" type="hidden" value="<%= scopes.join("+") %>">
                     <select name="character">
-                        <% for(let character of user.getCharacters()) { %>
-                            <option value="<%= character.getId() %>"><%= character.getName() %></option>
+                        <% for(let character of user.characters) { %>
+                            <option value="<%= character.id %>"><%= character.name %></option>
                         <% } %>
                     </select>
                     <fieldset class="desc">
                         <% if(scopes.length == 0) { %>
-                            <strong><%= client.getName() %></strong><span > is asking you to authenticate with your selected character.</span>
+                            <strong><%= client.name %></strong><span > is asking you to authenticate with your selected character.</span>
                         <% } else { %>
-                            <strong><%= client.getName() %></strong><span> is asking you to authorize the use of the following permissions for your selected character.</span>
+                            <strong><%= client.name %></strong><span> is asking you to authorize the use of the following permissions for your selected character.</span>
                             <ul>
                                 <% for(let scope of scopes) { %>
                                     <li><%= scope %></li>

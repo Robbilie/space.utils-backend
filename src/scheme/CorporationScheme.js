@@ -1,14 +1,14 @@
 
 	"use strict";
 
-	const { _Character, _Alliance } = require("model");
+	const { Character, Alliance } = require("model");
 
 	module.exports = {
 		types: {
-			id: 				Number,
-			name: 				String,
-			ceo: 				_Character,
-			alliance: 			_Alliance
+			id: 					Number,
+			name: 					String,
+			ceo: 					Character,
+			alliance: 				Alliance
 		},
 		aggregations: [
 			{

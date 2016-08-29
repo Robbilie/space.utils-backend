@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const XMLTask 					= require("task/XMLTask");
-	const DBUtil 					= require("util/DBUtil");
+	const { XMLTask } 				= require("task");
+	const { DBUtil } 				= require("util");
 
 	class AllianceListTask extends XMLTask {
 
@@ -40,11 +40,11 @@
 					});
 					let concatcorpids = [].concat(...corpids);
 
-					await Promise.all(alliances.map(alliance => alliStore.alliStore({ id: alliance.id }, { $set: alliance }, { upsert: true })));
+					await Promise.all(alliances.map(alliance => alliStore.update({ id: alliance.id }, { $set: alliance }, { upsert: true })));
 
-					Promise.all(concatcorpids.map(cid => corpStore.getOrCreate(cid).then(corporation => execToAlli[corporation.getId()] ? alliStore.update({ id: execToAlli[corporation.getId()] }, { $set: { executor: corporation.get_id() } }) : undefined)));
+					Promise.all(concatcorpids.map(cid => corpStore.findOrCreate(cid).then(corporation => execToAlli[corporation.getId()] ? alliStore.update({ id: execToAlli[corporation.getId()] }, { $set: { executor: corporation.getId() } }) : undefined)));
 					
-				} catch(e) { console.log(e) }
+				} catch(e) { console.log(e); }
 
 				await this.update({ state: 2, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
 
@@ -56,6 +56,6 @@
 
 		}
 
-	};
+	}
 
 	module.exports = AllianceListTask;

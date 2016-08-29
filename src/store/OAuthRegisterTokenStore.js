@@ -1,18 +1,14 @@
 
 	"use strict";
 
-	const PatchUtil 				= require("util/PatchUtil");
-	const Store 					= require("store/Store");
+	const { PatchUtil } 			= require("util");
+	const { Store } 				= require("store");
 
 	class OAuthRegisterTokenStore extends Store {
 
-		aggregate (data, lookups = ["user"]) {
-			return super.aggregate(data, lookups);
-		}
+		findByToken () {}
 
-		getByToken () {}
-
-		getByUser () {}
+		findByUser () {}
 
 		removeExpired () {
 			return this.destroy({ expirationDate: { $lt: Date.now() } });
@@ -20,6 +16,6 @@
 
 	}
 
-	PatchUtil.store(OAuthRegisterTokenStore, ["aggregate", "removeExpired"]);
+	PatchUtil.store(OAuthRegisterTokenStore);
 
 	module.exports = OAuthRegisterTokenStore;

@@ -1,27 +1,18 @@
 
 	"use strict";
 
-	const IdAndName 				= require("model/IdAndName");
-	const PatchUtil 				= require("util/PatchUtil");
+	const { PatchUtil } 	= require("util");
+	const { Entity } 		= require("model");
 
-	class Corporation extends IdAndName {
-
-		getAlliance () {}
+	class Corporation extends Entity {
 
 		getCeo () {}
 
-		static lookups () {
-			return {
-				"alliance":
-					"alliance",
-				"ceo": {
-					from: "characters"
-				}
-			};
-		}
+		getAlliance () {}
 
 	}
-	
-	PatchUtil.model(Corporation, [], { Ceo: "Character" });
+
+	PatchUtil.model(Corporation);
 
 	module.exports = Corporation;
+	

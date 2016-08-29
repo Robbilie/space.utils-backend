@@ -1,12 +1,12 @@
 
 	"use strict";
 
-	const PatchUtil 				= require("util/PatchUtil");
-	const Store 					= require("store/Store");
+	const { PatchUtil } 			= require("util");
+	const { Store } 				= require("store");
 
 	class SettingsStore extends Store {
 
-		getById () {}
+		findById () {}
 
 	}
 

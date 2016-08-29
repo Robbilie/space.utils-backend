@@ -1,13 +1,13 @@
 
 	"use strict";
 
-	const { _Corporation } = require("model");
+	const { Corporation } = require("model");
 
 	module.exports = {
 		types: {
-			id: 				Number,
-			name: 				String,
-			corporation: 		_Corporation
+			id: 					Number,
+			name: 					String,
+			corporation: 			Corporation
 		},
 		aggregations: [
 			{
@@ -34,7 +34,7 @@
 			},
 			{
 				$unwind: {
-					path: 			"$alliance",
+					path: 			"$corporation.alliance",
 					preserveNullAndEmptyArrays: true
 				}
 			}

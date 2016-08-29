@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const Base 						= require("model/Base");
-	const PatchUtil 				= require("util/PatchUtil");
+	const { Base } 					= require("model");
+	const { PatchUtil } 			= require("util");
 
 	class Settings extends Base {
 
@@ -20,6 +20,7 @@
 
 	}
 
-	PatchUtil.model(Settings, ["getOption", "setOption"]);
+	PatchUtil.model(Settings);
 
 	module.exports = Settings;
+	

@@ -1,9 +1,8 @@
 
 	"use strict";
 
-	const DBUtil 					= require("util/DBUtil");
-	const APIKeyInfoTask 			= require("task/APIKeyInfoTask");
-	const OAuth2Util 				= require("util/OAuth2Util");
+	const { APIKeyInfoTask } 		= require("task");
+	const { DBUtil, OAuth2Util } 	= require("util");
 	const rp 						= require("request-promise");
 	const bcrypt 					= require("bcrypt");
 	const uuid 						= require("node-uuid");
@@ -13,7 +12,7 @@
 
 		static preauth () {
 			return async (req, res, next) => {
-				if (req.user.user.getCharacters().length == 0) {
+				if ((await req.user.user.getCharacters()).length == 0) {
 					req.flash("error", "You need to add at least one character first.");
 					res.redirect("/account");
 				} else {
@@ -27,12 +26,12 @@
 
 				let clientStore = await DBUtil.getStore("OAuthClient");
 
-				let client = await clientStore.getBy_id(req.query.client_id);
+				let client = await clientStore.findBy_id(req.query.client_id);
 
-				if(client && client.getTrusted()) {
+				if(client && await client.getTrusted()) {
 					OAuth2Util.decision({ loadTransaction: false }, (req, cb) => cb(null, { allow: true }))(req, res, next);
 				} else {
-					res.render("dialog", { transactionID: req.oauth2.transactionID, user: req.user.user, client: req.oauth2.client, scopes: !req.query.scope || req.query.scope == "" ? [] : req.query.scope.split(" ") })
+					res.render("dialog", { transactionID: req.oauth2.transactionID, user: await req.user.user.toJSON(), client: await req.oauth2.client.toJSON(), scopes: !req.query.scope || req.query.scope == "" ? [] : req.query.scope.split(" ") })
 				}
 
 			}
@@ -41,14 +40,14 @@
 		static decision () {
 			return async (req, res, next) => {
 
-				let character = req.user.user.getCharacters().find(char => char.getId() == req.body.character - 0);
+				let character = (await Promise.all((await req.user.user.getCharacters()).map(async (char) => (await char.getId()) == req.body.character - 0 ? char : null))).find(c => !!c);
 
 				if (character) {
 					try {
 
-						req.user.character = character;
-						req.user.scope = !req.body.scope || req.body.scope == "" ? [] : req.body.scope.split("+");
-						req.session.passport.character = character.getId();
+						req.user.character 	= character;
+						req.user.scope 		= !req.body.scope || req.body.scope == "" ? [] : req.body.scope.split("+");
+						req.session.passport.character = await character.getId();
 
 						next();
 
@@ -64,7 +63,7 @@
 		}
 
 		static register () {
-			return async (req, res, next) => {
+			return async (req, res) => {
 
 				try {
 
@@ -76,9 +75,9 @@
 
 					let userStore = await DBUtil.getStore("User");
 
-					let user = await userStore.getByName(req.body.username);
+					let user = await userStore.findByName(req.body.username);
 
-					if(user) {
+					if(!await user.isNull()) {
 						req.flash("error", "Name already taken.");
 						res.redirect("/register");
 						return;
@@ -98,9 +97,9 @@
 					let hash = bcrypt.hashSync(req.body.password, 10);
 
 					user = await userStore.insert({
-						name: req.body.username,
-						password: hash,
-						characters: []
+						name: 			req.body.username,
+						password: 		hash,
+						characters: 	[]
 					});
 
 					if(!req.session.passport)
@@ -109,7 +108,7 @@
 					if(!req.session.passport.user)
 						req.session.passport.user = {};
 
-					req.session.passport.user.user = user.getName();
+					req.session.passport.user.user = await user.getName();
 					res.redirect("/account");
 
 				} catch (e) {
@@ -129,9 +128,9 @@
 					let token = uuid.v4().split("-").join("");
 
 					await registerTokenStore.insert({
-						token: 			token,
-						user: 		req.user.user.get_id(),
-						expirationDate: Date.now() + (1000 * 60 * 60),
+						token: 				token,
+						user: 				await req.user.user.get_id(),
+						expirationDate: 	Date.now() + (1000 * 60 * 60)
 					});
 
 					req.flash("info", token);
@@ -146,7 +145,7 @@
 		}
 
 		static addAPI () {
-			return async (req, res, next) => {
+			return async (req, res) => {
 
 				try {
 
@@ -163,14 +162,14 @@
 		}
 
 		static removeCharacter () {
-			return async (req, res, next) => {
+			return async (req, res) => {
 
-				let character = req.user.user.getCharacters().find(char => char.getId() == req.query.character - 0);
+				let character = (await Promise.all((await req.user.user.getCharacters()).map(async (char) => (await char.getId()) == req.query.character - 0 ? char : null))).find(c => !!c);
 
 				if (character) {
 					try {
 
-						await req.user.user.update({ $pull: { characters: character.get_id() } });
+						await req.user.user.update({ $pull: { characters: await character.getId() } });
 
 						res.redirect("/account");
 
@@ -186,7 +185,7 @@
 		}
 
 		static logout () {
-			return async (req, res, next) => {
+			return async (req, res) => {
 				req.logout();
 				res.redirect("/");
 			};

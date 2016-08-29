@@ -1,27 +1,12 @@
 
 	"use strict";
 
-	const PatchUtil 				= require("util/PatchUtil");
-	const Store 					= require("store/Store");
-	const Character 				= require("model/Character");
-	const OAuthClient 				= require("model/OAuthClient");
+	const { PatchUtil } 			= require("util");
+	const { Store } 				= require("store");
 
 	class OAuthAccessTokenStore extends Store {
 
-		aggregate (data, lookups = ["character", { from: "oauthclients", localField: "client" }]) {
-			return super.aggregate(
-				data,
-				lookups,
-				doc => Object.assign(
-					doc,
-					{
-						client: new OAuthClient(doc.client)
-					}
-				)
-			);
-		}
-
-		getByToken () {}
+		findByToken () {}
 
 		removeExpired () {
 			return this.destroy({ expirationDate: { $lt: Date.now() } });
@@ -29,6 +14,6 @@
 
 	}
 
-	PatchUtil.store(OAuthAccessTokenStore, ["aggregate", "removeExpired"]);
+	PatchUtil.store(OAuthAccessTokenStore);
 
 	module.exports = OAuthAccessTokenStore;

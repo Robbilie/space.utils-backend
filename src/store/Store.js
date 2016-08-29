@@ -24,12 +24,16 @@
 			return this.collection;
 		}
 
-		findByPK () {
-			return this.findBy_id();
+		getPK () {
+			return "_id";
+		}
+
+		findByPK (pk) {
+			return this.findOne({ [this.getPK()]: pk });
 		}
 
 		findBy_id (_id, bare) {
-			return this.findOne({ _id: DBUtil.to_id(_id) });
+			return this.findOne({ _id: DBUtil.to_id(_id) }, null, bare);
 		}
 
 		findOne (data = {}, options, bare) {

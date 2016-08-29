@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const Store 					= require("store/Store");
+	const { Store } 				= require("store");
 
 	class RatelimitStore extends Store {
 

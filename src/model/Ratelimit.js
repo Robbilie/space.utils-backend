@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const Base 						= require("model/Base");
-	const PatchUtil 				= require("util/PatchUtil");
+	const { Base } 					= require("model");
+	const { PatchUtil } 			= require("util");
 
 	class Ratelimit extends Base {
 
@@ -15,3 +15,4 @@
 	PatchUtil.model(Ratelimit);
 
 	module.exports = Ratelimit;
+	

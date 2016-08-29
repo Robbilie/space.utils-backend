@@ -1,8 +1,7 @@
 
 	"use strict";
 
-	const CRESTTask 				= require("task/CRESTTask");
-	const DBUtil 					= require("util/DBUtil");
+	const { CRESTTask } 			= require("task");
 
 	class KillmailJsonTask extends CRESTTask {
 
@@ -10,7 +9,7 @@
 
 			let response;
 			try {
-				response = await this.getCREST(`/killmails/${this.getData().killID}/${this.getData().hash}/`);
+				response = await this.getCREST(`/killmails/${(await this.getData()).killID}/${(await this.getData()).hash}/`);
 			} catch (e) {
 				console.log("CRESTERROR");
 				return await this.update({ state: 0 });
@@ -25,7 +24,7 @@
 				} catch(e) { console.log(e) }
 
 			} else {
-				console.log("invalid killmail", this.getData().killID);
+				console.log("invalid killmail", (await this.getData()).killID);
 			}
 
 			await this.destroy();

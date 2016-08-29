@@ -73,7 +73,7 @@
 
 	}
 
-	process.on("SIGINT", e => {
+	process.on("SIGINT", () => {
 		if(storage.db)
 			storage.db.close();
 		if(storage.oplog)

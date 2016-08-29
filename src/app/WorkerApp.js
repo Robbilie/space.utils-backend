@@ -36,7 +36,7 @@
 
 			// load all tasks
 			let tasks = await this.tasks.all();
-				tasks.forEach(task => this.scheduleTask(task, task.getInfo().timestamp + (Math.random() * 3 * 1000)));
+				tasks.forEach(async (task) => this.scheduleTask(task, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000)));
 
 		}
 
@@ -48,8 +48,8 @@
 			return this.cursor;
 		}
 
-		scheduleTask (task, timestamp) {
-			setTimeout(this.process.bind(this, task.get_id(), task.getInfo().timestamp), Math.max(timestamp - Date.now(), 0));
+		async scheduleTask (task, timestamp) {
+			setTimeout(this.process.bind(this, await task.get_id(), (await task.getInfo()).timestamp), Math.max(timestamp - Date.now(), 0));
 		}
 
 		taskUpdate (data) {
@@ -60,8 +60,8 @@
 					this.scheduleTask(new Task({ _id: data.o2._id, info: data.o.$set.info }), data.o.$set.info.timestamp);
 				} else {
 					DBUtil.getStore("Task")
-						.then(store => store.getBy_id(data.o2._id))
-						.then(task => task && task.getInfo().state == 0 ? this.scheduleTask(task, task.getInfo().timestamp) : undefined)
+						.then(store => store.findBy_id(data.o2._id))
+						.then(async (task) => task && (await task.getInfo()).state == 0 ? this.scheduleTask(task, (await task.getInfo()).timestamp) : undefined)
 						.catch(e => console.log(e));
 				}
 			}
@@ -96,9 +96,9 @@
 
 			try {
 				// do special processing stuff
-				new (LoadUtil.task(task.getInfo().name))(this, task);
+				new (LoadUtil.task((await task.getInfo()).name))(this, task);
 			} catch (e) {
-				console.log(task.getInfo().name, e);
+				console.log((await task.getInfo()).name, e);
 			}
 
 		}

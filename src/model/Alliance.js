@@ -1,37 +1,21 @@
 
 	"use strict";
 
-	const IdAndName 				= require("model/IdAndName");
-	const PatchUtil 				= require("util/PatchUtil");
+	const { PatchUtil } 	= require("util");
+	const { Entity } 		= require("model");
 
-	class Alliance extends IdAndName {
+	class Alliance extends Entity {
 
 		getExecutor () {}
 
 		getCorporations () {}
 
-		getMembers () {}
-
-		static getAliases () {
-			return { Executor: "Corporation", Members: "Character" };
-		}
-
-		static lookups () {
-			return {
-				"executor": {
-					from: "corporations"
-				},
-				"corporations": {
-					from: 			"corporations",
-					localField: 	"_id",
-					foreignField: 	"alliance",
-					as: 			"corporations"
-				}
-			};
+		getMembers () {
+			return this.getStore().getMembers(this);
 		}
 
 	}
 
-	PatchUtil.model(Alliance, [], Alliance.getAliases());
+	PatchUtil.model(Alliance);
 
 	module.exports = Alliance;

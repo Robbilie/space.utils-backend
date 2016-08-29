@@ -1,67 +1,85 @@
 
 	"use strict";
 
-	const DBUtil 					= require("util/DBUtil");
-	const config 					= require("util/../../config/");
+	const { PatchUtil, DBUtil, LoadUtil } 	= require("util");
+	const config 							= require("util/../../config/");
 
 	class Base {
 
 		constructor (data) {
-			this.data = data;
+			this.future = (data.constructor.name == "Promise" ? data : Promise.resolve(data))
+				.then(res =>
+					res && res.constructor.name != "Object" && res.constructor.name != "Array" ?
+						this.getStore().findByPK(res) :
+						res
+				);
 		}
-
-		getData () {
-			return this.data;
-		}
-
-		get_id () {
-			return this.data._id;
+		
+		getFuture () {
+			return this.future;
 		}
 
 		getStore () {
 			return DBUtil.getStore(this.constructor.name);
 		}
-
+		
 		update (...args) {
-			return this.getStore().then(store => store.update({ _id: this.get_id() }, ...args));
+			return this.getStore().then(async (store) => store.update({ _id: await this.get_id() }, ...args));
 		}
 
 		destroy () {
-			return this.getStore().then(store => store.destroy({ _id: this.get_id() }));
+			return this.getStore().then(async (store) => store.destroy({ _id: await this.get_id() }));
 		}
 
 		modify (...args) {
-			return this.getStore().then(store => store.findAndModify({ _id: this.get_id() }, ...args));
+			return this.getStore().then(async (store) => store.findAndModify({ _id: await this.get_id() }, ...args));
 		}
+
+		valueOf () {
+			return this;
+		}
+
+		isNull () {
+			return this.getFuture().then(data => !data);
+		}
+
+		get_id () {}
 
 		toJSON () {
-			return Base.toJSON(this.constructor.name.toLowerCase(), this.getData());
+			return Base.toJSON(this.constructor.name, this.getFuture());
 		}
 
-		static getAliases () {
-			return {};
-		}
+		static toJSON (name, future) {
+			return async () => {
+				
+				let data = await future;
 
-		static toJSON (name, obj) {
-			let fieldName = name.pluralize();
-			let data = obj.constructor.name == "Object" ? {} : [];
+				let fieldName = name.pluralize();
+				let result = data.constructor.name == "Object" ? {} : [];
+	
+				let { types } = LoadUtil.scheme(name);
 
-			for(let key in obj) {
-				if(key == "_id")
-					continue;
-				switch (obj[key].constructor.name) {
-					case "ObjectID":
-						data[key] = { href: `${config.site.url}/${fieldName}/${obj["id"]}/${key}/` };
-						break;
-					default:
-						data[key] = obj[key];
-						break;
+				for(let key in data) {
+
+					if(!types[key])
+						continue;
+
+					if(data[key].constructor.name != types[key].name)
+						result[key] = { href: `${config.site.url}/${fieldName}/${obj["id"]}/${key}/` };
+					else if(types[key].prototype instanceof Base)
+						result[key] = await new types[key](data[key]).toJSON();
+					else
+						result[key] = data[key];
+
 				}
-			}
 
-			return data;
+				return result;
+				
+			};
 		}
 
 	}
+
+	PatchUtil.model(Base);
 
 	module.exports = Base;

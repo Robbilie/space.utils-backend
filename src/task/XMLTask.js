@@ -1,10 +1,10 @@
 
 	"use strict";
 	
-	const BaseTask 					= require("task/BaseTask");
+	const { BaseTask } 				= require("task");
 	const config 					= require("util/../../config/");
 	const rp 						= require("request-promise");
-	const {parseString} 			= require("xml2js");
+	const { parseString } 			= require("xml2js");
 
 	class XMLTask extends BaseTask {
 
@@ -31,11 +31,10 @@
 					headers: 		{ "User-Agent": config.site.userAgent }
 				}, query ? { form: query } : {}));	
 			} catch (e) {
-				//console.log(e);
 				response = e.error;
 			}
 
-			let parsed = await new Promise((resolve, reject) => parseString(response, (e, r) => {
+			return new Promise((resolve, reject) => parseString(response, (e, r) => {
 				if(e) {
 					console.log(response);
 					reject(e);
@@ -43,10 +42,8 @@
 					resolve(r);
 				}
 			}));
-
-			return parsed;
 		}
 
-	};
+	}
 
 	module.exports = XMLTask;

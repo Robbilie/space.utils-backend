@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const Base 						= require("model/Base");
-	const PatchUtil 				= require("util/PatchUtil");
+	const { Base } 					= require("model");
+	const { PatchUtil } 			= require("util");
 
 	class OAuthRegisterToken extends Base {
 
@@ -17,3 +17,4 @@
 	PatchUtil.model(OAuthRegisterToken);
 
 	module.exports = OAuthRegisterToken;
+	

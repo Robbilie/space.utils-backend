@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const Base 						= require("model/Base");
-	const PatchUtil 				= require("util/PatchUtil");
+	const { Base } 						= require("model");
+	const { PatchUtil } 				= require("util");
 
 	class User extends Base {
 
@@ -17,3 +17,4 @@
 	PatchUtil.model(User);
 
 	module.exports = User;
+	

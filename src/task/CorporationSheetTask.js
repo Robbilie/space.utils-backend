@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const XMLTask 					= require("task/XMLTask");
-	const DBUtil 					= require("util/DBUtil");
+	const { XMLTask } 				= require("task");
+	const { DBUtil } 				= require("util");
 
 	class CorporationSheetTask extends XMLTask {
 
@@ -10,7 +10,7 @@
 
 			let response;
 			try {
-				response = await this.getXML("Corp/CorporationSheet", this.dataToForm());
+				response = await this.getXML("Corp/CorporationSheet", await this.dataToForm());
 			} catch (e) {
 				console.log("XMLERROR");
 				return await this.update({ state: 0 });
@@ -27,7 +27,6 @@
 					 * Create basic corp entry so char and alli tasks can get the corp
 					 */
 					let corpStore = await DBUtil.getStore("Corporation");
-
 
 					const corporation = await corpStore.findAndModify(
 						{ id: corp.corporationID[0] - 0 },
@@ -50,9 +49,9 @@
 					 */
 					if(corp.ceoID[0] - 0 != 1) {
 						let charStore = await DBUtil.getStore("Character");
-						let ceo = await charStore.getOrCreate(corp.ceoID[0] - 0);
-						if(ceo) {
-							await corporation.update({ $set: { ceo: ceo.get_id() } });
+						let ceo = await charStore.findOrCreate(corp.ceoID[0] - 0);
+						if(!await ceo.isNull()) {
+							await corporation.update({ $set: { ceo: await ceo.getId() } });
 						}
 					}
 
@@ -61,19 +60,19 @@
 					 */
 					if(corp.allianceID[0] - 0) {
 						let alliStore = await DBUtil.getStore("Alliance");
-						let alliance = await alliStore.getOrCreate(corp.allianceID[0] - 0);
-						await corporation.update({ $set: { alliance: alliance.get_id() } });
+						let alliance = await alliStore.findOrCreate(corp.allianceID[0] - 0);
+						await corporation.update({ $set: { alliance: await alliance.getId() } });
 					} else {
 						await corporation.update({ $unset: { alliance: "" } });
 					}
 
-				} catch (e) { console.log(e) }
+				} catch (e) { console.log(e); }
 				
 				await this.update({ state: 2, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
 				await this.update({ state: 0 });
 
 			} else {
-				console.log("invalid corp", this.getData().corporationID);
+				console.log("invalid corp", (await this.getData()).corporationID);
 				await this.destroy();
 			}
 

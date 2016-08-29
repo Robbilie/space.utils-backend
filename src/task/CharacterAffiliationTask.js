@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const XMLTask 					= require("task/XMLTask");
-	const DBUtil 					= require("util/DBUtil");
+	const { XMLTask } 				= require("task");
+	const { DBUtil } 				= require("util");
 
 	class CharacterAffiliationTask extends XMLTask {
 
@@ -10,7 +10,7 @@
 
 			let response;
 			try {
-				response = await this.getXML("EVE/CharacterAffiliation", this.dataToForm());
+				response = await this.getXML("EVE/CharacterAffiliation", await this.dataToForm());
 			} catch (e) {
 				console.log("XMLERROR");
 				return await this.update({ state: 0 });
@@ -46,16 +46,16 @@
 						/*
 						 * get or create corp and assign it to the char
 						 */
-						let corporation = await corpStore.getOrCreate(characteritem.$.corporationID - 0);
+						let corporation = await corpStore.findOrCreate(characteritem.$.corporationID - 0);
 						if(corporation)
-							await character.update({ $set: { corporation: corporation.get_id() } });
+							await character.update({ $set: { corporation: await corporation.getId() } });
 
 						/*
 						 * Since this task should be perfectly new we can update the corps alli if it changed
 						 */
 						if(characteritem.$.allianceID - 0) {
-							let alliance = await alliStore.getOrCreate(characteritem.$.allianceID - 0);
-							await corporation.update({ $set: { alliance: alliance.get_id() } });
+							let alliance = await alliStore.findOrCreate(characteritem.$.allianceID - 0);
+							await corporation.update({ $set: { alliance: await alliance.getId() } });
 						} else {
 							await corporation.update({ $unset: { alliance: "" } });
 						}
@@ -70,6 +70,6 @@
 			}
 		}
 
-	};
+	}
 
 	module.exports = CharacterAffiliationTask;

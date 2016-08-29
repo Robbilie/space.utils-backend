@@ -17,10 +17,10 @@
 						throw Error("Invalid entity.");
 
 					let entity;
-					if(store.getOrCreate)
-						entity = await store.getOrCreate(req.params.id - 0);
+					if(store.findOrCreate)
+						entity = await store.findOrCreate(req.params.id - 0);
 					else
-						entity = await store.getById(req.params.id - 0);
+						entity = await store.findById(req.params.id - 0);
 
 					switch (req.method) {
 						case "GET":

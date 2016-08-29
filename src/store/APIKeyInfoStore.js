@@ -1,10 +1,11 @@
 
 	"use strict";
 
-	const Store 					= require("store/Store");
+	const { Store } 				= require("store");
 
 	class APIKeyInfoStore extends Store {
 
 	}
 
 	module.exports = APIKeyInfoStore;
+	

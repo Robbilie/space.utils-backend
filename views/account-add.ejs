@@ -14,7 +14,7 @@
         <div id="window" class="wide">
             <div id="blur"></div>
             <div class="content center">
-                <h2><span class="thinblock">Welcome </span><strong><%= user.getName() %></strong></h2>
+                <h2><span class="thinblock">Welcome </span><strong><%= user.name %></strong></h2>
                 <input type="text" disabled value="<%= token %>"/>
                 <h4>Token expires in <span id="expiry">60 minutes</span>.</h4>
                 <div><h4 class="half mtbn">[MORE SECURE]</h4><h4 class="half mtbn">[LESS SECURE]</h4><a class="half top" href="#signup-api-key"><h2 class="mtbn">0-access API Key</h2></a><a class="half top" href="#signup-eve-mail"><h2 class="mtbn">EVE Mail</h2></a><div id="signup-api-key" class="tab"><p class="desc">Go to the <a target="_blank" href="https://community.eveonline.com/support/api-key/CreatePredefined?accessMask=0">API Key Management</a> and set the vCode value to the token (check "No Expiry") and paste the resulting Key ID in the form below</p><form action="/account/add/api" method="post" class="content">

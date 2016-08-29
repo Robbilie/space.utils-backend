@@ -1,39 +1,26 @@
 
 	"use strict";
 
-	const IdAndNameStore 			= require("store/IdAndNameStore");
-	const CorporationSheetTask 		= require("task/CorporationSheetTask");
-	const Character 				= require("model/Character");
-	const Alliance 					= require("model/Alliance");
+	const { EntityStore } 				= require("store");
+	const { CorporationSheetTask } 		= require("task");
 
-	class CorporationStore extends IdAndNameStore {
+	class CorporationStore extends EntityStore {
 
-		aggregate (data, lookups = ["alliance", { from: "characters", localField: "ceo" }]) {
-			return super.aggregate(
-				data, 
-				lookups,
-				doc => Object.assign(
-					doc, 
-					doc.ceo ? { ceo: new Character(doc.ceo) } : {}, 
-					doc.alliance ? { alliance: new Alliance(doc.alliance) } : {}
-				)
-			);
-		}
+		async findOrCreate (id, {} = $(1, { id }, "Number")) {
 
-		async getOrCreate (id, unverified, {} = $(1, {id}, "Number")) {
 			try {
 				
-				let corporation = await this.getById(id);
+				let corporation = await this.findById(id);
 				
-				if(!corporation) {
-					if(!unverified)
-						await CorporationSheetTask.create({ corporationID: id });
-					corporation = await this.getById(id);
+				if(await corporation.isNull()) {
+					await CorporationSheetTask.create({ corporationID: id });
+					corporation = await this.findById(id);
 				}
 
 				return corporation;
 
-			} catch (e) { console.log(e)}
+			} catch (e) { console.log(e); }
+
 		}
 
 	}
