@@ -39,7 +39,7 @@
 
 					await Promise.all(alliances.map(alliance => alliStore.update({ id: alliance.id }, { $set: alliance }, { upsert: true })));
 
-					Promise.all([].concat(...cidArrays).map(corporationID => corpStore.findOrCreate(corporationID)));
+					await Promise.all([].concat(...cidArrays).map(corporationID => corpStore.findOrCreate(corporationID)));
 					
 				} catch(e) { console.log(e); }
 
