@@ -61,7 +61,7 @@ body {
   -o-transform-origin: 60px 60px;
   -ms-transform-origin: 60px 60px;
   transform-origin: 60px 60px;
-  -webkit-mask-image: -webkit-linear-gradient(top, #000000, rgba(0, 0, 0, 0));
+  //-webkit-mask-image: -webkit-linear-gradient(top, #000000, rgba(0, 0, 0, 0));
   -webkit-animation: rotate 1.2s infinite linear;
   -moz-animation: rotate 1.2s infinite linear;
   -o-animation: rotate 1.2s infinite linear;
@@ -93,47 +93,47 @@ body {
   background-image: linear-gradient(45deg, #3f3251 2%, #002025 100%);
   background-image: linear-gradient(45deg, #773658 2%, #063d46 100%);
 }
-lesshat-selector {
-  -lh-property: 0; }
+/* lesshat-selector {
+  -lh-property: 0; } */
 @-webkit-keyframes rotate{ 0% { -webkit-transform: rotate(0deg);} 100% { -webkit-transform: rotate(360deg);}}
 @-moz-keyframes rotate{ 0% { -moz-transform: rotate(0deg);} 100% { -moz-transform: rotate(360deg);}}
 @-o-keyframes rotate{ 0% { -o-transform: rotate(0deg);} 100% { -o-transform: rotate(360deg);}}
-@keyframes rotate{ 0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);transform: rotate(0deg);} 100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);transform: rotate(360deg);};
+@keyframes rotate{ 0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);transform: rotate(0deg);} 100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);transform: rotate(360deg);}
 }
-lesshat-selector {
-  -lh-property: 0; }
+/* lesshat-selector {
+  -lh-property: 0; } */
 @-webkit-keyframes rotate{ 0% { -webkit-transform: rotate(0deg);} 100% { -webkit-transform: rotate(360deg);}}
 @-moz-keyframes rotate{ 0% { -moz-transform: rotate(0deg);} 100% { -moz-transform: rotate(360deg);}}
 @-o-keyframes rotate{ 0% { -o-transform: rotate(0deg);} 100% { -o-transform: rotate(360deg);}}
-@keyframes rotate{ 0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);transform: rotate(0deg);} 100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);transform: rotate(360deg);};
+@keyframes rotate{ 0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);transform: rotate(0deg);} 100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);transform: rotate(360deg);}
 }
-lesshat-selector {
-  -lh-property: 0; }
+/* lesshat-selector {
+  -lh-property: 0; } */
 @-webkit-keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}}
 @-moz-keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}}
 @-o-keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}}
-@keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;};
+@keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}
 }
-lesshat-selector {
-  -lh-property: 0; }
+/* lesshat-selector {
+  -lh-property: 0; } */
 @-webkit-keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}}
 @-moz-keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}}
 @-o-keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}}
-@keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;};
+@keyframes fade{ 0% { opacity: 1;} 50% { opacity: 0.25;}
 }
-lesshat-selector {
-  -lh-property: 0; }
+/* lesshat-selector {
+  -lh-property: 0; } */
 @-webkit-keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}}
 @-moz-keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}}
 @-o-keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}}
-@keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;};
+@keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}
 }
-lesshat-selector {
-  -lh-property: 0; }
+/* lesshat-selector {
+  -lh-property: 0; } */
 @-webkit-keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}}
 @-moz-keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}}
 @-o-keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}}
-@keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;};
+@keyframes fade-in{ 0% { opacity: 0;} 100% { opacity: 1;}
 }
 
 
