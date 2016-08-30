@@ -43,7 +43,7 @@
 						setData.ceo = corp.ceoID[0] - 0;
 
 					if(corp.allianceID[0] - 0)
-						setData.alliance = corp.allianceID[0];
+						setData.alliance = corp.allianceID[0] - 0;
 					else
 						unsetData.alliance = "";
 
