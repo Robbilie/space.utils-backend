@@ -67,39 +67,45 @@
 		}
 
 		async process (_id, timestamp) {
-			
-			if(this.shuttingDown)
-				return;
-
-			// update state and check if still valid
-			let task = await this.getTasks().findAndModify(
-				{ 
-					_id, 
-					"info.timestamp": timestamp, 
-					"info.state": 0 
-				}, 
-				[], 
-				{ 
-					$set: { 
-						"info.state": 1
-					} 
-				}, 
-				{ 
-					new: true 
-				}
-			);
-
-			// task has already been taken by another worker
-			if(await task.isNull()) {
-				console.log("taken", _id)
-				return;
-			}
 
 			try {
-				// do special processing stuff
-				new (LoadUtil.task((await task.getInfo()).name))(this, task);
+
+				if (this.shuttingDown)
+					return;
+
+				// update state and check if still valid
+				let task = await this.getTasks().findAndModify(
+					{
+						_id,
+						"info.timestamp": timestamp,
+						"info.state": 0
+					},
+					[],
+					{
+						$set: {
+							"info.state": 1
+						}
+					},
+					{
+						new: true
+					}
+				);
+
+				// task has already been taken by another worker
+				if (await task.isNull()) {
+					console.log("taken", _id);
+					return;
+				}
+
+				try {
+					// do special processing stuff
+					new (LoadUtil.task((await task.getInfo()).name))(this, task);
+				} catch (e) {
+					console.log((await task.getInfo()).name, e);
+				}
+
 			} catch (e) {
-				console.log((await task.getInfo()).name, e);
+				console.log(e);
 			}
 
 		}

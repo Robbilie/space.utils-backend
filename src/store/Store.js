@@ -79,7 +79,7 @@
 			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
 			return this.getCollection()
 				.findAndModify(where, arr, data, options)
-				.then(res => res.value ? new (this.getType())(res.value) : null);
+				.then(res => new (this.getType())(res.value));
 		}
 
 		destroy (where) {
@@ -91,7 +91,7 @@
 		insert (data = {}) {
 			return this.getCollection()
 				.insertOne(data)
-				.then(doc => doc.result.ok ? new (this.getType())(data) : null);
+				.then(doc => new (this.getType())(doc.result.ok ? data : null));
 		}
 
 		findList (list, id, bare) {
