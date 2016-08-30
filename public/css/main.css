@@ -41,7 +41,7 @@ body {
 }
 
 .pages {
-    top: 50px;
+    top: 70px;
 }
 
 .topbar {
@@ -285,7 +285,7 @@ body {
     text-shadow: 0 0 5px rgb(0, 0, 0);
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     vertical-align: middle;
     display: inline-block;
     position: relative;
