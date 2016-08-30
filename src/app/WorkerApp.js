@@ -90,8 +90,10 @@
 			);
 
 			// task has already been taken by another worker
-			if(await task.isNull())
+			if(await task.isNull()) {
+				console.log("taken", _id)
 				return;
+			}
 
 			try {
 				// do special processing stuff

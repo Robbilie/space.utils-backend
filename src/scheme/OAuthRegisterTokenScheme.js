@@ -2,9 +2,11 @@
 	"use strict";
 
 	const { User } = require("model/");
+	const { ObjectId } = require("mongodb");
 
 	module.exports = {
 		types: {
+			_id: 					ObjectId,
 			token: 					String,
 			expirationDate: 		Number,
 			user: 					User

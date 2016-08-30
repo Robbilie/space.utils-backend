@@ -2,9 +2,11 @@
 	"use strict";
 
 	const { Character, OAuthClient } = require("model/");
+	const { ObjectId } = require("mongodb");
 
 	module.exports = {
 		types: {
+			_id: 					ObjectId,
 			token: 					String,
 			expirationDate: 		Number,
 			character: 				Character,
