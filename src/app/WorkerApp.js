@@ -93,7 +93,6 @@
 
 				// task has already been taken by another worker
 				if (await task.isNull()) {
-					console.log("taken", _id);
 					return;
 				}
 
