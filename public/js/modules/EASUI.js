@@ -10,9 +10,6 @@
 			this.topBar 				= new TopBar(this);
 			this.pageController 		= new PageController(this);
 			this.navigationController 	= new NavigationController(this);
-
-
-			//router("/", this);
 		}
 
 		getApp () {
@@ -46,9 +43,12 @@
 		render () {
 			return $(["div", { className: "ui" }, [
 				this.getSideBar(),
-				this.getTopBar(),
-				this.getPageController()
+				["div", { className: "content" }, [
+					this.getTopBar(),
+					this.getPageController()
+				]]
 			]]);
 		}
 
 	}
+	

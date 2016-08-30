@@ -27,5 +27,6 @@
 	const Router = function (routes) {
 		return function (url, app) {
 			routes.some(route => route(url, app));
-		};	
+		};
 	};
+	

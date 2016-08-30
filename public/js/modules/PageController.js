@@ -23,7 +23,7 @@
 			let instance = new page(this.getApp(), args);
 			this.getPageStack().push(instance);
 			let element = instance.render();
-				element.style = "transform: translateY(100%);";
+			element.style = "transform: translateY(100%);";
 			this.getPageStackContainer().prepend(element);
 			setTimeout(() => element.style = "", 100);
 		}
@@ -38,3 +38,4 @@
 		}
 
 	}
+	

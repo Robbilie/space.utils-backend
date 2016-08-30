@@ -5,32 +5,9 @@
 
 		constructor (app) {
 			this.app = app;
-			
-			/*
-			this.linkClicked = false;
 
-			if(location.hash.slice(2) === "") {
-				location.hash = "#!/";
-				this.linkClicked = true;
-			} else {
-				this.routeChange();
-			}
-			
-			document.body.on("click", (e) => {
-				if(e.path.some(el => el.tagName == "A"))
-					this.linkClicked = true;
-			});
-			window.on("hashchange", () => {
-				if(this.linkClicked)
-					this.routeChange();
-				else
-					this.back();
-				this.linkClicked = false;
-			});
-			*/
-			
 			this.routeChange();
-			
+
 			window.on("popstate", e => {
 				let page = e.state;
 				let currentPage = this.getApp().getPageController().currentPage;
@@ -43,7 +20,17 @@
 				}
 				this.getApp().getPageController().currentPage = page || 0;
 			});
-			
+
+			this.getApp().getParent().on("click", (e) => {
+				let link = e.path.find(el => el.tagName == "A");
+				if(link) {
+					e.stopPropagation();
+					e.preventDefault();
+					this.getApp().getNavigationController().navigate(link.href);
+				}
+				return true;
+			});
+
 		}
 
 		getApp () {
@@ -66,7 +53,8 @@
 
 		routeChange () {
 			console.log("trigger");
-			this.getApp().getRouter()(location.pathname, this.getApp());
+			this.getApp().getRouter()(location.pathname.slice(7), this.getApp());
 		}
 
 	}
+	

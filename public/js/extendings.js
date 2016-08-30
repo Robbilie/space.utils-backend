@@ -54,7 +54,7 @@
 				let element 		= arg1[0] && arg1[0].constructor.name == "String" ? document.createElement(arg1[0]) : arg1[0];
 				let properties 		= arg1[1] && arg1[1].constructor.name == "Object" ? arg1[1] : {};
 				let children 		= arg1[1] && arg1[1].constructor.name == "Object" ? arg1[2] : arg1[1];
-					children 		= children ? children : [];
+				children 		= children ? children : [];
 
 				assignProperties(element, properties);
 
@@ -66,8 +66,10 @@
 
 	function assignProperties (el, dat) {
 		Object.entries(dat).forEach(([k, v]) => k != "dataset" && k != "style" ? el[k] = v : null);
-		if(dat.style)
+		if(dat.style && dat.style.constructor.name != "String")
 			Object.entries(dat.style).forEach(([k, v]) => el.style.setProperty(k, v));
+		else if(dat.style && dat.style.constructor.name == "String")
+			el.style = dat.style;
 		if(dat.dataset)
 			Object.entries(dat.dataset).forEach(([k, v]) => el.dataset[k] = v);
 	}
