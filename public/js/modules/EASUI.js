@@ -42,6 +42,8 @@
 
 		render () {
 			return $(["div", { className: "ui" }, [
+				this.getSideBar().getToggle(),
+				this.getSideBar().getButton(),
 				this.getSideBar(),
 				["div", { className: "content" }, [
 					this.getTopBar(),
@@ -51,4 +53,3 @@
 		}
 
 	}
-	

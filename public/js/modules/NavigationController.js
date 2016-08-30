@@ -22,8 +22,10 @@
 			});
 
 			this.getApp().getParent().on("click", (e) => {
-				let link = e.path.find(el => el.tagName == "A");
+				console.log(e);
+				let link = e.path ? e.path.find(el => el.tagName == "A") : e.target;
 				if(link) {
+					console.log("link");
 					e.stopPropagation();
 					e.preventDefault();
 					this.getApp().getNavigationController().navigate(link.href);

@@ -23,9 +23,9 @@
 			let instance = new page(this.getApp(), args);
 			this.getPageStack().push(instance);
 			let element = instance.render();
-			element.style = "transform: translateY(100%);";
+			element.classList.add("intransition");
 			this.getPageStackContainer().prepend(element);
-			setTimeout(() => element.style = "", 100);
+			setTimeout(() => element.classList.remove("intransition"), 100);
 		}
 
 		back () {
@@ -38,4 +38,3 @@
 		}
 
 	}
-	

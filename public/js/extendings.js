@@ -54,7 +54,7 @@
 				let element 		= arg1[0] && arg1[0].constructor.name == "String" ? document.createElement(arg1[0]) : arg1[0];
 				let properties 		= arg1[1] && arg1[1].constructor.name == "Object" ? arg1[1] : {};
 				let children 		= arg1[1] && arg1[1].constructor.name == "Object" ? arg1[2] : arg1[1];
-				children 		= children ? children : [];
+				children 			= children ? children : [];
 
 				assignProperties(element, properties);
 
