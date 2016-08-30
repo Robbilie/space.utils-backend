@@ -60,14 +60,14 @@
 
 					// add to charaff
 					let taskStore 	= await DBUtil.getStore("Task");
-					taskStore.findAndModify(
-						{ "info.name": "CharacterAffiliation", $where: "this.data.ids.length < 250" },
+					await taskStore.findAndModify(
+						{ "info.name": "CharacterAffiliationTask", $where: "this.data.ids.length < 250" },
 						[],
 						{
 							$setOnInsert: {
 								info: {
 									type: "XML",
-									name: "CharacterAffiliation",
+									name: "CharacterAffiliationTask",
 									state: 0,
 									timestamp: 0
 								}
