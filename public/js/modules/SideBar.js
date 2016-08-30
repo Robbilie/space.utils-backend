@@ -21,7 +21,9 @@
 		}
 
 		render () {
-			return $(["div", { className: "sidebar" }]);
+			return $(["div", { className: "sidebar" }, [
+				$(["div", { innerHTML: "TQ 26.364", className: "usercount" }])
+			]]);
 		}
 
 	}

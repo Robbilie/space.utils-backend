@@ -6,7 +6,10 @@
 		constructor (parent) {
 			super(parent);
 			this.clock = $(["div", { className: "clock", innerHTML: this.getTimeStr() }]);
-			this.interval = setInterval(() => this.getClock().innerHTML = this.getTimeStr(), 1000 * 60);
+			let d = new Date();
+			setTimeout(() =>
+				this.updateTime() || (this.interval = setInterval(() => this.updateTime(), 1000 * 60))
+			, (60 - d.getSeconds()) * 1000)
 		}
 
 		getClock () {
@@ -15,6 +18,10 @@
 
 		getInterval () {
 			return this.interval;
+		}
+
+		updateTime () {
+			this.getClock().innerHTML = this.getTimeStr();
 		}
 
 		getTimeStr () {

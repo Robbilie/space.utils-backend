@@ -46,9 +46,9 @@
 				this.getSideBar().getButton(),
 				this.getSideBar(),
 				["div", { className: "content" }, [
-					this.getTopBar(),
 					this.getPageController()
-				]]
+				]],
+				this.getTopBar()
 			]]);
 		}
 

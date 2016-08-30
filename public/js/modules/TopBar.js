@@ -19,10 +19,10 @@
 
 		render () {
 			return $(["div", { className: "topbar" }, [
+				this.getSearchBar(),
 				$(["div", { id: "clock" }, [
 					this.getTime()
-				]]),
-				this.getSearchBar()
+				]])
 			]]);
 		}
 
