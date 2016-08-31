@@ -1,7 +1,7 @@
 	
 	"use strict";
 	
-	const { Corporation, List } = require("model/");
+	const { Corporation, CorporationList } = require("model/");
 	
 	module.exports = {
 		types: {
@@ -9,7 +9,7 @@
 			name: 					String,
 			shortName: 				String,
 			executor: 				Corporation,
-			corporations: 			List.bind(List, Corporation)
+			corporations: 			CorporationList
 		},
 		aggregations: [
 			{
