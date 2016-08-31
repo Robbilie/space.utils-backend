@@ -10,7 +10,7 @@
 			this.future = (data && data.constructor.name == "Promise" ? data : Promise.resolve(data))
 				.then(res =>
 					res && res.constructor.name != "Object" && res.constructor.name != "Array" ?
-						this.getStore().then(store => (store.findOrCreate || store.findByPK)(res)) :
+						this.getStore().then(store => store.findOrCreate ? store.findOrCreate(res) : store.findByPK(res)) :
 						res
 				);
 		}
