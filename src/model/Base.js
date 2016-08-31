@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { DBUtil, LoadUtil } 	= require("util/");
-	const config 							= require("util/../../config/");
+	const { DBUtil, LoadUtil } 		= require("util/");
+	const config 					= require("util/../../config/");
 
 	class Base {
 
@@ -10,7 +10,10 @@
 			this.future = (data && data.constructor.name == "Promise" ? data : Promise.resolve(data))
 				.then(res =>
 					res && res.constructor.name != "Object" && res.constructor.name != "Array" ?
-						this.getStore().then(store => store.findOrCreate ? store.findOrCreate(res) : store.findByPK(res)) :
+						this
+							.getStore()
+							.then(store => store.findOrCreate ? store.findOrCreate(res) : store.findByPK(res))
+							.then(cls => cls.getFuture()) :
 						res
 				);
 		}
@@ -69,8 +72,10 @@
 
 						if(data[key].constructor.name != types[key].name && depth == 0)
 							result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
-						else if(types[key].prototype instanceof Base)
+						else if(types[key].prototype instanceof Base && depth > 0) {
+							console.log(key, data[key]);
 							result[key] = await new types[key](data[key]).toJSON(--depth);
+						}
 						else
 							result[key] = await data[key];
 
