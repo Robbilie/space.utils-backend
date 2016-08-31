@@ -64,7 +64,7 @@
 
 					for(let key in data) {
 
-						if(!types[key])
+						if(!types[key] || key == "_id")
 							continue;
 
 						if(data[key].constructor.name != types[key].name && depth == 0)
