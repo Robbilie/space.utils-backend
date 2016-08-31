@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { PatchUtil, DBUtil, LoadUtil } 	= require("util/");
+	const { DBUtil, LoadUtil } 	= require("util/");
 	const config 							= require("util/../../config/");
 
 	class Base {
@@ -43,7 +43,9 @@
 			return this.getFuture().then(data => !data);
 		}
 
-		get_id () {}
+		get_id () {
+			return this.getFuture().then(data => data._id);
+		}
 
 		toJSON () {
 			return Base.toJSON(this.constructor.name, this.getFuture());
@@ -79,7 +81,5 @@
 		}
 
 	}
-
-	PatchUtil.model(Base);
 
 	module.exports = Base;
