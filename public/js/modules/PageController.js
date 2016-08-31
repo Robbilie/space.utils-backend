@@ -22,10 +22,12 @@
 		loadPage (page, args = {}) {
 			let instance = new page(this.getApp(), args);
 			this.getPageStack().push(instance);
-			let element = instance.render();
-			element.classList.add("intransition");
-			this.getPageStackContainer().prepend(element);
-			setTimeout(() => element.classList.remove("intransition"), 100);
+			instance.isReady().then(() => {
+				let element = instance.render();
+				element.classList.add("intransition");
+				this.getPageStackContainer().prepend(element);
+				setTimeout(() => element.classList.remove("intransition"), 100);
+			});
 		}
 
 		back () {

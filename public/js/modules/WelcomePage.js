@@ -3,6 +3,11 @@
 
 	class WelcomePage extends Page {
 
+		constructor (parent) {
+			super(parent);
+			this.ready();
+		}
+
 		render () {
 			return $(["div", { className: "welcome page" }, [
 				["div", { className: "welcome-vp" }, [
