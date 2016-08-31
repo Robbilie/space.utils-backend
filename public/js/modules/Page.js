@@ -3,6 +3,15 @@
 
 	class Page extends Module {
 
+		constructor (parent, title) {
+			super(parent);
+			this.title = title;
+		}
+
+		getTitle () {
+			return this.title;
+		}
+
 		isReady () {
 			return new Promise((resolve) => {
 				if(this.onReady)

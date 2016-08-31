@@ -4,7 +4,7 @@
 	class WelcomePage extends Page {
 
 		constructor (parent) {
-			super(parent);
+			super(parent, "Home");
 			this.ready();
 		}
 

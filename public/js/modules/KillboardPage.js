@@ -4,7 +4,7 @@
 	class KillboardPage extends Page {
 
 		constructor (parent) {
-			super(parent);
+			super(parent, "Killboard");
 			this.classList.push("page");
 			this.ready();
 		}

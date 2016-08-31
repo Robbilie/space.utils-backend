@@ -11,14 +11,14 @@
 			window.on("popstate", e => {
 				let page = e.state;
 				let currentPage = this.getApp().getPageController().currentPage;
+				this.getApp().getPageController().currentPage = page || 0;
 				if(currentPage > page) {
 					// back
 					this.getApp().getPageController().back();
 				} else if (currentPage < page) {
 					// forward
-					this.routeChange();
+					this.getApp().getPageController().forward();
 				}
-				this.getApp().getPageController().currentPage = page || 0;
 			});
 
 			this.getApp().getParent().on("click", (e) => {
