@@ -16,7 +16,7 @@
 		static getById () {
 			return async (req, res) => {
 				let store 		= await AllianceHandler.getStore();
-				let alliance 	= await store.findById(req.params.id);
+				let alliance 	= await store.findById(req.params.id - 0);
 				res.json(await alliance.toJSON());
 			};
 		}
@@ -24,7 +24,7 @@
 		static getExecutor () {
 			return async (req, res) => {
 				let store 		= await AllianceHandler.getStore();
-				let alliance 	= await store.findById(req.params.id);
+				let alliance 	= await store.findById(req.params.id - 0);
 				res.json(await alliance.getExecutor().toJSON());
 			};
 		}
@@ -32,7 +32,7 @@
 		static getCorporations () {
 			return async (req, res) => {
 				let store 		= await AllianceHandler.getStore();
-				let alliance 	= await store.findById(req.params.id);
+				let alliance 	= await store.findById(req.params.id - 0);
 				res.json(await Promise.all((await alliance.getCorporations()).map(corporation => corporation.toJSON())));
 			};
 		}
