@@ -10,11 +10,11 @@
 			this.future = (data && data.constructor.name == "Promise" ? data : Promise.resolve(data))
 				.then(res =>
 					res && res.constructor.name != "Object" && res.constructor.name != "Array" ?
-						this.getStore().findByPK(res) :
+						this.getStore().then(store => (store.findOrCreate || store.findByPK)(res)) :
 						res
 				);
 		}
-		
+
 		getFuture () {
 			return this.future;
 		}
@@ -22,7 +22,7 @@
 		getStore () {
 			return DBUtil.getStore(this.constructor.name);
 		}
-		
+
 		update (...args) {
 			return this.getStore().then(async (store) => store.update({ _id: await this.get_id() }, ...args));
 		}
@@ -47,36 +47,38 @@
 			return this.getFuture().then(data => data._id);
 		}
 
-		toJSON () {
-			return Base.toJSON(this.constructor.name, this.getFuture());
+		toJSON (depth = 2) {
+			return Base.toJSON(this.constructor.name, this.getFuture(), depth);
 		}
 
-		static toJSON (name, future) {
+		static toJSON (name, future, depth = 0) {
 			return new Promise(async (res) => {
-				
-				let data = await future;
+				try {
 
-				let fieldName = name.lowercaseFirstLetter().pluralize();
-				let result = data.constructor.name == "Object" ? {} : [];
-	
-				let { types } = LoadUtil.scheme(name);
+					let data = await future;
 
-				for(let key in data) {
+					let fieldName = name.lowercaseFirstLetter().pluralize();
+					let result = data.constructor.name == "Object" ? {} : [];
 
-					if(!types[key])
-						continue;
+					let { types } = LoadUtil.scheme(name);
 
-					if(data[key].constructor.name != types[key].name)
-						result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
-					else if(types[key].prototype instanceof Base)
-						result[key] = await new types[key](data[key]).toJSON();
-					else
-						result[key] = await data[key];
+					for(let key in data) {
 
-				}
+						if(!types[key])
+							continue;
 
-				return res(result);
-				
+						if(data[key].constructor.name != types[key].name && depth == 0)
+							result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
+						else if(types[key].prototype instanceof Base)
+							result[key] = await new types[key](data[key]).toJSON(--depth);
+						else
+							result[key] = await data[key];
+
+					}
+
+					return res(result);
+				} catch(e) { console.log(e) }
+
 			});
 		}
 
