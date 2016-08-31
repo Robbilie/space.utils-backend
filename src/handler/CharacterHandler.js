@@ -1,27 +1,30 @@
 
 	"use strict";
 
-	const { CharacterStore } = require("store/");
+	const { EntityHandler } = require("handler/");
 
-	class CharacterHandler {
+	class CharacterHandler extends EntityHandler {
 
 		static filter () {
 			return async (req, res) => {
-				let characters = await CharacterStore.find(req.body.filter);
+				let store 		= await CharacterHandler.getStore();
+				let characters 	= await store.find(req.body.filter);
 				res.json(await Promise.all(characters.map(character => character.toJSON())));
 			};
 		}
 
 		static getById () {
 			return async (req, res) => {
-				let character = await CharacterStore.findById(req.params.id);
+				let store 		= await CharacterHandler.getStore();
+				let character 	= await store.findById(req.params.id);
 				res.json(await character.toJSON());
 			};
 		}
 
 		static getCorporation () {
 			return async (req, res) => {
-				let character = await CharacterStore.findById(req.params.id);
+				let store 		= await CharacterHandler.getStore();
+				let character 	= await store.findById(req.params.id);
 				res.json(await character.getCorporation().toJSON());
 			};
 		}

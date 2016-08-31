@@ -1,34 +1,38 @@
 
 	"use strict";
 
-	const { CorporationStore } = require("store/");
+	const { EntityHandler } = require("handler/");
 
-	class CorporationHandler {
+	class CorporationHandler extends EntityHandler {
 
 		static filter () {
 			return async (req, res) => {
-				let corporations = await CorporationStore.find(req.body.filter);
+				let store 			= await CorporationHandler.getStore();
+				let corporations = await store.find(req.body.filter);
 				res.json(await Promise.all(corporations.map(corporation => corporation.toJSON())));
 			};
 		}
 
 		static getById () {
 			return async (req, res) => {
-				let corporation = await CorporationStore.findById(req.params.id);
+				let store 			= await CorporationHandler.getStore();
+				let corporation 	= await store.findById(req.params.id);
 				res.json(await corporation.toJSON());
 			};
 		}
 
 		static getAlliance () {
 			return async (req, res) => {
-				let corporation = await CorporationStore.findById(req.params.id);
+				let store 			= await CorporationHandler.getStore();
+				let corporation 	= await store.findById(req.params.id);
 				res.json(await corporation.getAlliance().toJSON());
 			};
 		}
 
 		static getCeo () {
 			return async (req, res) => {
-				let corporation = await CorporationStore.findById(req.params.id);
+				let store 			= await CorporationHandler.getStore();
+				let corporation 	= await store.findById(req.params.id);
 				res.json(await corporation.getCeo().toJSON());
 			};
 		}
