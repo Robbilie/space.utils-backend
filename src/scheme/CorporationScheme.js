@@ -7,6 +7,7 @@
 		types: {
 			id: 					Number,
 			name: 					String,
+			ticker: 				String,
 			ceo: 					Character,
 			alliance: 				Alliance
 		},

@@ -7,6 +7,7 @@
 		types: {
 			id: 					Number,
 			name: 					String,
+			shortName: 				String,
 			executor: 				Corporation,
 			corporations: 			Promise
 		},
