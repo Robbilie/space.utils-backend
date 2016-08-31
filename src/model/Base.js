@@ -52,7 +52,7 @@
 		}
 
 		static toJSON (name, future) {
-			return Promise(async (res) => {
+			return new Promise(async (res) => {
 				
 				let data = await future;
 
