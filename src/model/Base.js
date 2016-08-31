@@ -52,11 +52,11 @@
 		}
 
 		static toJSON (name, future) {
-			return async () => {
+			return Promise(async (res) => {
 				
 				let data = await future;
 
-				let fieldName = name.pluralize();
+				let fieldName = name.lowercaseFirstLetter().pluralize();
 				let result = data.constructor.name == "Object" ? {} : [];
 	
 				let { types } = LoadUtil.scheme(name);
@@ -67,7 +67,7 @@
 						continue;
 
 					if(data[key].constructor.name != types[key].name)
-						result[key] = { href: `${config.site.url}/${fieldName}/${obj["id"]}/${key}/` };
+						result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
 					else if(types[key].prototype instanceof Base)
 						result[key] = await new types[key](data[key]).toJSON();
 					else
@@ -75,9 +75,9 @@
 
 				}
 
-				return result;
+				return res(result);
 				
-			};
+			});
 		}
 
 	}
