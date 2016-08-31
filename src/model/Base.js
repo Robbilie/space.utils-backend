@@ -71,7 +71,7 @@
 					else if(types[key].prototype instanceof Base)
 						result[key] = await new types[key](data[key]).toJSON();
 					else
-						result[key] = data[key];
+						result[key] = await data[key];
 
 				}
 

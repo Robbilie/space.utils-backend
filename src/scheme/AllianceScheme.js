@@ -8,7 +8,7 @@
 			id: 					Number,
 			name: 					String,
 			executor: 				Corporation,
-			corporations: 			Array
+			corporations: 			Promise
 		},
 		aggregations: [
 			{
