@@ -32,12 +32,6 @@
 					foreignField: 	"alliance",
 					as: 			"corporations"
 				}
-			},
-			{
-				$unwind: {
-					path: 			"$corporations",
-					preserveNullAndEmptyArrays: true
-				}
 			}
 		]
 	};
