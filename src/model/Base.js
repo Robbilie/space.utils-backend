@@ -67,12 +67,14 @@
 
 					for(let key in data) {
 
-						if(!types[key] || key == "_id")
+						let type = types[key].name ? types[key] : LoadUtil.model(types[key]);
+
+						if(!type || key == "_id")
 							continue;
 
-						if(types[key].prototype instanceof Base && depth > 0)
-							result[key] = await new types[key](data[key]).toJSON(depth - 1);
-						else if(data[key].constructor.name != types[key].name || (types[key].prototype instanceof Base && depth == 0))
+						if(type.prototype instanceof Base && depth > 0)
+							result[key] = await new type(data[key]).toJSON(depth - 1);
+						else if(data[key].constructor.name != type.name || (type.prototype instanceof Base && depth == 0))
 							result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
 						else
 							result[key] = await data[key];

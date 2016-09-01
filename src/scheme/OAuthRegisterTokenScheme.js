@@ -1,7 +1,6 @@
 
 	"use strict";
 
-	const { User } = require("model/");
 	const { ObjectId } = require("mongodb");
 
 	module.exports = {
@@ -9,7 +8,7 @@
 			_id: 					ObjectId,
 			token: 					String,
 			expirationDate: 		Number,
-			user: 					User
+			user: 					"User"
 		},
 		aggregations: [
 			{

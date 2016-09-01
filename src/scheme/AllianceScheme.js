@@ -1,15 +1,13 @@
 	
 	"use strict";
 	
-	const { Corporation, CorporationList } = require("model/");
-	
 	module.exports = {
 		types: {
 			id: 					Number,
 			name: 					String,
 			shortName: 				String,
-			executor: 				Corporation,
-			corporations: 			CorporationList
+			executor: 				"Corporation",
+			corporations: 			"CorporationList"
 		},
 		aggregations: [
 			{

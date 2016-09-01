@@ -1,13 +1,11 @@
 
 	"use strict";
 
-	const { Corporation } = require("model/");
-
 	module.exports = {
 		types: {
 			id: 					Number,
 			name: 					String,
-			corporation: 			Corporation
+			corporation: 			"Corporation"
 		},
 		aggregations: [
 			{

@@ -5,7 +5,7 @@
 		types: {
 			name: 					String,
 			password: 				String,
-			characters: 			Array
+			characters: 			"CharacterList"
 		},
 		aggregations: [
 			{
