@@ -13,7 +13,7 @@
 
 	module.exports = Router(m)
 		.get("/", (req, res) => res.json({
-			character: {
+			characters: {
 				href: `${config.site.url}/characters/`
 			},
 			corporations: {
