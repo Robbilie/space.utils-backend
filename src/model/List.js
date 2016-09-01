@@ -15,6 +15,10 @@
 			return LoadUtil.model(this.type);
 		}
 
+		get length () {
+			return this.getFuture().then(data => data.length);
+		}
+
 		toJSON (depth = 2) {
 			return this
 				.getFuture()
