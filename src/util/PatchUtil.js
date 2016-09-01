@@ -13,7 +13,7 @@
 				const field = prop.slice(3).lowercaseFirstLetter();
 				const type = types[field];
 
-				if(type && typeof(type.prototype) === "function" && type.prototype instanceof Base)
+				if(type && typeof(type) === "function" && type.prototype instanceof Base)
 					Object.defineProperty(model.prototype, prop, {
 						value: function () {
 							return (new type(
