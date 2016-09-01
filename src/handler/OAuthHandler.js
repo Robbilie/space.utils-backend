@@ -40,7 +40,7 @@
 		static decision () {
 			return async (req, res, next) => {
 
-				let character = (await Promise.all((await req.user.user.getCharacters()).map(async (char) => (await char.getId()) == req.body.character - 0 ? char : null))).find(c => !!c);
+				let character = (await Promise.all((await req.user.user.getCharacters().toArray()).map(async (char) => (await char.getId()) == req.body.character - 0 ? char : null))).find(c => !!c);
 
 				if (character) {
 					try {

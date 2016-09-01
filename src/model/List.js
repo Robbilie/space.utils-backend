@@ -19,6 +19,10 @@
 			return this.getFuture().then(data => data.length);
 		}
 
+		toArray () {
+			return this.getFuture().then(arr => arr.map(el => new (this.getType())(el)));
+		}
+
 		/* shouldnt work */
 		map (fn) {
 			return Promise.all(this.getFuture().then(data => data.map(fn)));
