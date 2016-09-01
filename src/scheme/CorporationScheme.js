@@ -8,6 +8,7 @@
 			id: 					Number,
 			name: 					String,
 			ticker: 				String,
+			description: 			String,
 			ceo: 					Character,
 			alliance: 				Alliance
 		},
