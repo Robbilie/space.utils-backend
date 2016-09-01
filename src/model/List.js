@@ -18,7 +18,7 @@
 			return this
 				.getFuture()
 				.then(arr => arr.map(el => new (this.getType())(el)))
-				.then(arr => Promise.all(el => el.toJSON(depth - 1)));
+				.then(arr => Promise.all(arr.map(el => el.toJSON(depth - 1))));
 		}
 
 	}
