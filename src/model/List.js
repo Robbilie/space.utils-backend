@@ -19,6 +19,11 @@
 			return this.getFuture().then(data => data.length);
 		}
 
+		/* shouldnt work */
+		map (fn) {
+			return Promise.all(this.getFuture().then(data => data.map(fn)));
+		}
+
 		toJSON (depth = 2) {
 			return this
 				.getFuture()

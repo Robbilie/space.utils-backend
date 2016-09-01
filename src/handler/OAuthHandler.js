@@ -12,7 +12,7 @@
 
 		static preauth () {
 			return async (req, res, next) => {
-				if ((await req.user.user.getCharacters()).length == 0) {
+				if (await req.user.user.getCharacters().length == 0) {
 					req.flash("error", "You need to add at least one character first.");
 					res.redirect("/account");
 				} else {
