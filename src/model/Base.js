@@ -67,10 +67,10 @@
 
 					for(let key in data) {
 
-						let type = types[key].name ? types[key] : LoadUtil.model(types[key]);
-
-						if(!type || key == "_id")
+						if(!types[key] || key == "_id")
 							continue;
+
+						let type = types[key].name ? types[key] : LoadUtil.model(types[key]);
 
 						if(type.prototype instanceof Base && depth > 0)
 							result[key] = await new type(data[key]).toJSON(depth - 1);
