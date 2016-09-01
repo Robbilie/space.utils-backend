@@ -70,10 +70,10 @@
 						if(!types[key] || key == "_id")
 							continue;
 
-						if(data[key].constructor.name != types[key].name && depth == 0)
-							result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
-						else if(types[key].prototype instanceof Base && depth > 0)
+						if(types[key].prototype instanceof Base && depth > 0)
 							result[key] = await new types[key](data[key]).toJSON(--depth);
+						else if(data[key].constructor.name != types[key].name || (types[key].prototype instanceof Base && depth == 0))
+							result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
 						else
 							result[key] = await data[key];
 
