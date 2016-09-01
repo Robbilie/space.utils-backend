@@ -18,7 +18,7 @@
 				$lookup: {
 					from: 			"characters",
 					localField: 	"characters",
-					foreignField: 	"_id",
+					foreignField: 	"id",
 					as: 			"characters"
 				}
 			},
