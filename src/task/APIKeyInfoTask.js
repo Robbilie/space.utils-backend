@@ -90,7 +90,7 @@
 			} else {
 				console.log("APIKEYINFO", await this.dataToForm(), JSON.stringify(response, null, 2));
 				console.log("Retrying…");
-				await this.update({ state: 0 });
+				await this.update({ state: 3 });
 			}
 
 		}
