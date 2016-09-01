@@ -75,6 +75,7 @@
 						if(type.prototype instanceof Base && depth > 0)
 							result[key] = await new type(data[key]).toJSON(depth - 1);
 						else if(data[key].constructor.name != type.name || (type.prototype instanceof Base && depth == 0))
+							//result[key] = { href: `${config.site.url}/${type.name.lowercaseFirstLetter().pluralize()}/${data[key].id || data[key]}/` };
 							result[key] = { href: `${config.site.url}/${fieldName}/${data["id"]}/${key}/` };
 						else
 							result[key] = await data[key];

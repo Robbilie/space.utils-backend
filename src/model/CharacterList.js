@@ -1,12 +1,12 @@
 
 	"use strict";
 
-	const { Character, List } = require("model/");
+	const { List } = require("model/");
 
 	class CharacterList extends List {
 
 		constructor (data) {
-			super(Character, data);
+			super("Character", data);
 		}
 
 	}

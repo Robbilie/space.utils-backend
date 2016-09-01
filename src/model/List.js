@@ -1,7 +1,8 @@
 
 	"use strict";
 
-	const { Base } = require("model/");
+	const { Base } 		= require("model/");
+	const { LoadUtil } 	= require("util/");
 
 	class List extends Base {
 
@@ -11,7 +12,7 @@
 		}
 
 		getType () {
-			return this.type;
+			return LoadUtil.model(this.type);
 		}
 
 		toJSON (depth = 2) {
