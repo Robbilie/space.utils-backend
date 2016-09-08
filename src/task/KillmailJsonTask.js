@@ -19,12 +19,19 @@
 
 				try {
 
-					// TODO : km store
+					let killmailStore = await DBUtil.getStore("Killmail");
+					await killmailStore.update(
+						{ killID: response.killID },
+						{
+							$set: Object.assign(response, { hash: (await this.getData()).hash })
+						},
+						{ upsert: true }
+					);
 
 				} catch(e) { console.log(e) }
 
 			} else {
-				console.log("invalid killmail", (await this.getData()).killID);
+				console.log("invalid killmail", (await this.getData()).killID, response);
 			}
 
 			await this.destroy();
