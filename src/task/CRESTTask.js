@@ -19,7 +19,7 @@
 			let response;
 			try {
 				response = await rp({
-					method: 		"POST",
+					method: 		"GET",
 					uri: 			`${config.crest.api.url}${url}`,
 					headers: 		{ "User-Agent": config.site.userAgent }
 				});
