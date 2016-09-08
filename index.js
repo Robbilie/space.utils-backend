@@ -6,6 +6,19 @@
 
 	require("lib/extendings")();
 
+	const raven 				= require("raven");
+	const config = require("util/../../config/");
+
+	global.err = {};
+	if(config.sentry.dsn && config.sentry.dsn != "") {
+		var client = new raven.Client(config.sentry.dsn);
+		client.patchGlobal();
+		client.setUserContext({
+			app: process.argv[2]
+		});
+		err.raven = client;
+	}
+
 	const { LoadUtil } = require("util/");
 
 	console.log(process.argv[2]);
