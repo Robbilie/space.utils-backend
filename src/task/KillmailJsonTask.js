@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { CRESTTask } 			= require("task/");
+	const { DBUtil } 				= require("util/");
 
 	class KillmailJsonTask extends CRESTTask {
 
