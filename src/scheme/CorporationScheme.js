@@ -8,7 +8,8 @@
 			ticker: 				String,
 			description: 			String,
 			ceo: 					"Character",
-			alliance: 				"Alliance"
+			alliance: 				"Alliance",
+			updated: 				Number
 		},
 		aggregations: [
 			{

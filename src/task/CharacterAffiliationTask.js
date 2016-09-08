@@ -37,7 +37,8 @@
 								$set: {
 									id: 			characterItem.$.characterID - 0,
 									name: 			characterItem.$.characterName,
-									corporation: 	characterItem.$.corporationID - 0
+									corporation: 	characterItem.$.corporationID - 0,
+									updated: 		new Date(response.eveapi.currentTime[0] + "Z").getTime()
 								}
 							},
 							{ upsert: true }

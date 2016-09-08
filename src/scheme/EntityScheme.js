@@ -4,7 +4,8 @@
 	module.exports = {
 		types: {
 			id: 					Number,
-			name: 					String
+			name: 					String,
+			updated: 				Number
 		},
 		aggregations: []
 	};

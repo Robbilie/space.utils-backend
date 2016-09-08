@@ -7,7 +7,8 @@
 			name: 					String,
 			shortName: 				String,
 			executor: 				"Corporation",
-			corporations: 			"CorporationList"
+			corporations: 			"CorporationList",
+			updated: 				Number
 		},
 		aggregations: [
 			{

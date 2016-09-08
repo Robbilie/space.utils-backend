@@ -15,6 +15,8 @@
 				.getStore("Settings")
 				.then(async (store) => store.findById(await this.getId()));
 		}
+
+		getUpdated () {}
 		
 	}
 

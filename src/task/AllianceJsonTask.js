@@ -32,7 +32,8 @@
 								name: 		response.name,
 								shortName: 	response.shortName,
 								startDate: 	new Date(response.startDate + "Z").getTime(),
-								executor: 	response.executorCorporation.id
+								executor: 	response.executorCorporation.id,
+								updated: 	Date.now()
 							}
 						},
 						{ upsert: true }

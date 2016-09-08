@@ -35,7 +35,8 @@
 						ticker: 		corp.ticker[0],
 						taxRate: 		parseFloat(corp.taxRate[0]),
 						memberCount: 	corp.memberCount[0] - 0,
-						description: 	corp.description[0]
+						description: 	corp.description[0],
+						updated: 		new Date(response.eveapi.currentTime[0] + "Z").getTime()
 					};
 					let unsetData = {};
 
