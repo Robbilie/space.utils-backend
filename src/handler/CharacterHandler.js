@@ -16,7 +16,7 @@
 		static getById () {
 			return async (req, res) => {
 				let store 		= await CharacterHandler.getStore();
-				let character 	= await store.findById(req.params.id - 0);
+				let character 	= await store.findOrCreate(req.params.id - 0);
 				res.json(await character.toJSON());
 			};
 		}
@@ -24,7 +24,7 @@
 		static getCorporation () {
 			return async (req, res) => {
 				let store 		= await CharacterHandler.getStore();
-				let character 	= await store.findById(req.params.id - 0);
+				let character 	= await store.findOrCreate(req.params.id - 0);
 				res.json(await character.getCorporation().toJSON());
 			};
 		}

@@ -16,7 +16,7 @@
 		static getById () {
 			return async (req, res) => {
 				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findById(req.params.id - 0);
+				let corporation 	= await store.findOrCreate(req.params.id - 0);
 				res.json(await corporation.toJSON());
 			};
 		}
@@ -24,7 +24,7 @@
 		static getAlliance () {
 			return async (req, res) => {
 				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findById(req.params.id - 0);
+				let corporation 	= await store.findOrCreate(req.params.id - 0);
 				res.json(await corporation.getAlliance().toJSON());
 			};
 		}
@@ -32,7 +32,7 @@
 		static getCeo () {
 			return async (req, res) => {
 				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findById(req.params.id - 0);
+				let corporation 	= await store.findOrCreate(req.params.id - 0);
 				res.json(await corporation.getCeo().toJSON());
 			};
 		}

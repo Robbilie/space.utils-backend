@@ -59,5 +59,7 @@
 				KillmailHandler.filter())
 			.get("/:id/",
 				KillmailHandler.getById())
+			.get("/:id/:hash/",
+				KillmailHandler.getOrCreate())
 		);
 	

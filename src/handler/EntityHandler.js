@@ -1,13 +1,9 @@
 
 	"use strict";
 
-	const { DBUtil } = require("util/");
+	const { BaseHandler } = require("handler/");
 
-	class EntityHandler {
-
-		static getStore () {
-			return DBUtil.getStore(this.name.slice(0, -7));
-		}
+	class EntityHandler extends BaseHandler {
 
 	}
 

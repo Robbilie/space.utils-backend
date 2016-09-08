@@ -16,7 +16,7 @@
 		static getById () {
 			return async (req, res) => {
 				let store 		= await AllianceHandler.getStore();
-				let alliance 	= await store.findById(req.params.id - 0);
+				let alliance 	= await store.findOrCreate(req.params.id - 0);
 				res.json(await alliance.toJSON());
 			};
 		}
