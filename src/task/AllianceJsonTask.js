@@ -47,7 +47,7 @@
 				} catch(e) { console.log(e); }
 
 			} else {
-				console.log("invalid alli", (await this.getData()).allianceID);
+				console.log("invalid alli", (await this.getData()).allianceID, response);
 			}
 
 			await this.destroy();

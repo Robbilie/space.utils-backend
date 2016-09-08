@@ -81,7 +81,7 @@
 				await this.update({ state: 0 });
 
 			} else {
-				console.log("invalid corp", (await this.getData()).corporationID);
+				console.log("invalid corp", (await this.getData()).corporationID, response);
 				await this.destroy();
 			}
 

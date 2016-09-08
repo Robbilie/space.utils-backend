@@ -79,7 +79,7 @@
 				} catch(e) { console.log(e); }
 
 			} else {
-				console.log("invalid char", (await this.getData()).characterID);
+				console.log("invalid char", (await this.getData()).characterID, response);
 			}
 
 			await this.destroy();
