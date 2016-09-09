@@ -5,7 +5,7 @@
 	const { ObjectId } 			= require("mongodb");
 
 	const storage 					= {
-		tasks: 		{},
+		tasks: 		new Map(),
 		stream: 	undefined
 	};
 
@@ -106,14 +106,14 @@
 				 						tid = (await task.get_id()).toString();
 					 			}
 				 			}
-					 		if(tid && storage.tasks[tid]) {
-					 			storage.tasks[tid]();
-					 			delete storage.tasks[tid];
+					 		if(tid && storage.tasks.get(tid)) {
+					 			storage.tasks.get(tid)();
+					 			storage.tasks.delete(tid);
 					 		}
 					 	});
 					}
 
-					storage.tasks[id] = resolve;
+					storage.tasks.set(id, resolve);
 				} catch (e) { console.log(e)}
 			});
 		}
