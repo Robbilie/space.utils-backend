@@ -29,21 +29,28 @@
 			let cursor = await DBUtil.getOplogCursor({ ns: "requests" });
 			let stream = cursor.stream();
 
+			const process = (data) => {
+				this.buckets[data.type].removeTokens(1, async () => {
+
+					let response = {};
+					try {
+						response.data = await rp(data.options);
+					} catch (e) {
+						response.error = e.error;
+					}
+
+					await responses.insert({ id: data._id, response });
+					await requests.remove({ _id: data._id });
+
+				});
+			};
+
+			let oldrequests = await requests.find({}).toArray();
+			oldrequests.forEach(data => process(data));
+
 			stream.on("data", data => {
 				if(data.op == "i") {
-					this.buckets[data.o.type].removeTokens(1, async () => {
-
-						let response = {};
-						try {
-							response.data = await rp(data.o.options);
-						} catch (e) {
-							response.error = e.error;
-						}
-
-						await responses.insert({ id: data.o._id, response });
-						await requests.remove({ _id: data.o._id });
-
-					});
+					process(data.o);
 				} else if(data.op == "d") {
 					// delete from queue, only relevant for multiple fetchers
 				}
