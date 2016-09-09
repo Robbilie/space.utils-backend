@@ -41,7 +41,7 @@
 						}
 
 						await responses.insert({ id: data.o._id, response });
-						await requests.delete({ _id: data.o._id });
+						await requests.remove({ _id: data.o._id });
 
 					});
 				} else if(data.op == "d") {

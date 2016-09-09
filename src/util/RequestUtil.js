@@ -26,10 +26,10 @@
 				stream.on("data", data => {
 
 					if(data.op == "i") {
-						if(storage.requests.get(data.o.id)) {
-							storage.requests.get(data.o.id)(data.o);
-							storage.requests.delete(data.o.id);
-							responses.delete({ _id: data.o._id });
+						if(storage.requests.get(data.o.id.toString())) {
+							storage.requests.get(data.o.id.toString())(data.o);
+							storage.requests.delete(data.o.id.toString());
+							responses.remove({ _id: data.o._id });
 						}
 					}
 
@@ -41,7 +41,7 @@
 
 					let _id = new ObjectId();
 
-					storage.requests.set(_id, fn);
+					storage.requests.set(_id.toString(), fn);
 
 					requests.insert({
 						_id,
