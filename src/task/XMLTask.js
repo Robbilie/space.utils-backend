@@ -1,9 +1,8 @@
 
 	"use strict";
-	
+
+	const { RequestUtil } 			= require("util/");
 	const { BaseTask } 				= require("task/");
-	const config 					= require("util/../../config/");
-	const rp 						= require("request-promise");
 	const { parseString } 			= require("xml2js");
 
 	class XMLTask extends BaseTask {
@@ -20,21 +19,13 @@
 
 		async getXML (url, query) {
 
-			// wait for a xml api queue spot
-			await this.enqueue();
+			let { data, error } = await RequestUtil.call("XML", Object.assign({
+				method: 		"POST",
+				uri: 			`${config.ccp.api.url}/${url}.xml.aspx`,
+				headers: 		{ "User-Agent": config.site.userAgent }
+			}, query ? { form: query } : {}));
 
-			let response;
-			try {
-				response = await rp(Object.assign({
-					method: 		"POST",
-					uri: 			`${config.ccp.api.url}/${url}.xml.aspx`,
-					headers: 		{ "User-Agent": config.site.userAgent }
-				}, query ? { form: query } : {}));	
-			} catch (e) {
-				response = e.error;
-			}
-
-			return new Promise((resolve, reject) => parseString(response, (e, r) => {
+			return new Promise((resolve, reject) => parseString(data || error, (e, r) => {
 				if(e) {
 					console.log(response);
 					reject(e);

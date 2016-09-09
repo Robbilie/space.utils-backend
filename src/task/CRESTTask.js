@@ -1,9 +1,8 @@
 
 	"use strict";
-	
+
+	const { RequestUtil } 			= require("util/");
 	const { BaseTask } 				= require("task/");
-	const config 					= require("util/../../config/");
-	const rp 						= require("request-promise");
 
 	class CRESTTask extends BaseTask {
 
@@ -13,21 +12,13 @@
 
 		async getCREST (url, query) {
 
-			// wait for a xml api queue spot
-			await this.enqueue();
+			let { data, error } = await RequestUtil.call("CREST", {
+				method: 		"GET",
+				uri: 			`${config.crest.api.url}${url}`,
+				headers: 		{ "User-Agent": config.site.userAgent }
+			});
 
-			let response;
-			try {
-				response = await rp({
-					method: 		"GET",
-					uri: 			`${config.crest.api.url}${url}`,
-					headers: 		{ "User-Agent": config.site.userAgent }
-				});
-			} catch (e) {
-				response = e.error;
-			}
-
-			return JSON.parse(response);
+			return JSON.parse(data || error);
 		}
 
 	}
