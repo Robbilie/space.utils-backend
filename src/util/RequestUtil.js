@@ -18,7 +18,10 @@
 		}
 
 		static stream () {
-			return new Promise(async (resolve, reject) => {
+			return new Promise(async (resolve) => {
+
+				const requests = await DBUtil.getCollection("requests");
+				const responses = await DBUtil.getCollection("responses");
 
 				let cursor = await DBUtil.getOplogCursor({ ns: "responses" });
 				let stream = cursor.stream();
@@ -34,8 +37,6 @@
 					}
 
 				});
-
-				const requests = await DBUtil.getCollection("requests");
 
 				return resolve((type, options, fn) => {
 
