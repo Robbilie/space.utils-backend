@@ -33,7 +33,7 @@
 
 			stream.on("data", data => {
 				if(data.op == "i") {
-					this.buckets[data.op.type].removeTokens(1, async () => {
+					this.buckets[data.o.type].removeTokens(1, async () => {
 
 						let response = {};
 						try {
