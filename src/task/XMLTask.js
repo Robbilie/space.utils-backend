@@ -4,6 +4,7 @@
 	const { RequestUtil } 			= require("util/");
 	const { BaseTask } 				= require("task/");
 	const { parseString } 			= require("xml2js");
+	const config 					= require("util/../../config/");
 
 	class XMLTask extends BaseTask {
 

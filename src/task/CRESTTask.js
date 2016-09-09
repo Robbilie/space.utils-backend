@@ -3,6 +3,7 @@
 
 	const { RequestUtil } 			= require("util/");
 	const { BaseTask } 				= require("task/");
+	const config 					= require("util/../../config/");
 
 	class CRESTTask extends BaseTask {
 
