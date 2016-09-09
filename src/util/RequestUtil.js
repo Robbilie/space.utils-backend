@@ -30,7 +30,7 @@
 
 					if(data.op == "i") {
 						if(storage.requests.get(data.o.id.toString())) {
-							storage.requests.get(data.o.id.toString())(data.o);
+							storage.requests.get(data.o.id.toString())(data.o.response);
 							storage.requests.delete(data.o.id.toString());
 							responses.remove({ _id: data.o._id });
 						}
