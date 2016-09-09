@@ -52,6 +52,10 @@
 				.catch(e => console.log(storeName, e));
 		}
 
+		static getCollection (collectionName) {
+			return DBUtil.getDB().then(db => db.collection(config.database.prefix + collectionName));
+		}
+
 		static getOplogCursor (properties = {}) {
 			const query = properties;
 				query.ns = properties.ns ? config.database.name + "." + properties.ns : { $regex: new RegExp("^" + config.database.name, "i") };

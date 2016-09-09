@@ -23,10 +23,8 @@
 
 		async init () {
 
-			let db = await DBUtil.getDB();
-
-			const requests = db.collection(config.database.prefix + "requests");
-			const responses = db.collection(config.database.prefix + "responses");
+			const requests = await DBUtil.getCollection("requests");
+			const responses = await DBUtil.getCollection("responses");
 
 			let cursor = await DBUtil.getOplogCursor({ ns: "requests" });
 			let stream = cursor.stream();
@@ -37,7 +35,7 @@
 
 						let response = {};
 						try {
-							response.data = await rp(data.o);
+							response.data = await rp(data.o.options);
 						} catch (e) {
 							response.error = e.error;
 						}
