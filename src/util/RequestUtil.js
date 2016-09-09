@@ -29,10 +29,10 @@
 				stream.on("data", data => {
 
 					if(data.op == "i") {
-						if(storage.requests.get(data.o.id.toString())) {
+						if(storage.requests.get(data.o.id)) {
 							responses.remove({ _id: data.o._id });
-							storage.requests.get(data.o.id.toString())(data.o.response);
-							storage.requests.delete(data.o.id.toString());
+							storage.requests.get(data.o.id)(data.o.response);
+							storage.requests.delete(data.o.id);
 						}
 					}
 

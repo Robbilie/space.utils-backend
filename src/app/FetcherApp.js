@@ -4,7 +4,6 @@
 	const { DBUtil } 				= require("util/");
 	const { TokenBucket } 			= require("limiter");
 	const rp 						= require("request-promise");
-	const config 					= require("util/../../config/");
 
 	class FetcherApp {
 
@@ -32,14 +31,16 @@
 			const process = (data) => {
 				this.buckets[data.type].removeTokens(1, () => {
 
+					const id = data._id.toString();
+
 					requests.remove({ _id: data._id });
 
 					rp(data.options)
 						.then(data =>
-							responses.insert({ id: data._id,response: { data } })
+							responses.insert({ id, response: { data } })
 						)
 						.catch(({ error }) =>
-							responses.insert({ id: data._id, response: { error } })
+							responses.insert({ id, response: { error } })
 						);
 
 				});
