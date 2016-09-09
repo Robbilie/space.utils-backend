@@ -27,6 +27,7 @@
     "express-session": "^1.14.0",
     "heapdump": "^0.3.7",
     "kerberos": "0.0.21",
+    "limiter": "^1.1.0",
     "mongodb": "^2.2.2",
     "node-uuid": "^1.4.7",
     "oauth2orize": "^1.4.0",
