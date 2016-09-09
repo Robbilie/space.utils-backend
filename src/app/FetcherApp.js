@@ -26,7 +26,7 @@
 			const requests = await DBUtil.getCollection("requests");
 			const responses = await DBUtil.getCollection("responses");
 
-			let cursor = await DBUtil.getOplogCursor({ ns: "requests" });
+			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
 			let stream = cursor.stream();
 
 			const process = (data) => {
