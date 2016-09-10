@@ -7,8 +7,9 @@
 
 		static filter () {
 			return async (req, res) => {
+				console.log(req.body);
 				let store 		= await CharacterHandler.getStore();
-				let characters 	= await store.find(req.body.filter);
+				let characters 	= await store.find(req.body.filter || {});
 				res.json(await Promise.all(characters.map(character => character.toJSON())));
 			};
 		}

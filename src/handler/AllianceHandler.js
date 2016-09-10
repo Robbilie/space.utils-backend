@@ -7,8 +7,9 @@
 
 		static filter () {
 			return async (req, res) => {
+				console.log(req.body);
 				let store 		= await AllianceHandler.getStore();
-				let alliances 	= await store.find(req.body.filter);
+				let alliances 	= await store.find(req.body.filter || {});
 				res.json(await Promise.all(alliances.map(alliance => alliance.toJSON())));
 			};
 		}

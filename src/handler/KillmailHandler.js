@@ -7,8 +7,9 @@
 
 		static filter () {
 			return async (req, res) => {
+				console.log(req.body);
 				let store 		= await KillmailHandler.getStore();
-				let killmails 	= await store.find(req.body.filter);
+				let killmails 	= await store.find(req.body.filter || {});
 				res.json(await Promise.all(killmails.map(killmail => killmail.toJSON())));
 			};
 		}

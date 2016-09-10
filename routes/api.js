@@ -27,7 +27,7 @@
 			}
 		}))
 		.use("/characters", Router(m)
-			.get("/",
+			.post("/",
 				CharacterHandler.filter())
 			.get("/:id/",
 				CharacterHandler.getById())
@@ -35,7 +35,7 @@
 				CharacterHandler.getCorporation())
 		)
 		.use("/corporations", Router(m)
-			.get("/",
+			.post("/",
 				CorporationHandler.filter())
 			.get("/:id/",
 				CorporationHandler.getById())
@@ -45,7 +45,7 @@
 				CorporationHandler.getCeo())
 		)
 		.use("/alliances", Router(m)
-			.get("/",
+			.post("/",
 				AllianceHandler.filter())
 			.get("/:id/",
 				AllianceHandler.getById())
@@ -55,7 +55,7 @@
 				AllianceHandler.getCorporations())
 		)
 		.use("/killmails", Router(m)
-			.get("/",
+			.post("/",
 				KillmailHandler.filter())
 			.get("/:id/",
 				KillmailHandler.getById())
