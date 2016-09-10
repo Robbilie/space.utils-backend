@@ -28,14 +28,14 @@
 			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
 			let stream = cursor.stream();
 
-			const process = (data) => {
-				this.buckets[data.type].removeTokens(1, () => {
+			const process = (doc) => {
+				this.buckets[doc.type].removeTokens(1, () => {
 
-					const id = data._id.toString();
+					const id = doc._id.toString();
 
-					requests.remove({ _id: data._id });
+					requests.remove({ _id: doc._id });
 
-					rp(data.options)
+					rp(doc.options)
 						.then(data =>
 							responses.insert({ id, response: { data } })
 						)
