@@ -9,7 +9,7 @@
 			return async (req, res) => {
 				console.log(req.body);
 				let store 			= await CorporationHandler.getStore();
-				let corporations = await store.find(req.body.filter || {});
+				let corporations 	= await store.find(req.body.filter || {}, Object.assign(req.body.options || {}, Math.min((req.body.options ? req.body.options.limit : 250) || 250, 250)));
 				res.json(await Promise.all(corporations.map(corporation => corporation.toJSON())));
 			};
 		}

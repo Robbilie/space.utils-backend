@@ -8,8 +8,8 @@
 		static filter () {
 			return async (req, res) => {
 				console.log(req.body);
-				let store 		= await CharacterHandler.getStore();
-				let characters 	= await store.find(req.body.filter || {});
+				let store 			= await CharacterHandler.getStore();
+				let characters 		= await store.find(req.body.filter || {}, Object.assign(req.body.options || {}, Math.min((req.body.options ? req.body.options.limit : 250) || 250, 250)));
 				res.json(await Promise.all(characters.map(character => character.toJSON())));
 			};
 		}
