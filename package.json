@@ -38,7 +38,7 @@
     "passport-oauth2-client-password": "^0.1.2",
     "raven": "^0.12.1",
     "request": "^2.74.0",
-    "request-promise": "^4.0.2",
+    "request-promise-native": "^1.0.3",
     "xml2js": "^0.4.17"
   }
 }

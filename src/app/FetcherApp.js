@@ -3,7 +3,7 @@
 
 	const { DBUtil } 				= require("util/");
 	const { TokenBucket } 			= require("limiter");
-	const rp 						= require("request-promise");
+	const rp 						= require("request-promise-native");
 
 	class FetcherApp {
 

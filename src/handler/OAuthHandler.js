@@ -3,7 +3,7 @@
 
 	const { APIKeyInfoTask } 		= require("task/");
 	const { DBUtil, OAuth2Util } 	= require("util/");
-	const rp 						= require("request-promise");
+	const rp 						= require("request-promise-native");
 	const bcrypt 					= require("bcrypt");
 	const uuid 						= require("node-uuid");
 	const config 					= require("util/../../config/");
