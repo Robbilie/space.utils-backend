@@ -12,8 +12,8 @@
 	const storage 					= {
 		db: 		undefined,
 		oplog: 		undefined,
-		stores: 	{},
-		oplogs: 	{}
+		stores: 	new Map(),
+		oplogs: 	new Map()
 	};
 
 	class DBUtil {
@@ -48,7 +48,7 @@
 		static getStore (storeName) {
 			return DBUtil
 				.getDB()
-				.then(db => storage.stores[storeName] || ((storage.stores[storeName] = new (LoadUtil.store(storeName))(db)) === !storage.stores[storeName] || storage.stores[storeName]))
+				.then(db => storage.stores.get(storeName) || ((storage.stores.set(storeName, new (LoadUtil.store(storeName))(db))) === !storage.stores.get(storeName) || storage.stores.get(storeName)))
 				.catch(e => console.log(storeName, e));
 		}
 
@@ -66,8 +66,8 @@
 			// add timestamp afterwards otherwise index would differ
 			query.ts = { $gt: Timestamp(0, Date.now() / 1000 | 0) };
 
-			if(!storage.oplogs[index])
-				storage.oplogs[index] = DBUtil
+			if(!storage.oplogs.get(index))
+				storage.oplogs.set(index, DBUtil
 					.getOplog()
 					.then(oplog => oplog
 						.collection("oplog.rs")
@@ -80,8 +80,11 @@
 								noCursorTimeout: 	true,
 								numberOfRetries: 	Number.MAX_VALUE
 							}
-						));
-			return storage.oplogs[index];
+						)
+						.addCursorFlag("noCursorTimeout", true)
+					)
+				);
+			return storage.oplogs.get(index);
 		}
 
 		static to_id (id) {
