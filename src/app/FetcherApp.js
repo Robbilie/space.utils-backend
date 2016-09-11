@@ -64,6 +64,7 @@
 			stream.on("error", e => {
 				console.log(e);
 				if(50 == e.code) {
+					stream.close();
 					this.init();
 				}
 			});
