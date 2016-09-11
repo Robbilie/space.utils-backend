@@ -24,27 +24,27 @@
 				const responses = await DBUtil.getCollection("responses");
 
 				let cursor = await DBUtil.getOplogCursor({ ns: "responses", op: "i" });
-				let stream = cursor.stream();
+				const startStream = () => {
+					let stream = cursor.stream();
+						stream.on("data", data => {
+							try {
+								if(data.op == "i") {
+									if(storage.requests.get(data.o.id)) {
+										responses.remove({ _id: data.o._id });
+										storage.requests.get(data.o.id)(data.o.response);
+										storage.requests.delete(data.o.id);
+									}
+								}
+							} catch (e) { console.log(e); }
+						});
+						stream.on("error", e => {
+							console.log(e);
+							stream.close();
+							startStream();
+						});
+				};
+				startStream();
 
-				stream.on("data", data => {
-					try {
-						if(data.op == "i") {
-							if(storage.requests.get(data.o.id)) {
-								responses.remove({ _id: data.o._id });
-								storage.requests.get(data.o.id)(data.o.response);
-								storage.requests.delete(data.o.id);
-							}
-						}
-					} catch (e) { console.log(e); }
-				});
-
-				stream.on("error", e => {
-					console.log(e);
-					if(50 == e.code) {
-						stream.close();
-						storage.stream = null;
-					}
-				});
 
 				return resolve((type, options, fn) => {
 
