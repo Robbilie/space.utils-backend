@@ -98,43 +98,50 @@
 
 			let mailStore 				= await DBUtil.getStore("Mail");
 			let mailCursor 				= await mailStore.getUpdates();
-			let mailStream 				= mailCursor.stream();
-				mailStream.on("data", async data => {
+			const startMailStream 		= () => {
+				let mailStream = mailCursor.stream();
+					mailStream.on("data", async data => {
 
-					try {
+						try {
 
-						if(data.op == "i") {
+							if (data.op == "i") {
 
-							let mail = data.o;
+								let mail = data.o;
 
-							if(mail.toCharacterIDs.indexOf(92095466) !== -1) {
+								if (mail.toCharacterIDs.indexOf(92095466) !== -1) {
 
-								let registerToken = await registerTokenStore.findByToken(mail.title);
+									let registerToken = await registerTokenStore.findByToken(mail.title);
 
-								if(!await registerToken.isNull()) {
+									if (!await registerToken.isNull()) {
 
-									if(Date.now() > await registerToken.getExpirationDate()) {
-										return await registerToken.destroy();
+										if (Date.now() > await registerToken.getExpirationDate()) {
+											return await registerToken.destroy();
+										}
+
+										let character = await characterStore.findOrCreate(mail.senderID);
+
+										await registerToken.getUser().update({$addToSet: {characters: character.getId()}});
+
+										await registerToken.destroy();
+
 									}
-
-									let character = await characterStore.findOrCreate(mail.senderID);
-
-									await registerToken.getUser().update({ $addToSet: { characters: character.getId() }});
-
-									await registerToken.destroy();
 
 								}
 
 							}
 
+						} catch (e) {
+							console.log(e);
 						}
 
-					} catch (e) {
+					});
+					mailStream.on("error", e => {
 						console.log(e);
-					}
-
-				});
-				mailStream.on("error", e => console.log(e));
+						mailStream.close();
+						startMailStream();
+					});
+			};
+			startMailStream();
 
 			let apikeyinfoStore 		= await DBUtil.getStore("APIKeyInfo");
 			let apikeyinfoCursor 		= await apikeyinfoStore.getUpdates();

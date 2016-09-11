@@ -25,9 +25,16 @@
 
 			// get task updates
 			let taskCursor = await this.tasks.getUpdates();
-			let taskStream = taskCursor.stream();
-				taskStream.on("data", data => this.taskUpdate(data));
-				taskStream.on("error", e => console.log(e));
+			const startTaskStream = () => {
+				let taskStream = taskCursor.stream();
+					taskStream.on("data", data => this.taskUpdate(data));
+					taskStream.on("error", e => {
+						console.log(e);
+						taskStream.close();
+						startTaskStream();
+					});
+			};
+			startTaskStream();
 
 			// get ratelimits
 			let rateCursor = await this.ratelimits.getUpdates();

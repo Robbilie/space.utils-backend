@@ -25,9 +25,6 @@
 			const requests = await DBUtil.getCollection("requests");
 			const responses = await DBUtil.getCollection("responses");
 
-			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
-			let stream = cursor.stream();
-
 			const process = (doc) => {
 				if(this.buckets[doc.type])
 					this.buckets[doc.type].removeTokens(1, () => {
@@ -50,24 +47,26 @@
 					});
 			};
 
+			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
+			const startStream = () => {
+				let stream = cursor.stream();
+					stream.on("data", data => {
+						if(data.op == "i") {
+							process(data.o);
+						} else if(data.op == "d") {
+							// delete from queue, only relevant for multiple fetchers
+						}
+					});
+					stream.on("error", e => {
+						console.log(e);
+						stream.close();
+						startStream();
+					});
+			};
+			startStream();
+
 			let oldrequests = await requests.find({}).toArray();
 			oldrequests.forEach(data => process(data));
-
-			stream.on("data", data => {
-				if(data.op == "i") {
-					process(data.o);
-				} else if(data.op == "d") {
-					// delete from queue, only relevant for multiple fetchers
-				}
-			});
-
-			stream.on("error", e => {
-				console.log(e);
-				if(50 == e.code) {
-					stream.close();
-					this.init();
-				}
-			});
 
 		}
 
