@@ -38,6 +38,8 @@
 					} catch (e) { console.log(e); }
 				});
 
+				stream.on("error", e => console.log(e));
+
 				return resolve((type, options, fn) => {
 
 					let _id = new ObjectId();

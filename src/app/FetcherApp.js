@@ -61,6 +61,8 @@
 				}
 			});
 
+			stream.on("error", e => console.log(e));
+
 		}
 
 		sortQueue () {
