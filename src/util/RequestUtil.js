@@ -38,7 +38,12 @@
 					} catch (e) { console.log(e); }
 				});
 
-				stream.on("error", e => console.log(e));
+				stream.on("error", e => {
+					console.log(e);
+					if(50 == e.code) {
+						storage.stream = null;
+					}
+				});
 
 				return resolve((type, options, fn) => {
 
