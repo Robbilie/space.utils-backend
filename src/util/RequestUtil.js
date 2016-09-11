@@ -27,15 +27,15 @@
 				let stream = cursor.stream();
 
 				stream.on("data", data => {
-
-					if(data.op == "i") {
-						if(storage.requests.get(data.o.id)) {
-							responses.remove({ _id: data.o._id });
-							storage.requests.get(data.o.id)(data.o.response);
-							storage.requests.delete(data.o.id);
+					try {
+						if(data.op == "i") {
+							if(storage.requests.get(data.o.id)) {
+								responses.remove({ _id: data.o._id });
+								storage.requests.get(data.o.id)(data.o.response);
+								storage.requests.delete(data.o.id);
+							}
 						}
-					}
-
+					} catch (e) { console.log(e); }
 				});
 
 				return resolve((type, options, fn) => {

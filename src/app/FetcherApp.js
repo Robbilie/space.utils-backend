@@ -30,19 +30,22 @@
 
 			const process = (doc) => {
 				this.buckets[doc.type].removeTokens(1, () => {
+					try {
+						const id = doc._id.toString();
 
-					const id = doc._id.toString();
+						requests.remove({ _id: doc._id });
 
-					requests.remove({ _id: doc._id });
-
-					rp(doc.options)
-						.then(data =>
-							responses.insert({ id, response: { data } })
-						)
-						.catch(({ error }) =>
-							responses.insert({ id, response: { error } })
-						);
-
+						rp(doc.options)
+							.then(
+								(data) =>
+									responses.insert({ id, response: { data } }),
+								({ error }) =>
+									responses.insert({ id, response: { error } })
+							)
+							.catch(e =>
+								console.log(e)
+							);
+					} catch (e) { console.log(e); }
 				});
 			};
 
