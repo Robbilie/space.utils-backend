@@ -29,24 +29,25 @@
 			let stream = cursor.stream();
 
 			const process = (doc) => {
-				this.buckets[doc.type].removeTokens(1, () => {
-					try {
-						const id = doc._id.toString();
+				if(this.buckets[doc.type])
+					this.buckets[doc.type].removeTokens(1, () => {
+						try {
+							const id = doc._id.toString();
 
-						requests.remove({ _id: doc._id });
+							requests.remove({ _id: doc._id });
 
-						rp(doc.options)
-							.then(
-								(data) =>
-									responses.insert({ id, response: { data }, timestamp: Date.now() }),
-								({ error }) =>
-									responses.insert({ id, response: { error }, timestamp: Date.now() })
-							)
-							.catch(e =>
-								console.log(e)
-							);
-					} catch (e) { console.log(e); }
-				});
+							rp(doc.options)
+								.then(
+									(data) =>
+										responses.insert({ id, response: { data }, timestamp: Date.now() }),
+									({ error }) =>
+										responses.insert({ id, response: { error }, timestamp: Date.now() })
+								)
+								.catch(e =>
+									console.log(e)
+								);
+						} catch (e) { console.log(e); }
+					});
 			};
 
 			let oldrequests = await requests.find({}).toArray();
