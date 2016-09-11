@@ -47,7 +47,8 @@
 					requests.insert({
 						_id,
 						type,
-						options
+						options,
+						timestamp: Date.now()
 					});
 
 				});

@@ -38,9 +38,9 @@
 						rp(doc.options)
 							.then(
 								(data) =>
-									responses.insert({ id, response: { data } }),
+									responses.insert({ id, response: { data }, timestamp: Date.now() }),
 								({ error }) =>
-									responses.insert({ id, response: { error } })
+									responses.insert({ id, response: { error }, timestamp: Date.now() })
 							)
 							.catch(e =>
 								console.log(e)
