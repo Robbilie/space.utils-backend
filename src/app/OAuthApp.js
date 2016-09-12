@@ -145,36 +145,44 @@
 
 			let apikeyinfoStore 		= await DBUtil.getStore("APIKeyInfo");
 			let apikeyinfoCursor 		= await apikeyinfoStore.getUpdates();
-			let apikeyinfoStream 		= apikeyinfoCursor.stream();
-			apikeyinfoStream.on("data", async data => {
+			const startAPIStream 		= () => {
+				let apikeyinfoStream 		= apikeyinfoCursor.stream();
+					apikeyinfoStream.on("data", async data => {
 
-				try {
+						try {
 
-					if(data.op == "i") {
+							if(data.op == "i") {
 
-						let apikey = data.o;
+								let apikey = data.o;
 
-						let registerToken = await registerTokenStore.findByToken(apikey.vCode);
+								let registerToken = await registerTokenStore.findByToken(apikey.vCode);
 
-						if(!await registerToken.isNull()) {
+								if(!await registerToken.isNull()) {
 
-							if(Date.now() > await registerToken.getExpirationDate()) {
-								return await registerToken.destroy();
+									if(Date.now() > await registerToken.getExpirationDate()) {
+										return await registerToken.destroy();
+									}
+
+									await registerToken.getUser().update({ $addToSet: { characters: { $each: apikey.characters } } });
+
+									await registerToken.destroy();
+
+								}
+
 							}
 
-							await registerToken.getUser().update({ $addToSet: { characters: { $each: apikey.characters } } });
-
-							await registerToken.destroy();
-
+						} catch (e) {
+							console.log(e);
 						}
 
-					}
-
-				} catch (e) {
-					console.log(e);
-				}
-
-			});
+					});
+					apikeyinfoStream.on("error", e => {
+						console.log(e);
+						apikeyinfoStream.close();
+						startAPIStream();
+					});
+			};
+			startAPIStream();
 
 		};
 
