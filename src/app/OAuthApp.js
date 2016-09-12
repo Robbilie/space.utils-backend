@@ -136,7 +136,7 @@
 
 					});
 					mailStream.on("error", e => {
-						console.log(e);
+						console.log("mail", e);
 						mailStream.close();
 						startMailStream();
 					});
@@ -177,7 +177,7 @@
 
 					});
 					apikeyinfoStream.on("error", e => {
-						console.log(e);
+						console.log("apikey", e);
 						apikeyinfoStream.close();
 						startAPIStream();
 					});

@@ -58,7 +58,7 @@
 						}
 					});
 					stream.on("error", e => {
-						console.log(e);
+						console.log("fetcher", e);
 						stream.close();
 						startStream();
 					});

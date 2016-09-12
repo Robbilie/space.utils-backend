@@ -29,7 +29,7 @@
 				let taskStream = taskCursor.stream();
 					taskStream.on("data", data => this.taskUpdate(data));
 					taskStream.on("error", e => {
-						console.log(e);
+						console.log("task", e);
 						taskStream.close();
 						startTaskStream();
 					});

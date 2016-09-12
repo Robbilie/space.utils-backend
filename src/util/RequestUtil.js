@@ -38,7 +38,7 @@
 							} catch (e) { console.log(e); }
 						});
 						stream.on("error", e => {
-							console.log(e);
+							console.log("request", e);
 							stream.close();
 							startStream();
 						});
