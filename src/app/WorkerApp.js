@@ -118,6 +118,8 @@
 		}
 
 		enqueueTimestamp (type, ts, fromDb = false) {
+			if(!this.taskTypes[type])
+				return;
 			this.taskTypes[type].timestamps.push(ts);
 			if(!fromDb)
 				this.ratelimits.insert({ type: type, timestamp: ts });
