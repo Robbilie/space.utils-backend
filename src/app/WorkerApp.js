@@ -25,6 +25,7 @@
 
 			// get task updates
 			let taskCursor = await this.tasks.getUpdates();
+				taskCursor.maxTimeMS(2000 * 1000);
 			const startTaskStream = () => {
 				let taskStream = taskCursor.stream();
 					taskStream.on("data", data => this.taskUpdate(data));

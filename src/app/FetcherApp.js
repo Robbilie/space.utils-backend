@@ -48,6 +48,7 @@
 			};
 
 			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
+				cursor.maxTimeMS(2000 * 1000);
 			const startStream = () => {
 				let stream = cursor.stream();
 					stream.on("data", data => {
