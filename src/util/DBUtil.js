@@ -82,6 +82,11 @@
 								maxTimeMS: 			1000 * 60 * 60 * 24 * 14
 							}
 						)
+						.addCursorFlag('tailable', true)
+						.addCursorFlag('awaitData', true)
+						.addCursorFlag('oplogReplay', true)
+						.addCursorFlag('noCursorTimeout', true)
+						.setCursorOption('numberOfRetries', Number.MAX_VALUE)
 					)
 				);
 			return storage.oplogs.get(index);
