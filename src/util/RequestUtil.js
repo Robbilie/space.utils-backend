@@ -24,7 +24,6 @@
 				const responses = await DBUtil.getCollection("responses");
 
 				let cursor = await DBUtil.getOplogCursor({ ns: "responses", op: "i" });
-					cursor.maxTimeMS(1000 * 60 * 60 * 24 * 14);
 				const startStream = () => {
 					let stream = cursor.stream();
 						stream.on("data", data => {

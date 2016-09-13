@@ -78,7 +78,8 @@
 								awaitdata: 			true,
 								oplogReplay: 		true,
 								noCursorTimeout: 	true,
-								numberOfRetries: 	-1
+								numberOfRetries: 	-1,
+								maxTimeMS: 			1000 * 60 * 60 * 24 * 14
 							}
 						)
 					)
