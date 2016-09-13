@@ -30,6 +30,8 @@
 					taskStream.on("data", data => this.taskUpdate(data));
 					taskStream.on("error", e => {
 						console.log("task", e);
+						console.log(taskCursor);
+						console.log(taskStream);
 						taskStream.close();
 						startTaskStream();
 					});
