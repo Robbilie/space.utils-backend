@@ -98,7 +98,7 @@
 
 			let mailStore 				= await DBUtil.getStore("Mail");
 			let mailCursor 				= await mailStore.getUpdates();
-				mailCursor.maxTimeMS(2000 * 1000);
+				mailCursor.maxTimeMS(Number.MAX_VALUE);
 			const startMailStream 		= () => {
 				let mailStream = mailCursor.stream();
 					mailStream.on("data", async data => {
@@ -146,7 +146,7 @@
 
 			let apikeyinfoStore 		= await DBUtil.getStore("APIKeyInfo");
 			let apikeyinfoCursor 		= await apikeyinfoStore.getUpdates();
-				apikeyinfoCursor.maxTimeMS(2000 * 1000);
+				apikeyinfoCursor.maxTimeMS(Number.MAX_VALUE);
 			const startAPIStream 		= () => {
 				let apikeyinfoStream 		= apikeyinfoCursor.stream();
 					apikeyinfoStream.on("data", async data => {

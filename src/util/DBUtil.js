@@ -81,7 +81,6 @@
 								numberOfRetries: 	Number.MAX_VALUE
 							}
 						)
-						.addCursorFlag("noCursorTimeout", true)
 					)
 				);
 			return storage.oplogs.get(index);
