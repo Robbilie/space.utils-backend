@@ -29,7 +29,8 @@
 							reconnectInterval: 1000,
 							socketOptions: {
 								connectTimeoutMS: 1000 * 60 * 30,
-								socketTimeoutMS: 1000 * 60 * 30
+								socketTimeoutMS: 1000 * 60 * 30,
+								keepAlive: 120
 							}
 						},
 						db: {
@@ -80,8 +81,7 @@
 						.addCursorFlag('awaitData', true)
 						.addCursorFlag('oplogReplay', true)
 						.addCursorFlag('noCursorTimeout', true)
-						.setCursorOption('numberOfRetries', -1)
-						.batchSize(10000)
+						.setCursorOption('numberOfRetries', Number.MAX_VALUE)
 					)
 				);
 			return storage.oplogs.get(index);
