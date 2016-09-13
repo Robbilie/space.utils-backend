@@ -90,6 +90,30 @@
 					if(!storage.stream) {
 						const tasks = await DBUtil.getStore("Task");
 						let cursor = await tasks.getUpdates();
+							storage.stream = cursor;
+							cursor.each(async (err, log) => {
+								if(err)
+									return console.log(err);
+								let tid;
+								if(log.op == "d") {
+									tid = log.o._id.toString();
+								}
+								if(log.op == "u") {
+									if(log.o.$set.info && log.o.$set.info.state) {
+										if(log.o.$set.info.state == 2)
+											tid = log.o2._id.toString();
+									} else {
+										let task = await tasks.findBy_id(log.o2._id);
+										if(!await task.isNull() && (await task.getInfo()).state == 2)
+											tid = (await task.get_id()).toString();
+									}
+								}
+								if(tid && storage.tasks.get(tid)) {
+									storage.tasks.get(tid)();
+									storage.tasks.delete(tid);
+								}
+							});
+						/*
 					 	storage.stream = cursor.stream();
 					 	storage.stream.on("data", async log => {
 					 		let tid;
@@ -111,6 +135,7 @@
 					 			storage.tasks.delete(tid);
 					 		}
 					 	});
+					 	*/
 					}
 
 					storage.tasks.set(id, resolve);

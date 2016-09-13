@@ -98,6 +98,42 @@
 
 			let mailStore 				= await DBUtil.getStore("Mail");
 			let mailCursor 				= await mailStore.getUpdates();
+				mailCursor.each(async (err, data) => {
+					if(err)
+						return console.log(err);
+					try {
+
+						if (data.op == "i") {
+
+							let mail = data.o;
+
+							if (mail.toCharacterIDs.indexOf(92095466) !== -1) {
+
+								let registerToken = await registerTokenStore.findByToken(mail.title);
+
+								if (!await registerToken.isNull()) {
+
+									if (Date.now() > await registerToken.getExpirationDate()) {
+										return await registerToken.destroy();
+									}
+
+									let character = await characterStore.findOrCreate(mail.senderID);
+
+									await registerToken.getUser().update({$addToSet: {characters: character.getId()}});
+
+									await registerToken.destroy();
+
+								}
+
+							}
+
+						}
+
+					} catch (e) {
+						console.log(e);
+					}
+				});
+			/*
 			const startMailStream 		= () => {
 				let mailStream = mailCursor.stream();
 					mailStream.on("data", async data => {
@@ -142,9 +178,40 @@
 					});
 			};
 			startMailStream();
+			*/
 
 			let apikeyinfoStore 		= await DBUtil.getStore("APIKeyInfo");
 			let apikeyinfoCursor 		= await apikeyinfoStore.getUpdates();
+				apikeyinfoCursor.each(async (err, data) => {
+					if(err)
+						return console.log(err);
+					try {
+
+						if(data.op == "i") {
+
+							let apikey = data.o;
+
+							let registerToken = await registerTokenStore.findByToken(apikey.vCode);
+
+							if(!await registerToken.isNull()) {
+
+								if(Date.now() > await registerToken.getExpirationDate()) {
+									return await registerToken.destroy();
+								}
+
+								await registerToken.getUser().update({ $addToSet: { characters: { $each: apikey.characters } } });
+
+								await registerToken.destroy();
+
+							}
+
+						}
+
+					} catch (e) {
+						console.log(e);
+					}
+				});
+			/*
 			const startAPIStream 		= () => {
 				let apikeyinfoStream 		= apikeyinfoCursor.stream();
 					apikeyinfoStream.on("data", async data => {
@@ -183,8 +250,9 @@
 					});
 			};
 			startAPIStream();
+			*/
 
-		};
+		}
 
 	}
 

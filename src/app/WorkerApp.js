@@ -25,6 +25,12 @@
 
 			// get task updates
 			let taskCursor = await this.tasks.getUpdates();
+				taskCursor.each((err, data) => {
+					if(err)
+						return console.log(err);
+					this.taskUpdate(data);
+				});
+			/*
 			const startTaskStream = () => {
 				let taskStream = taskCursor.stream();
 					taskStream.on("data", data => this.taskUpdate(data));
@@ -37,11 +43,12 @@
 					});
 			};
 			startTaskStream();
+			*/
 
 			// get ratelimits
-			let rateCursor = await this.ratelimits.getUpdates();
-			let rateStream = rateCursor.stream();
-				rateStream.on("data", data => this.enqueueTimestamp(data.o.type, data.o.timestamp, true));
+			//let rateCursor = await this.ratelimits.getUpdates();
+			//let rateStream = rateCursor.stream();
+			//	rateStream.on("data", data => this.enqueueTimestamp(data.o.type, data.o.timestamp, true));
 
 			// load all tasks
 			let tasks = await this.tasks.all();

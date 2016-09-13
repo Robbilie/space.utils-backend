@@ -48,6 +48,16 @@
 			};
 
 			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
+				cursor.each((err, data) => {
+					if(err)
+						return console.log(err);
+					if(data.op == "i") {
+						process(data.o);
+					} else if(data.op == "d") {
+						// delete from queue, only relevant for multiple fetchers
+					}
+				});
+			/*
 			const startStream = () => {
 				let stream = cursor.stream();
 					stream.on("data", data => {
@@ -64,6 +74,7 @@
 					});
 			};
 			startStream();
+			*/
 
 			let oldrequests = await requests.find({}).toArray();
 			oldrequests.forEach(data => process(data));

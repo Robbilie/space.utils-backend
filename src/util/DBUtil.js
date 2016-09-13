@@ -78,8 +78,7 @@
 								awaitdata: 			true,
 								oplogReplay: 		true,
 								noCursorTimeout: 	true,
-								numberOfRetries: 	-1,
-								maxTimeMS: 			1000 * 60 * 60 * 24 * 14
+								numberOfRetries: 	Number.MAX_VALUE
 							}
 						)
 						.addCursorFlag('tailable', true)

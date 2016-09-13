@@ -24,6 +24,20 @@
 				const responses = await DBUtil.getCollection("responses");
 
 				let cursor = await DBUtil.getOplogCursor({ ns: "responses", op: "i" });
+					cursor.each((err, data) => {
+						if(err)
+							return console.log(err);
+						try {
+							if(data.op == "i") {
+								if(storage.requests.get(data.o.id)) {
+									responses.remove({ _id: data.o._id });
+									storage.requests.get(data.o.id)(data.o.response);
+									storage.requests.delete(data.o.id);
+								}
+							}
+						} catch (e) { console.log(e); }
+					});
+				/*
 				const startStream = () => {
 					let stream = cursor.stream();
 						stream.on("data", data => {
@@ -44,6 +58,7 @@
 						});
 				};
 				startStream();
+				*/
 
 
 				return resolve((type, options, fn) => {
