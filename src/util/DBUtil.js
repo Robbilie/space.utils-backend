@@ -71,21 +71,13 @@
 					.getOplog()
 					.then(oplog => oplog
 						.collection("oplog.rs")
-						.find(
-							query,
-							{
-								tailable: 			true,
-								awaitdata: 			true,
-								oplogReplay: 		true,
-								noCursorTimeout: 	true,
-								numberOfRetries: 	Number.MAX_VALUE
-							}
-						)
+						.find(query)
 						.addCursorFlag('tailable', true)
 						.addCursorFlag('awaitData', true)
 						.addCursorFlag('oplogReplay', true)
 						.addCursorFlag('noCursorTimeout', true)
-						.setCursorOption('numberOfRetries', Number.MAX_VALUE)
+						.setCursorOption('numberOfRetries', -1)
+						.batchSize(10000)
 					)
 				);
 			return storage.oplogs.get(index);
