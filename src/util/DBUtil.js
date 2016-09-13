@@ -26,7 +26,11 @@
 						server: {
 							auto_reconnect: true,
 							reconnectTries: 2000,
-							reconnectInterval: 1000
+							reconnectInterval: 1000,
+							socketOptions: {
+								connectTimeoutMS: 1000 * 60 * 30,
+								socketTimeoutMS: 1000 * 60 * 30
+							}
 						},
 						db: {
 							numberOfRetries: 2000,
