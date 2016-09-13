@@ -78,7 +78,7 @@
 								awaitdata: 			true,
 								oplogReplay: 		true,
 								noCursorTimeout: 	true,
-								numberOfRetries: 	Number.MAX_VALUE
+								numberOfRetries: 	-1
 							}
 						)
 					)
