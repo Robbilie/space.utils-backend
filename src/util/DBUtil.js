@@ -98,7 +98,7 @@
 						.setCursorOption('numberOfRetries', Number.MAX_VALUE)
 					)
 					*/
-					.then(db => new Promise(async resolve => {
+					.then(db => new Promise(resolve => {
 
 						const createCursor = (ts = Timestamp(0, Date.now() / 1000 | 0)) => db
 							.collection("oplog.rs")
