@@ -120,23 +120,18 @@
 							storage.cursor.each((err, data) => {
 								if(err) {
 									console.log("cursor err", err);
+									storage.methods.forEach(cb => cb(err));
 									return startCursor();
 								}
 								storage.lastTS = Timestamp(0, data.ts.i);
+								storage.methods.forEach(cb => cb(null, data));
 							});
-							storage.methods.forEach(cb => cb());
 						};
 
 						startCursor();
 
 						return resolve({
-							each: onData => {
-								let cb = () => {
-									storage.cursor.each((err, data) => data ? onData(data) : null);
-								};
-								storage.methods.push(cb);
-								cb();
-							}
+							each: onData => storage.methods.push(onData)
 						});
 					}))
 				);

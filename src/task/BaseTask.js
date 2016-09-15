@@ -91,7 +91,9 @@
 						const tasks = await DBUtil.getStore("Task");
 						let cursor = await tasks.getUpdates();
 							storage.stream = cursor;
-							cursor.each(async (log) => {
+							cursor.each(async (err, log) => {
+								if(err)
+									return console.log(err);
 								let tid;
 								if(log.op == "d") {
 									tid = log.o._id.toString();

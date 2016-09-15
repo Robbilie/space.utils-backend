@@ -25,7 +25,9 @@
 
 			// get task updates
 			let taskCursor = await this.tasks.getUpdates();
-				taskCursor.each((data) => {
+				taskCursor.each((err, data) => {
+					if(err)
+						return console.log(err);
 					this.taskUpdate(data);
 				});
 			/*

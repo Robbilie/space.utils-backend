@@ -48,7 +48,9 @@
 			};
 
 			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
-				cursor.each((data) => {
+				cursor.each((err, data) => {
+					if(err)
+						return console.log(err);
 					if(data.op == "i") {
 						process(data.o);
 					} else if(data.op == "d") {
