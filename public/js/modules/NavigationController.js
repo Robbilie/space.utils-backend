@@ -22,6 +22,8 @@
 			});
 
 			this.getApp().getParent().on("click", (e) => {
+				if(!e.button)
+					return true;
 				let link = e.path ? e.path.find(el => el.tagName == "A") : (e.target.tagName == "A" ? e.target : undefined);
 				if(link) {
 					e.stopPropagation();
