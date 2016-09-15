@@ -111,16 +111,19 @@
 
 						const storage = {
 							each: undefined,
-							lastTS: undefined
+							lastTS: undefined,
+							startTS: undefined
 						};
 
 						const startCursor = () =>
-							console.log(storage.lastTS || Date.now()) || createCursor(storage.lastTS)
+							console.log(storage.lastTS || Date.now(), storage.startTS = Date.now()) || createCursor(storage.lastTS)
 								.each((err, data) => {
 									if(storage.each)
 										storage.each(err, data);
-									if(err)
+									if(err) {
+										console.log("Lasted:", Date.now() - storage.startTS);
 										return startCursor();
+									}
 									storage.lastTS = data.ts;
 								});
 
