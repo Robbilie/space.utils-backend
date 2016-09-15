@@ -87,6 +87,7 @@
 			if(!storage.oplogs.get(index))
 				storage.oplogs.set(index, DBUtil
 					.getOplog()
+					/*
 					.then(oplog => oplog
 						.collection("oplog.rs")
 						.find(query)
@@ -96,6 +97,48 @@
 						.addCursorFlag('noCursorTimeout', true)
 						.setCursorOption('numberOfRetries', Number.MAX_VALUE)
 					)
+					*/
+					.then(db => new Promise(async resolve => {
+
+						const createCursor = (ts = Timestamp(0, Date.now() / 1000 | 0)) => db
+							.collection("oplog.rs")
+							.find(Object.assign(query, { ts: { $gt: ts } }))
+							.addCursorFlag('tailable', true)
+							.addCursorFlag('awaitData', true)
+							.addCursorFlag('oplogReplay', true)
+							.addCursorFlag('noCursorTimeout', true)
+							.setCursorOption('numberOfRetries', Number.MAX_VALUE);
+
+						const storage = {
+							cursor: null,
+							methods: [],
+							lastTS: undefined
+						};
+
+						const startCursor = () => {
+							storage.cursor = createCursor(storage.lastTS);
+							storage.cursor.each((err, data) => {
+								if(err) {
+									console.log("cursor err", err);
+									return startCursor();
+								}
+								storage.lastTS = Timestamp(0, data.ts.i);
+							});
+							storage.methods.forEach(cb => cb());
+						};
+
+						startCursor();
+
+						return resolve({
+							each: onData => {
+								let cb = () => {
+									storage.cursor.each((err, data) => onData(data));
+								};
+								storage.methods.push(cb);
+								cb();
+							}
+						});
+					}))
 				);
 			return storage.oplogs.get(index);
 		}
