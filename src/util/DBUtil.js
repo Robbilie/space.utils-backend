@@ -110,28 +110,27 @@
 							.setCursorOption('numberOfRetries', Number.MAX_VALUE);
 
 						const storage = {
-							cursor: null,
-							methods: [],
+							each: undefined,
 							lastTS: undefined
 						};
 
-						const startCursor = () => {
-							storage.cursor = createCursor(storage.lastTS);
-							storage.cursor.each((err, data) => {
-								if(err) {
-									console.log("cursor err", err);
-									storage.methods.forEach(cb => cb(err));
-									return startCursor();
-								}
-								storage.lastTS = Timestamp(0, data.ts.i);
-								storage.methods.forEach(cb => cb(null, data));
-							});
-						};
+						const startCursor = () =>
+							createCursor(storage.lastTS)
+								.each((err, data) => {
+									if(err) {
+										if(storage.each)
+											storage.each(err);
+										return startCursor();
+									}
+									storage.lastTS = data.ts;
+									if(storage.each)
+										storage.each(null, data);
+								});
 
 						startCursor();
 
 						return resolve({
-							each: onData => storage.methods.push(onData)
+							each: each => storage.each = each
 						});
 					}))
 				);
