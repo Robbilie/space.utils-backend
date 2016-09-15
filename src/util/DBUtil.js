@@ -102,7 +102,7 @@
 
 						const createCursor = (ts = Timestamp(0, Date.now() / 1000 | 0)) => db
 							.collection("oplog.rs")
-							.find(Object.assign(query, { ts: { $gt: ts } }))
+							.find(Object.assign(query, { ts: { $gte: ts } }))
 							.addCursorFlag('tailable', true)
 							.addCursorFlag('awaitData', true)
 							.addCursorFlag('oplogReplay', true)
