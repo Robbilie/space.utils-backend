@@ -132,7 +132,7 @@
 						return resolve({
 							each: onData => {
 								let cb = () => {
-									storage.cursor.each((err, data) => onData(data));
+									storage.cursor.each((err, data) => data ? onData(data) : null);
 								};
 								storage.methods.push(cb);
 								cb();
