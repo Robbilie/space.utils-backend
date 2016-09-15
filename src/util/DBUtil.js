@@ -115,7 +115,7 @@
 						};
 
 						const startCursor = () =>
-							createCursor(storage.lastTS)
+							console.log(storage.lastTS || Date.now()) || createCursor(storage.lastTS)
 								.each((err, data) => {
 									if(err) {
 										if(storage.each)
