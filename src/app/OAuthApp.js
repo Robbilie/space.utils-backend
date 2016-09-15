@@ -98,9 +98,7 @@
 
 			let mailStore 				= await DBUtil.getStore("Mail");
 			let mailCursor 				= await mailStore.getUpdates();
-				mailCursor.each(async (err, data) => {
-					if(err)
-						return console.log(err);
+				mailCursor.each(async (data) => {
 					try {
 
 						if (data.op == "i") {
@@ -182,9 +180,7 @@
 
 			let apikeyinfoStore 		= await DBUtil.getStore("APIKeyInfo");
 			let apikeyinfoCursor 		= await apikeyinfoStore.getUpdates();
-				apikeyinfoCursor.each(async (err, data) => {
-					if(err)
-						return console.log(err);
+				apikeyinfoCursor.each(async (data) => {
 					try {
 
 						if(data.op == "i") {

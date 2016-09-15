@@ -24,9 +24,7 @@
 				const responses = await DBUtil.getCollection("responses");
 
 				let cursor = await DBUtil.getOplogCursor({ ns: "responses", op: "i" });
-					cursor.each((err, data) => {
-						if(err)
-							return console.log(err);
+					cursor.each((data) => {
 						try {
 							if(data.op == "i") {
 								if(storage.requests.get(data.o.id)) {
