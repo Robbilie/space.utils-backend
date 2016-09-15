@@ -21,51 +21,23 @@
 			return new Promise(async (resolve) => {
 
 				const requests = await DBUtil.getCollection("requests");
-				const responses = await DBUtil.getCollection("responses");
 
-				let cursor = await DBUtil.getOplogCursor({ ns: "responses", op: "i" });
+				let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "u" });
 					cursor.each((err, data) => {
 						if(err)
 							return console.log(err);
-						try {
-							if(data.op == "i") {
-								if(storage.requests.get(data.o.id)) {
-									responses.remove({ _id: data.o._id });
-									storage.requests.get(data.o.id)(data.o.response);
-									storage.requests.delete(data.o.id);
-								}
-							}
-						} catch (e) { console.log(e); }
+						if(storage.requests.get(data.o2._id)) {
+							storage.requests.get(data.o2._id)(data.o.$set.response);
+							storage.requests.delete(data.o2._id);
+							requests.remove({ _id: data.o2._id });
+						}
 					});
-				/*
-				const startStream = () => {
-					let stream = cursor.stream();
-						stream.on("data", data => {
-							try {
-								if(data.op == "i") {
-									if(storage.requests.get(data.o.id)) {
-										responses.remove({ _id: data.o._id });
-										storage.requests.get(data.o.id)(data.o.response);
-										storage.requests.delete(data.o.id);
-									}
-								}
-							} catch (e) { console.log(e); }
-						});
-						stream.on("error", e => {
-							console.log("request", e);
-							stream.close();
-							startStream();
-						});
-				};
-				startStream();
-				*/
-
 
 				return resolve((type, options, fn) => {
 
 					let _id = new ObjectId();
 
-					storage.requests.set(_id.toString(), fn);
+					storage.requests.set(_id, fn);
 
 					requests.insert({
 						_id,

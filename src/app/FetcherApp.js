@@ -23,27 +23,20 @@
 		async init () {
 
 			const requests = await DBUtil.getCollection("requests");
-			const responses = await DBUtil.getCollection("responses");
 
 			const process = (doc) => {
 				if(this.buckets[doc.type])
 					this.buckets[doc.type].removeTokens(1, () => {
-						try {
-							const id = doc._id.toString();
-
-							requests.remove({ _id: doc._id });
-
-							rp(doc.options)
-								.then(
-									(data) =>
-										responses.insert({ id, response: { data }, timestamp: Date.now() }),
-									({ error }) =>
-										responses.insert({ id, response: { error }, timestamp: Date.now() })
-								)
-								.catch(e =>
-									console.log(e)
-								);
-						} catch (e) { console.log(e); }
+						rp(doc.options)
+							.then(
+								(data) =>
+									requests.update({ _id: data._id }, { $set: { response: { data }, timestamp: Date.now() } }),
+								({ error }) =>
+									requests.update({ _id: data._id }, { $set: { response: { error }, timestamp: Date.now() } }),
+							)
+							.catch(e =>
+								console.log(e)
+							);
 					});
 			};
 
@@ -51,33 +44,11 @@
 				cursor.each((err, data) => {
 					if(err)
 						return console.log(err);
-					if(data.op == "i") {
-						process(data.o);
-					} else if(data.op == "d") {
-						// delete from queue, only relevant for multiple fetchers
-					}
+					process(data.o);
 				});
-			/*
-			const startStream = () => {
-				let stream = cursor.stream();
-					stream.on("data", data => {
-						if(data.op == "i") {
-							process(data.o);
-						} else if(data.op == "d") {
-							// delete from queue, only relevant for multiple fetchers
-						}
-					});
-					stream.on("error", e => {
-						console.log("fetcher", e);
-						stream.close();
-						startStream();
-					});
-			};
-			startStream();
-			*/
 
 			let oldrequests = await requests.find({}).toArray();
-			oldrequests.forEach(data => process(data));
+				oldrequests.forEach(data => process(data));
 
 		}
 
