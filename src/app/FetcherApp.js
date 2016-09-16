@@ -30,9 +30,9 @@
 						rp(doc.options)
 							.then(
 								(data) =>
-									requests.update({ _id: data._id }, { $set: { response: { data }, timestamp: Date.now() } }),
+									requests.update({ _id: doc._id }, { $set: { response: { data }, timestamp: Date.now() } }),
 								({ error }) =>
-									requests.update({ _id: data._id }, { $set: { response: { error }, timestamp: Date.now() } }),
+									requests.update({ _id: doc._id }, { $set: { response: { error }, timestamp: Date.now() } }),
 							)
 							.catch(e =>
 								console.log(e)
