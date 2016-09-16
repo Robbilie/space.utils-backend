@@ -26,9 +26,9 @@
 					cursor.each((err, data) => {
 						if(err)
 							return console.log(err);
-						if(storage.requests.get(data.o2._id)) {
-							storage.requests.get(data.o2._id)(data.o.$set.response);
-							storage.requests.delete(data.o2._id);
+						if(storage.requests.get(data.o2._id.toString())) {
+							storage.requests.get(data.o2._id.toString())(data.o.$set.response);
+							storage.requests.delete(data.o2._id.toString());
 							requests.remove({ _id: data.o2._id });
 						}
 					});
@@ -37,9 +37,9 @@
 
 					let _id = new ObjectId();
 
-					storage.requests.set(_id, fn);
+					storage.requests.set(_id.toString(), fn);
 
-					requests.insert({
+					requests.save({
 						_id,
 						type,
 						options,
