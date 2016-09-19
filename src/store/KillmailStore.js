@@ -13,7 +13,7 @@
 				let killmail = await this.findByKillID(id);
 
 				if(await killmail.isNull()) {
-					console.log("killmail", !!killmail, id);
+					//console.log("killmail", !!killmail, id);
 					await KillmailJsonTask.create({ killID: id, hash });
 					killmail = await this.findByKillID(id);
 				}

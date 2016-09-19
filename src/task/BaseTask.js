@@ -65,7 +65,7 @@
 
 					const d = Date.now();
 
-					BaseTask.waitForTask(_id.toString()).then(e => console.log(this.prototype.constructor.name, "cb", Date.now() - d) || resolve(e)).catch(e => console.log(e));
+					BaseTask.waitForTask(_id.toString()).then(e => (this.prototype.constructor.name == "KillmailJsonTask" ? null : console.log(this.prototype.constructor.name, "cb", Date.now() - d)) || resolve(e)).catch(e => console.log(e));
 					
 					await tasks.insert(
 						{
