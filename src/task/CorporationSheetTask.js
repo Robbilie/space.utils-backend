@@ -82,7 +82,7 @@
 				await this.update({ state: 0 });
 
 			} else {
-				console.log("invalid corp", (await this.getData()).corporationID, response);
+				console.log("invalid corp", (await this.getData()).corporationID, response ? response.eveapi.result || response.eveapi.error : response);
 				await this.destroy();
 			}
 
