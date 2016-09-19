@@ -18,6 +18,10 @@
 			this.start();
 		}
 
+		getType () {
+			return "debug";
+		}
+
 		getData () {
 			return this.task.getData();
 		}
@@ -65,17 +69,17 @@
 
 					const d = Date.now();
 
-					BaseTask.waitForTask(_id.toString()).then(e => (this.prototype.constructor.name == "KillmailJsonTask" ? null : console.log(this.prototype.constructor.name, "cb", Date.now() - d)) || resolve(e)).catch(e => console.log(e));
+					BaseTask.waitForTask(_id.toString()).then(e => (this.name == "KillmailJsonTask" ? null : console.log(this.name, "cb", Date.now() - d)) || resolve(e)).catch(e => console.log(e));
 					
 					await tasks.insert(
 						{
 							_id,
 							data: data,
 							info: {
-								type: 		info.type 		|| typeof(Object.getPrototypeOf(this).prototype) != "undefined" && Object.getPrototypeOf(this).prototype.constructor.getType ? Object.getPrototypeOf(this).prototype.constructor.getType() : undefined,
+								type: 		info.type 		|| this.getType(),
 								timestamp: 	info.timestamp 	|| 0,
 								state: 		info.state 		|| 0,
-								name: 		info.name 		|| this.prototype.constructor.name
+								name: 		info.name 		|| this.name
 							}
 						}
 					);
@@ -113,29 +117,6 @@
 									storage.tasks.delete(tid);
 								}
 							});
-						/*
-					 	storage.stream = cursor.stream();
-					 	storage.stream.on("data", async log => {
-					 		let tid;
-					 		if(log.op == "d") {
-					 			tid = log.o._id.toString();
-					 		}
-					 		if(log.op == "u") {
-					 			if(log.o.$set.info && log.o.$set.info.state) {
-					 				if(log.o.$set.info.state == 2)
-					 					tid = log.o2._id.toString();
-					 			} else {
-				 					let task = await tasks.findBy_id(log.o2._id);
-				 					if(!await task.isNull() && (await task.getInfo()).state == 2)
-				 						tid = (await task.get_id()).toString();
-					 			}
-				 			}
-					 		if(tid && storage.tasks.get(tid)) {
-					 			storage.tasks.get(tid)();
-					 			storage.tasks.delete(tid);
-					 		}
-					 	});
-					 	*/
 					}
 
 					storage.tasks.set(id, resolve);
