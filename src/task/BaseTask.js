@@ -89,38 +89,39 @@
 		}
 
 		static waitForTask (id, {} = $(1, {id}, "String")) {
-			return new Promise(async resolve => {
-				try {
-					if(!storage.stream) {
-						const tasks = await DBUtil.getStore("Task");
-						let cursor = await tasks.getUpdates();
-							storage.stream = cursor;
-							cursor.each(async (err, log) => {
-								if(err)
-									return console.log(err);
-								let tid;
-								if(log.op == "d") {
-									tid = log.o._id.toString();
-								}
-								if(log.op == "u") {
-									if(log.o.$set.info && log.o.$set.info.state) {
-										if(log.o.$set.info.state == 2)
-											tid = log.o2._id.toString();
-									} else {
-										let task = await tasks.findBy_id(log.o2._id);
-										if(!await task.isNull() && (await task.getInfo()).state == 2)
-											tid = (await task.get_id()).toString();
+			return new Promise(resolve => {
+				if(!storage.stream)
+					storage.stream = DBUtil
+						.getStore("Task")
+						.then(tasks => tasks
+							.getUpdates()
+							.then(cursor => cursor
+								.each(async (err, log) => {
+									if(err)
+										return console.log(err);
+									let tid;
+									if(log.op == "d") {
+										tid = log.o._id.toString();
 									}
-								}
-								if(tid && storage.tasks.get(tid)) {
-									storage.tasks.get(tid)();
-									storage.tasks.delete(tid);
-								}
-							});
-					}
+									if(log.op == "u") {
+										if(log.o.$set.info && log.o.$set.info.state) {
+											if(log.o.$set.info.state == 2)
+												tid = log.o2._id.toString();
+										} else {
+											let task = await tasks.findBy_id(log.o2._id);
+											if(!await task.isNull() && (await task.getInfo()).state == 2)
+												tid = (await task.get_id()).toString();
+										}
+									}
+									if(tid && storage.tasks.get(tid)) {
+										storage.tasks.get(tid)();
+										storage.tasks.delete(tid);
+									}
+								})
+							)
+						);
 
-					storage.tasks.set(id, resolve);
-				} catch (e) { console.log(e)}
+				storage.tasks.set(id, resolve);
 			});
 		}
 
