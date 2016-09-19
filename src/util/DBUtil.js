@@ -20,38 +20,7 @@
 
 		static getConnection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(
-					`mongodb://${config.database.host}:${config.database.port}/${db}`,
-					{
-						server: {
-							reconnectTries: 2000,
-							reconnectInterval: 1000,
-							socketOptions: {
-								autoReconnect: true,
-								connectTimeoutMS: 1000 * 60 * 30,
-								socketTimeoutMS: 1000 * 60 * 30
-							}
-						},
-						mongos: {
-							socketOptions: {
-								autoReconnect: true,
-								connectTimeoutMS: 1000 * 60 * 30,
-								socketTimeoutMS: 1000 * 60 * 30
-							}
-						},
-						replSet: {
-							socketOptions: {
-								autoReconnect: true,
-								connectTimeoutMS: 1000 * 60 * 30,
-								socketTimeoutMS: 1000 * 60 * 30
-							}
-						},
-						db: {
-							numberOfRetries: 2000,
-							retryMiliSeconds: 1000
-						}
-					}
-				);
+				storage[field] = MongoClient.connect(`mongodb://${config.database.host}:${config.database.port}/${db}`);
 			return storage[field];
 		}
 
@@ -104,7 +73,7 @@
 							.collection("oplog.rs")
 							.find(Object.assign(query, { ts: { $gte: ts } }))
 							.maxTimeMS(1000 * 60 * 60 * 24 * 14)
-							.batchSize(10000)
+							.batchSize(20000)
 							.addCursorFlag('tailable', true)
 							.addCursorFlag('awaitData', true)
 							.addCursorFlag('oplogReplay', true)
