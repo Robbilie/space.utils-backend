@@ -20,7 +20,38 @@
 
 		static getConnection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`mongodb://${config.database.host}:${config.database.port}/${db}`);
+				storage[field] = MongoClient.connect(
+					`mongodb://${config.database.host}:${config.database.port}/${db}`,
+					{
+						server: {
+							reconnectTries: 2000,
+							reconnectInterval: 1000,
+							socketOptions: {
+								autoReconnect: true,
+								connectTimeoutMS: 1000 * 60 * 30,
+								socketTimeoutMS: 1000 * 60 * 30
+							}
+						},
+						mongos: {
+							socketOptions: {
+								autoReconnect: true,
+								connectTimeoutMS: 1000 * 60 * 30,
+								socketTimeoutMS: 1000 * 60 * 30
+							}
+						},
+						replSet: {
+							socketOptions: {
+								autoReconnect: true,
+								connectTimeoutMS: 1000 * 60 * 30,
+								socketTimeoutMS: 1000 * 60 * 30
+							}
+						},
+						db: {
+							numberOfRetries: 2000,
+							retryMiliSeconds: 1000
+						}
+					}
+				);
 			return storage[field];
 		}
 
