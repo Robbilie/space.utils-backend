@@ -14,7 +14,7 @@
 		static call (type, options) {
 			if(!storage.stream)
 				storage.stream = RequestUtil.stream();
-			return storage.stream.then(stream => new Promise(resolve => stream(type, options, resolve)));
+			return storage.stream.then(stream => stream(type, options));
 		}
 
 		static stream () {
@@ -26,26 +26,28 @@
 					cursor.each((err, data) => {
 						if(err)
 							return console.log(err);
-						if(storage.requests.get(data.o2._id.toString())) {
-							storage.requests.get(data.o2._id.toString())(data.o.$set.response);
-							storage.requests.delete(data.o2._id.toString());
-							requests.remove({ _id: data.o2._id });
-						}
+						try {
+							if (storage.requests.get(data.o2._id.toString())) {
+								storage.requests.get(data.o2._id.toString())(data.o.$set.response);
+								storage.requests.delete(data.o2._id.toString());
+								requests.remove({_id: data.o2._id});
+							}
+						} catch(e) { console.log(e); }
 					});
 
-				return resolve((type, options, fn) => {
+				return resolve((type, options) => {
+					return new Promise(resolve => {
+						let _id = new ObjectId();
 
-					let _id = new ObjectId();
+						storage.requests.set(_id.toString(), resolve);
 
-					storage.requests.set(_id.toString(), fn);
-
-					requests.save({
-						_id,
-						type,
-						options,
-						timestamp: Date.now()
+						requests.save({
+							_id,
+							type,
+							options,
+							timestamp: Date.now()
+						});
 					});
-
 				});
 
 			});

@@ -4,6 +4,15 @@
 	const { DBUtil } 				= require("util/");
 	const { TokenBucket } 			= require("limiter");
 	const rp 						= require("request-promise-native");
+	const request 					= require("request");
+	const specialRequest 			= request.defaults({
+		gzip: true,
+		forever: true,
+		timeout: 1000 * 10,
+		pool: {
+			maxSockets: Infinity
+		}
+	});
 
 	class FetcherApp {
 
@@ -12,6 +21,7 @@
 				XML: 	new TokenBucket(60, 30, "second", null),
 				CREST: 	new TokenBucket(400, 150, "second", null)
 			};
+			this.processing = 0;
 
 			try {
 				this.init();
@@ -26,17 +36,23 @@
 
 			const process = (doc) => {
 				if(this.buckets[doc.type])
-					this.buckets[doc.type].removeTokens(1, () => {
+					this.buckets[doc.type].removeTokens(1, e => {
+						if(e)
+							return console.log(e) || e.code === 'ETIMEDOUT' ? process(doc) : undefined;
+						//console.log(JSON.stringify(doc));
+						console.log("+", ++this.processing);
+						/*
 						rp(doc.options)
-							.then(
-								(data) =>
-									requests.update({ _id: doc._id }, { $set: { response: { data }, timestamp: Date.now() } }),
-								({ error }) =>
-									requests.update({ _id: doc._id }, { $set: { response: { error }, timestamp: Date.now() } }),
-							)
-							.catch(e =>
-								console.log(e)
-							);
+							.then(data => { requests.update({ _id: doc._id }, { $set: { response: { data }, timestamp: Date.now() } }); console.log("-", --this.processing); })
+							.catch(e => {
+								console.log(e);
+								requests.update({ _id: doc._id }, { $set: { response: { error: e }, timestamp: Date.now() } });
+								console.log("-", --this.processing);
+							});
+						*/
+
+						specialRequest(doc.options, (err, reqres, body) => console.log("-", --this.processing) || requests.update({ _id: doc._id }, { $set: { response: { [err ? "error" : "data"]: body }, timestamp: Date.now() } }).catch(e => console.log(e)));
+
 					});
 			};
 

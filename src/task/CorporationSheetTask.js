@@ -12,7 +12,7 @@
 			try {
 				response = await this.getXML("Corp/CorporationSheet", await this.dataToForm());
 			} catch (e) {
-				console.log("XMLERROR");
+				console.log("XMLERROR", e);
 				return await this.update({ state: 0 });
 			}
 
