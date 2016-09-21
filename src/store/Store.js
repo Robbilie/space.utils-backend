@@ -36,11 +36,11 @@
 			return this.findOne({ _id: DBUtil.to_id(_id) }, null, bare);
 		}
 
-		findOne (data = {}, options, bare) {
+		findOne (data = {}, options = {}, bare) {
 			return (
 				bare ?
 					this.getCollection().findOne(data, options) :
-					this.aggregate(data).toArray().then(results => results[0])
+					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => results[0])
 			).then(doc => new (this.getType())(doc));
 		}
 
