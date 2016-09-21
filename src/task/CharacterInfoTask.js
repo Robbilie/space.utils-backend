@@ -73,7 +73,7 @@
 									timestamp: 0
 								}
 							},
-							$push: { "data.ids": char.characterID[0] - 0 }
+							$addToSet: { "data.ids": char.characterID[0] - 0 }
 						},
 						{ upsert: true }
 					);
