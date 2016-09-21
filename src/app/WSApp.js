@@ -21,7 +21,7 @@
 			this.ws = new Server({ port: config.site.wsport });
 			this.ws.on("connection", socket => {
 				socket.json = function (data) { return this.send(JSON.stringify(data)); };
-				var interval = setInterval(() => socket.send("ping"), 10 * 10000);
+				var interval = setInterval(() => socket.send("ping"), 10 * 1000);
 				socket.on("close", () => clearInterval(interval));
 				socket.on("message", message => {
 					try {
