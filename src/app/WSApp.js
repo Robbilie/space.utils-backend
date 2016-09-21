@@ -4,6 +4,7 @@
 	const { Server } 				= require("ws");
 	const routes 					= require("util/../../routes/api");
 	const config 					= require("util/../../config/");
+	const { DBUtil } 				= require("util/");
 
 	class WSApp {
 
@@ -26,6 +27,13 @@
 						switch (msg.type) {
 							case "http":
 								routes.handle(msg.data, { json: data => socket.json({ id: msg.id, data }) });
+								break;
+							case "stream":
+								DBUtil
+									.getOplogCursor({ ns: msg.data.name, op: "i" })
+									.then(cursor => cursor
+										.each((err, data) => socket.json(err || data))
+									);
 								break;
 						}
 					} catch (e) {
