@@ -6,7 +6,8 @@
 
 	const storage = {
 		requests: new Map(),
-		stream: null
+		stream: null,
+		lastTS: undefined
 	};
 
 	class RequestUtil {
@@ -22,18 +23,7 @@
 
 				const requests = await DBUtil.getCollection("requests");
 
-				let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "u" });
-					cursor.each((err, data) => {
-						if(err)
-							return console.log(err);
-						try {
-							if (storage.requests.get(data.o2._id.toString())) {
-								storage.requests.get(data.o2._id.toString())(data.o.$set.response);
-								storage.requests.delete(data.o2._id.toString());
-								requests.remove({_id: data.o2._id});
-							}
-						} catch(e) { console.log(e); }
-					});
+				await RequestUtil.tail();
 
 				return resolve((type, options) => {
 					return new Promise(resolve => {
@@ -51,6 +41,23 @@
 				});
 
 			});
+		}
+
+		static tail () {
+			return DBUtil
+				.getOplogCursor({ ns: "requests", op: "u" }, storage.lastTS)
+				.then(cursor => cursor.each((err, data) => {
+					if(err)
+						return console.log(err) || RequestUtil.tail();
+					storage.lastTS = data.ts;
+					try {
+						if (storage.requests.get(data.o2._id.toString())) {
+							storage.requests.get(data.o2._id.toString())(data.o.$set.response);
+							storage.requests.delete(data.o2._id.toString());
+							requests.remove({_id: data.o2._id});
+						}
+					} catch(e) { console.log(e); }
+				}));
 		}
 
 	}

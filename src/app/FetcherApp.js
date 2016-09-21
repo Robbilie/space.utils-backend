@@ -22,6 +22,7 @@
 				CREST: 	new TokenBucket(400, 150, "second", null)
 			};
 			this.processing = 0;
+			this.lastTS = undefined;
 
 			try {
 				this.init();
@@ -31,55 +32,16 @@
 		}
 
 		async init () {
+			this.requests = await DBUtil.getCollection("requests");
 
-			const requests = await DBUtil.getCollection("requests");
+			await this.startTail();
 
-			const process = (doc) => {
-				if(this.buckets[doc.type])
-					this.buckets[doc.type].removeTokens(1, e => {
-						if(e)
-							console.log(e);
-						console.log("+", ++this.processing);
-						/*
-						rp(doc.options)
-							.then(data => { requests.update({ _id: doc._id }, { $set: { response: { data }, timestamp: Date.now() } }); console.log("-", --this.processing); })
-							.catch(e => {
-								console.log(e);
-								requests.update({ _id: doc._id }, { $set: { response: { error: e }, timestamp: Date.now() } });
-								console.log("-", --this.processing);
-							});
-						*/
-
-						specialRequest(doc.options,
-							(err, reqres, body) => {
-								console.log("-", --this.processing);
-								if(err && err.code === "ETIMEDOUT")
-									return process(doc);
-								requests.update(
-									{_id: doc._id},
-									{
-										$set: {
-											response: {[err ? "error" : "data"]: body || err},
-											timestamp: Date.now()
-										}
-									}
-								).catch(e => console.log(e));
-							}
-						);
-
-					});
-			};
-
-			let cursor = await DBUtil.getOplogCursor({ ns: "requests", op: "i" });
-				cursor.each((err, data) => {
-					if(err)
-						return console.log(err);
-					process(data.o);
-				});
-
-			let oldrequests = await requests.find({}).toArray();
-				oldrequests.forEach(data => process(data));
-
+			await this.requests
+				.find({})
+				.toArray()
+				.then(reqs =>
+					reqs.forEach(data => this.process(data))
+				);
 		}
 
 		sortQueue () {
@@ -92,6 +54,43 @@
 				}
 
 			});
+		}
+
+		startTail () {
+			return DBUtil
+				.getOplogCursor({ ns: "requests", op: "i" }, this.lastTS)
+				.then(cursor => cursor.each((err, data) => {
+					if(err)
+						return console.log(err) || this.startTail();
+					this.lastTS = data.ts;
+					this.process(data.o);
+				}));
+		}
+
+		process (doc) {
+			if(this.buckets[doc.type]) {
+				this.buckets[doc.type].removeTokens(1, e => {
+					if (e)
+						console.log(e);
+					console.log("+", ++this.processing);
+					specialRequest(doc.options,
+						(err, reqres, body) => {
+							console.log("-", --this.processing);
+							if (err && err.code === "ETIMEDOUT")
+								return process(doc);
+							this.requests.update(
+								{_id: doc._id},
+								{
+									$set: {
+										response: {[err ? "error" : "data"]: body || err},
+										timestamp: Date.now()
+									}
+								}
+							).catch(e => console.log(e));
+						}
+					);
+				});
+			}
 		}
 
 	}

@@ -74,7 +74,7 @@
 			return DBUtil.getDB().then(db => db.collection(config.database.prefix + collectionName));
 		}
 
-		static getOplogCursor (properties = {}) {
+		static getOplogCursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
 			const query = properties;
 				query.ns = properties.ns ? config.database.name + "." + properties.ns : { $regex: new RegExp("^" + config.database.name, "i") };
 			if(properties.op)
@@ -82,7 +82,7 @@
 			// generate key so you dont regen the same cursor twice
 			const index = JSON.stringify(query);
 			// add timestamp afterwards otherwise index would differ
-			query.ts = { $gt: Timestamp(0, Date.now() / 1000 | 0) };
+			query.ts = { $gt: timestamp };
 
 			if(!storage.oplogs.get(index))
 				storage.oplogs.set(index, DBUtil
