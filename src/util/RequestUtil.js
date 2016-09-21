@@ -6,6 +6,7 @@
 
 	const storage = {
 		requests: new Map(),
+		requestCollection: null,
 		stream: null,
 		lastTS: undefined
 	};
@@ -21,7 +22,7 @@
 		static stream () {
 			return new Promise(async (resolve) => {
 
-				const requests = await DBUtil.getCollection("requests");
+				storage.requestCollection = await DBUtil.getCollection("requests");
 
 				await RequestUtil.tail();
 
@@ -31,7 +32,7 @@
 
 						storage.requests.set(_id.toString(), resolve);
 
-						requests.save({
+						storage.requestCollection.save({
 							_id,
 							type,
 							options,
@@ -54,7 +55,7 @@
 						if (storage.requests.get(data.o2._id.toString())) {
 							storage.requests.get(data.o2._id.toString())(data.o.$set.response);
 							storage.requests.delete(data.o2._id.toString());
-							requests.remove({_id: data.o2._id});
+							storage.requestCollection.remove({_id: data.o2._id});
 						}
 					} catch(e) { console.log(e); }
 				}));
