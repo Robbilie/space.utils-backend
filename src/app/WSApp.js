@@ -33,11 +33,12 @@
 							case "stream":
 								DBUtil
 									.getOplogCursor({ ns: msg.data.name, op: "i" })
-									.then(cursor => cursor.stream()
-										.on("data", data => socket.json(data))
-										.on("error", error => socket.json(error) || socket.close())
-										//.each((err, data) => socket.json(err || data))
-									);
+									.then(cursor => {
+										let stream = cursor.stream()
+											.on("data", data => socket.json(data))
+											.on("error", error => socket.json(error) || socket.close());
+										socket.on("close", () => stream.close());
+									});
 								break;
 						}
 					} catch (e) {
