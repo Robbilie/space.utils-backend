@@ -48,7 +48,7 @@
 			return (
 				bare ?
 					this.getCollection().find(data, options) :
-					this.aggregate(data)
+					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, []))
 			).toArray().then(docs => docs.map(doc => new (this.getType())(doc)));
 		}
 		
@@ -56,10 +56,11 @@
 			return this.find({});
 		}
 		
-		aggregate (match) {
+		aggregate (match, options = []) {
 			return this.getCollection()
 				.aggregate([
 					{ $match: match },
+					...options,
 					...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
 				]);
 		}
