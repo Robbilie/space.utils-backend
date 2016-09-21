@@ -38,8 +38,7 @@
 				if(this.buckets[doc.type])
 					this.buckets[doc.type].removeTokens(1, e => {
 						if(e)
-							return console.log(e) || e.code === 'ETIMEDOUT' ? process(doc) : undefined;
-						//console.log(JSON.stringify(doc));
+							console.log(e);
 						console.log("+", ++this.processing);
 						/*
 						rp(doc.options)
@@ -52,17 +51,20 @@
 						*/
 
 						specialRequest(doc.options,
-							(err, reqres, body) =>
-								console.log("-", --this.processing) ||
+							(err, reqres, body) => {
+								console.log("-", --this.processing);
+								if(err.code === "ETIMEDOUT")
+									return process(doc);
 								requests.update(
-									{ _id: doc._id },
+									{_id: doc._id},
 									{
 										$set: {
-											response: { [err ? "error" : "data"]: body || err },
+											response: {[err ? "error" : "data"]: body || err},
 											timestamp: Date.now()
 										}
 									}
-								).catch(e => console.log(e))
+								).catch(e => console.log(e));
+							}
 						);
 
 					});
