@@ -23,7 +23,11 @@
 				socket.on("message", message => {
 					try {
 						const msg = JSON.parse(message);
-						routes.handle(msg, {json: json => socket.json(Object.assign(json, { id: msg.id })) });
+						switch (msg.type) {
+							case "http":
+								routes.handle(msg.data, { json: data => socket.json({ id: msg.id, data }) });
+								break;
+						}
 					} catch (e) {
 						socket.json({ error: e })
 					}
