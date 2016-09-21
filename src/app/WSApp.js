@@ -21,6 +21,8 @@
 			this.ws = new Server({ port: config.site.wsport });
 			this.ws.on("connection", socket => {
 				socket.json = function (data) { return this.send(JSON.stringify(data)); };
+				var interval = setInterval(() => socket.send("ping"), 10 * 10000);
+				socket.on("close", () => clearInterval(interval));
 				socket.on("message", message => {
 					try {
 						const msg = JSON.parse(message);
@@ -31,8 +33,10 @@
 							case "stream":
 								DBUtil
 									.getOplogCursor({ ns: msg.data.name, op: "i" })
-									.then(cursor => cursor
-										.each((err, data) => socket.json(err || data))
+									.then(cursor => cursor.stream()
+										.on("data", data => socket.json(data))
+										.on("error", error => socket.json(error) || socket.close())
+										//.each((err, data) => socket.json(err || data))
 									);
 								break;
 						}
