@@ -33,7 +33,7 @@
 
 			} else {
 				console.log("invalid killmail", (await this.getData()).killID, response);
-				if(response.message != "Invalid killmail ID hash.")
+				if(response && response.message != "Invalid killmail ID hash.")
 					return await this.update({ state: 0 });
 			}
 
