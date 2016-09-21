@@ -13,6 +13,7 @@
 				response = await this.getCREST(`/killmails/${(await this.getData()).killID}/${(await this.getData()).hash}/`);
 			} catch (e) {
 				console.log("CRESTERROR");
+				console.log(e);
 				return await this.update({ state: 0 });
 			}
 
