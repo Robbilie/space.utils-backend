@@ -22,7 +22,8 @@
 				socket.json = function (data) { return this.send(JSON.stringify(data)); };
 				socket.on("message", message => {
 					try {
-						routes.handle(JSON.parse(message), {json: json => socket.json(json) });
+						const msg = JSON.parse(message);
+						routes.handle(msg, {json: json => socket.json(Object.assign(json, { id: msg.id })) });
 					} catch (e) {
 						socket.json({ error: e })
 					}
