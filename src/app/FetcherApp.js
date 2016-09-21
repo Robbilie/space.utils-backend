@@ -51,7 +51,19 @@
 							});
 						*/
 
-						specialRequest(doc.options, (err, reqres, body) => console.log("-", --this.processing) || requests.update({ _id: doc._id }, { $set: { response: { [err ? "error" : "data"]: body }, timestamp: Date.now() } }).catch(e => console.log(e)));
+						specialRequest(doc.options,
+							(err, reqres, body) =>
+								console.log("-", --this.processing) ||
+								requests.update(
+									{ _id: doc._id },
+									{
+										$set: {
+											response: { [err ? "error" : "data"]: body || err },
+											timestamp: Date.now()
+										}
+									}
+								).catch(e => console.log(e))
+						);
 
 					});
 			};
