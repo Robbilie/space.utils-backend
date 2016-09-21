@@ -92,7 +92,7 @@
 						.collection("oplog.rs")
 						.find(query)
 						//.maxTimeMS(1000 * 60 * 60 * 24 * 14)
-						//.batchSize(20000)
+						.batchSize(10000)
 						.addCursorFlag('tailable', true)
 						.addCursorFlag('awaitData', true)
 						.addCursorFlag('oplogReplay', true)
