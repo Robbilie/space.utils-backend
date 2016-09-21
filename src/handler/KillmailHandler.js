@@ -9,7 +9,7 @@
 			return async (req, res) => {
 				console.log(req.body);
 				let store 			= await KillmailHandler.getStore();
-				let killmails 		= await store.find(req.body.filter || {}, Object.assign(req.body.options || {}, Math.min((req.body.options ? req.body.options.limit : 250) || 250, 250)));
+				let killmails 		= await store.find(req.body.filter || {}, Object.assign(req.body.options || {}, { limit: req.body.options ? Math.min(req.body.options.limit || 250, 250) : 250 }));
 				res.json(await Promise.all(killmails.map(killmail => killmail.toJSON())));
 			};
 		}
