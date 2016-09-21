@@ -7,7 +7,7 @@
 			try {
 				this.init();
 			} catch (e) {
-				console.log(e);
+				console.log(e, new Error());
 			}
 		}
 

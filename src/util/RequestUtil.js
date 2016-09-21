@@ -57,7 +57,7 @@
 							storage.requests.delete(data.o2._id.toString());
 							storage.requestCollection.remove({_id: data.o2._id});
 						}
-					} catch(e) { console.log(e); }
+					} catch(e) { console.log(e, new Error()); }
 				}));
 		}
 

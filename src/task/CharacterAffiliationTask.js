@@ -61,7 +61,7 @@
 
 					}));
 
-				} catch (e) { console.log(e) }
+				} catch (e) { console.log(e, new Error()); }
 				
 				await this.update({ state: 2, timestamp: new Date(response.eveapi.cachedUntil[0] + "Z").getTime() });
 				await this.update({ state: 0 });

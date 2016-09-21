@@ -13,7 +13,7 @@
 			try {
 				this.init();
 			} catch (e) {
-				console.log(e);
+				console.log(e, new Error());
 			}
 		}
 
@@ -117,11 +117,11 @@
 					// do special processing stuff
 					new (LoadUtil.task((await task.getInfo()).name))(this, task);
 				} catch (e) {
-					console.log((await task.getInfo()).name, e);
+					console.log((await task.getInfo()).name, e, new Error());
 				}
 
 			} catch (e) {
-				console.log(e);
+				console.log(e, new Error());
 			}
 
 		}

@@ -77,7 +77,7 @@
 						}
 					);
 
-				} catch(e) { console.log(e); }
+				} catch(e) { console.log(e, new Error()); }
 
 			} else {
 				console.log("invalid char", (await this.getData()).characterID, response);

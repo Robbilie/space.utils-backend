@@ -69,7 +69,7 @@
 
 					const d = Date.now();
 
-					BaseTask.waitForTask(_id.toString()).then(e => (this.name == "KillmailJsonTask" ? null : console.log(this.name, "cb", Date.now() - d)) || resolve(e)).catch(e => console.log(e));
+					BaseTask.waitForTask(_id.toString()).then(e => (this.name == "KillmailJsonTask" ? null : console.log(this.name, "cb", Date.now() - d)) || resolve(e)).catch(e => console.log(e, new Error()));
 					
 					await tasks.insert(
 						{
@@ -84,7 +84,7 @@
 						}
 					);
 
-				} catch (e) { console.log(e); }
+				} catch (e) { console.log(e, new Error()); }
 			});
 		}
 

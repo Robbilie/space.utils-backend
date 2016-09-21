@@ -20,7 +20,7 @@
 				
 				return alliance;
 
-			} catch (e) { console.log(e); }
+			} catch (e) { console.log(e, new Error()); }
 		}
 
 		async getMembers (alliance, {} = $(1, { alliance }, "Alliance")) {

@@ -45,7 +45,7 @@
 					let corpStore 		= await DBUtil.getStore("Corporation");
 					await corpStore.findOrCreate(response.executorCorporation.id);
 
-				} catch(e) { console.log(e); }
+				} catch(e) { console.log(e, new Error()); }
 
 			} else {
 				console.log("invalid alli", (await this.getData()).allianceID, response);

@@ -27,7 +27,7 @@
 			try {
 				this.init();
 			} catch (e) {
-				console.log(e);
+				console.log(e, new Error());
 			}
 		}
 
@@ -86,7 +86,7 @@
 										timestamp: Date.now()
 									}
 								}
-							).catch(e => console.log(e));
+							).catch(e => console.log(e, new Error()));
 						}
 					);
 				});

@@ -30,7 +30,7 @@
 						{ upsert: true }
 					);
 
-				} catch(e) { console.log(e) }
+				} catch(e) { console.log(e, new Error()) }
 
 			} else {
 				console.log("invalid killmail", (await this.getData()).killID, (await this.getData()).hash, response);
