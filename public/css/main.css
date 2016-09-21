@@ -16,7 +16,7 @@ body {
     text-align: center;
 }
 
-element {
+:root {
     --primary-color: rgba(255,255,255,.25);
     --seconday-color: rgba(255,255,255,.4);
 }
