@@ -28,7 +28,7 @@
 
 			return new Promise((resolve, reject) => parseString(data || error, (e, r) => {
 				if(e) {
-					console.log(response);
+					console.log(data || error, e);
 					reject(e);
 				} else {
 					resolve(r);
