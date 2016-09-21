@@ -20,11 +20,11 @@
 
 			this.ws = new Server({ port: config.site.wsport });
 			this.ws.on("connection", socket => {
-				socket.json = function (data) { return this.send(JSON.stringify(data)); };
+				socket.json = function (data) { try { return this.send(JSON.stringify(data)); } catch (e) { return e; } };
 				const onData = data => socket.json(data);
 				const onError = error => socket.json(error);
 
-				var interval = setInterval(() => socket.send("ping"), 10 * 1000);
+				var interval = setInterval(() => { try { socket.send("ping"); } catch (e) { return e; } }, 10 * 1000);
 				socket.on("close", () => clearInterval(interval));
 
 				socket.on("message", message => {
