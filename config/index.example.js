@@ -6,6 +6,7 @@
 			url: 		"<theUrlYouAreServing>",
 			apiport: 	4001,
 			oauthport: 	4002,
+			wsport: 	4003,
 			debug: 		true,
 			userAgent: 	"<theUserAgentForTheApiAndSuch>",
 			localIP: 	"<yourLocalAddressSetUndefinedIfDefault>"
