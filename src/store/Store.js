@@ -32,8 +32,8 @@
 			return this.findOne({ [this.getPK()]: pk });
 		}
 
-		findBy_id (_id, bare) {
-			return this.findOne({ _id: DBUtil.to_id(_id) }, null, bare);
+		findBy_id (_id, options, bare) {
+			return this.findOne({ _id: DBUtil.to_id(_id) }, options, bare);
 		}
 
 		findOne (data = {}, options = {}, bare) {
