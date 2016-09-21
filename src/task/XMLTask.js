@@ -26,7 +26,10 @@
 				headers: 		{ "User-Agent": config.site.userAgent }
 			}, query ? { form: query } : {}));
 
-			return new Promise((resolve, reject) => parseString(data || error, (e, r) => {
+			if(!(data || error))
+				console.log("how?!?!?", data, error, query);
+
+			return new Promise((resolve, reject) => !(data || error) ? reject() : parseString(data || error, (e, r) => {
 				if(e) {
 					console.log(data || error, e);
 					reject(e);
