@@ -16,6 +16,11 @@ body {
     text-align: center;
 }
 
+element {
+    --primary-color: rgba(255,255,255,.25);
+    --seconday-color: rgba(255,255,255,.4);
+}
+
 #viewport {
     position: fixed;
     top: 0;
@@ -79,7 +84,7 @@ body {
     display: block;
     float: right;
     height: 100%;
-    border: 3px solid rgba(255,255,255,.4);
+    border: 2px solid var(--primary-color);
     background-color: transparent;
     outline: none;
     color: rgba(255,255,255,.8);
@@ -119,7 +124,7 @@ body {
     width: 40px;
     height: 40px;
     z-index: 5;
-    background-color: rgba(255,255,255,.4);
+    background-color: var(--primary-color);
     font-size: 40px;
     line-height: 40px;
     color: white;
@@ -163,7 +168,7 @@ body {
     color: white;
     text-align: center;
     padding: 5px;
-    background-color: rgba(255,255,255,.4);
+    background-color: var(--primary-color);
 }
 
 .sidebar {
@@ -172,7 +177,7 @@ body {
     left: -290px;
     bottom: 0;
     width: 290px;
-    //background-color: rgba(255,255,255,.4);
+    //background-color: var(--primary-color);
     background: #2c2d44;
     background-image: -moz-linear-gradient(45deg, #3f3251 2%, #002025 100%);
     background-image: -webkit-linear-gradient(45deg, #3f3251 2%, #002025 100%);
@@ -189,8 +194,13 @@ body {
     //filter: blur(10px);
 }
 
+#sidebarToggle:checked ~ #sidebarButton {
+	box-shadow: 0 0 10px 0px rgb(0, 0, 0);
+}
+
 #sidebarToggle:checked ~ .topbar #clock {
     width: 200px;
+	box-shadow: 0 0 10px 0px rgb(0, 0, 0);
 }
 
 .usercount {
@@ -201,8 +211,9 @@ body {
     height: 40px;
     font-size: 25px;
     color: white;
-    background-color: rgba(255,255,255,.4);
+    background-color: var(--primary-color);
     padding: 5px;
+	box-shadow: 0 0 10px 0px rgb(0, 0, 0);
 }
 
 
