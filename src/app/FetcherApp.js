@@ -53,7 +53,7 @@
 						specialRequest(doc.options,
 							(err, reqres, body) => {
 								console.log("-", --this.processing);
-								if(err.code === "ETIMEDOUT")
+								if(err && err.code === "ETIMEDOUT")
 									return process(doc);
 								requests.update(
 									{_id: doc._id},
