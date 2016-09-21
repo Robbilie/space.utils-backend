@@ -77,7 +77,7 @@
 						(err, reqres, body) => {
 							console.log("-", --this.processing);
 							if (err && err.code === "ETIMEDOUT")
-								return process(doc);
+								return this.process(doc);
 							this.requests.update(
 								{_id: doc._id},
 								{
