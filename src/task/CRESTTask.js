@@ -19,7 +19,12 @@
 				headers: 		{ "User-Agent": config.site.userAgent }
 			});
 
-			return JSON.parse(data || error);
+			try {
+				return JSON.parse(data || error);
+			} catch (e) {
+				console.log(data || error);
+				throw e;
+			}
 		}
 
 	}
