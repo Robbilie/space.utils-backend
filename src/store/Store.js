@@ -44,7 +44,7 @@
 			).then(doc => new (this.getType())(doc));
 		}
 
-		find (data = {}, options, bare) {
+		find (data = {}, options = {}, bare) {
 			return (
 				bare ?
 					this.getCollection().find(data, options) :
