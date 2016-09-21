@@ -74,7 +74,8 @@
 								}
 							},
 							$push: { "data.ids": char.characterID[0] - 0 }
-						}
+						},
+						{ upsert: true }
 					);
 
 				} catch(e) { console.log(e, new Error()); }
