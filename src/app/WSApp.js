@@ -21,8 +21,12 @@
 			this.ws = new Server({ port: config.site.wsport });
 			this.ws.on("connection", socket => {
 				socket.json = function (data) { return this.send(JSON.stringify(data)); };
+				const onData = data => socket.json(data);
+				const onError = error => socket.json(error);
+
 				var interval = setInterval(() => socket.send("ping"), 10 * 1000);
 				socket.on("close", () => clearInterval(interval));
+
 				socket.on("message", message => {
 					try {
 						const msg = JSON.parse(message);
@@ -35,9 +39,12 @@
 									.getOplogCursor({ ns: msg.data.name, op: "i" })
 									.then(cursor => {
 										let stream = cursor.stream()
-											.on("data", data => socket.json(data))
-											.on("error", error => socket.json(error) || socket.close());
-										socket.on("close", () => stream.close());
+											.on("data", onData)
+											.on("error", onError);
+										socket.on("close", () => {
+											stream.removeListener("data", onData);
+											stream.removeListener("error", onError);
+										});
 									});
 								break;
 						}
