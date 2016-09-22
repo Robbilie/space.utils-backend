@@ -63,7 +63,7 @@
 
 		static create (data = {}, info = {}) {
 			if(!storage.stream)
-				storage.stream = BaseTask.stream();
+				storage.stream = this.stream();
 			return storage.stream.then(stream => stream(data, info));
 		}
 
@@ -72,7 +72,7 @@
 				.then(tasks => {
 					storage.taskCollection = tasks;
 				})
-				.then(() => BaseTask.tail())
+				.then(() => this.tail())
 				.then(() =>
 					(data, info) => new Promise(resolve => {
 						let _id = new ObjectId();
@@ -99,7 +99,7 @@
 				.then(tasks => tasks.getUpdates({}, storage.lastTS)
 					.then(cursor => cursor.each(async (err, log) => {
 						if(err)
-							return console.log(err, "restarting cursor…") || BaseTask.tail();
+							return console.log(err, "restarting cursor…") || this.tail();
 						storage.lastTS = log.ts;
 						let tid;
 						if(log.op == "d") {
