@@ -6,7 +6,9 @@
 
 	const storage 					= {
 		tasks: 		new Map(),
-		stream: 	undefined
+		stream: 	null,
+		taskCollection: null,
+		lastTS: undefined
 	};
 
 	class BaseTask {
@@ -60,69 +62,65 @@
 		}
 
 		static create (data = {}, info = {}) {
-			return new Promise(async resolve => {
-				try {
-					
-					let tasks = await DBUtil.getStore("Task");
-					
-					let _id = new ObjectId();
+			if(!storage.stream)
+				storage.stream = BaseTask.stream();
+			return storage.stream.then(stream => stream(data, info));
+		}
 
-					const d = Date.now();
+		static stream () {
+			return DBUtil.getCollection("tasks")
+				.then(tasks => {
+					storage.taskCollection = tasks;
+				})
+				.then(() => BaseTask.tail())
+				.then(() =>
+					(data, info) => new Promise(resolve => {
+						let _id = new ObjectId();
 
-					BaseTask.waitForTask(_id.toString()).then(e => (this.name == "KillmailJsonTask" ? null : console.log(this.name, "cb", Date.now() - d)) || resolve(e)).catch(e => console.log(e, new Error()));
-					
-					await tasks.insert(
-						{
+						storage.tasks.set(_id.toString(), resolve);
+
+						storage.taskCollection.save({
 							_id,
-							data: data,
+							data,
 							info: {
 								type: 		info.type 		|| this.getType(),
 								timestamp: 	info.timestamp 	|| 0,
 								state: 		info.state 		|| 0,
 								name: 		info.name 		|| this.name
 							}
-						}
-					);
-
-				} catch (e) { console.log(e, new Error()); }
-			});
+						});
+					})
+				);
 		}
 
-		static waitForTask (id, {} = $(1, {id}, "String")) {
-			return new Promise(resolve => {
-				if(!storage.stream)
-					storage.stream = DBUtil
-						.getStore("Task")
-						.then(tasks => tasks
-							.getUpdates()
-							.then(cursor => cursor
-								.each(async (err, log) => {
-									if(err)
-										return console.log(err, new Error());
-									let tid;
-									if(log.op == "d") {
-										tid = log.o._id.toString();
-									}
-									if(log.op == "u") {
-										if(log.o.$set.info && log.o.$set.info.state) {
-											if(log.o.$set.info.state == 2)
-												tid = log.o2._id.toString();
-										} else {
-											let task = await tasks.findBy_id(log.o2._id);
-											if(!await task.isNull() && (await task.getInfo()).state == 2)
-												tid = (await task.get_id()).toString();
-										}
-									}
-									if(tid && storage.tasks.get(tid)) {
-										storage.tasks.get(tid)();
-										storage.tasks.delete(tid);
-									}
-								})
-							)
-						);
-
-				storage.tasks.set(id, resolve);
-			});
+		static tail () {
+			return DBUtil
+				.getStore("Task")
+				.then(tasks => tasks.getUpdates({}, storage.lastTS)
+					.then(cursor => cursor.each(async (err, log) => {
+						if(err)
+							return console.log(err, "restarting cursor…") || BaseTask.tail();
+						storage.lastTS = log.ts;
+						let tid;
+						if(log.op == "d") {
+							tid = log.o._id.toString();
+						}
+						if(log.op == "u") {
+							if(log.o.$set.info && log.o.$set.info.state) {
+								if(log.o.$set.info.state == 2)
+									tid = log.o2._id.toString();
+							} else {
+								let task = await tasks.findBy_id(log.o2._id);
+								if(!await task.isNull() && (await task.getInfo()).state == 2)
+								tid = (await task.get_id()).toString();
+							}
+						}
+						if(tid && storage.tasks.get(tid)) {
+							storage.tasks.get(tid)();
+							storage.tasks.delete(tid);
+						}
+					}))
+				);
 		}
 
 	}

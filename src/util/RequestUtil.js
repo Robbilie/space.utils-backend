@@ -20,14 +20,13 @@
 		}
 
 		static stream () {
-			return new Promise(async (resolve) => {
-
-				storage.requestCollection = await DBUtil.getCollection("requests");
-
-				await RequestUtil.tail();
-
-				return resolve((type, options) => {
-					return new Promise(resolve => {
+			return DBUtil.getCollection("requests")
+				.then(requests => {
+					storage.requestCollection = requests;
+				})
+				.then(() => RequestUtil.tail())
+				.then(() =>
+					(type, options) => new Promise(resolve => {
 						let _id = new ObjectId();
 
 						storage.requests.set(_id.toString(), resolve);
@@ -38,10 +37,8 @@
 							options,
 							timestamp: Date.now()
 						});
-					});
-				});
-
-			});
+					})
+				);
 		}
 
 		static tail () {
