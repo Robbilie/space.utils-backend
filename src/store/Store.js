@@ -62,7 +62,7 @@
 					{ $match: match },
 					...options,
 					...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
-				]);
+				], { allowDiskUse: true });
 		}
 
 		getUpdates (options = {}, timestamp) {
