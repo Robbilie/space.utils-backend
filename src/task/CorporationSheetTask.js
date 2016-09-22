@@ -83,7 +83,11 @@
 
 			} else {
 				console.log("invalid corp", (await this.getData()).corporationID, response ? response.eveapi.result || response.eveapi.error : response);
-				await this.destroy();
+				if(!(await this.getData()).corporationID) {
+					console.log("WAAAAAAAAAAAAAARRRRRRRRRRRRRRRRNIIIIIIIIIIIIIIINGGGGG", await this.getTask().get_id());
+				} else {
+					await this.destroy();
+				}
 			}
 
 		}

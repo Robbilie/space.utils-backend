@@ -32,8 +32,8 @@
 			return this.task.getInfo();
 		}
 
-		async enqueue () {
-			return this.worker.enqueue((await this.getInfo()).type);
+		getTask () {
+			return this.task;
 		}
 
 		async dataToForm () {
