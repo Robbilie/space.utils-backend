@@ -64,6 +64,8 @@
 		static create (data = {}, info = {}) {
 			if(!storage.stream)
 				storage.stream = this.stream();
+			if(data.characterID && info.name == "CorporationSheetTask")
+				throw new Error("WHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 			return storage.stream.then(stream => stream(data, info));
 		}
 
