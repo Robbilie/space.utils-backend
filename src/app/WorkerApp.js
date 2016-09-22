@@ -27,7 +27,7 @@
 			let taskCursor = await this.tasks.getUpdates();
 				taskCursor.each((err, data) => {
 					if(err)
-						return console.log(err);
+						return console.log(err, new Error());
 					this.taskUpdate(data);
 				});
 			/*
@@ -78,7 +78,7 @@
 					DBUtil.getStore("Task")
 						.then(store => store.findBy_id(data.o2._id))
 						.then(async (task) => (!await task.isNull()) && (await task.getInfo()).state == 0 ? this.scheduleTask(task, (await task.getInfo()).timestamp) : undefined)
-						.catch(e => console.log(e));
+						.catch(e => console.log(e, new Error()));
 				}
 			}
 		}
@@ -148,7 +148,7 @@
 					.wait(ts - this.taskTypes[type].timestamps[this.taskTypes[type].timestamps.length - this.taskTypes[type].limit] || 0)
 					.then(c => this.enqueue(type))
 					.then(r => resolve())
-					.catch(e => console.log(e));
+					.catch(e => console.log(e, new Error()));
 			});
 		}
 
