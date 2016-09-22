@@ -31,7 +31,7 @@
 
 			return new Promise((resolve, reject) => !(data || error) ? reject() : parseString(data || error, (e, r) => {
 				if(e) {
-					console.log(data || error, e);
+					console.log(data || error, e, new Error());
 					reject(e);
 				} else {
 					resolve(r);
