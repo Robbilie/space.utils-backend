@@ -12,7 +12,7 @@
 			try {
 				response = await this.getXML("Char/MailMessages", await this.dataToForm());
 			} catch (e) {
-				console.log("XMLERROR");
+				console.log("XMLERROR", e, new Error());
 				return await this.update({ state: 0 });
 			}
 

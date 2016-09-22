@@ -12,7 +12,7 @@
 			try {
 				response = await this.getCREST(`/alliances/${(await this.getData()).allianceID}/`);
 			} catch (e) {
-				console.log("CRESTERROR");
+				console.log("CRESTERROR", e, new Error());
 				return await this.update({ state: 0 });
 			}
 
