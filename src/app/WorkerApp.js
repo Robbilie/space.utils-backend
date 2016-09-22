@@ -9,6 +9,7 @@
 		constructor () {
 			this.taskTypes = { ["XML"]: { limit: 30, timestamps: [] }, ["CREST"]: { limit: 150, timestamps: [] } };
 			this.shuttingDown = false;
+			this.lastTS = undefined;
 
 			try {
 				this.init();
@@ -21,39 +22,22 @@
 
 			// get stores
 			this.tasks 		= await DBUtil.getStore("Task");
-			this.ratelimits = await DBUtil.getStore("Ratelimit");
 
-			// get task updates
-			let taskCursor = await this.tasks.getUpdates();
-				taskCursor.each((err, data) => {
-					if(err)
-						return console.log(err, new Error());
-					this.taskUpdate(data);
-				});
-			/*
-			const startTaskStream = () => {
-				let taskStream = taskCursor.stream();
-					taskStream.on("data", data => this.taskUpdate(data));
-					taskStream.on("error", e => {
-						console.log("task", e);
-						console.log(taskCursor);
-						console.log(taskStream);
-						taskStream.close();
-						startTaskStream();
-					});
-			};
-			startTaskStream();
-			*/
-
-			// get ratelimits
-			//let rateCursor = await this.ratelimits.getUpdates();
-			//let rateStream = rateCursor.stream();
-			//	rateStream.on("data", data => this.enqueueTimestamp(data.o.type, data.o.timestamp, true));
+			await this.startTaskCursor();
 
 			// load all tasks
-			let tasks = await this.tasks.all();
-				tasks.forEach(async (task) => this.scheduleTask(task, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000)));
+			await this.tasks
+				.all()
+				.then(all => all.forEach(async (task) => this.scheduleTask(task, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
+		}
 
+		startTaskCursor () {
+			return this.tasks.getUpdates({}, this.lastTS).then(updates => updates.each((err, data) => {
+				if(err)
+					return console.log(err, new Error()) || this.startTaskCursor();
+				this.lastTS = data.ts;
+				this.taskUpdate(data);
+			}));
 		}
 
 		getTasks () {

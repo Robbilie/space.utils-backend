@@ -87,11 +87,9 @@
 			if(!storage.oplogs.get(index))
 				storage.oplogs.set(index, DBUtil
 					.getOplog()
-
 					.then(oplog => oplog
 						.collection("oplog.rs")
 						.find(query)
-						//.maxTimeMS(1000 * 60 * 60 * 24 * 14)
 						.batchSize(10000)
 						.addCursorFlag('tailable', true)
 						.addCursorFlag('awaitData', true)
@@ -99,44 +97,7 @@
 						.addCursorFlag('noCursorTimeout', true)
 						.setCursorOption('numberOfRetries', Number.MAX_VALUE)
 					)
-
-					/*.then(db => new Promise(resolve => {
-
-						const createCursor = (ts = Timestamp(0, Date.now() / 1000 | 0)) => db
-							.collection("oplog.rs")
-							.find(Object.assign(query, { ts: { $gte: ts } }))
-							.maxTimeMS(1000 * 60 * 60 * 24 * 14)
-							.batchSize(20000)
-							.addCursorFlag('tailable', true)
-							.addCursorFlag('awaitData', true)
-							.addCursorFlag('oplogReplay', true)
-							.addCursorFlag('noCursorTimeout', true)
-							.setCursorOption('numberOfRetries', Number.MAX_VALUE);
-
-						const storage = {
-							each: undefined,
-							lastTS: undefined,
-							startTS: undefined
-						};
-
-						const startCursor = () =>
-							console.log(storage.lastTS || Date.now(), storage.startTS = Date.now()) || createCursor(storage.lastTS)
-								.each((err, data) => {
-									if(storage.each)
-										storage.each(err, data);
-									if(err) {
-										console.log("Lasted:", Date.now() - storage.startTS);
-										return startCursor();
-									}
-									storage.lastTS = data.ts;
-								});
-
-						startCursor();
-
-						return resolve({
-							each: each => storage.each = each
-						});
-					}))*/
+					.then(cursor => cursor.each(e => e ? storage.oplogs.delete(index) : null) || cursor)
 				);
 			return storage.oplogs.get(index);
 		}

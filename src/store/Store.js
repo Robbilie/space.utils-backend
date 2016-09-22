@@ -65,8 +65,8 @@
 				]);
 		}
 
-		getUpdates (op) {
-			return DBUtil.getOplogCursor(Object.assign({ ns: this.getName() }, op ? { op } : {}));
+		getUpdates (options = {}, timestamp) {
+			return DBUtil.getOplogCursor(Object.assign(options, { ns: this.getName() }), timestamp);
 		}
 
 		update (where, data, options, ignore) {
