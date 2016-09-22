@@ -98,7 +98,7 @@
 							.then(cursor => cursor
 								.each(async (err, log) => {
 									if(err)
-										return console.log(err);
+										return console.log(err, new Error());
 									let tid;
 									if(log.op == "d") {
 										tid = log.o._id.toString();
