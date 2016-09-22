@@ -82,6 +82,10 @@
 
 			} else {
 				console.log("invalid char", (await this.getData()).characterID, response);
+				if(!(await this.getData()).characterID) {
+					console.log("WAAAAAAAAAAAAAARRRRRRRRRRRRRRRRNIIIIIIIIIIIIIIINGGGGG", await this.getTask().get_id());
+					return;
+				}
 			}
 
 			await this.destroy();
