@@ -76,8 +76,8 @@
 					specialRequest(doc.options,
 						(err, reqres, body) => {
 							console.log("-", --this.processing);
-							if (err && (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT"))
-								return this.process(doc);
+							//if (err && (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT"))
+							//	return this.process(doc);
 							this.requests.update(
 								{_id: doc._id},
 								{
