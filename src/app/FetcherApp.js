@@ -7,11 +7,11 @@
 	const request 					= require("request");
 	const specialRequest 			= request.defaults({
 		gzip: true,
-		forever: true,
-		timeout: 1000 * 10,
-		pool: {
-			maxSockets: Infinity
-		}
+		//forever: true,
+		//timeout: 1000 * 10,
+		//pool: {
+		//	maxSockets: Infinity
+		//}
 	});
 
 	class FetcherApp {
