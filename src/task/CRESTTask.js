@@ -22,7 +22,7 @@
 			try {
 				return JSON.parse(data || error);
 			} catch (e) {
-				console.log(data || error);
+				console.log("CE", data || error);
 				throw e;
 			}
 		}
