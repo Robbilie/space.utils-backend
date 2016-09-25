@@ -64,8 +64,6 @@
 		static create (data = {}, info = {}) {
 			if(!storage.stream)
 				storage.stream = this.stream();
-			if((data.characterID && this.name == "CorporationSheetTask") || (this.name == "CharacterInfoTask" && !data.characterID))
-				throw new Error("WHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 			return storage.stream.then(stream => stream(data, info));
 		}
 
@@ -81,7 +79,7 @@
 
 						storage.tasks.set(_id.toString(), resolve);
 
-						storage.taskCollection.save({
+						let task = {
 							_id,
 							data,
 							info: {
@@ -90,7 +88,12 @@
 								state: 		info.state 		|| 0,
 								name: 		info.name 		|| this.name
 							}
-						});
+						};
+
+						if((task.data.characterID && task.info.name == "CorporationSheetTask") || (task.info.name == "CharacterInfoTask" && task.data.corporationID))
+							throw new Error("WHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+
+						storage.taskCollection.save(task);
 					})
 				);
 		}
