@@ -1,6 +1,8 @@
 
 	"use strict";
 
+	process.env.UV_THREADPOOL_SIZE = 128;
+
 	process.env.NODE_PATH = __dirname + "/src";
 	require("module").Module._initPaths();
 
