@@ -61,7 +61,7 @@
 			return this.worker.getTasks().destroy({ _id: await this.task.get_id() });
 		}
 
-		static create (data = {}, info = {}) {
+		static create (data = {}, info = { type: this.getType(), timestamp: 0, state: 0, name: this.name }) {
 			if(!storage.stream)
 				storage.stream = this.stream();
 			return storage.stream.then(stream => stream(data, info));
@@ -82,12 +82,7 @@
 						let task = {
 							_id,
 							data,
-							info: {
-								type: 		info.type 		|| this.getType(),
-								timestamp: 	info.timestamp 	|| 0,
-								state: 		info.state 		|| 0,
-								name: 		info.name 		|| this.name
-							}
+							info
 						};
 
 						if((task.data.characterID && task.info.name == "CorporationSheetTask") || (task.info.name == "CharacterInfoTask" && task.data.corporationID))
