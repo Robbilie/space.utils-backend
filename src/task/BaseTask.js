@@ -91,7 +91,7 @@
 						};
 
 						if((task.data.characterID && task.info.name == "CorporationSheetTask") || (task.info.name == "CharacterInfoTask" && task.data.corporationID))
-							throw new Error("WHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+							throw new Error("WHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" + JSON.stringify(task));
 
 						storage.taskCollection.save(task);
 					})
