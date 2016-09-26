@@ -3,7 +3,6 @@
 
 	const { DBUtil } 				= require("util/");
 	const { TokenBucket } 			= require("limiter");
-	const rp 						= require("request-promise-native");
 	const request 					= require("request");
 	const specialRequest 			= request.defaults({
 		gzip: true,
