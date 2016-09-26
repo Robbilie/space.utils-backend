@@ -9,9 +9,9 @@
 		gzip: true,
 		forever: true,
 		//timeout: 1000 * 10,
-		//pool: {
-		//	maxSockets: Infinity
-		//}
+		pool: {
+			maxSockets: Infinity
+		}
 	});
 
 	class FetcherApp {
