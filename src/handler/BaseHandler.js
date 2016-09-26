@@ -14,7 +14,7 @@
 		}
 
 		static limit (data = {}) {
-			return Object.assign(data, { limit: req.body.options ? Math.min(req.body.options.limit || 250, 250) : 250 })
+			return Object.assign(data, { limit: data.limit ? Math.min(data.limit, 250) : 250 })
 		}
 
 	}
