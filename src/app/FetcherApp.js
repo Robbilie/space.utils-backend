@@ -37,7 +37,7 @@
 			await this.startTail();
 
 			await this.requests
-				.find({})
+				.find({ response: { $exists: false } })
 				.toArray()
 				.then(reqs =>
 					reqs.forEach(data => this.process(data))
