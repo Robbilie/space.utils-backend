@@ -49,7 +49,7 @@
 		}
 
 		async scheduleTask (task, timestamp) {
-			setTimeout(this.process.bind(this, await task.get_id(), (await task.getInfo()).timestamp), Math.max(timestamp - Date.now(), 0));
+			setTimeout(async () => this.process(await task.get_id(), (await task.getInfo()).timestamp), Math.max(timestamp - Date.now(), 0));
 		}
 
 		taskUpdate (data) {
