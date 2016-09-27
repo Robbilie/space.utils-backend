@@ -28,7 +28,7 @@
 			// load all tasks
 			await this.tasks
 				.all()
-				.then(all => all.forEach(async (task) => this.scheduleTask(task, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
+				.then(all => all.forEach(async (task) => this.scheduleTask(await task.get_id(), (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
 		}
 
 		startTaskCursor () {
@@ -48,20 +48,20 @@
 			return this.cursor;
 		}
 
-		async scheduleTask (task, timestamp) {
-			setTimeout(async () => this.process(await task.get_id(), (await task.getInfo()).timestamp), Math.max(timestamp - Date.now(), 0));
+		scheduleTask (_id, timestamp1, timestamp2 = timestamp1) {
+			setTimeout(() => this.process(_id, timestamp1), Math.max(timestamp2 - Date.now(), 0));
 		}
 
 		taskUpdate (data) {
 			if(data.op == "i") {
-				this.scheduleTask(new Task(data.o), data.o.info.timestamp);
+				this.scheduleTask(data.o._id, data.o.info.timestamp);
 			} else if(data.op == "u") {
 				if(data.o.$set && data.o.$set.info && data.o.$set.info.state == 0) {
-					this.scheduleTask(new Task({ _id: data.o2._id, info: data.o.$set.info }), data.o.$set.info.timestamp);
+					this.scheduleTask(data.o2._id, data.o.$set.info.timestamp);
 				} else {
 					DBUtil.getStore("Task")
 						.then(store => store.findBy_id(data.o2._id))
-						.then(async (task) => (!await task.isNull()) && (await task.getInfo()).state == 0 ? this.scheduleTask(task, (await task.getInfo()).timestamp) : undefined)
+						.then(async (task) => (!await task.isNull()) && (await task.getInfo()).state == 0 ? this.scheduleTask(data.o2._id, (await task.getInfo()).timestamp) : undefined)
 						.catch(e => console.log(e, new Error()));
 				}
 			}
