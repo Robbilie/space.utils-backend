@@ -28,7 +28,7 @@
 			// load all tasks
 			await this.tasks
 				.all()
-				.then(all => all.forEach(async (task) => this.scheduleTask(await task.get_id(), (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
+				.then(all => all.forEach(async (task) => this.scheduleTask(await task.get_id(), (await task.getInfo()).timestamp, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
 		}
 
 		startTaskCursor () {
