@@ -45,11 +45,12 @@
 		}
 
 		find (data = {}, options = {}, bare) {
+			const d = Date.now();
 			return (
 				bare ?
 					this.getCollection().find(data, options) :
 					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, []))
-			).toArray().then(docs => docs.map(doc => new (this.getType())(doc)));
+			).toArray().then(docs => docs.map(doc => new (this.getType())(doc))).then(docs => console.log("d", Date.now() - d) || docs);
 		}
 		
 		all () {
