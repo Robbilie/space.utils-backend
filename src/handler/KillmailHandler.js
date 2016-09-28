@@ -12,8 +12,8 @@
 				let store 			= await KillmailHandler.getStore();
 				console.log(Date.now() - d);
 				let killmails 		= await store.find(
-					KillmailHandler.sanitize(req.body.filter),
-					KillmailHandler.limit(req.body.options)
+					req.body.filter,
+					req.body.options
 				);
 				console.log(Date.now() - d);
 				res.json(await Promise.all(killmails.map(killmail => killmail.toJSON())));
