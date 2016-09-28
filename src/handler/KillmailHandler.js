@@ -6,6 +6,14 @@
 	class KillmailHandler extends BaseHandler {
 
 		static filter () {
+			return (req, res) => KillmailHandler.getStore()
+				.then(store => store.find(
+					KillmailHandler.sanitize(req.body.filter),
+					KillmailHandler.sanitize(KillmailHandler.limit(req.body.options))
+				))
+				.then(killmails => Promise.all(killmails.map(killmail => killmail.toJSON())))
+				.then(killmails => res.json(killmails));
+			/*
 			return async (req, res) => {
 				let d = Date.now();
 				console.log(req.body);
@@ -19,6 +27,7 @@
 				res.json(await Promise.all(killmails.map(killmail => killmail.toJSON())));
 				console.log(Date.now() - d);
 			};
+			*/
 		}
 
 		static getById () {
