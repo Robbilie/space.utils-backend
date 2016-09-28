@@ -73,7 +73,7 @@
 						console.log(e);
 					console.log("+", ++this.processing);
 					specialRequest(doc.options,
-						(err, reqres, body) => {
+						(err, response, body) => {
 							console.log("-", --this.processing);
 							//if (err && (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT"))
 							//	return this.process(doc);
@@ -81,7 +81,7 @@
 								{_id: doc._id},
 								{
 									$set: {
-										response: {[err ? "error" : "data"]: body || err},
+										response: { [err ? "error" : "data"]: err ? Object.assign(err, { body, response }) : body },
 										timestamp: Date.now()
 									}
 								}
