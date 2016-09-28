@@ -13,7 +13,7 @@
 
 		async getCREST (url, query) {
 
-			let { data, error } = await RequestUtil.call("CREST", {
+			let { data, error, info } = await RequestUtil.call("CREST", {
 				method: 		"GET",
 				uri: 			`${config.crest.api.url}${url}`,
 				headers: 		{ "User-Agent": config.site.userAgent }
@@ -22,7 +22,7 @@
 			try {
 				return JSON.parse(data || error);
 			} catch (e) {
-				console.log("CE", data || error);
+				console.log("CE", data || error, info);
 				throw e;
 			}
 		}

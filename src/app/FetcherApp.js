@@ -81,7 +81,7 @@
 								{_id: doc._id},
 								{
 									$set: {
-										response: { [err ? "error" : "data"]: err ? Object.assign(err, { body, response }) : body },
+										response: { [err ? "error" : "data"]: err ? err : body, info: response },
 										timestamp: Date.now()
 									}
 								}
