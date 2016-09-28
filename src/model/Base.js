@@ -56,6 +56,7 @@
 
 		static toJSON (name, future, depth = 0) {
 			return new Promise(resolve => future.then(data => {
+				return resolve(data);
 
 				const result = data.constructor.name == "Object" ? {} : [];
 				const { types } = LoadUtil.scheme(name);
