@@ -74,14 +74,14 @@
 					console.log("+", ++this.processing);
 					specialRequest(doc.options,
 						(err, response, body) => {
-							console.log("-", --this.processing);
+							console.log("-", --this.processing, response);
 							//if (err && (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT"))
 							//	return this.process(doc);
 							this.requests.update(
 								{_id: doc._id},
 								{
 									$set: {
-										response: { [err ? "error" : "data"]: err ? err : body, info: response },
+										response: { [err ? "error" : "data"]: err ? err : body },
 										timestamp: Date.now()
 									}
 								}
