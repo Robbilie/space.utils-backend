@@ -66,7 +66,7 @@
 		static getStore (storeName) {
 			return DBUtil
 				.getDB()
-				.then(db => storage.stores.get(storeName) || ((storage.stores.set(storeName, new (LoadUtil.store(storeName))(db))) === !storage.stores.get(storeName) || storage.stores.get(storeName)))
+				.then(db => storage.stores.get(storeName) || storage.stores.set(storeName, new (LoadUtil.store(storeName))(db)).get(storeName))
 				.catch(e => console.log(storeName, e, new Error()));
 		}
 
