@@ -2,17 +2,18 @@
 	"use strict";
 
 	const { Base } 					= require("model/");
-	const { PatchUtil } 			= require("util/");
 
 	class Task extends Base {
 
-		getInfo () {}
+		getInfo () {
+			return this.getFuture().then(data => data["info"]);
+		}
 
-		getData () {}
+		getData () {
+			return this.getFuture().then(data => data["data"]);
+		}
 
 	}
-
-	PatchUtil.model(Task);
 
 	module.exports = Task;
 	
