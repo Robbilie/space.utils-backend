@@ -60,7 +60,7 @@
 				.getOplogCursor({ ns: "requests", op: "i" }, this.lastTS)
 				.then(cursor => cursor.each((err, data) => {
 					if(err)
-						return console.log(err, "restarting cursor…") || this.startTail();
+						return console.log(err, "restarting cursor…") || setImmediate(() => this.startTail());
 					this.lastTS = data.ts;
 					this.process(data.o);
 				}));

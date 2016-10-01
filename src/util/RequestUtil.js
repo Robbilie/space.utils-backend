@@ -46,7 +46,7 @@
 				.getOplogCursor({ ns: "requests", op: "u" }, storage.lastTS)
 				.then(cursor => cursor.each((err, data) => {
 					if(err)
-						return console.log(err, "restarting cursor…") || RequestUtil.tail();
+						return console.log(err, "restarting cursor…") || setImmediate(() => RequestUtil.tail());
 					storage.lastTS = data.ts;
 					try {
 						if (storage.requests.get(data.o2._id.toString())) {

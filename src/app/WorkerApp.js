@@ -38,7 +38,7 @@
 		startTaskCursor () {
 			return this.tasks.getUpdates({}, this.lastTS).then(updates => updates.each((err, data) => {
 				if(err)
-					return console.log(err, new Error(), "restarting cursor…") || this.startTaskCursor();
+					return console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.startTaskCursor());
 				this.lastTS = data.ts;
 				this.taskUpdate(data);
 			}));

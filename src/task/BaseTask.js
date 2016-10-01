@@ -99,7 +99,7 @@
 				.then(tasks => tasks.getUpdates({}, storage.lastTS)
 					.then(cursor => cursor.each(async (err, log) => {
 						if(err)
-							return console.log(err, "restarting cursor…") || this.tail();
+							return console.log(err, "restarting cursor…") || setImmediate(() => this.tail());
 						storage.lastTS = log.ts;
 						let tid;
 						if(log.op == "d") {
