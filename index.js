@@ -16,16 +16,16 @@
 		var client = new raven.Client(config.sentry.dsn);
 		client.patchGlobal();
 		client.setUserContext({
-			app: process.argv[2]
+			app: process.argv[3] || process.argv[2]
 		});
 		err.raven = client;
 	}
 
 	const { LoadUtil } = require("util/");
 
-	console.log(process.argv[2]);
+	console.log(process.argv[3] || process.argv[2]);
 	
-	const App = LoadUtil.app(process.argv[2]);
+	const App = LoadUtil.app(process.argv[3] || process.argv[2]);
 	const app = new App();
 
 	/* REPL */

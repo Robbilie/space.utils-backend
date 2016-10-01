@@ -101,7 +101,7 @@
 					// do special processing stuff
 					let inst = new (LoadUtil.task((await task.getInfo()).name))(this, task);
 					await inst.start();
-					if(gc)
+					if(typeof(gc) != "undefined")
 						gc();
 				} catch (e) {
 					console.log((await task.getInfo()).name, e, new Error());
