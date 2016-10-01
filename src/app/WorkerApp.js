@@ -99,7 +99,10 @@
 
 				try {
 					// do special processing stuff
-					new (LoadUtil.task((await task.getInfo()).name))(this, task);
+					let task = new (LoadUtil.task((await task.getInfo()).name))(this, task);
+					await task.start();
+					if(gc)
+						gc();
 				} catch (e) {
 					console.log((await task.getInfo()).name, e, new Error());
 				}

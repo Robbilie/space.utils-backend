@@ -16,8 +16,6 @@
 		constructor (worker, task) {
 			this.worker = worker;
 			this.task = task;
-
-			this.start();
 		}
 
 		getType () {
