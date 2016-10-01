@@ -33,7 +33,7 @@
 
 			} else {
 				console.log("invalid killmail", (await this.getData()).killID, (await this.getData()).hash, response);
-				if(response && response.message != "Invalid killmail ID hash.")
+				if(response && response.message != "Invalid killmail ID hash." && response.message != "The route /killmails/-1/Logibro Verified/ was not found")
 					return await this.update({ state: 0 });
 			}
 
