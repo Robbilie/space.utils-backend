@@ -99,8 +99,8 @@
 
 				try {
 					// do special processing stuff
-					let task = new (LoadUtil.task((await task.getInfo()).name))(this, task);
-					await task.start();
+					let inst = new (LoadUtil.task((await task.getInfo()).name))(this, task);
+					await inst.start();
 					if(gc)
 						gc();
 				} catch (e) {
