@@ -23,6 +23,10 @@
 			// get stores
 			this.tasks 		= await DBUtil.getStore("Task");
 
+
+			if(typeof(gc) != "undefined")
+				this.gcInterval = setInterval(() => gc(), 1000 * 10);
+
 			await this.startTaskCursor();
 
 			// load all tasks
@@ -99,10 +103,7 @@
 
 				try {
 					// do special processing stuff
-					let inst = new (LoadUtil.task((await task.getInfo()).name))(this, task);
-					await inst.start();
-					if(typeof(gc) != "undefined")
-						gc();
+					new (LoadUtil.task((await task.getInfo()).name))(this, task);
 				} catch (e) {
 					console.log((await task.getInfo()).name, e, new Error());
 				}
