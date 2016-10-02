@@ -36,6 +36,7 @@
     "Router": 			true,
     "WelcomePage": 		true,
     "KillboardPage": 	true,
+    "KillmailPage": 	true,
     "EASUI": 			true
   }
 }
