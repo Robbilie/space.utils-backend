@@ -10,9 +10,6 @@
 
 			window.on("popstate", e => {
 				let page = e.state;
-				if(!page)
-					return;
-				console.log(page);
 				let currentPage = this.getApp().getPageController().currentPage;
 				this.getApp().getPageController().currentPage = page || 0;
 				if(currentPage > page) {
@@ -29,7 +26,7 @@
 				if(!e.button && !e.ctrlKey && link) {
 					e.stopPropagation();
 					e.preventDefault();
-					this.getApp().getNavigationController().navigate(link.href);
+					this.navigate(link.href);
 				}
 				return true;
 			});
