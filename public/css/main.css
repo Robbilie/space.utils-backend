@@ -404,6 +404,20 @@ body {
 
 @media (max-width: 600px) {
 
+	.welcome-conti {
+		width: 100%;
+	}
+
+	.welcome-conti > a {
+		height: calc(100% / 3);
+		margin-right: initial;
+		padding-right: initial;
+		margin: initial;
+		margin-left: initial;
+		padding-left: initial;
+		width: 100%;
+	}
+
 	.mobo {
 		//display: block;
 	}
