@@ -18,8 +18,8 @@
 			return this.pageStack;
 		}
 
-		loadPage (page, args = {}) {
-			let instance = new page(this.getApp(), args);
+		loadPage (page, ...args) {
+			let instance = new page(this.getApp(), ...args);
 			$("title").innerHTML = instance.getTitle();
 			this.pageStack = this.getPageStack().filter((e, i) => i <= this.currentPage);
 			this.getPageStack().push(instance);

@@ -36,8 +36,8 @@
 			return this.navigationController;
 		}
 
-		loadPage (page) {
-			this.getPageController().loadPage(page);
+		loadPage (page, ...args) {
+			this.getPageController().loadPage(page, ...args);
 		}
 
 		render () {
