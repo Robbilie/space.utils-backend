@@ -377,6 +377,16 @@ body {
     background-color: var(--primary-color);
     margin: 5px;
     transition: .75s;
+	height: 40px;
+}
+
+.list > a > img {
+	height: 100%;
+}
+
+.list > a > * {
+	vertical-align: middle;
+	display: inline-block;
 }
 
 .list {
