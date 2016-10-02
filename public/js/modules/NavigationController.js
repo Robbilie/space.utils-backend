@@ -10,6 +10,8 @@
 
 			window.on("popstate", e => {
 				let page = e.state;
+				if(!page)
+					return;
 				let currentPage = this.getApp().getPageController().currentPage;
 				this.getApp().getPageController().currentPage = page || 0;
 				if(currentPage > page) {
