@@ -15,7 +15,7 @@
 		}
 
 		loadInitial () {
-			return json("GET", `https://api.utils.space/killmails/${this.killID}`).then(kill => {
+			return json(`https://api.utils.space/killmails/${this.killID}`).then(kill => {
 
 				console.log(kill);
 

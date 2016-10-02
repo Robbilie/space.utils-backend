@@ -64,9 +64,9 @@
 		}
 	};
 
-	window.json = function (method, url, body) {
+	window.json = function (url, method, body) {
 		return fetch(url, Object.assign({
-			method,
+			method: method || "GET",
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'

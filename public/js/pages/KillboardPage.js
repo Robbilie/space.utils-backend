@@ -23,7 +23,7 @@
 
 		scrollDown () {
 			this.scrolling = true;
-			return json("POST", "https://api.utils.space/killmails/", {
+			return json("https://api.utils.space/killmails/", "POST", {
 				"filter": Object.assign({}, this.lowKillID ? { killID: { $lt: this.lowKillID } } : {}),
 				"options": { "sort": { "killID": -1 }, "limit": 50 }
 			}).then(data => {
