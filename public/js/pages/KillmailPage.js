@@ -15,14 +15,10 @@
 		}
 
 		loadInitial () {
-			return fetch(`https://api.utils.space/killmails/${this.killID}`, {
+			return json(`https://api.utils.space/killmails/${this.killID}`, {
 				method: "POST",
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
 				body: JSON.stringify({ "filter": { killID: this.killID } })
-			}).then(res => res.json()).then(kill => {
+			}).then(kill => {
 
 				console.log(kill);
 

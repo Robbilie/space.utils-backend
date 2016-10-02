@@ -64,6 +64,15 @@
 		}
 	};
 
+	window.json = function (url, args) {
+		return fetch(url, Object.assign(args, {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		})).then(res => res.json());
+	};
+
 	function assignProperties (el, dat) {
 		Object.entries(dat).forEach(([k, v]) => k != "dataset" && k != "style" ? el[k] = v : null);
 		if(dat.style && dat.style.constructor.name != "String")
