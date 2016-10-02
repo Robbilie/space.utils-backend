@@ -7,7 +7,7 @@
 			super(parent, "Killboard");
 			this.classList.push("page");
 
-			this.list = $(["div", { className: "killlist" }]);
+			this.list = $(["div", { className: "welcome page killlist" }]);
 
 			this.loadInitial();
 		}

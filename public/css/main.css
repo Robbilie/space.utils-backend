@@ -349,7 +349,7 @@ body {
 
 /* Kill Page */
 
-.intransition .killlist > a {
+.intransition.killlist > a {
     margin-top: 200px;
 }
 
