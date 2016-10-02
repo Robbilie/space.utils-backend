@@ -10,7 +10,7 @@
 			this.list = $(["div", { className: "kill list" }]);
 
 			this.getList().on("scroll", () => {
-				if(!this.scrolling && (this.getList().clientHeight + this.getList().scrollTop) / this.getList().scrollHeight * 100 > 80)
+				if(!this.scrolling && this.getList().scrollHeight - (this.getList().clientHeight + this.getList().scrollTop) < 200)
 					this.scrollDown();
 			});
 
