@@ -49,7 +49,7 @@
 						return console.log(err, "restarting cursor…") || setImmediate(() => RequestUtil.tail());
 					storage.lastTS = data.ts;
 					try {
-						if (storage.requests.get(data.o2._id.toString())) {
+						if (data.o.$set.response && storage.requests.get(data.o2._id.toString())) {
 							storage.requests.get(data.o2._id.toString())(data.o.$set.response);
 							storage.requests.delete(data.o2._id.toString());
 							storage.requestCollection.remove({_id: data.o2._id});
