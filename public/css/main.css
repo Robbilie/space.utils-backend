@@ -375,7 +375,7 @@ body {
     display: block;
     text-align: left;
     background-color: var(--primary-color);
-    margin: 5px;
+    margin: 5px 12px 5px 20px;
     transition: .75s;
 	height: 40px;
 }
