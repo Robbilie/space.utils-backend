@@ -32,8 +32,10 @@
 		}
 
 		back () {
-			if(this.getPageStackContainer().children.length > 1)
-				this.getPageStackContainer().children[0].destroy();
+			if(this.getPageStackContainer().children.length > 1) {
+				this.getPageStackContainer().children[0].classList.add("intransition");
+				setTimeout(() => this.getPageStackContainer().children[0].destroy(), 500);
+			}
 			$("title").innerHTML = this.getCurrentPage().getTitle();
 		}
 

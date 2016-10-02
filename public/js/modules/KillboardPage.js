@@ -24,7 +24,7 @@
 					"options": { "sort": { "killID": -1 }, "limit": 50 }
 				})
 			}).then(res => res.json()).then(data => {
-				data.forEach(kill => this.getList().append($(["a", { href: `/killmails/${kill.killID}` }, [
+				data.forEach(kill => this.getList().append($(["a", { href: `/killmails/${kill.killID}/` }, [
 					$(["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.shipType.id}_64.png`, alt: kill.victim.shipType.name }]),
 					$(["span", { innerHTML: kill.victim.character.name }]),
 					$(["span", { innerHTML: (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.attackers.find(attacker => attacker.finalBlow)).name }])
