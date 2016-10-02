@@ -131,7 +131,7 @@ body {
     cursor: pointer;
 }
 
-#sidebarToggle {
+#sidebarToggle, #searchbarMaxer {
     display: none;
 }
 
