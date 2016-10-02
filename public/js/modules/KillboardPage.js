@@ -7,7 +7,7 @@
 			super(parent, "Killboard");
 			this.classList.push("page");
 
-			this.list = $(["div", { className: "killboard page killlist" }]);
+			this.list = $(["div", { className: "kill list" }]);
 
 			this.loadInitial();
 		}
@@ -38,7 +38,9 @@
 		}
 
 		render () {
-			return this.getList();
+			return $(["div", { className: "killboard page" }, [
+				this.getList()
+			]]);
 		}
 
 	}

@@ -354,11 +354,11 @@ body {
 
 /* Kill Page */
 
-.intransition.killlist > a {
+.intransition .list > a {
     margin-top: 200px;
 }
 
-.killlist > a {
+.list > a {
     display: block;
     text-align: left;
     background-color: var(--primary-color);
