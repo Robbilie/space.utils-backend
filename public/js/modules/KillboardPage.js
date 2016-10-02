@@ -27,7 +27,7 @@
 				data.forEach(kill => this.getList().append($(["a", { href: `/killmails/${kill.killID}` }, [
 					$(["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.shipType.id}_64.png`, alt: kill.victim.shipType.name }]),
 					$(["span", { innerHTML: kill.victim.character.name }]),
-					$(["span", { innerHTML: kill.attackers.find(attacker => attackers.finalBlow).character.name }])
+					$(["span", { innerHTML: kill.attackers.find(attacker => attacker.finalBlow).character.name }])
 				]])));
 				this.ready();
 			});
