@@ -18,11 +18,11 @@
 		}
 
 		loadInitial () {
-			this.scrollDown(() => this.ready());
+			this.scrollDown().then(() => this.ready());
 		}
 
-		scrollDown (cb) {
-			fetch("https://api.utils.space/killmails/", {
+		scrollDown () {
+			return fetch("https://api.utils.space/killmails/", {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -41,8 +41,7 @@
 					]]));
 					this.lowKillID = Math.min(this.lowKillID || Number.MAX_VALUE, kill.killID);
 				});
-				if(cb)
-					cb();
+				return Promise.resolve();
 			});
 		}
 
