@@ -393,3 +393,15 @@ body {
 	overflow: auto;
 	height: 100%;
 }
+
+.mobo {
+	display: none;
+}
+
+@media (min-width: 800px) {
+
+	.mobo {
+		display: block;
+	}
+
+}
