@@ -346,3 +346,17 @@ body {
     margin-left: calc(99% / 11 * 7.5 * -1);
     z-index: 10;
 }
+
+/* Kill Page */
+
+.intransition .killlist > a {
+    margin-top: 200px;
+}
+
+.killlist > a {
+    display: block;
+    text-align: left;
+    background-color: var(--primary-color);
+    margin: 5px;
+    transition: .5s;
+}
