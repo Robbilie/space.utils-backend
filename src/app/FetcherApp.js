@@ -81,7 +81,7 @@
 								{_id: doc._id},
 								{
 									$set: {
-										response: { [err ? "error" : "data"]: err ? err : body, info: JSON.stringify(response) },
+										response: { [err ? "error" : "data"]: err ? err : body /*, info: JSON.stringify(response)*/ },
 										timestamp: Date.now()
 									}
 								}
