@@ -42,6 +42,7 @@
 
 		render () {
 			return $(["div", { className: "ui" }, [
+				this.getTopBar().getSearchBar().getMaxer(),
 				this.getSideBar().getToggle(),
 				this.getSideBar().getButton(),
 				this.getSideBar(),

@@ -13,16 +13,19 @@
 				]]
 			]]);
 
-			this.getInput().on("keyup", e => {
-				if(this.getInput().value !== "")
-					this.getBar().classList.add("maxsb");
-				else
-					this.getBar().classList.remove("maxsb");
+			this.maxer = $(["input", { type: "checkbox", id: "searchbarMaxer" }]);
+
+			this.getInput().on("keyup", () => {
+				this.getMaxer().checked = this.getInput().value !== "";
 			});
 
 			this.getInput().on("blur", e => {
-				this.getBar().classList.remove("maxsb");
+				this.getMaxer().checked = false;
 			});
+		}
+
+		getMaxer () {
+			return this.maxer;
 		}
 
 		getInput () {
