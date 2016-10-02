@@ -410,12 +410,12 @@ body {
 
 	.welcome-conti > a {
 		height: calc(100% / 3);
-		margin-right: initial;
-		padding-right: initial;
-		margin: initial;
-		margin-left: initial;
-		padding-left: initial;
-		width: 100%;
+		margin-right: initial !important;
+		padding-right: initial !important;
+		margin: initial !important;
+		margin-left: initial !important;
+		padding-left: initial !important;
+		width: 100% !important;
 	}
 
 	.mobo {
