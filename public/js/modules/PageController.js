@@ -39,7 +39,10 @@
 
 		forward () {
 			let page = this.getCurrentPage();
-			this.getPageStackContainer().prepend(page.render());
+			let element = page.render();
+			element.classList.add("intransition");
+			this.getPageStackContainer().prepend(element);
+			setTimeout(() => element.classList.remove("intransition"), 100);
 			$("title").innerHTML = page.getTitle();
 		}
 
