@@ -416,6 +416,12 @@ body {
 		margin-left: initial !important;
 		padding-left: initial !important;
 		width: 100% !important;
+		clip-path: initial !important;
+		-webkit-clip-path: initial !important;
+	}
+
+	.welcome h2 {
+		z-index: 1;
 	}
 
 	.mobo {
