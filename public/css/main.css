@@ -108,7 +108,7 @@ body {
     width: 80% !important;
 }
 
-.pages .page:not(:first-child) {
+.pages .page:not(.intransition) + .page {
     opacity: 0;
     transform: translateZ(-500px);
 }
