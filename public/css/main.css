@@ -65,16 +65,16 @@ body {
     width: calc(40% - 20px);
 }
 
-.searchbarMaxer:checked ~ .topbar .searchbar {
+#searchbarMaxer:checked ~ .topbar .searchbar {
     width: calc(100% - 40px);
 }
 
-.searchbarMaxer:checked ~ .topbar .searchbar input:focus {
+#searchbarMaxer:checked ~ .topbar .searchbar input:focus {
     height: 150%;
     font-size: 150%;
 }
 
-.searchbarMaxer:checked ~ .topbar .searchbar ~ #clock {
+#searchbarMaxer:checked ~ .topbar .searchbar ~ #clock {
     opacity: .3;
 }
 
@@ -104,7 +104,7 @@ body {
     height: 100%;
 }
 
-.searchbarMaxer:checked ~ .topbar .searchbar > .sbexpand {
+#searchbarMaxer:checked ~ .topbar .searchbar > .sbexpand {
     width: 80% !important;
 }
 
