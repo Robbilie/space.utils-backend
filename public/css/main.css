@@ -394,14 +394,18 @@ body {
 	height: 100%;
 }
 
-.mobo {
-	display: none;
-}
-
 @media (min-width: 600px) {
 
 	.mobo {
-		display: block;
+		display: none !important;
+	}
+
+}
+
+@media (max-width: 600px) {
+
+	.mobo {
+		//display: block;
 	}
 
 }
