@@ -23,12 +23,9 @@
 
 		scrollDown () {
 			this.scrolling = true;
-			return json("https://api.utils.space/killmails/", {
-				method: "POST",
-				body: JSON.stringify({
-					"filter": Object.assign({}, this.lowKillID ? { killID: { $lt: this.lowKillID } } : {}),
-					"options": { "sort": { "killID": -1 }, "limit": 50 }
-				})
+			return json("POST", "https://api.utils.space/killmails/", {
+				"filter": Object.assign({}, this.lowKillID ? { killID: { $lt: this.lowKillID } } : {}),
+				"options": { "sort": { "killID": -1 }, "limit": 50 }
 			}).then(data => {
 				data.forEach(kill => {
 					this.getList().append($(["a", { href: `/killmails/${kill.killID}/` }, [

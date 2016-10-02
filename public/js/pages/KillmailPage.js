@@ -15,10 +15,7 @@
 		}
 
 		loadInitial () {
-			return json(`https://api.utils.space/killmails/${this.killID}`, {
-				method: "POST",
-				body: JSON.stringify({ "filter": { killID: this.killID } })
-			}).then(kill => {
+			return json("GET", `https://api.utils.space/killmails/${this.killID}`, { "filter": { killID: this.killID } }).then(kill => {
 
 				console.log(kill);
 

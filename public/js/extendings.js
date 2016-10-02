@@ -64,13 +64,14 @@
 		}
 	};
 
-	window.json = function (url, args) {
-		return fetch(url, Object.assign(args, {
+	window.json = function (method, url, body) {
+		return fetch(method, url, Object.assign({
+			method,
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}
-		})).then(res => res.json());
+		}, !body ? {} : { body: JSON.stringify(body) })).then(res => res.json());
 	};
 
 	function assignProperties (el, dat) {
