@@ -27,19 +27,13 @@
 
 		loadPage (page, ...args) {
 
-			/*
 			const d = Date.now();
 			this.getApp().setLoadingState(true);
 
 			let instance = new page(this.getApp(), ...args);
 			$("title").innerHTML = instance.getTitle();
 
-			//this.pageStack = this.getPageStack().filter((e, i) => i <= this.currentPage);
-
-			if((history.state || 0) > this.getPageStack().length - 1)
-				this.getPageStack()[history.state || 0] = instance;
-			else
-				console.log(history.state, this.getPageStack().push(instance));
+			this.getPageStack()[history.state] = instance;
 
 			instance.isReady().then(() => {
 				let element = instance.render();
@@ -47,7 +41,7 @@
 				this.getPageStackContainer().prepend(element);
 				setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d), 10);
 			});
-			*/
+
 		}
 
 		back () {
