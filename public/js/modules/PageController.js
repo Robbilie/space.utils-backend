@@ -29,7 +29,7 @@
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);
 				this.getApp().setLoadingState(false);
-				setImmediate(() => element.classList.remove("intransition"));
+				setTimeout(() => element.classList.remove("intransition"), 10);
 			});
 		}
 
