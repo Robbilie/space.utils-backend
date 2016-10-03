@@ -38,9 +38,7 @@
 					e.stopPropagation();
 					e.preventDefault();
 
-
-					//this.navigate(link.href);
-
+					this.navigate(link.href);
 
 				}
 				return true;
@@ -56,7 +54,10 @@
 			this.getApp().getPageController().back();
 		}
 
-		navigate (url, title, direction = "forward") {
+		navigate (url, title) {
+			this.pushState(history.state + 1, title || "", url);
+			this.routeChange();
+
 			/*if(direction == "forward") {
 				let page = direction == "forward" ? ++this.getApp().getPageController().currentPage : --this.getApp().getPageController().currentPage;
 				this.pushState(page, title || "", url);
