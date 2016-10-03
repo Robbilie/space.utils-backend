@@ -135,7 +135,7 @@ body {
     transform: translateY(100%);
 }
 
-#loadingState:not(:checked) .loader {
+#loadingState:not(:checked) ~ .loader {
     display: none;
 }
 
