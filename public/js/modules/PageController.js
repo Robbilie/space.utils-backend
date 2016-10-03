@@ -37,10 +37,14 @@
 		}
 
 		back () {
+
 			if(this.getPageStackContainer().children.length > 1) {
 				this.getPageStackContainer().children[0].classList.add("intransition");
 				setTimeout(() => this.getPageStackContainer().children[0].destroy(), 300);
 			}
+
+			//this.getCurrentPage().classList.add("intransition");
+			//setTimeout(() => this.getCurrentPage().destroy(), 300);
 			$("title").innerHTML = this.getCurrentPage().getTitle();
 		}
 

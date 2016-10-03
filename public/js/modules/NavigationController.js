@@ -12,7 +12,9 @@
 				let page = e.state;
 				let currentPage = this.getApp().getPageController().currentPage;
 				this.getApp().getPageController().currentPage = page || 0;
-				if(typeof(currentPage) == "undefined" || currentPage > page) {
+				if(!this.getApp().getPageController().getCurrentPage()) {
+					this.navigate(location.href.split(location.hostname)[1], "", currentPage > page ? "back" : "forward");
+				} else if (typeof(currentPage) == "undefined" || currentPage > page) {
 					// back
 					this.getApp().getPageController().back();
 				} else if (currentPage < page) {
@@ -41,8 +43,8 @@
 			this.getApp().getPageController().back();
 		}
 
-		navigate (url, title) {
-			let page = ++this.getApp().getPageController().currentPage;
+		navigate (url, title, direction = "back") {
+			let page = direction == "back" ? ++this.getApp().getPageController().currentPage : --this.getApp().getPageController().currentPage;
 			this.pushState(page, title || "", url);
 		}
 
