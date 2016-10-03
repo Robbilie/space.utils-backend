@@ -19,6 +19,7 @@
 		}
 
 		loadPage (page, ...args) {
+			const d = Date.now();
 			this.getApp().setLoadingState(true);
 			let instance = new page(this.getApp(), ...args);
 			$("title").innerHTML = instance.getTitle();
@@ -28,7 +29,7 @@
 				let element = instance.render();
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);
-				setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false), 10);
+				setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d), 10);
 			});
 		}
 
