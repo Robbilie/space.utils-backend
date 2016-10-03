@@ -6,15 +6,13 @@
 		constructor (parent, router) {
 			super(parent);
 
+			this.loadingstate = $(["input", { type: "checkbox", id: "loadingState" }]);
+
 			this.router 				= router;
 			this.sideBar 				= new SideBar(this);
 			this.topBar 				= new TopBar(this);
 			this.pageController 		= new PageController(this);
 			this.navigationController 	= new NavigationController(this);
-
-			this.loadingstate = $(["input", { type: "checkbox", id: "loadingState" }]);
-
-			console.log(this.getLoadingState());
 		}
 
 		getApp () {
