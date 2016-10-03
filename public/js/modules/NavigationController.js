@@ -55,7 +55,7 @@
 		}
 
 		navigate (url, title) {
-			this.pushState(history.state + 1, title || "", url);
+			history.pushState(history.state + 1, title || "", url);
 			this.routeChange();
 
 			/*if(direction == "forward") {
