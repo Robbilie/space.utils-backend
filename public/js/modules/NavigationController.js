@@ -27,27 +27,6 @@
 					}
 				}
 
-
-				/*
-				let page = e.state;
-
-				let currentPage = this.getApp().getPageController().currentPage;
-
-				this.getApp().getPageController().currentPage = page || 0;
-
-				if(!this.getApp().getPageController().getCurrentPage()) {
-					console.log("missing history entry", page, "formerly", currentPage);
-					this.navigate(location.href.split(location.hostname)[1], "", currentPage > page ? "back" : "forward");
-				} else if (currentPage > page) {
-					// back
-					this.getApp().getPageController().back();
-				} else if (currentPage < page) {
-					// forward
-					this.getApp().getPageController().forward();
-				}
-
-				*/
-
 			});
 
 			this.getApp().getParent().on("click", (e) => {
@@ -87,14 +66,6 @@
 		navigate (url, title) {
 			this.pushState(history.state + 1, title || "", url);
 			this.routeChange();
-
-			/*if(direction == "forward") {
-				let page = direction == "forward" ? ++this.getApp().getPageController().currentPage : --this.getApp().getPageController().currentPage;
-				this.pushState(page, title || "", url);
-			} else {
-				this.routeChange();
-			}
-			*/
 		}
 
 		pushState (state, title, url) {
