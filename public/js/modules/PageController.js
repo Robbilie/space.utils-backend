@@ -58,7 +58,7 @@
 		}
 
 		getCurrentPage () {
-			return this.getPageStack()[this.currentPage];
+			return this.getPageStack()[this.currentPage || 0];
 		}
 
 		render () {
