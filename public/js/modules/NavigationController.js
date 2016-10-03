@@ -50,7 +50,10 @@
 
 		navigate (url, title, direction = "forward") {
 			let page = direction == "forward" ? ++this.getApp().getPageController().currentPage : --this.getApp().getPageController().currentPage;
-			this.pushState(page, title || "", url);
+			if(direction == "forward")
+				this.pushState(page, title || "", url);
+			else
+				this.routeChange();
 		}
 
 		pushState (state, title, url) {
