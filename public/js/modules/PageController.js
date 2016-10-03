@@ -7,7 +7,7 @@
 			super(parent);
 			this.pageStack = [];
 			this.pageStackContainer = $(["div", { className: "pages" }]);
-			this.currentPage = 0;
+			this.currentPage = history.state || 0;
 		}
 
 		getPageStackContainer () {
