@@ -9,10 +9,15 @@
 			this.routeChange();
 
 			window.on("popstate", e => {
+
 				let page = e.state;
+
 				let currentPage = this.getApp().getPageController().currentPage;
+
 				this.getApp().getPageController().currentPage = page || 0;
+
 				if(!this.getApp().getPageController().getCurrentPage()) {
+					console.log("missing history entry", page, "formerly", currentPage);
 					this.navigate(location.href.split(location.hostname)[1], "", currentPage > page ? "back" : "forward");
 				} else if (currentPage > page) {
 					// back
