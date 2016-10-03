@@ -8,6 +8,7 @@
 			this.pageStack = [];
 			this.pageStackContainer = $(["div", { className: "pages" }]);
 			this.currentPage = history.state || 0;
+			console.log("current page on load", this.currentPage);
 		}
 
 		getPageStackContainer () {
@@ -19,15 +20,20 @@
 		}
 
 		loadPage (page, ...args) {
+
 			const d = Date.now();
 			this.getApp().setLoadingState(true);
+
 			let instance = new page(this.getApp(), ...args);
 			$("title").innerHTML = instance.getTitle();
-			this.pageStack = this.getPageStack().filter((e, i) => i <= this.currentPage);
+
+			//this.pageStack = this.getPageStack().filter((e, i) => i <= this.currentPage);
+
 			if(history.state > this.getPageStack().length - 1)
 				this.getPageStack()[history.state] = instance;
 			else
 				console.log(history.state, this.getPageStack().push(instance));
+
 			instance.isReady().then(() => {
 				let element = instance.render();
 				element.classList.add("intransition");
@@ -43,8 +49,6 @@
 				setTimeout(() => this.getPageStackContainer().children[0].destroy(), 300);
 			}
 
-			//this.getCurrentPage().classList.add("intransition");
-			//setTimeout(() => this.getCurrentPage().destroy(), 300);
 			$("title").innerHTML = this.getCurrentPage().getTitle();
 		}
 

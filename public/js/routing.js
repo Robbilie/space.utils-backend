@@ -10,9 +10,9 @@
 			regex = RegExp("^" + regex + "$");
 		}
 		return function (route, app) {
-			console.log(regex);
+			//console.log(regex);
 			let match = route.match(regex);
-			console.log(route, match);
+			//console.log(route, match);
 			if(match) {
 				let values = match.slice(1);
 				let params = vars ? vars.reduce((p, c, i) => { p[c.slice(1)] = values[i]; return p; }, {}) : {};
