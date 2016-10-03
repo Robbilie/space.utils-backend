@@ -11,6 +11,8 @@
 				$(["span", { className: "sidebarClose", innerHTML: "&times;" }])
 			]]);
 			this.usercounter = $(["div", { innerHTML: "TQ 26.364", className: "usercount" }]);
+
+			this.updateUserCounter();
 		}
 
 		getToggle () {
