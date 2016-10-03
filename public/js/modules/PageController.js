@@ -5,9 +5,15 @@
 
 		constructor (parent) {
 			super(parent);
+
 			this.pageStack = [];
 			this.pageStackContainer = $(["div", { className: "pages" }]);
-			this.currentPage = history.state || 0;
+
+			if(history.state == null)
+				history.replaceState(0, "", location.href);
+
+			this.currentPage = history.state;
+
 			console.log("current page on load", this.currentPage);
 		}
 
