@@ -24,7 +24,7 @@
 			let instance = new page(this.getApp(), ...args);
 			$("title").innerHTML = instance.getTitle();
 			this.pageStack = this.getPageStack().filter((e, i) => i <= this.currentPage);
-			this.getPageStack().push(instance);
+			console.log(history.state, this.getPageStack().push(instance));
 			instance.isReady().then(() => {
 				let element = instance.render();
 				element.classList.add("intransition");
