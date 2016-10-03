@@ -5,12 +5,13 @@
 
 		constructor (parent) {
 			super(parent);
+
 			this.toggle = $(["input", { type: "checkbox", id: "sidebarToggle" }]);
 			this.button = $(["label", { htmlFor: "sidebarToggle", id: "sidebarButton" }, [
 				$(["span", { className: "sidebarOpen", innerHTML: "≡" }]),
 				$(["span", { className: "sidebarClose", innerHTML: "&times;" }])
 			]]);
-			this.usercounter = $(["div", { innerHTML: "TQ 26.364", className: "usercount" }]);
+			this.usercounter = $(["div", { className: "usercount" }]);
 
 			this.updateUserCounter();
 		}
@@ -35,7 +36,7 @@
 					let current = new Date(e.target.responseXML.getElementsByTagName("currentTime")[0].innerHTML + " GMT").getTime();
 					let cached = new Date(e.target.responseXML.getElementsByTagName("cachedUntil")[0].innerHTML + " GMT").getTime();
 
-					this.getUserCounter().innerHTML = "TQ " + online;
+					this.getUserCounter().innerHTML = "<span>TQ</span> " + online;
 					if(status)
 						this.getUserCounter().classList.add("online");
 					else

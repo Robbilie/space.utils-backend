@@ -225,13 +225,31 @@ body {
     position: absolute;
     top: 70px;
     left: 20px;
-    right: 20px;
+    right: 70px;
     height: 40px;
     font-size: 25px;
     color: white;
     background-color: var(--primary-color);
     padding: 5px;
 	box-shadow: 0 0 10px 0px rgb(0, 0, 0);
+}
+
+.usercount > span {
+    color: red;
+}
+
+.online > span {
+    color: green;
+}
+
+.homebtn {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px 0px rgb(0, 0, 0);
 }
 
 
