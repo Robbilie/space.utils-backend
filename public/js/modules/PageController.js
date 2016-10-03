@@ -12,9 +12,7 @@
 			if(history.state == null)
 				history.replaceState(0, "", location.href);
 
-			this.currentPage = history.state;
-
-			console.log("current page on load", this.currentPage);
+			console.log("current page on load", history.state);
 		}
 
 		getPageStackContainer () {
@@ -66,7 +64,7 @@
 		}
 
 		getCurrentPage () {
-			return this.getPageStack()[this.currentPage || 0];
+			return this.getPageStack()[history.state];
 		}
 
 		render () {

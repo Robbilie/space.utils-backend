@@ -6,9 +6,23 @@
 		constructor (app) {
 			this.app = app;
 
+			this.state = history.state;
+
 			this.routeChange();
 
 			window.on("popstate", e => {
+
+				let oldState = this.getState();
+				let newState = e.state;
+
+				if(!this.getPageController().getCurrentPage())
+					this.routeChange();
+
+				if(newState > oldState) {
+					this.forward();
+				} else {
+					this.back();
+				}
 
 				/*
 				let page = e.state;
@@ -46,16 +60,28 @@
 
 		}
 
+		getState () {
+			return this.state;
+		}
+
 		getApp () {
 			return this.app;
 		}
 
 		back () {
-			this.getApp().getPageController().back();
+			return this.getPageController().back();
+		}
+
+		forward () {
+			return this.getPageController().forward();
+		}
+
+		getPageController () {
+			return this.getApp().getPageController();
 		}
 
 		navigate (url, title) {
-			history.pushState(history.state + 1, title || "", url);
+			this.pushState(history.state + 1, title || "", url);
 			this.routeChange();
 
 			/*if(direction == "forward") {
@@ -68,8 +94,8 @@
 		}
 
 		pushState (state, title, url) {
-			//history.pushState(state, title, url);
-			//this.routeChange();
+			this.state = state;
+			history.pushState(state, title, url);
 		}
 
 		routeChange () {
