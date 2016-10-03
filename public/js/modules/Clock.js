@@ -26,7 +26,7 @@
 
 		getTimeStr () {
 			let d = new Date();
-			return Cloacl.getTimeStr(d);
+			return Clock.getTimeStr(d);
 		}
 
 		static getTimeStr (d) {
