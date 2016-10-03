@@ -15,14 +15,16 @@
 				let oldState = this.getState();
 				let newState = e.state;
 
-				if(!this.getPageController().getCurrentPage())
+				if(!this.getPageController().getCurrentPage()) {
 					this.routeChange();
-
-				if(newState > oldState) {
-					this.forward();
 				} else {
-					this.back();
+					if(newState > oldState) {
+						this.forward();
+					} else {
+						this.back();
+					}
 				}
+
 
 				/*
 				let page = e.state;
