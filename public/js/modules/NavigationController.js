@@ -10,6 +10,7 @@
 
 			window.on("popstate", e => {
 
+				/*
 				let page = e.state;
 
 				let currentPage = this.getApp().getPageController().currentPage;
@@ -26,6 +27,9 @@
 					// forward
 					this.getApp().getPageController().forward();
 				}
+
+				*/
+
 			});
 
 			this.getApp().getParent().on("click", (e) => {
@@ -33,7 +37,11 @@
 				if(!e.button && !e.ctrlKey && link && link.getAttribute("href").split("://").length == 1) {
 					e.stopPropagation();
 					e.preventDefault();
-					this.navigate(link.href);
+
+
+					//this.navigate(link.href);
+
+
 				}
 				return true;
 			});
@@ -49,22 +57,22 @@
 		}
 
 		navigate (url, title, direction = "forward") {
-			if(direction == "forward") {
+			/*if(direction == "forward") {
 				let page = direction == "forward" ? ++this.getApp().getPageController().currentPage : --this.getApp().getPageController().currentPage;
 				this.pushState(page, title || "", url);
 			} else {
 				this.routeChange();
 			}
+			*/
 		}
 
 		pushState (state, title, url) {
-			history.pushState(state, title, url);
-			this.routeChange();
+			//history.pushState(state, title, url);
+			//this.routeChange();
 		}
 
 		routeChange () {
-			console.log("trigger");
-			this.getApp().getRouter()(location.pathname.replace(new RegExp("eas-kubes/public/"), ""), this.getApp());
+			//this.getApp().getRouter()(location.pathname.replace(new RegExp("eas-kubes/public/"), ""), this.getApp());
 		}
 
 	}
