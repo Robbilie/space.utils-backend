@@ -252,6 +252,9 @@ body {
     box-shadow: 0 0 10px 0px rgb(0, 0, 0);
 }
 
+.homebtn::before {content: "";width: 20px;height: 15px;background-color: white;position: absolute;bottom: 8px;left: 10px;}
+
+.homebtn::after {content: "";position: absolute;transform: rotate(45deg);width: 14px;height: 14px;background-color: white;top: 10px;left: 13px;}
 
 /* WelcomePage */
 
