@@ -23,7 +23,7 @@
 			
 			const web = express();
 
-			web.set("json spaces", 2);
+			//web.set("json spaces", 2);
 			web.enable("trust proxy");
 
 			//web.use(cors());
