@@ -12,7 +12,7 @@
 				let page = e.state;
 				let currentPage = this.getApp().getPageController().currentPage;
 				this.getApp().getPageController().currentPage = page || 0;
-				if(currentPage > page) {
+				if(typeof(currentPage) == "undefined" || currentPage > page) {
 					// back
 					this.getApp().getPageController().back();
 				} else if (currentPage < page) {
