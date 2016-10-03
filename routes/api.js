@@ -26,6 +26,14 @@
 				href: `${config.site.url}/killmails/`
 			}
 		}))
+		.use("/killmails", Router(m)
+			.post("/",
+				KillmailHandler.filter())
+			.get("/:id/",
+				KillmailHandler.getById())
+			.get("/:id/:hash/",
+				KillmailHandler.getOrCreate())
+		)
 		.use("/characters", Router(m)
 			.post("/",
 				CharacterHandler.filter())
@@ -53,13 +61,5 @@
 				AllianceHandler.getExecutor())
 			.get("/:id/corporations/",
 				AllianceHandler.getCorporations())
-		)
-		.use("/killmails", Router(m)
-			.post("/",
-				KillmailHandler.filter())
-			.get("/:id/",
-				KillmailHandler.getById())
-			.get("/:id/:hash/",
-				KillmailHandler.getOrCreate())
 		);
 	
