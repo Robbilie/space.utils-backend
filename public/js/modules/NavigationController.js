@@ -14,7 +14,7 @@
 				this.getApp().getPageController().currentPage = page || 0;
 				if(!this.getApp().getPageController().getCurrentPage()) {
 					this.navigate(location.href.split(location.hostname)[1], "", currentPage > page ? "back" : "forward");
-				} else if (typeof(currentPage) == "undefined" || currentPage > page) {
+				} else if (currentPage > page) {
 					// back
 					this.getApp().getPageController().back();
 				} else if (currentPage < page) {
