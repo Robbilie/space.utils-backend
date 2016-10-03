@@ -12,8 +12,10 @@
 
 			window.on("popstate", e => {
 
-				let oldState = this.getState();
 				let newState = e.state;
+				let oldState = this.getState();
+
+				this.state = e.state;
 
 				if(!this.getPageController().getCurrentPage()) {
 					this.routeChange();
