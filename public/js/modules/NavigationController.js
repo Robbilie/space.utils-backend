@@ -48,8 +48,8 @@
 			this.getApp().getPageController().back();
 		}
 
-		navigate (url, title, direction = "back") {
-			let page = direction == "back" ? ++this.getApp().getPageController().currentPage : --this.getApp().getPageController().currentPage;
+		navigate (url, title, direction = "forward") {
+			let page = direction == "forward" ? ++this.getApp().getPageController().currentPage : --this.getApp().getPageController().currentPage;
 			this.pushState(page, title || "", url);
 		}
 
