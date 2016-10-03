@@ -18,6 +18,7 @@
 		}
 
 		loadInitial () {
+			this.getApp().setLoadingState(true);
 			this.scrollDown().then(() => this.ready());
 		}
 

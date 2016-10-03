@@ -15,6 +15,7 @@
 		}
 
 		loadInitial () {
+			this.getApp().setLoadingState(true);
 			return json(`https://api.utils.space/killmails/${this.killID}/`).then(kill => {
 
 				console.log(kill);

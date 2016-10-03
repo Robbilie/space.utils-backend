@@ -28,7 +28,6 @@
 		loadPage (page, ...args) {
 
 			const d = Date.now();
-			this.getApp().setLoadingState(true);
 
 			let instance = new page(this.getApp(), ...args);
 			$("title").innerHTML = instance.getTitle();
