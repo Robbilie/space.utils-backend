@@ -33,9 +33,9 @@
 				res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 				next();
 			});
-			web.use(bodyParser.json());
-			web.use(bodyParser.urlencoded({ extended: false }));
-			web.use(cookieParser(config.cookies.secret));
+			//web.use(bodyParser.json());
+			//web.use(bodyParser.urlencoded({ extended: false }));
+			//web.use(cookieParser(config.cookies.secret));
 
 			web.use(routes);
 
