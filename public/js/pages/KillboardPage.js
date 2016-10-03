@@ -53,6 +53,9 @@
 									["br"],
 									["span", { innerHTML: victim.corporation.name + (victim.alliance ? " | " + victim.alliance.name : "") }]
 								]],
+								["td", { className: "deso" }, [
+									["img", { src: `https://imageserver.eveonline.com/${["alliance", "corporation", "character"].find(e => !!attacker[e]).capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character].find(e => !!e).id}_64.png`, alt: [attacker.alliance, attacker.corporation, attacker.character].find(e => !!e).name }]
+								]],
 							]]
 						]]
 					]]));
