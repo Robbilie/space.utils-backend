@@ -42,25 +42,22 @@
 		}
 
 		back () {
-			/*
 			if(this.getPageStackContainer().children.length > 1) {
 				this.getPageStackContainer().children[0].classList.add("intransition");
 				setTimeout(() => this.getPageStackContainer().children[0].destroy(), 300);
 			}
 
 			$("title").innerHTML = this.getCurrentPage().getTitle();
-			*/
+			
 		}
 
 		forward () {
-			/*
 			let page = this.getCurrentPage();
 			let element = page.render();
 			element.classList.add("intransition");
 			this.getPageStackContainer().prepend(element);
 			setTimeout(() => element.classList.remove("intransition"), 100);
 			$("title").innerHTML = page.getTitle();
-			*/
 		}
 
 		getCurrentPage () {
