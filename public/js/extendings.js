@@ -1,6 +1,16 @@
 
 	"use strict";
 
+	Object.defineProperty(String.prototype, 'capitalizeFirstLetter', {
+		value: function () {
+			return this
+					.charAt(0)
+					.toUpperCase() + this.slice(1);
+		},
+		configurable: true,
+		writable: true
+	});
+
 	Object.defineProperty(HTMLElement.prototype, 'append', {
 		value: HTMLElement.prototype.appendChild
 	});
