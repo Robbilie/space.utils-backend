@@ -61,7 +61,13 @@
 				["div", { className: "content" }, [
 					this.getPageController()
 				]],
-				this.getTopBar()
+				this.getTopBar(),
+				["div", { className: "loader" }, [
+					["div", { className: "loader-circle" }],
+					["div", { className: "loader-line-mask" }, [
+						["div", { className: "loader-line" }]
+					]]
+				]]
 			]]);
 		}
 
