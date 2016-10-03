@@ -23,7 +23,7 @@
 
 			this.getApp().getParent().on("click", (e) => {
 				let link = e.path ? e.path.find(el => el.tagName == "A") : (e.target.tagName == "A" ? e.target : undefined);
-				if(!e.button && !e.ctrlKey && link) {
+				if(!e.button && !e.ctrlKey && link && link.href.split("://").length == 1) {
 					e.stopPropagation();
 					e.preventDefault();
 					this.navigate(link.href);
