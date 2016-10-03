@@ -28,7 +28,7 @@
 				let element = instance.render();
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);
-				setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false), 100);
+				setTimeout(() => element.classList.remove("intransition") || setTimeout(() => this.getApp().setLoadingState(false), 100), 100);
 			});
 		}
 
