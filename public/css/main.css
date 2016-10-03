@@ -435,7 +435,7 @@ body {
 }
 
 .list > a {
-    display: block;
+    display: flex;
     text-align: left;
     background-color: var(--primary-color);
     margin: 5px 12px 5px 20px;
@@ -443,22 +443,9 @@ body {
 	height: 40px;
 }
 
-.list > a > table {
-	position: relative;
-	width: 100%;
+.list a img {
 	height: 100%;
 }
-
-/*
-.list > a > img {
-	height: 100%;
-}
-
-.list > a > * {
-	vertical-align: middle;
-	display: inline-block;
-}
-*/
 
 .list {
 	overflow: auto;
