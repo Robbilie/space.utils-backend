@@ -23,7 +23,7 @@
 							["h2", { innerHTML: "KILLBOARD" }],
 							["img", { src: "./img/1x2.png" }]
 						]],
-						["a", { id: "service", href: "/service/#service", style: "clip-path: url(#pthree);" }, [
+						["a", { id: "service", href: "https://service.eneticum.de/", target: "_blank", style: "clip-path: url(#pthree);" }, [
 							["h2", { innerHTML: "SERVICE" }],
 							["img", { src: "./img/1x2.png" }]
 						]]
