@@ -443,6 +443,13 @@ body {
 	height: 40px;
 }
 
+.list > a > table {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+/*
 .list > a > img {
 	height: 100%;
 }
@@ -451,6 +458,7 @@ body {
 	vertical-align: middle;
 	display: inline-block;
 }
+*/
 
 .list {
 	overflow: auto;
