@@ -5,11 +5,14 @@
 
 		constructor (parent, router) {
 			super(parent);
+
 			this.router 				= router;
 			this.sideBar 				= new SideBar(this);
 			this.topBar 				= new TopBar(this);
 			this.pageController 		= new PageController(this);
 			this.navigationController 	= new NavigationController(this);
+
+			this.loadingstate = $(["input", { type: "checkbox", id: "loadingState" }]);
 		}
 
 		getApp () {
@@ -40,8 +43,17 @@
 			this.getPageController().loadPage(page, ...args);
 		}
 
+		getLoadingState () {
+			return this.loadingstate;
+		}
+
+		setLoadingState (state) {
+			return this.getLoadingState().checked = state;
+		}
+
 		render () {
 			return $(["div", { className: "ui" }, [
+				this.getLoadingState(),
 				this.getTopBar().getSearchBar().getMaxer(),
 				this.getSideBar().getToggle(),
 				this.getSideBar().getButton(),

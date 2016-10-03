@@ -121,7 +121,7 @@ body {
     width: 80% !important;
 }
 
-#searchbarMaxer:checked ~ .content .pages {
+#searchbarMaxer:checked ~ .content .pages, #loadingState:checked ~ .content .pages {
 	transform: translateZ(-200px);
 	opacity: .6;
 }
@@ -149,7 +149,7 @@ body {
     cursor: pointer;
 }
 
-#sidebarToggle, #searchbarMaxer {
+#sidebarToggle, #searchbarMaxer, #loadingState {
     display: none;
 }
 

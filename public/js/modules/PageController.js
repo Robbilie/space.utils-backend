@@ -19,6 +19,7 @@
 		}
 
 		loadPage (page, ...args) {
+			this.getApp().setLoadingState(true);
 			let instance = new page(this.getApp(), ...args);
 			$("title").innerHTML = instance.getTitle();
 			this.pageStack = this.getPageStack().filter((e, i) => i <= this.currentPage);
@@ -28,6 +29,7 @@
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);
 				setTimeout(() => element.classList.remove("intransition"), 100);
+				this.getApp().setLoadingState(false);
 			});
 		}
 
