@@ -29,8 +29,10 @@
 				"options": { "sort": { "killID": -1 }, "limit": 50 }
 			}).then(data => {
 				data.forEach(kill => {
-					let victim = (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.victim);
-					let attacker = (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.attackers.find(attacker => attacker.finalBlow));
+					//let victim = (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.victim);
+					//let attacker = (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.attackers.find(attacker => attacker.finalBlow));
+					let victim = kill.victim;
+					let attacker = kill.attackers.find(attacker => attacker.finalBlow);
 					let time = new Date(kill.killTime + " GMT");
 					this.getList().append($(["a", { href: `/killmails/${kill.killID}/` }, [
 						["table", {}, [
@@ -42,6 +44,9 @@
 									["span", { innerHTML: Clock.getTimeStr(time) }],
 									["br"],
 									["span", { innerHTML: kill.solarSystem.name }]
+								]],
+								["td", { className: "deso" }, [
+									["img", { src: `https://imageserver.eveonline.com/${["alliance", "corporation", "character"].find(e => !!victim[e]).capitalizeFirstLetter()}/${[victim.alliance, victim.corporation, victim.character].find(e => !!e).id}_64.png`, alt: [victim.alliance, victim.corporation, victim.character].find(e => !!e).name }]
 								]],
 							]]
 						]]
