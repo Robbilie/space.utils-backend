@@ -72,7 +72,7 @@
 		}
 
 		routeChange () {
-			//this.getApp().getRouter()(location.pathname.replace(new RegExp("eas-kubes/public/"), ""), this.getApp());
+			this.getApp().getRouter()(location.pathname.replace(new RegExp("eas-kubes/public/"), ""), this.getApp());
 		}
 
 	}
