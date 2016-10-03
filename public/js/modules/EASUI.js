@@ -13,6 +13,8 @@
 			this.navigationController 	= new NavigationController(this);
 
 			this.loadingstate = $(["input", { type: "checkbox", id: "loadingState" }]);
+
+			console.log(this.getLoadingState());
 		}
 
 		getApp () {
