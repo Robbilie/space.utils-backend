@@ -467,6 +467,10 @@ body {
 
 @media (max-width: 600px) {
 
+    .deso {
+        display: none !important;
+    }
+
 	.welcome-conti {
 		width: 100%;
 	}

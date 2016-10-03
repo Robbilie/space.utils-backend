@@ -29,10 +29,22 @@
 				"options": { "sort": { "killID": -1 }, "limit": 50 }
 			}).then(data => {
 				data.forEach(kill => {
+					let victim = (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.victim);
+					let attacker = (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.attackers.find(attacker => attacker.finalBlow));
+					let time = new Date(kill.killTime + " GMT");
 					this.getList().append($(["a", { href: `/killmails/${kill.killID}/` }, [
-						["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.shipType.id}_64.png`, alt: kill.victim.shipType.name }],
-						["span", { innerHTML: (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.victim).name }],
-						["span", { innerHTML: (({ character, corporation, alliance, faction }, els = [character, corporation, alliance, faction]) => els.find(e => !!e))(kill.attackers.find(attacker => attacker.finalBlow)).name }]
+						["table", {}, [
+							["tr", {}, [
+								["td", { className: "deso" }, [
+									["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.shipType.id}_64.png`, alt: kill.victim.shipType.name }]
+								]],
+								["td", {}, [
+									["span", { innerHTML: Clock.getTimeStr(time) }],
+									["br"],
+									["span", { innerHTML: kill.solarSystem.name }]
+								]],
+							]]
+						]]
 					]]));
 					this.lowKillID = Math.min(this.lowKillID || Number.MAX_VALUE, kill.killID);
 				});

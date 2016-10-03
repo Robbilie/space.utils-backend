@@ -26,6 +26,10 @@
 
 		getTimeStr () {
 			let d = new Date();
+			return Cloacl.getTimeStr(d);
+		}
+
+		static getTimeStr (d) {
 			return (d.getUTCHours() < 10 ? "0" : "") + d.getUTCHours() + ":" + (d.getUTCMinutes() < 10 ? "0" : "") + d.getUTCMinutes();
 		}
 

@@ -54,7 +54,6 @@
 		forward () {
 			let page = this.getCurrentPage();
 			let element = page.render();
-			console.log("forward", page, element);
 			element.classList.add("intransition");
 			this.getPageStackContainer().prepend(element);
 			setTimeout(() => element.classList.remove("intransition"), 100);
