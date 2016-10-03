@@ -29,7 +29,7 @@
 
 			//this.pageStack = this.getPageStack().filter((e, i) => i <= this.currentPage);
 
-			if(history.state > this.getPageStack().length - 1)
+			if((history.state || 0) > this.getPageStack().length - 1)
 				this.getPageStack()[history.state] = instance;
 			else
 				console.log(history.state, this.getPageStack().push(instance));
