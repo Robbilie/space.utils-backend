@@ -54,7 +54,7 @@
 				.then(() => instance
 					.onInserted()
 					.wait(10)
-					.then(() => window.requestAnimationFrame(() => !window.getComputedStyle(element) || element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d)))
+					.then(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d))
 				);
 
 		}
