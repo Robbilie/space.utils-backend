@@ -36,26 +36,32 @@
 						["div", { className: "deso" }, [
 							["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.shipType.id}_64.png`, alt: kill.victim.shipType.name }]
 						]],
-						["span", {}, [
-							["span", { innerHTML: Clock.getTimeStr(time) }],
-							["br"],
-							["span", { innerHTML: kill.solarSystem.name }]
+						["div", {}, [
+							["span", {}, [
+								["span", { innerHTML: Clock.getTimeStr(time) }],
+								["br"],
+								["span", { innerHTML: kill.solarSystem.name }]
+							]],
 						]],
 						["div", { className: "deso" }, [
 							["img", { src: `https://imageserver.eveonline.com/${["alliance", "corporation", "character"].find(e => !!victim[e]).capitalizeFirstLetter()}/${[victim.alliance, victim.corporation, victim.character].find(e => !!e).id}_64.png`, alt: [victim.alliance, victim.corporation, victim.character].find(e => !!e).name }]
 						]],
-						["span", {}, [
-							["span", { innerHTML: [victim.character, victim.corporation, victim.alliance, victim.faction].find(e => !!e).name }],
-							["br"],
-							["span", { innerHTML: [victim.corporation.name, victim.alliance ? victim.alliance.name : null].filter(e => !!e).join(" | ") }]
+						["div", {}, [
+							["span", {}, [
+								["span", { innerHTML: [victim.character, victim.corporation, victim.alliance, victim.faction].find(e => !!e).name }],
+								["br"],
+								["span", { innerHTML: [victim.corporation.name, victim.alliance ? victim.alliance.name : null].filter(e => !!e).join(" | ") }]
+							]],
 						]],
 						["div", { className: "deso" }, [
 							["img", { src: `https://imageserver.eveonline.com/${(["alliance", "corporation", "character"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).id}_64.png`, alt: [attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).name }]
 						]],
-						["span", {}, [
-							["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
-							["br"],
-							["span", { innerHTML: [attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ") }]
+						["div", {}, [
+							["span", {}, [
+								["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
+								["br"],
+								["span", { innerHTML: [attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ") }]
+							]],
 						]],
 						["div", { className: "deso" }, [
 							["span", { innerHTML: kill.attackers.length }]

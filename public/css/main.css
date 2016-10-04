@@ -454,8 +454,15 @@ body {
 	height: 100%;
 }
 
-.list a div {
+.list > a > div::after {
+	content: "";
+	display: inline-block;
 	vertical-align: middle;
+}
+
+.list > a > div > span {
+	vertical-align: middle;
+	display: inline-block;
 }
 
 .list a div.deso {
