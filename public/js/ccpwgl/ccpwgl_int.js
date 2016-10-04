@@ -1733,7 +1733,7 @@ var ccpwgl_int = (function()
      * @property {Number} _noLoadFrames
      * @constructor
      */
-    function Tw2ResMan()
+    this.Tw2ResMan = function Tw2ResMan()
     {
         this.systemMirror = false;
         this.resourcePaths = {};
