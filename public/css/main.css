@@ -447,21 +447,86 @@ body {
 	display: none;
 }
 
-.fitting-bg {
-	width: 512px;
-	height: 512px;
-	position: absolute;
-	top: -26px;
-	left: 50%;
-	margin-left: -256px;
+.fitting-conti {
+	padding: 15px 5%;
+	position: relative;
 }
 
-.fitting-bg > img {
+.fitting-conti > canvas {
+	display: block;
+}
+
+.fitting-conti > .kill-img-conti {
 	position: absolute;
-	top: 0;
+	top: -30px;
 	left: 0;
+	right: 0;
+	bottom: -30px;
+	text-align: center;
+	pointer-events: none;
+}
+
+.fitting-conti > .kill-img-conti > .kill-img-wrap {
+	position: absolute;
+	height: 100%;
 	width: 100%;
+}
+
+.fitting-conti > .kill-img-conti > .kill-img-wrap > img {
+	height: 100%;
+	display: block;
+	margin: auto;
 	filter: grayscale(100%) brightness(15%);
+}
+
+.tabs-kill > .kill-tab-headline {
+	width: 25%;
+	float: left;
+	height: 100%;
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: white;
+}
+
+.tab-highlighter {
+	width: 50%;
+	border: 2px solid var(--primary-color);
+	height: 100%;
+	position: absolute;
+	left: 0;
+}
+
+.tabs-kill-2:checked ~ .tabs-kill > .tab-highlighter {
+	left: 25%;
+}
+
+.tabs-kill-3:checked ~ .tabs-kill > .tab-highlighter {
+	left: 50%;
+}
+
+.tabs-kill > .kill-label-wrapper > label {
+	width: calc(100% / 3);
+	height: 100%;
+	top: 0;
+	display: inline-block;
+	position: relative;
+}
+
+.kill-label-wrapper {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.tabs-kill {
+	position: relative;
+	width: 90%;
+	height: 50px;
+	margin: 20px 5%;
+	line-height: 50px;
 }
 
 /* Killboard Page */

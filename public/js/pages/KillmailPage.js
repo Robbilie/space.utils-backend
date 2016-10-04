@@ -83,23 +83,31 @@
 
 		render () {
 			return $(["div", { className: "killmail page" }, [
-				this.getHeader(),
-				["div", { className: "fitting-bg" }, [
-					["img", { src: "/img/fitting/fittingbase.png" }],
-					["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
+				["div", { className: "fitting-conti" }, [
+					this.getHeader(),
+					["div", { className: "kill-img-conti" }, [
+						["div", { className: "kill-img-wrap" }, [
+							["img", { src: "/img/fitting/fittingbase.png" }]
+						]],
+						["div", { className: "kill-img-wrap" }, [
+							["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
+						]]
+					]]
 				]],
-				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1" }],
+				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1", checked: "true" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-2", value: "2" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3" }],
-				["div", { className: "tab-highlighter" }],
 				["div", { className: "tabs-kill" }, [
-					["div"],
-					["div"],
-					["div"],
-					["div"],
-					["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-1" }],
-					["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-2" }],
-					["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-3" }]
+					["div", { className: "tab-highlighter" }],
+					["div", { className: "kill-tab-headline" }],
+					["div", { className: "kill-tab-headline" }],
+					["div", { className: "kill-tab-headline" }],
+					["div", { className: "kill-tab-headline" }],
+					["div", { className: "kill-label-wrapper" }, [
+						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-1" }],
+						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-2" }],
+						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-3" }]
+					]]
 				]],
 				["div", { className: "tabs-kill-conti" }, this.getTabs()]
 			]]);
