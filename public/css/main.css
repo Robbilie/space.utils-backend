@@ -443,6 +443,7 @@ body {
 	height: 45px;
 	text-decoration: none;
 	color: rgba(255,255,255,.75);
+	font-weight: bold;
 }
 
 .list a img {
@@ -477,11 +478,11 @@ body {
 	}
 
 	.list a div {
-		width: calc((100% - 135px) * 0.45);
+		width: calc((100% - 90px) * 0.45);
 	}
 
 	.list a div:first-child + div {
-		width: calc((100% - 135px) * 0.1);
+		width: calc((100% - 90px) * 0.1);
 	}
 
 }

@@ -58,7 +58,7 @@
 						]],
 						["div", {}, [
 							["span", {}, [
-								["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
+								["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + " [+" + kill.attackers.length + "]" }],
 								["br"],
 								["span", { innerHTML: [attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ") }]
 							]],
