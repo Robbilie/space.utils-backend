@@ -26,7 +26,8 @@
 				this.camera.maxPitch = 0.35;
 				ccpwgl.setCamera(this.camera);
 
-				this.scene = ccpwgl.createScene([1,1,1,0]);
+				//this.scene = ccpwgl.createScene([1,1,1,0]);
+				this.scene = ccpwgl.loadScene("res:/dx9/scene/universe/m10_cube.red");
 
 
 			} else { // mobile
