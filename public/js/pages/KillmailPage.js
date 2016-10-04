@@ -57,8 +57,8 @@
 					console.log(kill);
 
 					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
+						this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
 						if (dna.split(":").length > 2) {
-							this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
 							this.ccpwgl.getSofHullConstructor(dna, (constructor) => {
 								console.log(constructor);
 								if (constructor) {
