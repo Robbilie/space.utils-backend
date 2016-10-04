@@ -6,7 +6,7 @@
 	class Helper {
 
 		static typeToGraphic (typeID) {
-			return Helper.getGraphicIDs().then(([typeids, graphicids]) => graphicids[typeids[typeID].graphicID]);
+			return Helper.getGraphicIDs().then(([typeids, graphicids]) => graphicids[typeids[typeID].graphicID].graphicFile);
 		}
 
 		static getGraphicIDs () {
