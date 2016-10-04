@@ -455,13 +455,6 @@ body {
 .list a div.deso {
 	width: 40px;
 }
-.list a div {
-	width: calc((100% - 120px) * 0.4);
-}
-
-.list a div:first-child + div {
-	width: calc((100% - 120px) * 0.2);
-}
 
 @media (min-width: 600px) {
 
@@ -469,9 +462,25 @@ body {
 		display: none !important;
 	}
 
+	.list a div {
+		width: calc((100% - 120px) * 0.4);
+	}
+
+	.list a div:first-child + div {
+		width: calc((100% - 120px) * 0.2);
+	}
+
 }
 
 @media (max-width: 600px) {
+
+	.list a div {
+		width: 40%;
+	}
+
+	.list a div:first-child + div {
+		width: 20%;
+	}
 
     .deso {
         display: none !important;
