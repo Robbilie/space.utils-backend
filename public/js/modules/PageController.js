@@ -46,10 +46,10 @@
 			element.page = instance;
 			element.classList.add("intransition");
 			this.getPageStackContainer().prepend(element);
-			instance.onReady().then(() => {
-				//setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d), 10);
-				instance.onInserted().wait(10).then(() => window.requestAnimationFrame(() => !window.getComputedStyle(element) || element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d)));
-			});
+			instance
+				.onReady()
+				.then(() => instance.onInserted())
+				.then(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d));
 
 		}
 
