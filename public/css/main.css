@@ -444,6 +444,7 @@ body {
 	text-decoration: none;
 	color: rgba(255,255,255,.75);
 	font-weight: bold;
+	outline: none;
 }
 
 .list > a:hover, .list > a:focus {
