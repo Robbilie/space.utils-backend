@@ -32,12 +32,12 @@
 					let victim = kill.victim;
 					let attacker = kill.attackers.find(attacker => attacker.finalBlow);
 					let time = new Date(kill.killTime + " GMT");
-					this.getList().append($(["a", { href: `/killmails/${kill.killID}/` }, [
-						["div", { className: "deso img" }, [
+					this.getList().append($(["a", { className: "row", href: `/killmails/${kill.killID}/` }, [
+						["div", { className: "column deso img" }, [
 							["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.shipType.id}_64.png`, alt: kill.victim.shipType.name }]
 						]],
-						["div", {}, [
-							["div", {}, [
+						["div", { className: "column" }, [
+							["div", { className: "grad" }, [
 								["span", {}, [
 									["b", { innerHTML: Clock.getTimeStr(time) }],
 									["br"],
@@ -45,11 +45,11 @@
 								]]
 							]]
 						]],
-						["div", { className: "deso img" }, [
+						["div", { className: "column deso img" }, [
 							["img", { src: `https://imageserver.eveonline.com/${["alliance", "corporation", "character"].find(e => !!victim[e]).capitalizeFirstLetter()}/${[victim.alliance, victim.corporation, victim.character].find(e => !!e).id}_64.png`, alt: [victim.alliance, victim.corporation, victim.character].find(e => !!e).name }]
 						]],
-						["div", {}, [
-							["div", {}, [
+						["div", { className: "column" }, [
+							["div", { className: "grad" }, [
 								["span", {}, [
 									["b", { innerHTML: [victim.character, victim.corporation, victim.alliance, victim.faction].find(e => !!e).name }],
 									["br"],
@@ -57,11 +57,11 @@
 								]]
 							]]
 						]],
-						["div", { className: "deso img" }, [
+						["div", { className: "column deso img" }, [
 							["img", { src: `https://imageserver.eveonline.com/${(["alliance", "corporation", "character"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).id}_64.png`, alt: [attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).name }]
 						]],
-						["div", { className: "deso" }, [
-							["div", {}, [
+						["div", { className: "column deso" }, [
+							["div", { className: "grad" }, [
 								["span", {}, [
 									["b", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + (kill.attackers.length > 1 ? " [+" + (kill.attackers.length - 1) + "]" : "") }],
 									["br"],

@@ -432,11 +432,11 @@ body {
 
 /* Kill Page */
 
-.intransition .list > a {
+.intransition .list > .row {
     margin-top: 200px;
 }
 
-.list > a {
+.list > .row {
     display: flex;
     text-align: left;
     margin: 5px 12px 5px 20px;
@@ -446,11 +446,11 @@ body {
 	outline: none;
 }
 
-.list > a:hover, .list > a:focus {
+.list > .row:hover, .list > .row:focus {
 	background-color: var(--tertiary-color);
 }
 
-.list > a > div > img {
+.list > .row > .column > img {
 	border: 1px solid rgba(255,255,255,.25);
 	border-right-width: 0;
 	height: 45px;
@@ -461,25 +461,25 @@ body {
 	height: 100%;
 }
 
-.list > a > div > div::after {
+.list > .row > .column > .grad::after {
 	content: "";
 	display: inline-block;
 	vertical-align: middle;
 	height: 100%;
 }
 
-.list > a > div > div {
+.list > .row > .column > .grad {
 	background: linear-gradient(90deg, rgba(255,255,255,.25), transparent);
 	padding-left: 10px;
 	height: 100%;
 }
 
-.list > a > div > div > span {
+.list > .row > .column > .grad > span {
 	vertical-align: middle;
 	display: inline-block;
 }
 
-.list > a > div.deso.img {
+.list > .row > .column.deso.img {
 	width: 45px;
 }
 
@@ -489,15 +489,15 @@ body {
 		display: none !important;
 	}
 
-	.list > a {
+	.list > .row {
 		height: 45px;
 	}
 
-	.list > a > div {
+	.list > .row > .column {
 		width: calc((100% - 90px) * 0.45);
 	}
 
-	.list > a > div:first-child + div {
+	.list > .row > .column:first-child + .column {
 		width: calc((100% - 90px) * 0.1);
 	}
 
@@ -505,11 +505,11 @@ body {
 
 @media (max-width: 600px) {
 
-	.list > a > div {
+	.list > .row > .column {
 		width: 75%;
 	}
 
-	.list > a > div:first-child + div {
+	.list > .row > .column:first-child + .column {
 		width: 25%;
 	}
 
