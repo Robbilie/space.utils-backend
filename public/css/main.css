@@ -489,6 +489,10 @@ body {
 		display: none !important;
 	}
 
+	.list > a {
+		height: 45px;
+	}
+
 	.list > a > div {
 		width: calc((100% - 90px) * 0.45);
 	}
