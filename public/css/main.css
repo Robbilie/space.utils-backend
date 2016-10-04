@@ -468,6 +468,7 @@ body {
 .list > a > div > div {
 	background: linear-gradient(90deg, rgba(255,255,255,.25), transparent);
 	padding-left: 10px;
+	height: 100%;
 }
 
 .list > a > div > div > span {
