@@ -13,7 +13,7 @@
 
 		static getGraphicIDs () {
 			if(!helperStorage.graphicIDs)
-				helperStorage.graphicIDs = json(ccpwgl_int().resMan.BuildUrl("res:/staticdata/graphicids.json"));
+				helperStorage.graphicIDs = fetch(ccpwgl_int().resMan.BuildUrl("res:/staticdata/graphicids.json")).then(res => res.json());
 			return helperStorage.graphicIDs;
 		}
 
