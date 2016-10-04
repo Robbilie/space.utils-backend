@@ -32,7 +32,7 @@ function TestCamera(element)
     element.addEventListener('mousedown', function (event) { self._DragStart(event); }, false);
     element.addEventListener('touchstart', function (event) { self._DragStart(event); }, true);
     element.addEventListener('DOMMouseScroll', function (e) { return self._WheelHandler(e, element); }, false);
-    element.addEventListener('mousewheel', function (e) { return self._WheelHandler(e, element); }, false);
+    element.addEventListener('scroll', function (e) { return self._WheelHandler(e, element); }, false);
 }
 
 
