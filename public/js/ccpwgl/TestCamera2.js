@@ -31,8 +31,8 @@ function TestCamera(element)
     var self = this;
     element.addEventListener('mousedown', function (event) { self._DragStart(event); }, false);
     element.addEventListener('touchstart', function (event) { self._DragStart(event); }, true);
-    window.addEventListener('DOMMouseScroll', function (e) { return self._WheelHandler(e, element); }, false);
-    window.addEventListener('mousewheel', function (e) { return self._WheelHandler(e, element); }, false);
+    element.addEventListener('DOMMouseScroll', function (e) { return self._WheelHandler(e, element); }, false);
+    element.addEventListener('mousewheel', function (e) { return self._WheelHandler(e, element); }, false);
 }
 
 
