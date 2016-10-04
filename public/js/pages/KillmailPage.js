@@ -86,8 +86,8 @@
 				this.getHeader(),
 				["div", { className: "fitting-bg" }, [
 					["img", { src: "/img/fitting/fittingbase.png" }],
-					["img", { src: "/img/fitting/fittingbase_dotproduct.png" }],
-				]]
+					["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
+				]],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-2", value: "2" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3" }],
