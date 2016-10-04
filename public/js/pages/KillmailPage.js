@@ -11,7 +11,7 @@
 
 			console.log("Kill", killID);
 
-			this.header = $(["canvas", {}]);
+			this.header = $(["canvas", { className: "kill-header-bg" }]);
 			this.tabs = [
 				["div", { className: "tab-kill" }],
 				["div", { className: "tab-kill" }],
