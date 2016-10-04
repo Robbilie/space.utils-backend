@@ -13,7 +13,7 @@
 				mutations.forEach((mutation) => {
 					console.log(mutation);
 					if(mutation.type == "childList") {
-						Array.from(mutation.addedNodes).forEach(node => node.page.inserted());
+						Array.from(mutation.addedNodes).forEach(node => console.log(node.classList) || node.page.inserted());
 					}
 				});
 			});
