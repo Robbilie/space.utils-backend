@@ -62,13 +62,12 @@
 							if (dna.split(":").length > 2) {
 								this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
 								this.ccpwgl.getSofHullConstructor(dna, (constructor) => {
+									console.log(constructor);
 									if (constructor) {
 										var obj = this.scene[constructor](dna);
 										if ("setBoosterStrength" in obj) {
 											obj.setBoosterStrength(1);
 										}
-									} else {
-										console.log("failed sofDNA", constructor);
 									}
 								});
 							} else {
