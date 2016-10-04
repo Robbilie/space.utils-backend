@@ -9,6 +9,13 @@
 			this.pageStack = [];
 			this.pageStackContainer = $(["div", { className: "pages" }]);
 
+			let observer = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					console.log(mutation);
+				});
+			});
+			observer.observe(this.pageStackContainer, { attributes: true, childList: true, characterData: true });
+
 			if(history.state == null)
 				history.replaceState(0, "", location.href);
 
@@ -34,6 +41,7 @@
 
 			instance.onReady().then(() => {
 				let element = instance.render();
+				element.page = instance;
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);
 				setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d), 10);
@@ -54,6 +62,7 @@
 		forward () {
 			let page = this.getCurrentPage();
 			let element = page.render();
+			element.page = page;
 			element.classList.add("intransition");
 			this.getPageStackContainer().prepend(element);
 			setTimeout(() => element.classList.remove("intransition"), 100);
