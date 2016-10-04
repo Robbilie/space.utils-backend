@@ -62,9 +62,6 @@
 								["br"],
 								["span", { innerHTML: [attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ") }]
 							]],
-						]],
-						["div", { className: "deso" }, [
-							["span", { innerHTML: kill.attackers.length }]
 						]]
 					]]));
 					this.lowKillID = Math.min(this.lowKillID || Number.MAX_VALUE, kill.killID);
