@@ -32,7 +32,7 @@
 
 			this.getPageStack()[history.state] = instance;
 
-			instance.isReady().then(() => {
+			instance.onReady().then(() => {
 				let element = instance.render();
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);

@@ -6,26 +6,31 @@
 		constructor (parent, title) {
 			super(parent);
 			this.title = title;
+			this.isready = false;
+			this.onready = [];
 		}
 
 		getTitle () {
 			return this.title;
 		}
 
-		isReady () {
+		onReady () {
 			return new Promise((resolve) => {
-				if(this.onReady)
-					resolve();
-				else
-					this.onReady = resolve;
-			} )
+				this.onready.push(resolve);
+				this.isReady();
+			});
+		}
+
+		isReady () {
+			if(!this.isready)
+				return false;
+			while (this.isready.length > 0)
+				(this.onready.pop())();
 		}
 
 		ready () {
-			if(this.onReady)
-				this.onReady();
-			else
-				this.onReady = true;
+			this.isready = true;
+			this.isReady();
 		}
 
 	}
