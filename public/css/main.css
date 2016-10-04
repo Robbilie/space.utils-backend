@@ -432,9 +432,19 @@ body {
 
 /* Killmail Page */
 
+.killmail.page {
+	padding: 50px;
+	padding-top: 30px;
+}
+
 .kill-header-bg {
 	width: 100%;
 	height: 400px;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,0.75);
+}
+
+.killmails.page input[type="radio"] {
+	display: none;
 }
 
 /* Killboard Page */
