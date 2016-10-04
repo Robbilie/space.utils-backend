@@ -1974,4 +1974,4 @@ var ccpwgl = (function(ccpwgl_int)
     };
 
     return ccpwgl;
-}(ccpwgl_int || window));
+});

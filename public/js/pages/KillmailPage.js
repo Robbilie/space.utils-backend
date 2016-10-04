@@ -14,7 +14,9 @@
 			if(true) { // desktop
 				this.header = $(["canvas", { className: "kill-header-bg" }]);
 
-				ccpwgl.initialize(this.header, {});
+				this.ccpwgl = ccpwgl(ccpwgl_int || window)
+
+				this.ccpwgl.initialize(this.header, {});
 
 				this.camera = new TestCamera(this.header);
 				this.camera.minDistance = 0.6;
@@ -24,7 +26,7 @@
 				this.camera.nearPlane = 10;
 				this.camera.minPitch = -0.5;
 				this.camera.maxPitch = 0.35;
-				ccpwgl.setCamera(this.camera);
+				this.ccpwgl.setCamera(this.camera);
 
 			} else { // mobile
 
@@ -58,8 +60,8 @@
 						if(ship.graphicID && ship.graphicID.sofDNA) {
 							const dna = ship.graphicID.sofDNA;
 							if (dna.split(":").length > 2) {
-								this.scene = ccpwgl.loadScene(`res:/dx9/scene/universe/${dna.split(":").slice(-1)[0][0]}09_cube.red`);
-								ccpwgl.getSofHullConstructor(dna, (constructor) => {
+								this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${dna.split(":").slice(-1)[0][0]}09_cube.red`);
+								this.ccpwgl.getSofHullConstructor(dna, (constructor) => {
 									if (constructor) {
 										var obj = this.scene[constructor](dna);
 										if ("setBoosterStrength" in obj) {
