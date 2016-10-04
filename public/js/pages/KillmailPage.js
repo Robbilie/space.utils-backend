@@ -67,6 +67,8 @@
 										if ("setBoosterStrength" in obj) {
 											obj.setBoosterStrength(1);
 										}
+									} else {
+										console.log("failed sofDNA", constructor);
 									}
 								});
 							} else {
