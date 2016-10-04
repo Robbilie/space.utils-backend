@@ -503,11 +503,11 @@ body {
 @media (max-width: 600px) {
 
 	.list > a > div {
-		width: 90%;
+		width: 75%;
 	}
 
 	.list > a > div:first-child + div {
-		width: 10%;
+		width: 25%;
 	}
 
     .deso {
