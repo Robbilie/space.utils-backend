@@ -49,7 +49,7 @@
 			instance
 				.onReady()
 				.then(() => instance.onInserted())
-				.then(() => !window.getComputedStyle(element) || element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d));
+				.then(() => window.requestAnimationFrame(() => !window.getComputedStyle(element) || element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d)));
 
 		}
 
