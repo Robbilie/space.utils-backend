@@ -26,10 +26,6 @@
 				this.camera.maxPitch = 0.35;
 				ccpwgl.setCamera(this.camera);
 
-				//this.scene = ccpwgl.createScene([1,1,1,0]);
-				this.scene = ccpwgl.loadScene("res:/dx9/scene/universe/m10_cube.red");
-
-
 			} else { // mobile
 
 			}
@@ -62,6 +58,7 @@
 						if(ship.graphicID && ship.graphicID.sofDNA) {
 							const dna = ship.graphicID.sofDNA;
 							if (dna.split(":").length > 2) {
+								this.scene = ccpwgl.loadScene(`res:/dx9/scene/universe/${dna.split(":").slice(-1)[0][0]}09_cube.red`);
 								ccpwgl.getSofHullConstructor(dna, (constructor) => {
 									if (constructor) {
 										var obj = this.scene[constructor](dna);
@@ -87,6 +84,10 @@
 		render () {
 			return $(["div", { className: "killmail page" }, [
 				this.getHeader(),
+				["div", { className: "fitting-bg" }, [
+					["img", { src: "/img/fitting/fittingbase.png" }],
+					["img", { src: "/img/fitting/fittingbase_dotproduct.png" }],
+				]]
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-2", value: "2" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3" }],
