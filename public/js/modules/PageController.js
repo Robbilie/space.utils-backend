@@ -42,14 +42,13 @@
 
 			this.getPageStack()[history.state] = instance;
 
+			const element = instance.render();
+			element.page = instance;
+			element.classList.add("intransition");
+			this.getPageStackContainer().prepend(element);
 			instance
 				.onReady()
 				.then(() => {
-
-					let element = instance.render();
-					element.page = instance;
-					element.classList.add("intransition");
-					this.getPageStackContainer().prepend(element);
 
 					return instance.onInserted()
 				})
