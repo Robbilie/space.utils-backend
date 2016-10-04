@@ -48,7 +48,7 @@
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);
 				//setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d), 10);
-				instance.onInserted().wait(10).then(() => window.requestAnimationFrame(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d)));
+				instance.onInserted().wait(10).then(() => window.requestAnimationFrame(() => !window.getComputedStyle(element) || element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d)));
 			});
 
 		}
