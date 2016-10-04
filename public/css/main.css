@@ -438,13 +438,16 @@ body {
 .list > a {
     display: flex;
     text-align: left;
-    background-color: var(--tertiary-color);
     margin: 5px 12px 5px 20px;
     transition: .75s;
 	height: 45px;
 	text-decoration: none;
 	color: rgba(255,255,255,.75);
 	font-weight: bold;
+}
+
+.list > a:hover, .list > a:focus {
+	background-color: var(--tertiary-color);
 }
 
 .list > a > div > img {
