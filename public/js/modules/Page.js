@@ -24,7 +24,7 @@
 		isReady () {
 			if(!this.isready)
 				return false;
-			while (this.isready.length > 0)
+			while (this.onready.length > 0)
 				(this.onready.pop())();
 		}
 
