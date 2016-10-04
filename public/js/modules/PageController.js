@@ -42,13 +42,17 @@
 
 			this.getPageStack()[history.state] = instance;
 
-			let element = instance.render();
-			element.page = instance;
-			element.classList.add("intransition");
-			this.getPageStackContainer().prepend(element);
 			instance
 				.onReady()
-				.then(() => instance.onInserted())
+				.then(() => {
+
+					let element = instance.render();
+					element.page = instance;
+					element.classList.add("intransition");
+					this.getPageStackContainer().prepend(element);
+
+					return instance.onInserted()
+				})
 				.wait(10)
 				.then(() => window.requestAnimationFrame(() => !window.getComputedStyle(element) || element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d)));
 
