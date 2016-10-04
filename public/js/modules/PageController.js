@@ -12,6 +12,9 @@
 			let observer = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {
 					console.log(mutation);
+					if(mutation.type == "childList") {
+						Array.from(mutation.addedNodes).forEach(node => node.page.inserted());
+					}
 				});
 			});
 			observer.observe(this.pageStackContainer, { attributes: true, childList: true, characterData: true });
@@ -44,7 +47,8 @@
 				element.page = instance;
 				element.classList.add("intransition");
 				this.getPageStackContainer().prepend(element);
-				setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d), 10);
+				//setTimeout(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d), 10);
+				instance.onInserted().then(() => element.classList.remove("intransition") || this.getApp().setLoadingState(false) || console.log(Date.now() - d));
 			});
 
 		}
