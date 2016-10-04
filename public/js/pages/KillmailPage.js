@@ -67,7 +67,7 @@
 
 					console.log(kill);
 
-					this.getFittingConti().style.display = kill.victim.items.length == 0 ? "none" : "block";
+					this.getFittingConti().children[1].style.display = kill.victim.items.length == 0 ? "none" : "block";
 
 					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
 						this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
