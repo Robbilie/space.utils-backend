@@ -14,7 +14,7 @@
 			if(true) { // desktop
 				this.header = $(["canvas", { className: "kill-header-bg" }]);
 
-				this.ccpwgl = ccpwgl(ccpwgl_int || window)
+				this.ccpwgl = ccpwgl(ccpwgl_int() || window);
 
 				this.ccpwgl.initialize(this.header, {});
 
