@@ -96,7 +96,8 @@
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
-			}
+			},
+			redirect: "follow"
 		}, !body ? {} : { body: JSON.stringify(body) })).then(res => res.json());
 	};
 
