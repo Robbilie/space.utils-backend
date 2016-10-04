@@ -19,6 +19,7 @@ body {
 :root {
     --primary-color: rgba(255,255,255,.25);
     --seconday-color: rgba(255,255,255,.4);
+	--tertiary-color: rgba(255,255,255,.125);
 }
 
 ::-webkit-scrollbar {
@@ -437,7 +438,7 @@ body {
 .list > a {
     display: flex;
     text-align: left;
-    background-color: var(--primary-color);
+    background-color: var(--tertiary-color);
     margin: 5px 12px 5px 20px;
     transition: .75s;
 	height: 45px;
