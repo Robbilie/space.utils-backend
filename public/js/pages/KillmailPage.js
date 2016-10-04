@@ -60,7 +60,7 @@
 						if(ship.graphicID && ship.graphicID.sofDNA) {
 							const dna = ship.graphicID.sofDNA;
 							if (dna.split(":").length > 2) {
-								this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${dna.split(":").slice(-1)[0][0]}09_cube.red`);
+								this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
 								this.ccpwgl.getSofHullConstructor(dna, (constructor) => {
 									if (constructor) {
 										var obj = this.scene[constructor](dna);
