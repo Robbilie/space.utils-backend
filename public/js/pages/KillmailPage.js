@@ -37,6 +37,17 @@
 				["div", { className: "tab-kill" }],
 				["div", { className: "tab-kill" }]
 			];
+			this.fittingConti = $(["div", { className: "fitting-conti" }, [
+				this.getHeader(),
+				["div", { className: "kill-img-conti" }, [
+					["div", { className: "kill-img-wrap" }, [
+						["img", { src: "/img/fitting/fittingbase.png" }]
+					]],
+					["div", { className: "kill-img-wrap" }, [
+						["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
+					]]
+				]]
+			]]);
 
 			this.loadInitial().then(() => this.ready());
 		}
@@ -56,6 +67,8 @@
 
 					console.log(kill);
 
+					this.getFittingConti().style.display = kill.victim.items.length == 0 ? "none" : "block";
+
 					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
 						this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
 						if (dna.split(":").length > 2) {
@@ -74,30 +87,6 @@
 						return resolve();
 					});
 
-
-					/*
-					json(`https://crest-tq.eveonline.com/inventory/types/${kill.victim.shipType.id}/`).then(ship => {
-						if(ship.graphicID && ship.graphicID.sofDNA) {
-							const dna = ship.graphicID.sofDNA;
-							if (dna.split(":").length > 2) {
-								this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
-								this.ccpwgl.getSofHullConstructor(dna, (constructor) => {
-									console.log(constructor);
-									if (constructor) {
-										var obj = this.scene[constructor](dna);
-										if ("setBoosterStrength" in obj) {
-											obj.setBoosterStrength(1);
-										}
-									}
-								});
-							} else {
-								this.scene.loadObject(dna);
-							}
-						}
-						return resolve();
-					});
-					*/
-
 				})
 			});
 		}
@@ -106,19 +95,13 @@
 			return this.killID;
 		}
 
+		getFittingConti () {
+			return this.fittingConti;
+		}
+
 		render () {
 			return $(["div", { className: "killmail page" }, [
-				["div", { className: "fitting-conti" }, [
-					this.getHeader(),
-					["div", { className: "kill-img-conti" }, [
-						["div", { className: "kill-img-wrap" }, [
-							["img", { src: "/img/fitting/fittingbase.png" }]
-						]],
-						["div", { className: "kill-img-wrap" }, [
-							["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
-						]]
-					]]
-				]],
+				this.getFittingConti(),
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1", className: "tabs-kill-1", checked: "true" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-2", value: "2", className: "tabs-kill-2" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3", className: "tabs-kill-3" }],
