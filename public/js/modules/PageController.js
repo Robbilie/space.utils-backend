@@ -6,6 +6,7 @@
 		constructor (parent) {
 			super(parent);
 
+			this.title = $("title");
 			this.pageStack = [];
 			this.pageStackContainer = $(["div", { className: "pages" }]);
 
@@ -38,7 +39,7 @@
 			const d = Date.now();
 
 			let instance = new page(this.getApp(), ...args);
-			$("title").innerHTML = instance.getTitle();
+			this.title.innerHTML = instance.getTitle();
 
 			this.getPageStack()[history.state] = instance;
 
@@ -64,7 +65,7 @@
 				setTimeout(() => this.getPageStackContainer().children[0].destroy(), 300);
 			}
 
-			$("title").innerHTML = this.getCurrentPage().getTitle();
+			this.title.innerHTML = this.getCurrentPage().getTitle();
 
 		}
 
@@ -75,7 +76,7 @@
 			element.classList.add("intransition");
 			this.getPageStackContainer().prepend(element);
 			setTimeout(() => element.classList.remove("intransition"), 100);
-			$("title").innerHTML = page.getTitle();
+			this.title.innerHTML = page.getTitle();
 		}
 
 		getCurrentPage () {
