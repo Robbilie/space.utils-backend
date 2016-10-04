@@ -94,9 +94,9 @@
 						]]
 					]]
 				]],
-				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1", checked: "true" }],
-				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-2", value: "2" }],
-				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3" }],
+				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1", className: "tabs-kill-1", checked: "true" }],
+				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-2", value: "2", className: "tabs-kill-2" }],
+				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3", className: "tabs-kill-3" }],
 				["div", { className: "tabs-kill" }, [
 					["div", { className: "tab-highlighter" }],
 					["div", { className: "kill-tab-headline", innerHTML: "Items" }],
