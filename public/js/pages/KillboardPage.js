@@ -33,7 +33,7 @@
 					let attacker = kill.attackers.find(attacker => attacker.finalBlow);
 					let time = new Date(kill.killTime + " GMT");
 					this.getList().append($(["a", { href: `/killmails/${kill.killID}/` }, [
-						["div", { className: "deso" }, [
+						["div", { className: "deso img" }, [
 							["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.shipType.id}_64.png`, alt: kill.victim.shipType.name }]
 						]],
 						["div", {}, [
@@ -45,7 +45,7 @@
 								]]
 							]]
 						]],
-						["div", { className: "deso" }, [
+						["div", { className: "deso img" }, [
 							["img", { src: `https://imageserver.eveonline.com/${["alliance", "corporation", "character"].find(e => !!victim[e]).capitalizeFirstLetter()}/${[victim.alliance, victim.corporation, victim.character].find(e => !!e).id}_64.png`, alt: [victim.alliance, victim.corporation, victim.character].find(e => !!e).name }]
 						]],
 						["div", {}, [
@@ -57,10 +57,10 @@
 								]]
 							]]
 						]],
-						["div", { className: "deso" }, [
+						["div", { className: "deso img" }, [
 							["img", { src: `https://imageserver.eveonline.com/${(["alliance", "corporation", "character"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).id}_64.png`, alt: [attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).name }]
 						]],
-						["div", {}, [
+						["div", { className: "deso" }, [
 							["div", {}, [
 								["span", {}, [
 									["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + " [+" + kill.attackers.length + "]" }],

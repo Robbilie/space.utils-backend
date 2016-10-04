@@ -480,7 +480,7 @@ body {
 	display: inline-block;
 }
 
-.list > a > div.deso {
+.list > a > div.deso.img {
 	width: 45px;
 }
 
@@ -503,7 +503,7 @@ body {
 @media (max-width: 600px) {
 
 	.list > a > div {
-		width: 45%;
+		width: 90%;
 	}
 
 	.list > a > div:first-child + div {
