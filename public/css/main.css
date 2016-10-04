@@ -447,7 +447,7 @@ body {
 	font-weight: bold;
 }
 
-.list a img {
+.list > a > div > img {
 	height: 100%;
 	border: 1px solid rgba(255,255,255,.25);
 	border-right-width: 0;
@@ -475,7 +475,7 @@ body {
 	display: inline-block;
 }
 
-.list a div.deso {
+.list > a > div.deso {
 	width: 45px;
 }
 
@@ -485,11 +485,11 @@ body {
 		display: none !important;
 	}
 
-	.list a div {
+	.list > a > div {
 		width: calc((100% - 90px) * 0.45);
 	}
 
-	.list a div:first-child + div {
+	.list > a > div:first-child + div {
 		width: calc((100% - 90px) * 0.1);
 	}
 
@@ -497,11 +497,11 @@ body {
 
 @media (max-width: 600px) {
 
-	.list a div {
+	.list > a > div {
 		width: 45%;
 	}
 
-	.list a div:first-child + div {
+	.list > a > div:first-child + div {
 		width: 10%;
 	}
 
