@@ -449,6 +449,8 @@ body {
 
 .list a img {
 	height: 100%;
+	border: 1px solid rgba(255,255,255,.25);
+	border-right-width: 0;
 }
 
 .list {
@@ -456,14 +458,19 @@ body {
 	height: 100%;
 }
 
-.list > a > div::after {
+.list > a > div > div::after {
 	content: "";
 	display: inline-block;
 	vertical-align: middle;
 	height: 100%;
 }
 
-.list > a > div > span {
+.list > a > div > div {
+	background: linear-gradient(90deg, rgba(255,255,255,.25), transparent);
+	padding-left: 10px;
+}
+
+.list > a > div > div > span {
 	vertical-align: middle;
 	display: inline-block;
 }
