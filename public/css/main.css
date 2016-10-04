@@ -48,6 +48,7 @@ body {
 
 .content {
     box-shadow: 0 0 10px 0 rgba(0,0,0,.4);
+	font-family: "Roboto", sans-serif;
 }
 
 .content, .pages, .page {
@@ -443,7 +444,6 @@ body {
 	height: 45px;
 	text-decoration: none;
 	color: rgba(255,255,255,.75);
-	font-weight: bold;
 	outline: none;
 }
 

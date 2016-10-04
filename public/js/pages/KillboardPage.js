@@ -39,7 +39,7 @@
 						["div", {}, [
 							["div", {}, [
 								["span", {}, [
-									["span", { innerHTML: Clock.getTimeStr(time) }],
+									["b", { innerHTML: Clock.getTimeStr(time) }],
 									["br"],
 									["span", { innerHTML: kill.solarSystem.name }]
 								]]
@@ -51,7 +51,7 @@
 						["div", {}, [
 							["div", {}, [
 								["span", {}, [
-									["span", { innerHTML: [victim.character, victim.corporation, victim.alliance, victim.faction].find(e => !!e).name }],
+									["b", { innerHTML: [victim.character, victim.corporation, victim.alliance, victim.faction].find(e => !!e).name }],
 									["br"],
 									["span", { innerHTML: [victim.corporation.name, victim.alliance ? victim.alliance.name : null].filter(e => !!e).join(" | ") }]
 								]]
@@ -63,7 +63,7 @@
 						["div", { className: "deso" }, [
 							["div", {}, [
 								["span", {}, [
-									["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + " [+" + kill.attackers.length + "]" }],
+									["b", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + " [+" + kill.attackers.length + "]" }],
 									["br"],
 									["span", { innerHTML: [attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ") }]
 								]]
