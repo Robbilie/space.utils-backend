@@ -458,6 +458,7 @@ body {
 	content: "";
 	display: inline-block;
 	vertical-align: middle;
+	height: 100%;
 }
 
 .list > a > div > span {
@@ -476,11 +477,11 @@ body {
 	}
 
 	.list a div {
-		width: calc((100% - 135px) * 0.4);
+		width: calc((100% - 135px) * 0.45);
 	}
 
 	.list a div:first-child + div {
-		width: calc((100% - 135px) * 0.2);
+		width: calc((100% - 135px) * 0.1);
 	}
 
 }
@@ -488,11 +489,11 @@ body {
 @media (max-width: 600px) {
 
 	.list a div {
-		width: 40%;
+		width: 45%;
 	}
 
 	.list a div:first-child + div {
-		width: 20%;
+		width: 10%;
 	}
 
     .deso {
