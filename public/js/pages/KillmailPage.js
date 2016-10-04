@@ -11,7 +11,12 @@
 
 			console.log("Kill", killID);
 
-			this.header = $(["canvas", { className: "kill-header-bg" }]);
+			if(true) { // desktop
+				this.header = $(["canvas", { className: "kill-header-bg" }]);
+				ccpwgl.initialize(this.header, {});
+			} else { // mobile
+
+			}
 			this.tabs = [
 				["div", { className: "tab-kill" }],
 				["div", { className: "tab-kill" }],
