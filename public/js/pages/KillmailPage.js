@@ -99,10 +99,10 @@
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3" }],
 				["div", { className: "tabs-kill" }, [
 					["div", { className: "tab-highlighter" }],
-					["div", { className: "kill-tab-headline" }],
-					["div", { className: "kill-tab-headline" }],
-					["div", { className: "kill-tab-headline" }],
-					["div", { className: "kill-tab-headline" }],
+					["div", { className: "kill-tab-headline", innerHTML: "Items" }],
+					["div", { className: "kill-tab-headline", innerHTML: "Attackers" }],
+					["div", { className: "kill-tab-headline", innerHTML: "Stats" }],
+					["div", { className: "kill-tab-headline", innerHTML: "Comments" }],
 					["div", { className: "kill-label-wrapper" }, [
 						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-1" }],
 						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-2" }],
