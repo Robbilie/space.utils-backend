@@ -452,6 +452,13 @@ body {
 	height: 100%;
 }
 
+.list a div.deso {
+	width: 40px;
+}
+.list a div {
+	width: calc((100% - 120px) * 0.4);
+}
+
 @media (min-width: 600px) {
 
 	.mobo {

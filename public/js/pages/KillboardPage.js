@@ -57,7 +57,7 @@
 							["br"],
 							["span", { innerHTML: [attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ") }]
 						]],
-						["div", {}, [
+						["div", { className: "deso" }, [
 							["span", { innerHTML: kill.attackers.length }]
 						]]
 					]]));
