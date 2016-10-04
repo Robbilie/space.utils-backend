@@ -63,7 +63,7 @@
 						["div", { className: "deso" }, [
 							["div", {}, [
 								["span", {}, [
-									["b", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + " [+" + kill.attackers.length + "]" }],
+									["b", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + (kill.attackers.length > 1 ? " [+" + (kill.attackers.length - 1) + "]" : "") }],
 									["br"],
 									["span", { innerHTML: [attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ") }]
 								]]
