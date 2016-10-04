@@ -17,14 +17,14 @@
 				ccpwgl.initialize(this.header, {});
 
 				this.camera = new TestCamera(this.header);
-				camera.minDistance = 0.6;
-				camera.maxDistance = 100000;
-				camera.fov = 30;
-				camera.distance = 100;
-				camera.nearPlane = 10;
-				camera.minPitch = -0.5;
-				camera.maxPitch = 0.35;
-				ccpwgl.setCamera(camera);
+				this.camera.minDistance = 0.6;
+				this.camera.maxDistance = 100000;
+				this.camera.fov = 30;
+				this.camera.distance = 100;
+				this.camera.nearPlane = 10;
+				this.camera.minPitch = -0.5;
+				this.camera.maxPitch = 0.35;
+				ccpwgl.setCamera(this.camera);
 
 				this.scene = ccpwgl.createScene([1,1,1,0]);
 
