@@ -60,9 +60,7 @@
 	});
 
 	Object.defineProperty(Object.prototype, 'entries', {
-		value: function (obj) {
-			return Object.keys(obj).map(k => [k, obj[k]]);
-		}
+		value: obj => Object.keys(obj).map(k => [k, obj[k]])
 	});
 
 	window.$ = function (arg1, ...remains) {
