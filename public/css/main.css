@@ -459,6 +459,10 @@ body {
 	width: calc((100% - 120px) * 0.4);
 }
 
+.list a div:first-child + div {
+	width: calc((100% - 120px) * 0.2);
+}
+
 @media (min-width: 600px) {
 
 	.mobo {
