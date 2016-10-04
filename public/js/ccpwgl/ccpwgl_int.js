@@ -1733,7 +1733,7 @@ var ccpwgl_int = (function()
      * @property {Number} _noLoadFrames
      * @constructor
      */
-    this.Tw2ResMan = function Tw2ResMan()
+    function Tw2ResMan()
     {
         this.systemMirror = false;
         this.resourcePaths = {};
@@ -23536,4 +23536,4 @@ var ccpwgl_int = (function()
     exports.Tw2RandomIntegerAttributeGenerator = Tw2RandomIntegerAttributeGenerator
     return exports;
 
-});
+})();

@@ -56,6 +56,26 @@
 
 					console.log(kill);
 
+					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
+						if (dna.split(":").length > 2) {
+							this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
+							this.ccpwgl.getSofHullConstructor(dna, (constructor) => {
+								console.log(constructor);
+								if (constructor) {
+									var obj = this.scene[constructor](dna);
+									if ("setBoosterStrength" in obj) {
+										obj.setBoosterStrength(1);
+									}
+								}
+							});
+						} else {
+							this.scene.loadObject(dna);
+						}
+						return resolve();
+					});
+
+
+					/*
 					json(`https://crest-tq.eveonline.com/inventory/types/${kill.victim.shipType.id}/`).then(ship => {
 						if(ship.graphicID && ship.graphicID.sofDNA) {
 							const dna = ship.graphicID.sofDNA;
@@ -76,6 +96,8 @@
 						}
 						return resolve();
 					});
+					*/
+
 				})
 			});
 		}
