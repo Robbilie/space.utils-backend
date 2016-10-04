@@ -45,11 +45,10 @@
 			const element = instance.render();
 			element.page = instance;
 			element.classList.add("intransition");
-			this.getPageStackContainer().prepend(element);
 			instance
 				.onReady()
 				.then(() => {
-
+					this.getPageStackContainer().prepend(element);
 					return instance.onInserted()
 				})
 				.wait(10)
