@@ -563,7 +563,8 @@ body {
 	border-right-width: 0;
 	display: inline-block;
 	vertical-align: middle;
-	margin-left: 10px;
+	margin-right: 10px;
+	height: 100%;
 }
 
 .list {
