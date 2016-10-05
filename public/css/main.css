@@ -622,11 +622,11 @@ body {
 @media (max-width: 600px) {
 
 	.list > .row > .column {
-		width: 75%;
+		width: 25%;
 	}
 
 	.list > .row > .column:first-child + .column {
-		width: 25%;
+		width: 75%;
 	}
 
     .deso {
