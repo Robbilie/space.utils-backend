@@ -501,7 +501,7 @@ body {
 
 .tab-highlighter {
 	width: 50%;
-	border-bottom: 2px solid var(--primary-color);
+	border-bottom: 3px solid var(--secondary-color);
 	height: 100%;
 	position: absolute;
 	left: 0;
