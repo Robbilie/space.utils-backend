@@ -606,7 +606,7 @@ body {
 	}
 
 	.list > .row {
-		height: 45px;
+		min-height: 45px;
 	}
 
 	.list > .row > .column {
