@@ -561,7 +561,9 @@ body {
 .list > .row > .column > img {
 	border: 1px solid rgba(255,255,255,.25);
 	border-right-width: 0;
-	height: 45px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
 }
 
 .list {
@@ -578,7 +580,6 @@ body {
 
 .list > .row > .grad {
 	background: linear-gradient(90deg, rgba(255,255,255,.25), transparent);
-	padding-left: 10px;
 	height: 100%;
 }
 
