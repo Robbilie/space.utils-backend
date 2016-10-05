@@ -604,11 +604,11 @@ body {
 	}
 
 	.list > .row > .column {
-		width: calc((100% - 90px) * 0.45);
+		width: 40%;
 	}
 
-	.list > .row > .column:first-child + .column {
-		width: calc((100% - 90px) * 0.1);
+	.list > .row > .col-1 {
+		width: 20%;
 	}
 
 }
