@@ -461,8 +461,8 @@ body {
 .fitting-conti > canvas {
 	display: block;
 	position: absolute;
-	top: 3%;
-	height: 94%;
+	top: 0;
+	height: 100%;
 }
 
 .fitting-conti > .kill-img-conti {
@@ -473,6 +473,7 @@ body {
 	bottom: -6%;
 	text-align: center;
 	pointer-events: none;
+	display: none !important;
 }
 
 .fitting-conti > .kill-img-conti > .kill-img-wrap {
@@ -534,8 +535,10 @@ body {
 	position: relative;
 	width: 90%;
 	height: 50px;
-	margin: 20px 5%;
+	margin: 5%;
+	margin-top: -50px;
 	line-height: 50px;
+	background: linear-gradient(transparent, black);
 }
 
 /* Killboard Page */
@@ -559,8 +562,8 @@ body {
 }
 
 .list > .row > .column > img {
-	border: 1px solid rgba(255,255,255,.25);
-	border-right-width: 0;
+	border-bottom: 2px solid rgba(255,255,255,.25);
+	//border-right-width: 0;
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 10px;
