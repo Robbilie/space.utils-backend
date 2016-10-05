@@ -501,7 +501,7 @@ body {
 
 .tab-highlighter {
 	width: 50%;
-	border: 2px solid var(--primary-color);
+	border-bottom: 2px solid var(--primary-color);
 	height: 100%;
 	position: absolute;
 	left: 0;
@@ -562,8 +562,8 @@ body {
 }
 
 .list > .row > .column > img {
-	border-bottom: 2px solid rgba(255,255,255,.25);
-	//border-right-width: 0;
+	border-bottom: 1px solid rgba(255,255,255,.25);
+	border-right-width: 0;
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 10px;
