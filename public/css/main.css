@@ -18,7 +18,7 @@ body {
 
 :root {
     --primary-color: rgba(255,255,255,.25);
-    --seconday-color: rgba(255,255,255,.4);
+    --secondary-color: rgba(255,255,255,.4);
 	--tertiary-color: rgba(255,255,255,.125);
 }
 
