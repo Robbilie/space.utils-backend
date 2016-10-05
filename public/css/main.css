@@ -585,6 +585,7 @@ body {
 
 .list > .row > .grad {
 	background: linear-gradient(90deg, rgba(255,255,255,.25), transparent);
+	position: relative;
 }
 
 .list > .row > .grad > span {
