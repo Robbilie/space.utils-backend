@@ -565,6 +565,10 @@ body {
 	vertical-align: middle;
 	margin-right: 10px;
 	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
 }
 
 .list {
@@ -581,12 +585,12 @@ body {
 
 .list > .row > .grad {
 	background: linear-gradient(90deg, rgba(255,255,255,.25), transparent);
-	height: 100%;
 }
 
 .list > .row > .grad > span {
 	vertical-align: middle;
 	display: inline-block;
+	position: relative;
 }
 
 .list > .row > .column.deso.img {
