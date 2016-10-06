@@ -508,11 +508,11 @@ body {
 	left: 0;
 }
 
-.tabs-kill-2:checked ~ .tabs-kill > .tab-highlighter {
+.tabs-kill-2:checked ~ .fitting-conti > .tabs-kill > .tab-highlighter {
 	left: 25%;
 }
 
-.tabs-kill-3:checked ~ .tabs-kill > .tab-highlighter {
+.tabs-kill-3:checked ~ .fitting-conti > .tabs-kill > .tab-highlighter {
 	left: 50%;
 }
 
@@ -533,11 +533,11 @@ body {
 }
 
 .tabs-kill {
-	position: relative;
-	width: 90%;
+	position: absolute;
+	left: 0;
 	height: 50px;
-	margin: 5%;
-	margin-top: -50px;
+	right: 0;
+	bottom: 0;
 	line-height: 50px;
 	background: linear-gradient(transparent, black);
 }
