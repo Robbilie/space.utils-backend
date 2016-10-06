@@ -600,7 +600,7 @@ body {
 
 .tab-kill > .tab-kill > div > *:last-child {
 	float: right;
-	padding: 3px;
+	padding: 6px;
 }
 
 /* Killboard Page */
