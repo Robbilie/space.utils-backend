@@ -544,6 +544,7 @@ body {
 
 .tabs-kill-wrap {
 	margin: 5%;
+	overflow-x: hidden;
 }
 
 .tabs-kill-conti {
@@ -558,11 +559,11 @@ body {
 }
 
 .tabs-kill-2:checked ~ .tabs-kill-wrap > .tabs-kill-conti {
-	margin-left: -25%;
+	margin-left: -50%;
 }
 
 .tabs-kill-3:checked ~ .tabs-kill-wrap > .tabs-kill-conti {
-	margin-left: -50%;
+	margin-left: -100%;
 }
 
 /* Killboard Page */
