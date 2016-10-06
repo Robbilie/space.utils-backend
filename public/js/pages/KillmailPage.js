@@ -69,7 +69,13 @@
 						["span", { innerHTML: item.quantityDestroyed || item.quantityDropped }]
 					]])));
 
-					kill.attackers.forEach(attacker => this.getTab("attackers").append($(["div", { innerHTML: JSON.stringify(attacker) }])));
+					kill.attackers.forEach(attacker => this.getTab("attackers").append($(["div", { className: "" }, [
+						["img", { src: `http://imageserver.eveonline.com/Type/${attacker.shipType.id}_64.png` }],
+						["img", { src: `http://imageserver.eveonline.com/Type/${attacker.weaponType.id}_64.png` }],
+						["img", { src: `https://imageserver.eveonline.com/${(["alliance", "corporation", "character"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).id}_64.png` }],
+						["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
+						["span", { innerHTML: attacker.damageDone }]
+					]])));
 
 					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
 						this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
