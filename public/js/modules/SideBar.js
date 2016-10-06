@@ -44,6 +44,7 @@
 
 					setTimeout(() => this.updateUserCounter(), cached - current);
 				};
+				x.onerror = e => setTimeout(() => this.updateUserCounter(), 1000);
 				x.open("GET", "https://api.eveonline.com/Server/ServerStatus.xml.aspx");
 				x.send();
 		}
