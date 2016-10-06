@@ -105,8 +105,11 @@
 		Object.entries(dat).forEach(([k, v]) => k != "dataset" && k != "style" ? el[k] = v : null);
 		if(dat.style && dat.style.constructor.name != "String")
 			Object.entries(dat.style).forEach(([k, v]) => el.style.setProperty(k, v));
-		else if(dat.style && dat.style.constructor.name == "String")
-			el.style = dat.style;
+		else if(dat.style && dat.style.constructor.name == "String") {
+			try {
+				el.style = dat.style;
+			} catch (e) {}
+		}
 		if(dat.dataset)
 			Object.entries(dat.dataset).forEach(([k, v]) => el.dataset[k] = v);
 	}
