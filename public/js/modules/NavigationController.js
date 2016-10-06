@@ -37,6 +37,9 @@
 
 					this.navigate(link.href);
 
+					if(link.classList.contains("closesb"))
+						this.getApp().getSideBar().getToggle().checked = false;
+
 				}
 				return true;
 			});

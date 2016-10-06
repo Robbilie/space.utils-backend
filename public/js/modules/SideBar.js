@@ -51,7 +51,7 @@
 		render () {
 			return $(["div", { className: "sidebar" }, [
 				this.getUserCounter(),
-				["a", { className: "homebtn", href: "/" }]
+				["a", { className: "homebtn closesb", href: "/" }]
 			]]);
 		}
 
