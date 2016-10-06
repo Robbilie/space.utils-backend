@@ -598,6 +598,11 @@ body {
 	display: inline-block;
 }
 
+.tab-kill > .tab-kill > div > *:last-child {
+	float: right;
+	padding: 3px;
+}
+
 /* Killboard Page */
 
 .intransition .list > .row {
