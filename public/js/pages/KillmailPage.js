@@ -130,7 +130,9 @@
 						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-3" }]
 					]]
 				]],
-				["div", { className: "tabs-kill-conti" }, this.getTabs().map(tab => $(["div", { className: "tab-kill" }, [tab]]))]
+				["div", { className: "tabs-kill-wrap" }, [
+					["div", { className: "tabs-kill-conti" }, this.getTabs().map(tab => $(["div", { className: "tab-kill" }, [tab]]))]
+				]]
 			]]);
 		}
 

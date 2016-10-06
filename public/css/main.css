@@ -440,6 +440,7 @@ body {
 .killmail.page {
 	padding: 50px;
 	padding-top: 15px;
+	overflow: auto;
 }
 
 .kill-header-bg {
@@ -539,6 +540,20 @@ body {
 	margin-top: -50px;
 	line-height: 50px;
 	background: linear-gradient(transparent, black);
+}
+
+.tabs-kill-wrap {
+	margin: 5%;
+}
+
+.tabs-kill-conti {
+	width:200%;
+	display: flex;
+}
+
+.tabs-kill-conti > .tab-kill {
+	width: 25%;
+	overflow: hidden;
 }
 
 /* Killboard Page */
