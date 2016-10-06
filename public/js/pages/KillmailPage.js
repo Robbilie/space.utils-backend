@@ -64,15 +64,15 @@
 					//this.getFittingConti().children[1].style.display = kill.victim.items.length == 0 ? "none" : "block";
 
 					kill.victim.items.forEach(item => this.getTab("items").append($(["div", { className: item.quantityDestroyed ? "destroyed" : "dropped" }, [
-						["img", { src: `https://imageserver.eveonline.com/Type/${item.itemType.id}_64.png` }],
+						["img", { src: `https://imageserver.eveonline.com/Type/${item.itemType.id}_32.png` }],
 						["span", { innerHTML: item.itemType.name }],
 						["span", { innerHTML: item.quantityDestroyed || item.quantityDropped }]
 					]])));
 
 					kill.attackers.forEach(attacker => this.getTab("attackers").append($(["div", { className: "" }, [
-						["img", { src: `http://imageserver.eveonline.com/Type/${attacker.shipType.id}_64.png` }],
-						["img", { src: `http://imageserver.eveonline.com/Type/${(attacker.weaponType || attacker.shipType).id}_64.png` }],
-						["img", { src: `https://imageserver.eveonline.com/${(["character", "corporation", "alliance"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).id}_64.${["character", "corporation", "alliance"].find(e => !!attacker[e]) == "character" ? "jpg" : "png"}` }],
+						["img", { src: `http://imageserver.eveonline.com/Type/${attacker.shipType.id}_32.png` }],
+						["img", { src: `http://imageserver.eveonline.com/Type/${(attacker.weaponType || attacker.shipType).id}_32.png` }],
+						["img", { src: `https://imageserver.eveonline.com/${(["character", "corporation", "alliance"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).id}_32.${["character", "corporation", "alliance"].find(e => !!attacker[e]) == "character" ? "jpg" : "png"}` }],
 						["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
 						["span", { innerHTML: attacker.damageDone }]
 					]])));
