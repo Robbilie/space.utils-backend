@@ -32,10 +32,10 @@
 
 			}
 			this.tabs = [
-				["div", { className: "tab-kill" }],
-				["div", { className: "tab-kill" }],
-				["div", { className: "tab-kill" }],
-				["div", { className: "tab-kill" }]
+				$(["div", { className: "tab-kill" }]),
+				$(["div", { className: "tab-kill" }]),
+				$(["div", { className: "tab-kill" }]),
+				$(["div", { className: "tab-kill" }])
 			];
 			this.fittingConti = $(["div", { className: "fitting-conti" }, [
 				this.getHeader(),
