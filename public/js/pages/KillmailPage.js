@@ -19,13 +19,13 @@
 				this.ccpwgl.initialize(this.header, {});
 
 				this.camera = new TestCamera(this.header);
-				this.camera.minDistance = 0.6;
-				this.camera.maxDistance = 100000;
+				this.camera.minDistance = 10;
+				this.camera.maxDistance = 10000;
 				this.camera.fov = 30;
-				this.camera.distance = 100;
-				this.camera.nearPlane = 10;
+				this.camera.distance = 5000;
+				this.camera.nearPlane = 1;
 				this.camera.minPitch = -0.5;
-				this.camera.maxPitch = 0.35;
+				this.camera.maxPitch = 0.65;
 				this.ccpwgl.setCamera(this.camera);
 
 			} else { // mobile
@@ -78,19 +78,49 @@
 					]])));
 
 					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
+						const page = this;
 						this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
+
+						function cameraLookAt(spaceObject, distanceScaler) {
+							// The spaceObject must be loaded to get it's bounding sphere data
+							if (!spaceObject.isLoaded())
+							{
+								throw new page.ccpwgl.IsStillLoadingError();
+							}
+
+							// Get the space Object's position
+							var objectPosition = spaceObject.getTransform().slice(12, 15);
+
+							// Set the camera's point of interest as the space object's position in world space
+							vec3.set(objectPosition, page.camera.poi);
+
+							// Get the radius of the space object
+							var spaceObjectRadius = parseInt(spaceObject.getBoundingSphere()[1]);
+
+							// Set the camera's minimum distance
+							page.camera.minDistance = spaceObjectRadius * 0.8;
+
+							// Set the camera's distance
+							page.camera.distance = spaceObjectRadius * distanceScaler;
+						}
+
+						// A callback function that is run once the ship's base javascript object has loaded.
+						function whenLoaded() {
+							cameraLookAt(this, 2)
+						}
+
 						if (dna.split(":").length > 2) {
 							this.ccpwgl.getSofHullConstructor(dna, (constructor) => {
 								console.log(constructor);
 								if (constructor) {
-									var obj = this.scene[constructor](dna);
+									var obj = this.scene[constructor](dna, whenLoaded);
 									if ("setBoosterStrength" in obj) {
 										obj.setBoosterStrength(1);
 									}
 								}
 							});
 						} else {
-							this.scene.loadObject(dna);
+							this.scene.loadObject(dna, whenLoaded);
 						}
 						return resolve();
 					});
