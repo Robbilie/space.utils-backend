@@ -20,14 +20,4 @@
 			return helperStorage.graphicIDs;
 		}
 
-		static createTransform (rotation, position, scale) {
-			let transform = mat4.identity(mat4.create());
-			mat4.translate(transform, position);
-			mat4.rotate(transform, rotation[0] * ( Math.PI / 180 ), [1, 0, 0]);
-			mat4.rotate(transform, rotation[1] * ( Math.PI / 180 ), [0, 1, 0]);
-			mat4.rotate(transform, rotation[2] * ( Math.PI / 180 ), [0, 0, 1]);
-			mat4.scale(transform, scale);
-			return transform;
-		}
-
 	}

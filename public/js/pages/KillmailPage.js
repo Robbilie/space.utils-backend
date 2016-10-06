@@ -28,8 +28,6 @@
 				this.camera.minPitch = -0.5;
 				this.camera.maxPitch = 0.65;
 
-				this.camera.setTransform(Helper.createTransform([45, 45, 0], [0,0,0], [0,0,0]));
-
 				this.ccpwgl.setCamera(this.camera);
 
 			} else { // mobile

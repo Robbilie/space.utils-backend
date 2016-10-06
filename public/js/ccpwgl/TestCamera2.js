@@ -3,8 +3,8 @@ function TestCamera(element)
 	this.distance = 1;
 	this.minDistance = -1;
 	this.fov = 60;
-	this.rotationX = 0;
-	this.rotationY = 0;
+	this.rotationX = 45;
+	this.rotationY = 45;
 	this.poi = vec3.create();
 	this.nearPlane = 1;
 	this.farPlane = 0;
