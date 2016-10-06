@@ -551,11 +551,14 @@ body {
 	width:200%;
 	display: flex;
 	margin-left: 0;
+	text-align: left;
 }
 
 .tabs-kill-conti > .tab-kill {
 	width: 25%;
 	overflow: hidden;
+	padding: 5px;
+	padding-bottom: 0;
 }
 
 .tabs-kill-2:checked ~ .tabs-kill-wrap > .tabs-kill-conti {
@@ -585,7 +588,17 @@ body {
 	height: 100%;
 }
 
-	/* Killboard Page */
+.tab-kill > .tab-kill > div {
+	margin-bottom: 5px;
+	background-color: var(--primary-color);
+}
+
+.tab-kill > .tab-kill > div > * {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/* Killboard Page */
 
 .intransition .list > .row {
     margin-top: 200px;
