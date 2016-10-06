@@ -46,6 +46,11 @@
 					["div", { className: "kill-img-wrap" }, [
 						["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
 					]]
+				]],
+				["div", { className: "" }, [
+					["div"],
+					["img", { src: "/img/1x1.png" }],
+					["div"]
 				]]
 			]]);
 
@@ -60,6 +65,10 @@
 			return this.tabs;
 		}
 
+		getTab (key) {
+			return this.getTabs()[({ "items": 0, "attackers": 1, "stats": 2, "comments": 3 })[key]];
+		}
+
 		loadInitial () {
 			this.getApp().setLoadingState(true);
 			return new Promise((resolve) => {
@@ -68,6 +77,10 @@
 					console.log(kill);
 
 					this.getFittingConti().children[1].style.display = kill.victim.items.length == 0 ? "none" : "block";
+
+					kill.victim.items.forEach(item => this.getTab("items").append($(["div", { innerHTML: JSON.stringify(item) }])));
+
+					kill.attackers.forEach(attacker => this.getTab("attackers").append($(["div", { innerHTML: JSON.stringify(attacker) }])));
 
 					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
 						this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
@@ -117,7 +130,7 @@
 						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-3" }]
 					]]
 				]],
-				["div", { className: "tabs-kill-conti" }, this.getTabs()]
+				["div", { className: "tabs-kill-conti" }, this.getTabs().map(tab => $(["div", { className: "tab-kill" }, [tab]]))]
 			]]);
 		}
 

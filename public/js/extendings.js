@@ -51,6 +51,13 @@
 		}
 	});
 
+	Object.defineProperty(HTMLElement.prototype, 'clear', {
+		value: function () {
+			this.innerHTML = "";
+			return this;
+		}
+	});
+
 	Object.defineProperty(HTMLElement.prototype, 'on', {
 		value: HTMLElement.prototype.addEventListener
 	});
