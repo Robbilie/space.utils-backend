@@ -549,11 +549,20 @@ body {
 .tabs-kill-conti {
 	width:200%;
 	display: flex;
+	margin-left: 0;
 }
 
 .tabs-kill-conti > .tab-kill {
 	width: 25%;
 	overflow: hidden;
+}
+
+.tabs-kill-2:checked ~ .tabs-kill-wrap > .tabs-kill-conti {
+	margin-left: 25%;
+}
+
+.tabs-kill-3:checked ~ .tabs-kill-wrap > .tabs-kill-conti {
+	margin-left: 50%;
 }
 
 /* Killboard Page */
