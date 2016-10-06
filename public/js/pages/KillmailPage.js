@@ -37,22 +37,7 @@
 				$(["div", { className: "tab-kill" }]),
 				$(["div", { className: "tab-kill" }])
 			];
-			this.fittingConti = $(["div", { className: "fitting-conti" }, [
-				this.getHeader(),
-				["div", { className: "kill-img-conti" }, [
-					["div", { className: "kill-img-wrap" }, [
-						["img", { src: "/img/fitting/fittingbase.png" }]
-					]],
-					["div", { className: "kill-img-wrap" }, [
-						["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
-					]]
-				]],
-				["div", { className: "kill-header-infolay" }, [
-					["div", { className: "kill-header-info" }],
-					["img", { src: "/img/1x1.png" }],
-					["div", { className: "kill-header-info" }]
-				]]
-			]]);
+			this.fittingConti = null;
 
 			this.loadInitial().then(() => this.ready());
 		}
@@ -114,20 +99,35 @@
 
 		render () {
 			return $(["div", { className: "killmail page" }, [
-				this.getFittingConti(),
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-1", value: "1", className: "tabs-kill-1", checked: "true" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-2", value: "2", className: "tabs-kill-2" }],
 				["input", { type: "radio", name: "tabs-kill-" + this.getKillID(), id: "tabs-kill-" + this.getKillID() + "-3", value: "3", className: "tabs-kill-3" }],
-				["div", { className: "tabs-kill" }, [
-					["div", { className: "tab-highlighter" }],
-					["div", { className: "kill-tab-headline", innerHTML: "Items" }],
-					["div", { className: "kill-tab-headline", innerHTML: "Attackers" }],
-					["div", { className: "kill-tab-headline", innerHTML: "Stats" }],
-					["div", { className: "kill-tab-headline", innerHTML: "Comments" }],
-					["div", { className: "kill-label-wrapper" }, [
-						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-1" }],
-						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-2" }],
-						["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-3" }]
+				["div", { className: "fitting-conti" }, [
+					this.getHeader(),
+					["div", { className: "kill-img-conti" }, [
+						["div", { className: "kill-img-wrap" }, [
+							["img", { src: "/img/fitting/fittingbase.png" }]
+						]],
+						["div", { className: "kill-img-wrap" }, [
+							["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
+						]]
+					]],
+					["div", { className: "kill-header-infolay" }, [
+						["div", { className: "kill-header-info" }],
+						["img", { src: "/img/1x1.png" }],
+						["div", { className: "kill-header-info" }]
+					]],
+					["div", { className: "tabs-kill" }, [
+						["div", { className: "tab-highlighter" }],
+						["div", { className: "kill-tab-headline", innerHTML: "Items" }],
+						["div", { className: "kill-tab-headline", innerHTML: "Attackers" }],
+						["div", { className: "kill-tab-headline", innerHTML: "Stats" }],
+						["div", { className: "kill-tab-headline", innerHTML: "Comments" }],
+						["div", { className: "kill-label-wrapper" }, [
+							["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-1" }],
+							["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-2" }],
+							["label", { htmlFor: "tabs-kill-" + this.getKillID() + "-3" }]
+						]]
 					]]
 				]],
 				["div", { className: "tabs-kill-wrap" }, [

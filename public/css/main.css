@@ -568,6 +568,12 @@ body {
 
 .kill-header-infolay {
 	display: flex;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 50px;
+	pointer-events: none;
 }
 
 .kill-header-infolay > .kill-header-info {
