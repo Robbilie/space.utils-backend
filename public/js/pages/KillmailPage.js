@@ -63,7 +63,11 @@
 
 					//this.getFittingConti().children[1].style.display = kill.victim.items.length == 0 ? "none" : "block";
 
-					kill.victim.items.forEach(item => this.getTab("items").append($(["div", { innerHTML: JSON.stringify(item) }])));
+					kill.victim.items.forEach(item => this.getTab("items").append($(["div", { className: item.quantityDestroyed ? "destroyed" : "dropped" }, [
+						["img", { src: `https://imageserver.eveonline.com/Type/${item.itemType.id}_64.png` }],
+						["span", { innerHTML: item.itemType.name }],
+						["span", { innerHTML: item.quantityDestroyed || item.quantityDropped }]
+					]])));
 
 					kill.attackers.forEach(attacker => this.getTab("attackers").append($(["div", { innerHTML: JSON.stringify(attacker) }])));
 
