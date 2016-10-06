@@ -72,7 +72,7 @@
 					kill.attackers.forEach(attacker => this.getTab("attackers").append($(["div", { className: "" }, [
 						["img", { src: `http://imageserver.eveonline.com/Type/${attacker.shipType.id}_64.png` }],
 						["img", { src: `http://imageserver.eveonline.com/Type/${attacker.weaponType.id}_64.png` }],
-						["img", { src: `https://imageserver.eveonline.com/${(["alliance", "corporation", "character"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).id}_64.png` }],
+						["img", { src: `https://imageserver.eveonline.com/${(["character", "corporation", "alliance"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).id}_64.png` }],
 						["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
 						["span", { innerHTML: attacker.damageDone }]
 					]])));
