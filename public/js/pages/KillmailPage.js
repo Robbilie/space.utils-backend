@@ -17,6 +17,7 @@
 				this.ccpwgl = ccpwgl(ccpwgl_int() || window);
 
 				this.ccpwgl.initialize(this.header, {});
+				this.ccpwgl.enablePostprocessing(true);
 
 				this.camera = new TestCamera(this.header);
 				this.camera.minDistance = 10;
@@ -105,7 +106,107 @@
 						}
 
 						// A callback function that is run once the ship's base javascript object has loaded.
-						function whenLoaded() {
+						function whenLoaded () {
+
+							var rotation = [0, 0, 0]; // Values are in degrees
+							var position = [0, 0, 0];
+							var scale = [1, 1, 1];
+
+							/**
+							 *  Creates a new transform from an identity matrix and supplied arguments
+							 *  @param (rotation) vec3 array - Rotation in space [x,y,z]
+							 *  @param (position) vec3 array - Position in space [x,y,z]
+							 *  @param (scale) vec3 array - Scale [x,y,z]
+							 *  @returns {mat4} Transform matrix
+							 */
+							function createTransform(rotation, position, scale)
+							{
+								var transform = mat4.identity(mat4.create());
+								mat4.translate(transform, position);
+								mat4.rotate(transform, rotation[0] * ( Math.PI / 180 ), [1, 0, 0]);
+								mat4.rotate(transform, rotation[1] * ( Math.PI / 180 ), [0, 1, 0]);
+								mat4.rotate(transform, rotation[2] * ( Math.PI / 180 ), [0, 0, 1]);
+								mat4.scale(transform, scale);
+								return transform;
+							}
+
+							// Rotation
+							Object.defineProperty(this, 'rotation', {
+								get: function ()
+								{
+									return rotation;
+								},
+								set: function (vec3)
+								{
+									try
+									{
+										var newTransform = createTransform(vec3, position, scale);
+										this.setTransform(newTransform)
+									}
+									catch (err)
+									{
+										throw('Transform Error');
+									}
+
+									rotation = vec3;
+								},
+								enumerable: true,
+								configurable: true
+							});
+
+							// Position
+							Object.defineProperty(this, 'position', {
+								get: function ()
+								{
+									return position;
+								},
+								set: function (vec3)
+								{
+									try
+									{
+										var newTransform = createTransform(rotation, vec3, scale);
+										this.setTransform(newTransform)
+									}
+									catch (err)
+									{
+										throw('Transform Error');
+									}
+
+									position = vec3;
+								},
+								enumerable: true,
+								configurable: true
+							});
+
+							// Scale
+							Object.defineProperty(this, 'scale', {
+								get: function ()
+								{
+									return scale;
+								},
+								set: function (vec3)
+								{
+									try
+									{
+										var newTransform = createTransform(rotation, position, vec3);
+										this.setTransform(newTransform)
+									}
+									catch (err)
+									{
+										throw('Transform Error');
+									}
+
+									scale = vec3;
+								},
+								enumerable: true,
+								configurable: true
+							});
+
+							// Example values
+							this.rotation = [ 45, 45, 0];
+							this.position = [ 0, 0, 0 ];
+							this.scale = [ 1, 1, 1 ];
+
 							cameraLookAt(this, 5)
 						}
 
