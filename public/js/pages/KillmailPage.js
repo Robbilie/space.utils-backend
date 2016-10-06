@@ -47,10 +47,10 @@
 						["img", { src: "/img/fitting/fittingbase_dotproduct.png" }]
 					]]
 				]],
-				["div", { className: "" }, [
-					["div"],
+				["div", { className: "kill-header-infolay" }, [
+					["div", { className: "kill-header-info" }],
 					["img", { src: "/img/1x1.png" }],
-					["div"]
+					["div", { className: "kill-header-info" }]
 				]]
 			]]);
 

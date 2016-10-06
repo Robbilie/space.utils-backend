@@ -566,7 +566,20 @@ body {
 	margin-left: -100%;
 }
 
-/* Killboard Page */
+.kill-header-infolay {
+	display: flex;
+}
+
+.kill-header-infolay > .kill-header-info {
+	flex-grow: 1;
+}
+
+.kill-header-infolay > img {
+	display: block;
+	height: 100%;
+}
+
+	/* Killboard Page */
 
 .intransition .list > .row {
     margin-top: 200px;
