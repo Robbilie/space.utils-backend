@@ -106,7 +106,7 @@
 
 						// A callback function that is run once the ship's base javascript object has loaded.
 						function whenLoaded() {
-							cameraLookAt(this, 2)
+							cameraLookAt(this, 5)
 						}
 
 						if (dna.split(":").length > 2) {
