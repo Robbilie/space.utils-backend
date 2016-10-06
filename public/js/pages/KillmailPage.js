@@ -89,13 +89,13 @@
 							}
 
 							// Get the space Object's position
-							var objectPosition = spaceObject.getTransform().slice(12, 15);
+							let objectPosition = spaceObject.getTransform().slice(12, 15);
 
 							// Set the camera's point of interest as the space object's position in world space
 							vec3.set(objectPosition, page.camera.poi);
 
 							// Get the radius of the space object
-							var spaceObjectRadius = parseInt(spaceObject.getBoundingSphere()[1]);
+							let spaceObjectRadius = parseInt(spaceObject.getBoundingSphere()[1]);
 
 							// Set the camera's minimum distance
 							page.camera.minDistance = spaceObjectRadius * 0.8;
