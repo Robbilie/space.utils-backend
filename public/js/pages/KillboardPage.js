@@ -38,11 +38,11 @@
 							["span", { className: "vertmid", innerHTML: `<b>${Clock.getTimeStr(time)}</b><br>${kill.solarSystem.name}` }]
 						]],
 						["div", { className: "column grad col-2" }, [
-							["img", { src: `https://imageserver.eveonline.com/${["alliance", "corporation", "character"].find(e => !!victim[e]).capitalizeFirstLetter()}/${[victim.alliance, victim.corporation, victim.character].find(e => !!e).id}_64.png`, alt: [victim.alliance, victim.corporation, victim.character].find(e => !!e).name }],
+							["img", { src: `https://imageserver.eveonline.com/${["alliance", "corporation", "character"].find(e => !!victim[e]).capitalizeFirstLetter()}/${[victim.alliance, victim.corporation, victim.character].find(e => !!e).id}_64.${["alliance", "corporation", "character"].find(e => !!victim[e]) == "character" ? "jpg" : "png"}`, alt: [victim.alliance, victim.corporation, victim.character].find(e => !!e).name }],
 							["span", { className: "vertmid", innerHTML: `<b>${[victim.character, victim.corporation, victim.alliance, victim.faction].find(e => !!e).name}</b><br>${[victim.corporation.name, victim.alliance ? victim.alliance.name : null].filter(e => !!e).join(" | ")}` }]
 						]],
 						["div", { className: "column grad col-3 deso" }, [
-							["img", { src: `https://imageserver.eveonline.com/${(["alliance", "corporation", "character"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).id}_64.png`, alt: [attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).name }],
+							["img", { src: `https://imageserver.eveonline.com/${(["alliance", "corporation", "character"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).id}_64.${["alliance", "corporation", "character"].find(e => !!attacker[e]) == "character" ? "jpg" : "png"}`, alt: [attacker.alliance, attacker.corporation, attacker.character, attacker.faction].find(e => !!e).name }],
 							["span", { className: "vertmid", innerHTML: `<b>${[attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name + (kill.attackers.length > 1 ? " [+" + (kill.attackers.length - 1) + "]" : "")}</b><br>${[attacker.corporation ? attacker.corporation.name : null, attacker.alliance ? attacker.alliance.name : null, attacker.faction && !attacker.character ? attacker.faction.name : null].filter(e => !!e).join(" | ")}` }]
 						]]
 					]]));
