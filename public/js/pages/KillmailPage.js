@@ -61,7 +61,7 @@
 
 					console.log(kill);
 
-					this.getFittingConti().children[1].style.display = kill.victim.items.length == 0 ? "none" : "block";
+					//this.getFittingConti().children[1].style.display = kill.victim.items.length == 0 ? "none" : "block";
 
 					kill.victim.items.forEach(item => this.getTab("items").append($(["div", { innerHTML: JSON.stringify(item) }])));
 
