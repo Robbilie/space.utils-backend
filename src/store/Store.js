@@ -59,12 +59,15 @@
 		}
 		
 		aggregate (match, options = []) {
-			return this.getCollection()
-				.aggregate([
-					{ $match: match },
-					...options,
-					...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
-				]/*, { allowDiskUse: true }*/); // possibly slower?
+			console.log("aggregate", match, options);
+			try {
+				return this.getCollection()
+					.aggregate([
+						{$match: match},
+						...options,
+						...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
+					]/*, { allowDiskUse: true }*/); // possibly slower?
+			}catch(e) { console.log(e)}
 		}
 
 		getUpdates (options = {}, timestamp) {
