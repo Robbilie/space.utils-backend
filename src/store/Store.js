@@ -37,6 +37,7 @@
 		}
 
 		findOne (data = {}, options = {}, bare) {
+			console.log("findone", data, options, bare);
 			return (
 				bare ?
 					this.getCollection().findOne(data, options) :
