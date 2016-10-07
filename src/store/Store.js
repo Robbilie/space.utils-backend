@@ -66,7 +66,7 @@
 						{$match: match},
 						...options,
 						...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
-					], { allowDiskUse: true, explain: true }); // possibly slower?
+					], { allowDiskUse: true }); // possibly slower?
 			}catch(e) { console.log(e)}
 		}
 
