@@ -7,6 +7,10 @@
 
 	class KillmailStore extends Store {
 
+		constructor (db) {
+			super(db, null, "kms");
+		}
+
 		async findOrCreate (id, hash, {} = $(1, { id }, "Number")) {
 			try {
 
