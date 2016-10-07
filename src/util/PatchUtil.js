@@ -61,7 +61,7 @@
 						for(let i = 2; i < params.length; i += 2) {
 							query = { ["$" + params[i - 1]]: [query, { [params[i]] : args[i / 2] }]};
 						}
-						console.log("patching", params, args);
+						console.log("patching", params, args, method, query);
 
 						return this[method](query);
 
