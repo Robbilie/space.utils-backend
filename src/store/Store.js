@@ -42,7 +42,7 @@
 			return (
 				bare ?
 					this.getCollection().findOne(data, options) :
-					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => console.log(results) || results[0]).catch(e => console.log(e))
+					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => console.log(JSON.stringify(results, null, 2)) || results[0]).catch(e => console.log(e))
 			).then(doc => console.log("found") || new (this.getType())(doc)).catch(e => console.log("rrr", e));} catch(e) { console.log(e)}
 		}
 
@@ -66,7 +66,7 @@
 						{$match: match},
 						...options,
 						...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
-					], { allowDiskUse: true }); // possibly slower?
+					], { allowDiskUse: true, explain: true }); // possibly slower?
 			}catch(e) { console.log(e)}
 		}
 
