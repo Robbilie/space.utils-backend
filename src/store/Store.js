@@ -41,7 +41,7 @@
 				bare ?
 					this.getCollection().findOne(data, options) :
 					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => results[0])
-			).then(doc => new (this.getType())(doc));
+			).then(doc => console.log("found") || new (this.getType())(doc)).catch(e => console.log("rrr", e));
 		}
 
 		find (data = {}, options = {}, bare) {
