@@ -7,12 +7,12 @@
 		types: {
 			_id: 					ObjectId,
 			killID: 				Number,
-			hash: 					String,
+			hash: 					String/*,
 			solarSystem: 			Object,
 			killTime: 				String,
 			attackers: 				Array,
 			attackerCount: 			Number,
-			victim: 				Object
+			victim: 				Object*/
 		},
 		aggregations: []
 	};
