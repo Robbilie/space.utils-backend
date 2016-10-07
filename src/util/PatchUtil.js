@@ -56,12 +56,12 @@
 
 				Object.defineProperty(store.prototype, prop, {
 					value: function (...args) {
-						console.log("patching", params, args);
 
 						let query = { [params[0]]: args[0] };
 						for(let i = 2; i < params.length; i += 2) {
 							query = { ["$" + params[i - 1]]: [query, { [params[i]] : args[i / 2] }]};
 						}
+						console.log("patching", params, args);
 
 						return this[method](query);
 
