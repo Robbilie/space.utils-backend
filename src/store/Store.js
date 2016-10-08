@@ -37,13 +37,11 @@
 		}
 
 		findOne (data = {}, options = {}, bare) {
-			console.log("findone", data, options, bare, this.constructor.name);
-			try {
 			return (
 				bare ?
 					this.getCollection().findOne(data, options) :
-					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => console.log(JSON.stringify(results, null, 2)) || results[0]).catch(e => console.log(e))
-			).then(doc => console.log("found") || new (this.getType())(doc)).catch(e => console.log("rrr", e));} catch(e) { console.log(e)}
+					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => results[0])
+			).then(doc => new (this.getType())(doc));
 		}
 
 		find (data = {}, options = {}, bare) {
@@ -59,15 +57,12 @@
 		}
 		
 		aggregate (match, options = []) {
-			console.log("aggregate", match, options);
-			try {
-				return this.getCollection()
-					.aggregate([
-						{$match: match},
-						...options,
-						...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
-					], { allowDiskUse: true }); // possibly slower?
-			}catch(e) { console.log(e)}
+			return this.getCollection()
+				.aggregate([
+					{$match: match},
+					...options,
+					...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
+				]/*, { allowDiskUse: true }*/); // possibly slower?
 		}
 
 		getUpdates (options = {}, timestamp) {
