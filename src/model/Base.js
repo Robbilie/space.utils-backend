@@ -51,7 +51,7 @@
 		}
 
 		toJSON (depth = 2) {
-			return Base.toJSON(this.constructor.name, this.getFuture(), depth);
+			return this.constructor.toJSON(this.constructor.name, this.getFuture(), depth);
 		}
 
 		static toJSON (name, future, depth = 0) {
