@@ -34,7 +34,7 @@
 			return async (req, res) => {
 				let store 		= await KillmailHandler.getStore();
 				let killmail 	= await store.findByKillID(req.params.id - 0);
-				res.json(await killmail.toJSON());
+				res.json(await killmail.toJSON(3));
 			};
 		}
 
