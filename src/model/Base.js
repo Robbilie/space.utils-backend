@@ -72,7 +72,7 @@
 							result[key] = res;
 							return Promise.resolve();
 						});
-					} else if(data[key].constructor.name != type.name || (type.prototype instanceof Base && depth == 0)) {
+					} else if((data[key] || data[key + "ID"]).constructor.name != type.name || (type.prototype instanceof Base && depth == 0)) {
 						result[key] = { href: `${config.site.url}/${name.lowercaseFirstLetter().pluralize()}/${data["id"]}/${key}/` };
 						return Promise.resolve();
 					} else {
