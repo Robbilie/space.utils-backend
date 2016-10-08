@@ -25,7 +25,7 @@
 			},
 			{
 				$unwind: {
-					path: 			"solarSystem",
+					path: 			"$solarSystem",
 					preserveNullAndEmptyArrays: true
 				}
 			}
