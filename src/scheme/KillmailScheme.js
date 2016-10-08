@@ -18,9 +18,15 @@
 			{
 				$lookup: {
 					from: 			"systems",
-					localField: 	"solarSystem",
+					localField: 	"solarSystemID",
 					foreignField: 	"id",
 					as: 			"solarSystem"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"solarSystem",
+					preserveNullAndEmptyArrays: true
 				}
 			}
 		]
