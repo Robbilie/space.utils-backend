@@ -60,6 +60,36 @@
 				const result = data.constructor.name == "Object" ? {} : [];
 				const { types } = LoadUtil.scheme(name);
 
+				Promise.all(Object.entries(types).map(([key, t]) => {
+
+					if((!data[key] && !data[key + "ID"]) || key == "_id")
+						return Promise.resolve();
+
+					let type = t.name ? t : LoadUtil.model(t);
+
+					if(type.prototype instanceof Base && depth > 0) {
+						return (new type(data[key]).toJSON(depth - 1)).then(res => {
+							result[key] = res;
+							return Promise.resolve();
+						});
+					} else if(data[key].constructor.name != type.name || (type.prototype instanceof Base && depth == 0)) {
+						result[key] = { href: `${config.site.url}/${name.lowercaseFirstLetter().pluralize()}/${data["id"]}/${key}/` };
+						return Promise.resolve();
+					} else {
+						return Promise.resolve().then(() => data[key]).then(res => {
+							result[key] = res;
+							return Promise.resolve();
+						});
+					}
+
+				})).then(() => resolve(result));
+			}));
+			/*
+			return new Promise(resolve => future.then(data => {
+
+				const result = data.constructor.name == "Object" ? {} : [];
+				const { types } = LoadUtil.scheme(name);
+
 				Promise.all(Object.entries(data).map(([key, value]) => {
 
 					if(!types[key] || key == "_id")
@@ -84,7 +114,7 @@
 
 				})).then(() => resolve(result));
 			}));
-
+			*/
 			/*
 			return new Promise(async (res) => {
 				try {
