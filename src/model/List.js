@@ -23,9 +23,9 @@
 			return this.getFuture().then(arr => arr.map(el => new (this.getType())(el)));
 		}
 
-		/* shouldnt work */
+		/* should work ? */
 		map (fn) {
-			return Promise.all(this.getFuture().then(data => data.map(fn)));
+			return this.getFuture().then(data => Promise.all(data.map(fn)));
 		}
 
 		toJSON (depth = 2) {

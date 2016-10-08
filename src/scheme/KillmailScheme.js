@@ -10,9 +10,9 @@
 			hash: 					String,
 			solarSystem: 			"System",
 			killTime: 				String,
-			attackers: 				Array,
+			attackers: 				"KillmailAttackerList",
 			attackerCount: 			Number,
-			victim: 				Object
+			victim: 				"KillmailVictim"
 		},
 		aggregations: [
 			{
