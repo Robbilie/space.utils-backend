@@ -18,14 +18,14 @@
 						value: function () {
 							return (new type(
 								this.getFuture()
-									.then(data => data[field])
+									.then(data => data[field] || data[field + "ID"])
 							));
 						}
 					});
 				else
 					Object.defineProperty(model.prototype, prop, {
 						value: function () {
-							return this.getFuture().then(data => data[field]);
+							return this.getFuture().then(data => data[field] || data[field + "ID"]);
 						}
 					});
 
