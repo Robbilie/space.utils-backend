@@ -9,10 +9,6 @@
 			super("KillmailAttacker", data);
 		}
 
-		toJSON (depth = 1) {
-			return this.constructor.toJSON(this.constructor.name, this.getFuture(), depth);
-		}
-
 	}
 
 	module.exports = KillmailAttackerList;
