@@ -68,7 +68,7 @@
 					let type = t.name ? t : LoadUtil.model(t);
 
 					if(type.prototype instanceof Base && depth > 0) {
-						return (new type(data[key]).toJSON(depth - 1)).then(res => {
+						return (new type(data[key] || data[key + "ID"]).toJSON(depth - 1)).then(res => {
 							result[key] = res;
 							return Promise.resolve();
 						});
