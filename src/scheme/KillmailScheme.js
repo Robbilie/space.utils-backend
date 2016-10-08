@@ -8,11 +8,20 @@
 			_id: 					ObjectId,
 			killID: 				Number,
 			hash: 					String,
-			solarSystem: 			Object,
+			solarSystem: 			"System",
 			killTime: 				String,
 			attackers: 				Array,
 			attackerCount: 			Number,
 			victim: 				Object
 		},
-		aggregations: []
+		aggregations: [
+			{
+				$lookup: {
+					from: 			"systems",
+					localField: 	"solarSystem",
+					foreignField: 	"id",
+					as: 			"solarSystem"
+				}
+			}
+		]
 	};
