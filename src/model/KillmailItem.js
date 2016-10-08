@@ -6,7 +6,7 @@
 	class KillmailItem extends Base {
 
 		toJSON (depth = 1) {
-			return Base.toJSON(this.constructor.name, this.getFuture(), depth);
+			return this.constructor.toJSON(this.constructor.name, this.getFuture(), depth);
 		}
 
 	}
