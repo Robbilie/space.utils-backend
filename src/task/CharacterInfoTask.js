@@ -33,7 +33,7 @@
 							$set: {
 								id: 			char.characterID[0] - 0,
 								name: 			char.characterName[0],
-								corporation: 	char.corporationID[0] - 0,
+								corporationID: 	char.corporationID[0] - 0,
 								updated: 		new Date(response.eveapi.currentTime[0] + "Z").getTime()
 							}
 						},

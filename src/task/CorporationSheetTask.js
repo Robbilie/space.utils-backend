@@ -41,12 +41,12 @@
 					let unsetData = {};
 
 					if(corp.ceoID[0] - 0 != 1)
-						setData.ceo = corp.ceoID[0] - 0;
+						setData.ceoID = corp.ceoID[0] - 0;
 
 					if(corp.allianceID[0] - 0)
-						setData.alliance = corp.allianceID[0] - 0;
+						setData.allianceID = corp.allianceID[0] - 0;
 					else
-						unsetData.alliance = "";
+						unsetData.allianceID = "";
 
 					if(Object.keys(setData).length > 0)
 						data.$set = setData;

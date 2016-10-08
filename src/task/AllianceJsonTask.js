@@ -32,7 +32,7 @@
 								name: 		response.name,
 								shortName: 	response.shortName,
 								startDate: 	new Date(response.startDate + "Z").getTime(),
-								executor: 	response.executorCorporation.id,
+								executorID: response.executorCorporation.id,
 								updated: 	Date.now()
 							}
 						},

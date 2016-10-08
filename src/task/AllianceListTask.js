@@ -33,7 +33,7 @@
 							shortName: 		alli.$.shortName, 
 							startDate: 		new Date(alli.$.startDate + "Z").getTime(), 
 							memberCount: 	alli.$.memberCount - 0,
-							executor: 		alli.$.executorCorpID - 0,
+							executorID: 	alli.$.executorCorpID - 0,
 							updated: 		new Date(response.eveapi.currentTime[0] + "Z").getTime()
 						};
 					});
