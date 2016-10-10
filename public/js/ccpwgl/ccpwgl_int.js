@@ -294,13 +294,13 @@ var ccpwgl_int = (function()
      * Global toggle to disable `warn`, `error` and `throw` console logging from Emitter `log` calls
      * @type {Boolean}
      */
-    Tw2EventEmitter.consoleErrors = true;
+    Tw2EventEmitter.consoleErrors = false;
 
     /**
      * Global toggle to disable `log`, `info` and `debug` console logging from Emitter `log` calls
      * @type {Boolean}
      */
-    Tw2EventEmitter.consoleLogs = true;
+    Tw2EventEmitter.consoleLogs = false;
 
 
     var emitter = new Tw2EventEmitter('CCPWGL');
