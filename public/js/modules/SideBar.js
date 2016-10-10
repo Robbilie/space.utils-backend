@@ -36,7 +36,7 @@
 					let current = new Date(e.target.responseXML.getElementsByTagName("currentTime")[0].innerHTML + " GMT").getTime();
 					let cached = new Date(e.target.responseXML.getElementsByTagName("cachedUntil")[0].innerHTML + " GMT").getTime();
 
-					this.getUserCounter().innerHTML = "<span>TQ</span> " + online;
+					this.getUserCounter().innerHTML = "<span>TQ</span> " + online.toLocaleString();
 					if(status)
 						this.getUserCounter().classList.add("online");
 					else
