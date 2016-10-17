@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { EntityStore } 			= require("store/");
+	const { Faction } 				= require("model/");
 
 	class FactionStore extends EntityStore {
 
