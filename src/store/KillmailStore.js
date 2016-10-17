@@ -8,7 +8,7 @@
 	class KillmailStore extends Store {
 
 		constructor (db) {
-			super(db, null, "tmp.agg_out.1");
+			super(db, null, "kms");
 		}
 
 		async findOrCreate (id, hash, {} = $(1, { id }, "Number")) {
