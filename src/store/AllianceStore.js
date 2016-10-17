@@ -28,6 +28,8 @@
 			let corporations = await alliance.getCorporations();
 			return charStore.getAll({ corporation: { $in: await Promise.all(corporations.map(corporation => corporation.getId())) } });
 		}
+
 	}
 
 	module.exports = AllianceStore;
+	

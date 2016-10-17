@@ -9,6 +9,7 @@
 			character: 				"Character",
 			corporation: 			"Corporation",
 			alliance: 				"Alliance",
+			faction: 				"Faction",
 			shipType: 				"Type",
 			weaponType: 			"Type"
 		},
