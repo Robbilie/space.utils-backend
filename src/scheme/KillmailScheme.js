@@ -15,6 +15,98 @@
 			victim: 				"KillmailVictim"
 		},
 		aggregations: [
+			// attackers
+			{
+				$unwind: {
+					path: 			"$attackers",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"characters",
+					localField: 	"attackers.characterID",
+					foreignField: 	"id",
+					as: 			"attackers.character"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$attackers.character",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"corporations",
+					localField: 	"attackers.corporationID",
+					foreignField: 	"id",
+					as: 			"attackers.corporation"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$attackers.corporation",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"alliances",
+					localField: 	"attackers.allianceID",
+					foreignField: 	"id",
+					as: 			"attackers.alliance"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$attackers.alliance",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"factions",
+					localField: 	"attackers.factionID",
+					foreignField: 	"id",
+					as: 			"attackers.faction"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$attackers.faction",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"types",
+					localField: 	"attackers.shipTypeID",
+					foreignField: 	"id",
+					as: 			"attackers.shipType"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$attackers.shipType",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"types",
+					localField: 	"attackers.weaponTypeID",
+					foreignField: 	"id",
+					as: 			"attackers.weaponType"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$attackers.weaponType",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			// solarsystem
 			{
 				$lookup: {
 					from: 			"systems",
@@ -29,6 +121,7 @@
 					preserveNullAndEmptyArrays: true
 				}
 			},
+			// victim
 			{
 				$lookup: {
 					from: 			"characters",
@@ -82,6 +175,20 @@
 			{
 				$unwind: {
 					path: 			"$victim.faction",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"types",
+					localField: 	"victim.shipTypeID",
+					foreignField: 	"id",
+					as: 			"victim.shipType"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$victim.shipType",
 					preserveNullAndEmptyArrays: true
 				}
 			}
