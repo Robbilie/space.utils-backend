@@ -106,6 +106,19 @@
 					preserveNullAndEmptyArrays: true
 				}
 			},
+			{
+				$group: {
+					_id: "$_id",
+					killID: { $first: "$killID" },
+					hash: { $first: "$hash" },
+					killTime: { $first: "$killTime"},
+					attackerCount: { $first: "$attackerCount" },
+					victim: { $first: "$victim" },
+					solarSystemID: { $first: "$solarSystemID" },
+					warID: { $first: "$warID" },
+					attackers: { $push: "$attackers" }
+				}
+			},
 			// solarsystem
 			{
 				$lookup: {
