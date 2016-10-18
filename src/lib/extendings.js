@@ -114,13 +114,14 @@
 			}
 		});
 
-		Object.defineProperty(Object.prototype, 'entries', {
-			value: function (obj) {
-				return Object.keys(obj).map(k => [k, obj[k]]);
-			},
-			configurable: true,
-			writable: true
-		});
+		if(!Object.entries)
+			Object.defineProperty(Object.prototype, 'entries', {
+				value: function (obj) {
+					return Object.keys(obj).map(k => [k, obj[k]]);
+				},
+				configurable: true,
+				writable: true
+			});
 
 		global.$ = function (num, ...params) {
 			params
