@@ -26,7 +26,7 @@
 			this.scrolling = true;
 			return json("https://api.utils.space/killmails/", "POST", {
 				"filter": Object.assign({}, this.lowKillID ? { killID: { $lt: this.lowKillID } } : {}),
-				"options": { "sort": { "killID": -1 }, "limit": 50 }
+				"options": { "sort": { "killID": -1 }, "limit": 100 }
 			}).then(data => {
 				data.forEach(kill => {
 					let victim = kill.victim;
