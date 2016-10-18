@@ -119,6 +119,62 @@
 					attackers: { $push: "$attackers" }
 				}
 			},
+			// victim items
+			{
+				$unwind: {
+					path: "$victim.items",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 			"types",
+					localField: 	"victim.items.itemTypeID",
+					foreignField: 	"id",
+					as: 			"victim.items.itemType"
+				}
+			},
+			{
+				$unwind: {
+					path: 			"$victim.items.itemType",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$group: {
+					_id: "$_id",
+					killID: { $first: "$killID" },
+					hash: { $first: "$hash" },
+					killTime: { $first: "$killTime" },
+					attackerCount: { $first: "$attackerCount" },
+					victim: { $first: "$victim" },
+					solarSystemID: { $first: "$solarSystemID" },
+					warID: { $first: "$warID" },
+					attackers: { $first: "$attackers" },
+					items: { $push: "$victim.items" }
+				}
+			},
+			{
+				$project: {
+					killID: 1,
+					hash: 1,
+					killTime: 1,
+					attackerCount: 1,
+					solarSystemID: 1,
+					warID: 1,
+					attackers: 1,
+					victim: {
+						damageTaken: 1,
+						position: 1,
+						characterID: 1,
+						corporationID: 1,
+						allianceID: 1,
+						factionID: 1,
+						shipTypeID: 1,
+						items: "$items"
+					}
+				}
+			},
 			// solarsystem
 			{
 				$lookup: {
