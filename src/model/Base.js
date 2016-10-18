@@ -55,6 +55,22 @@
 		}
 
 		static toJSON (name, future, depth = 0) {
+			return future.then(data => Promise.all(Object.entries((LoadUtil.scheme(name)).types).map(([key, t]) => {
+
+				if(key == "_id" || !(data[key] || data[key + "ID"]))
+					return Promise.resolve();
+
+				if(!t.name && depth > 0) {
+					let type = t.name ? t : LoadUtil.model(t);
+					return (new type(data[key] || data[key + "ID"]).toJSON(depth - 1)).then(res => [key, res]);
+				} else if(((data[key] || data[key + "ID"]) && (data[key] || data[key + "ID"]).constructor.name != (t.name || t)) || (!t.name && depth == 0)) {
+					return Promise.resolve([key, { href: `${config.site.url}/${name.lowercaseFirstLetter().pluralize()}/${data["id"]}/${key}/` }]);
+				} else {
+					return Promise.resolve([key, data[key]]);
+				}
+
+			})).then(results => results.reduce((p, c) => typeof(c ? p[c[0]] = c[1]: true) == "undefined" || p, data.constructor.name == "Object" ? {} : [])));
+			/*
 			return new Promise(resolve => future.then(data => {
 
 				const result = data.constructor.name == "Object" ? {} : [];
@@ -84,6 +100,7 @@
 
 				})).then(() => resolve(result));
 			}));
+			*/
 			/*
 			return new Promise(resolve => future.then(data => {
 
