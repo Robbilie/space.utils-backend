@@ -66,9 +66,10 @@
 		value: Window.prototype.addEventListener
 	});
 
-	Object.defineProperty(Object.prototype, 'entries', {
-		value: obj => Object.keys(obj).map(k => [k, obj[k]])
-	});
+	if(!Object.entries)
+		Object.defineProperty(Object.prototype, 'entries', {
+			value: obj => Object.keys(obj).map(k => [k, obj[k]])
+		});
 
 	window.$ = function (arg1, ...remains) {
 		switch (arg1.constructor.name) {
