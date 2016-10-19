@@ -9,7 +9,7 @@
 			killID: 				Number,
 			hash: 					String,
 			solarSystem: 			"System",
-			killTime: 				String,
+			killTime: 				Number,
 			attackers: 				"KillmailAttackerList",
 			attackerCount: 			Number,
 			victim: 				"KillmailVictim"
