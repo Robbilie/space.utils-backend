@@ -5,5 +5,9 @@
 		console.log(key);
 		if(typeof(key) == "symbol")
 			return {};
-		return require(`./${key}`);
+		try {
+			return require(`./${key}`);
+		} catch (e) {
+			return undefined;
+		}
 	}});
