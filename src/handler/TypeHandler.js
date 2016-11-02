@@ -13,7 +13,7 @@
 					TypeHandler.sanitize(req.body.filter),
 					TypeHandler.limit(req.body.options)
 				);
-				res.json(await Promise.all(types.map(type => type.toJSON())));
+				res.json({ items: await Promise.all(types.map(type => type.toJSON())) });
 			};
 		}
 

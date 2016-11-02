@@ -13,7 +13,7 @@
 					AllianceHandler.sanitize(req.body.filter),
 					AllianceHandler.limit(req.body.options)
 				);
-				res.json(await Promise.all(alliances.map(alliance => alliance.toJSON())));
+				res.json({ items: await Promise.all(alliances.map(alliance => alliance.toJSON())) });
 			};
 		}
 

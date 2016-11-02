@@ -25,7 +25,7 @@
 					KillmailHandler.sanitize(KillmailHandler.limit(req.body.options))
 				);
 				console.log(Date.now() - d);
-				res.json(await Promise.all(killmails.map(killmail => killmail.toJSON())));
+				res.json({ items: await Promise.all(killmails.map(killmail => killmail.toJSON())) });
 				console.log(Date.now() - d);
 			};
 		}

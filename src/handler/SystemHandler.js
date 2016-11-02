@@ -13,7 +13,7 @@
 					SystemHandler.sanitize(req.body.filter),
 					SystemHandler.limit(req.body.options)
 				);
-				res.json(await Promise.all(systems.map(system => system.toJSON())));
+				res.json({ items: await Promise.all(systems.map(system => system.toJSON())) });
 			};
 		}
 

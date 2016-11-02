@@ -13,7 +13,7 @@
 					CharacterHandler.sanitize(req.body.filter),
 					CharacterHandler.limit(req.body.options)
 				);
-				res.json(await Promise.all(characters.map(character => character.toJSON())));
+				res.json({ items: await Promise.all(characters.map(character => character.toJSON())) });
 			};
 		}
 

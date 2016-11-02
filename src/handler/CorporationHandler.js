@@ -13,7 +13,7 @@
 					CorporationHandler.sanitize(req.body.filter),
 					CorporationHandler.limit(req.body.options)
 				);
-				res.json(await Promise.all(corporations.map(corporation => corporation.toJSON())));
+				res.json({ items: await Promise.all(corporations.map(corporation => corporation.toJSON())) });
 			};
 		}
 
