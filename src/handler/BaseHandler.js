@@ -18,7 +18,7 @@
 			return Object.assign(data, { limit: data.limit ? Math.min(data.limit, 250) : 250 })
 		}
 
-		static home ({ swagger }, res, next) {
+		/*static home ({ swagger }, res, next) {
 			return (async ({} = {}, res, next) => {
 				res.json({
 					characters: {
@@ -41,7 +41,7 @@
 					}
 				})
 			})(swagger.params, res, next);
-		}
+		}*/
 
 	}
 
