@@ -40,7 +40,7 @@
 			web.use(routes);
 			*/
 
-			swaggerTools.initializeMiddleware(jsyaml.safeLoad(fs.readFileSync(process.env.NODE_PATH + "/routes/swagger.yaml")), middleware => {
+			swaggerTools.initializeMiddleware(jsyaml.safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml")), middleware => {
 				web.use(middleware.swaggerMetadata());
 				web.use(middleware.swaggerValidator());
 				web.use(middleware.swaggerRouter({
