@@ -45,7 +45,7 @@
 				web.use(middleware.swaggerValidator());
 				web.use(middleware.swaggerRouter({
 					swaggerUi: 		"/swagger.json",
-					controllers: 	process.env.NODE_PATH + "/handler",
+					controllers: 	require("handler/"),
 					useStubs: 		process.env.NODE_ENV === 'development'
 				}));
 				web.use(middleware.swaggerUi());
