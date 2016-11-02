@@ -47,7 +47,7 @@
 					swaggerUi: 		"/swagger.json",
 					controllers:
 						[].concat(...(fs
-							.readDirSync(process.env.NODE_PATH + "/handler")
+							.readdirSync(process.env.NODE_PATH + "/handler")
 							.map(file => require(file))
 							.map(cls => Object.getOwnPropertyNames(cls).slice(3).map(name => [cls.name + "_" + name, cls[name]])))
 						).reduce((p, c) => !(p[c[0]] = c[1]) || p, {}),
