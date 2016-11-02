@@ -9,6 +9,10 @@
 	const routes 					= require("util/../../routes/api");
 	const config 					= require("util/../../config/");
 
+	const swaggerTools 				= require("swagger-tools");
+	const jsyaml 					= require("js-yaml");
+	const fs 						= require("fs");
+
 	class APIApp {
 
 		constructor () {
@@ -27,14 +31,28 @@
 			web.enable("trust proxy");
 
 			web.use(cors());
+
+			/*
 			web.use(bodyParser.json());
 			web.use(bodyParser.urlencoded({ extended: false }));
 			web.use(cookieParser(config.cookies.secret));
 
 			web.use(routes);
+			*/
 
-			this.web 		= web;
-			this.webServer 	= http.createServer(this.web).listen(config.site.apiport);
+			swaggerTools.initializeMiddleware(jsyaml.safeLoad(fs.readFileSync(process.env.NODE_PATH + "/routes/swagger.yaml")), middleware => {
+				web.use(middleware.swaggerMetadata());
+				web.use(middleware.swaggerValidator());
+				web.use(middleware.swaggerRouter({
+					swaggerUi: 		"/swagger.json",
+					controllers: 	"handler",
+					useStubs: 		process.env.NODE_ENV === 'development'
+				}));
+				web.use(middleware.swaggerUi());
+
+				this.web 		= web;
+				this.webServer 	= http.createServer(this.web).listen(config.site.apiport);
+			});
 
 		}
 

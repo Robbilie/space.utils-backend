@@ -1,7 +1,8 @@
 
 	"use strict";
 
-	const { DBUtil } = require("util/");
+	const { DBUtil } 	= require("util/");
+	const config 		= require("util/../../config/");
 
 	class BaseHandler {
 
@@ -15,6 +16,31 @@
 
 		static limit (data = {}) {
 			return Object.assign(data, { limit: data.limit ? Math.min(data.limit, 250) : 250 })
+		}
+
+		static home ({ swagger }, res, next) {
+			return (async ({} = {}, res, next) => {
+				res.json({
+					characters: {
+						href: `${config.site.url}/characters/`
+					},
+					corporations: {
+						href: `${config.site.url}/corporations/`
+					},
+					alliances: {
+						href: `${config.site.url}/alliances/`
+					},
+					killmails: {
+						href: `${config.site.url}/killmails/`
+					},
+					systems: {
+						href: `${config.site.url}/systems/`
+					},
+					types: {
+						href: `${config.site.url}/types/`
+					}
+				})
+			})(swagger.params, res, next);
 		}
 
 	}

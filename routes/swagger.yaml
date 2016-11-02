@@ -1,0 +1,716 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a REST JSON API related to the MMO EVE Online."
+  version: "0.0.1"
+  title: "Space Utils"
+  contact:
+    email: "spaceutils@eneticum.de"
+host: "api.utils.space"
+schemes:
+- "https"
+produces:
+- "application/json"
+paths:
+  /:
+    get:
+      summary: "Root"
+      description: "The root endpoint of the api, returns urls to the other endpoints.\n"
+      operationId: "home"
+      parameters: []
+      responses:
+        200:
+          description: "The root endpoint"
+          schema:
+            $ref: "#/definitions/Root"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "BaseHandler"
+  /alliances/:
+    post:
+      tags:
+      - "alliances"
+      summary: "Filter Alliances"
+      description: "Filter Alliances and apply Options\n"
+      operationId: "filterAlliances"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Filter and Options"
+        required: true
+        schema:
+          $ref: "#/definitions/Filter"
+      responses:
+        200:
+          description: "A list of Alliances\n"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "AllianceHandler"
+  /alliances/{allianceID}/:
+    get:
+      tags:
+      - "alliances"
+      summary: ""
+      description: "Get a Alliance by ID\n"
+      operationId: "alliancesAllianceIDGET"
+      parameters:
+      - name: "allianceID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Alliance\n"
+          schema:
+            $ref: "#/definitions/Alliance"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "AllianceHandler"
+  /alliances/{allianceID}/corporations/:
+    get:
+      tags:
+      - "alliances"
+      summary: ""
+      description: "Get an Alliance's Corporations\n"
+      operationId: "alliancesAllianceIDCorporationsGET"
+      parameters:
+      - name: "allianceID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Corporations\n"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "AllianceHandler"
+  /alliances/{allianceID}/executor/:
+    get:
+      tags:
+      - "alliances"
+      summary: ""
+      description: "Get an Alliance's Executor\n"
+      operationId: "alliancesAllianceIDExecutorGET"
+      parameters:
+      - name: "allianceID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Executor\n"
+          schema:
+            $ref: "#/definitions/Corporation"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "AllianceHandler"
+  /characters/:
+    post:
+      tags:
+      - "characters"
+      summary: "Filter Characters"
+      description: "Filter Characters and apply Options\n"
+      operationId: "filterCharacters"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Filter and Options"
+        required: true
+        schema:
+          $ref: "#/definitions/Filter"
+      responses:
+        200:
+          description: "A list of Characters\n"
+          schema:
+            $ref: "#/definitions/inline_response_200_2"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "CharacterHandler"
+  /characters/{characterID}/:
+    get:
+      tags:
+      - "characters"
+      summary: ""
+      description: "Get a Character by ID\n"
+      operationId: "charactersCharacterIDGET"
+      parameters:
+      - name: "characterID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Character"
+          schema:
+            $ref: "#/definitions/Character"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "CharacterHandler"
+  /characters/{characterID}/corporation/:
+    get:
+      tags:
+      - "characters"
+      summary: ""
+      description: "Get a Character's Corporation\n"
+      operationId: "charactersCharacterIDCorporationGET"
+      parameters:
+      - name: "characterID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Corporation\n"
+          schema:
+            $ref: "#/definitions/Corporation"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "CharacterHandler"
+  /corporations/:
+    post:
+      tags:
+      - "corporations"
+      summary: "Filter Corporations"
+      description: "Filter Corporations and apply Options\n"
+      operationId: "filterCorporations"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Filter and Options"
+        required: true
+        schema:
+          $ref: "#/definitions/Filter"
+      responses:
+        200:
+          description: "A list of Corporations\n"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "CorporationHandler"
+  /corporations/{corporationID}/:
+    get:
+      tags:
+      - "corporations"
+      summary: ""
+      description: "Get a Corporation by ID\n"
+      operationId: "corporationsCorporationIDGET"
+      parameters:
+      - name: "corporationID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Corporation\n"
+          schema:
+            $ref: "#/definitions/Corporation"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Corporations"
+    x-swagger-router-controller: "CorporationHandler"
+  /corporations/{corporationID}/alliance/:
+    get:
+      tags:
+      - "corporations"
+      summary: ""
+      description: "Get a Corporation's Alliance\n"
+      operationId: "corporationsCorporationIDAllianceGET"
+      parameters:
+      - name: "corporationID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Alliance\n"
+          schema:
+            $ref: "#/definitions/Alliance"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "CorporationHandler"
+  /corporations/{corporationID}/ceo/:
+    get:
+      tags:
+      - "corporations"
+      summary: ""
+      description: "Get a Corporation's CEO\n"
+      operationId: "corporationsCorporationIDCeoGET"
+      parameters:
+      - name: "corporationID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The CEO\n"
+          schema:
+            $ref: "#/definitions/Character"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "CorporationHandler"
+  /killmails/:
+    post:
+      tags:
+      - "killmails"
+      summary: "Filter Killmails"
+      description: "Filter Killmails and apply Options\n"
+      operationId: "filterKillmails"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Filter and Options"
+        required: true
+        schema:
+          $ref: "#/definitions/Filter"
+      responses:
+        200:
+          description: "A list of Killmails\n"
+          schema:
+            $ref: "#/definitions/inline_response_200_3"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "KillmailHandler"
+  /killmails/{killID}/:
+    get:
+      tags:
+      - "killmails"
+      summary: ""
+      description: "Get a Killmail by ID\n"
+      operationId: "killmailsKillIDGET"
+      parameters:
+      - name: "killID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Killmail\n"
+          schema:
+            $ref: "#/definitions/Killmail"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "KillmailHandler"
+  /killmails/{killID}/{hash}/:
+    get:
+      tags:
+      - "killmails"
+      summary: ""
+      description: "Get a Killmail by ID and hash\n"
+      operationId: "killmailsKillIDHashGET"
+      parameters:
+      - name: "killID"
+        in: "path"
+        required: true
+        type: "number"
+      - name: "hash"
+        in: "path"
+        description: "The Killmail Hash"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The Killmail\n"
+          schema:
+            $ref: "#/definitions/Killmail"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "KillmailHandler"
+  /systems/:
+    post:
+      tags:
+      - "systems"
+      summary: "Filter Systems"
+      description: "Filter Systems and apply Options\n"
+      operationId: "filterSystems"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Filter and Options"
+        required: true
+        schema:
+          $ref: "#/definitions/Filter"
+      responses:
+        200:
+          description: "A list of Systems\n"
+          schema:
+            $ref: "#/definitions/inline_response_200_4"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "SystemHandler"
+  /systems/{systemID}/:
+    get:
+      tags:
+      - "systems"
+      summary: ""
+      description: "Get a System by ID\n"
+      operationId: "systemsSystemIDGET"
+      parameters:
+      - name: "systemID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The System\n"
+          schema:
+            $ref: "#/definitions/System"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "SystemHandler"
+  /types/:
+    post:
+      tags:
+      - "types"
+      summary: "Filter Types"
+      description: "Filter Types and apply Options\n"
+      operationId: "filterTypes"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Filter and Options"
+        required: true
+        schema:
+          $ref: "#/definitions/Filter"
+      responses:
+        200:
+          description: "A list of Types\n"
+          schema:
+            $ref: "#/definitions/inline_response_200_5"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "TypeHandler"
+  /types/{typeID}/:
+    get:
+      tags:
+      - "types"
+      summary: ""
+      description: "Get a Type by ID\n"
+      operationId: "typesTypeIDGET"
+      parameters:
+      - name: "typeID"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "The Type\n"
+          schema:
+            $ref: "#/definitions/Type"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "TypeHandler"
+definitions:
+  Href:
+    type: "object"
+    properties:
+      href:
+        type: "string"
+        description: "The URL to another resource\n"
+  Error:
+    type: "object"
+    properties:
+      stack:
+        type: "string"
+      message:
+        type: "string"
+      code:
+        type: "number"
+  Filter:
+    type: "object"
+    properties:
+      filter:
+        type: "object"
+        properties: {}
+      options:
+        type: "object"
+        properties: {}
+  Root:
+    type: "object"
+    properties:
+      characters:
+        $ref: "#/definitions/Href"
+      corporations:
+        $ref: "#/definitions/Href"
+      alliances:
+        $ref: "#/definitions/Href"
+      killmails:
+        $ref: "#/definitions/Href"
+      types:
+        $ref: "#/definitions/Href"
+      systems:
+        $ref: "#/definitions/Href"
+  Alliance:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      shortName:
+        type: "string"
+      executor:
+        $ref: "#/definitions/Corporation"
+      corporations:
+        type: "array"
+        items:
+          $ref: "#/definitions/Corporation"
+      updated:
+        type: "number"
+  Corporation:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      ticker:
+        type: "string"
+      description:
+        type: "string"
+      ceo:
+        $ref: "#/definitions/Character"
+      alliance:
+        $ref: "#/definitions/Alliance"
+      updated:
+        type: "number"
+  Character:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      corporation:
+        $ref: "#/definitions/Corporation"
+      updated:
+        type: "number"
+  Faction:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+  Killmail:
+    type: "object"
+    properties:
+      killID:
+        type: "number"
+      hash:
+        type: "string"
+      solarSystem:
+        $ref: "#/definitions/System"
+      killTime:
+        type: "number"
+      attackers:
+        type: "array"
+        items:
+          $ref: "#/definitions/KillmailAttacker"
+      attackerCount:
+        type: "number"
+      victim:
+        $ref: "#/definitions/KillmailVictim"
+  KillmailAttacker:
+    type: "object"
+    properties:
+      finalBlow:
+        type: "boolean"
+      securityStatus:
+        type: "number"
+      damageDone:
+        type: "number"
+      character:
+        $ref: "#/definitions/Character"
+      corporation:
+        $ref: "#/definitions/Corporation"
+      alliance:
+        $ref: "#/definitions/Alliance"
+      faction:
+        $ref: "#/definitions/Faction"
+      shipType:
+        $ref: "#/definitions/Type"
+      weaponType:
+        $ref: "#/definitions/Type"
+  KillmailVictim:
+    type: "object"
+    properties:
+      damageTaken:
+        type: "number"
+      position:
+        $ref: "#/definitions/Position"
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/KillmailItem"
+      character:
+        $ref: "#/definitions/Character"
+      corporation:
+        $ref: "#/definitions/Corporation"
+      alliance:
+        $ref: "#/definitions/Alliance"
+      faction:
+        $ref: "#/definitions/Faction"
+      shipType:
+        $ref: "#/definitions/Type"
+  KillmailItem:
+    type: "object"
+    properties:
+      singleton:
+        type: "number"
+      flag:
+        type: "number"
+      quantityDestroyed:
+        type: "number"
+      quantityDropped:
+        type: "number"
+      itemType:
+        $ref: "#/definitions/Type"
+  System:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      securityStatus:
+        type: "number"
+  Type:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      description:
+        type: "string"
+  Position:
+    type: "object"
+    properties:
+      x:
+        type: "number"
+      y:
+        type: "number"
+      z:
+        type: "number"
+  inline_response_200:
+    properties:
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/Alliance"
+  inline_response_200_1:
+    properties:
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/Corporation"
+  inline_response_200_2:
+    properties:
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/Character"
+  inline_response_200_3:
+    properties:
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/Killmail"
+  inline_response_200_4:
+    properties:
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/System"
+  inline_response_200_5:
+    properties:
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/Type"
+parameters:
+  characterID:
+    name: "characterID"
+    in: "path"
+    required: true
+    type: "number"
+  corporationID:
+    name: "corporationID"
+    in: "path"
+    required: true
+    type: "number"
+  allianceID:
+    name: "allianceID"
+    in: "path"
+    required: true
+    type: "number"
+  killID:
+    name: "killID"
+    in: "path"
+    required: true
+    type: "number"
+  systemID:
+    name: "systemID"
+    in: "path"
+    required: true
+    type: "number"
+  typeID:
+    name: "typeID"
+    in: "path"
+    required: true
+    type: "number"

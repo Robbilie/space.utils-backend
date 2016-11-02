@@ -17,12 +17,12 @@
 			};
 		}
 
-		static getById () {
-			return async (req, res) => {
+		static getById ({ swagger }, res, next) {
+			return (async ({ characterID }, res, next) => {
 				let store 		= await CharacterHandler.getStore();
-				let character 	= await store.findOrCreate(req.params.id - 0);
+				let character 	= await store.findOrCreate(characterID);
 				res.json(await character.toJSON());
-			};
+			})(swagger.params, res, next);
 		}
 
 		static getCorporation () {
