@@ -18,6 +18,7 @@
 		}
 
 		static getCharacterByID ({ swagger }, res, next) {
+			console.log(swagger);
 			return (async ({ characterID }, res, next) => {
 				console.log(characterID);
 				let store 		= await CharacterHandler.getStore();
