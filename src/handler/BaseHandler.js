@@ -18,8 +18,8 @@
 			return Object.assign(data, { limit: data.limit ? Math.min(data.limit, 250) : 250 })
 		}
 
-		static home ({ swagger }, res, next) {
-			return (async ({} = {}, res, next) => {
+		static home () {
+			return async (req, res) => {
 				res.json({
 					characters: {
 						href: `${config.site.url}/characters/`
@@ -40,7 +40,7 @@
 						href: `${config.site.url}/types/`
 					}
 				})
-			})(swagger.params, res, next);
+			};
 		}
 
 	}
