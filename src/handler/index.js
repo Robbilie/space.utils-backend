@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	/*module.exports = new Proxy({}, { get: (P,key) => {
+	module.exports = new Proxy({}, { get: (P,key) => {
 		console.log(key);
 		if(typeof(key) == "symbol")
 			return {};
@@ -10,8 +10,9 @@
 		} catch (e) {
 			return undefined;
 		}
-	}});*/
+	}});
 
+	/*
 	module.exports = {
 		BaseHandler: require("./BaseHandler"),
 		EntityHandler: require("./EntityHandler"),
@@ -20,3 +21,4 @@
 		AllianceHandler: require("./AllianceHandler"),
 		KillmailHandler: require("./KillmailHandler")
 	};
+	*/
