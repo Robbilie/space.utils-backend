@@ -4,9 +4,9 @@
 	const http 						= require("http");
 	const express 					= require("express");
 	const cors 						= require("cors");
-	const cookieParser 				= require("cookie-parser");
-	const bodyParser 				= require("body-parser");
-	const routes 					= require("util/../../routes/api");
+	//const cookieParser 				= require("cookie-parser");
+	//const bodyParser 				= require("body-parser");
+	//const routes 					= require("util/../../routes/api");
 	const config 					= require("util/../../config/");
 
 	const swaggerTools 				= require("swagger-tools");
