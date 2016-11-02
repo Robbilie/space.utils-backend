@@ -5,7 +5,7 @@
 
 	class CharacterHandler extends EntityHandler {
 
-		static filter () {
+		static filterCharacters () {
 			return async (req, res) => {
 				console.log(req.body);
 				let store 			= await CharacterHandler.getStore();
@@ -17,7 +17,7 @@
 			};
 		}
 
-		static getCharacterByID () {
+		static getCharacterById () {
 			return async (req, res) => {
 				let store 		= await CharacterHandler.getStore();
 				let character 	= await store.findOrCreate(req.swagger.params.characterID.value);
@@ -25,10 +25,10 @@
 			};
 		}
 
-		static getCorporation () {
+		static getCharactersCorporation () {
 			return async (req, res) => {
 				let store 		= await CharacterHandler.getStore();
-				let character 	= await store.findOrCreate(req.params.id - 0);
+				let character 	= await store.findOrCreate(req.swagger.params.characterID.value);
 				res.json(await character.getCorporation().toJSON());
 			};
 		}

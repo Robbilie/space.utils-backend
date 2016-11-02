@@ -5,7 +5,7 @@
 
 	class KillmailHandler extends BaseHandler {
 
-		static filter () {
+		static filterKillmails () {
 			/*
 			return (req, res) => KillmailHandler.getStore()
 				.then(store => store.find(
@@ -30,18 +30,18 @@
 			};
 		}
 
-		static getById () {
+		static getKillmailById () {
 			return async (req, res) => {
 				let store 		= await KillmailHandler.getStore();
-				let killmail 	= await store.findByKillID(req.params.id - 0);
+				let killmail 	= await store.findByKillID(req.swagger.params.killID.value);
 				res.json(await killmail.toJSON());
 			};
 		}
 
-		static getOrCreate () {
+		static getKillmailByIdAndHash () {
 			return async (req, res) => {
 				let store 		= await KillmailHandler.getStore();
-				let killmail 	= await store.findOrCreate(req.params.id - 0, req.params.hash);
+				let killmail 	= await store.findOrCreate(req.swagger.params.killID.value, req.swagger.params.hash.value);
 				res.json(await killmail.toJSON());
 			};
 		}

@@ -60,7 +60,7 @@ paths:
       - "alliances"
       summary: ""
       description: "Get a Alliance by ID\n"
-      operationId: "alliancesAllianceIDGET"
+      operationId: "getAllianceById"
       parameters:
       - name: "allianceID"
         in: "path"
@@ -82,7 +82,7 @@ paths:
       - "alliances"
       summary: ""
       description: "Get an Alliance's Corporations\n"
-      operationId: "alliancesAllianceIDCorporationsGET"
+      operationId: "getAlliancesCorporations"
       parameters:
       - name: "allianceID"
         in: "path"
@@ -104,7 +104,7 @@ paths:
       - "alliances"
       summary: ""
       description: "Get an Alliance's Executor\n"
-      operationId: "alliancesAllianceIDExecutorGET"
+      operationId: "getAlliancesExecutor"
       parameters:
       - name: "allianceID"
         in: "path"
@@ -152,7 +152,7 @@ paths:
       - "characters"
       summary: ""
       description: "Get a Character by ID\n"
-      operationId: "getCharacterByID"
+      operationId: "getCharacterById"
       parameters:
       - name: "characterID"
         in: "path"
@@ -222,7 +222,7 @@ paths:
       - "corporations"
       summary: ""
       description: "Get a Corporation by ID\n"
-      operationId: "corporationsCorporationIDGET"
+      operationId: "getCorporationById"
       parameters:
       - name: "corporationID"
         in: "path"
@@ -237,15 +237,14 @@ paths:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "Corporations"
-    x-swagger-router-controller: "CorporationHandler"
+      x-swagger-router-controller: "CorporationHandler"
   /corporations/{corporationID}/alliance/:
     get:
       tags:
       - "corporations"
       summary: ""
       description: "Get a Corporation's Alliance\n"
-      operationId: "corporationsCorporationIDAllianceGET"
+      operationId: "getCorporationsAlliance"
       parameters:
       - name: "corporationID"
         in: "path"
@@ -267,7 +266,7 @@ paths:
       - "corporations"
       summary: ""
       description: "Get a Corporation's CEO\n"
-      operationId: "corporationsCorporationIDCeoGET"
+      operationId: "getCorporationsCeo"
       parameters:
       - name: "corporationID"
         in: "path"
@@ -315,7 +314,7 @@ paths:
       - "killmails"
       summary: ""
       description: "Get a Killmail by ID\n"
-      operationId: "killmailsKillIDGET"
+      operationId: "getKillmailById"
       parameters:
       - name: "killID"
         in: "path"
@@ -337,7 +336,7 @@ paths:
       - "killmails"
       summary: ""
       description: "Get a Killmail by ID and hash\n"
-      operationId: "killmailsKillIDHashGET"
+      operationId: "getKillmailByIdAndHash"
       parameters:
       - name: "killID"
         in: "path"
@@ -390,7 +389,7 @@ paths:
       - "systems"
       summary: ""
       description: "Get a System by ID\n"
-      operationId: "systemsSystemIDGET"
+      operationId: "getSystemById"
       parameters:
       - name: "systemID"
         in: "path"
@@ -438,7 +437,7 @@ paths:
       - "types"
       summary: ""
       description: "Get a Type by ID\n"
-      operationId: "typesTypeIDGET"
+      operationId: "getTypeById"
       parameters:
       - name: "typeID"
         in: "path"

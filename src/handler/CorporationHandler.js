@@ -5,7 +5,7 @@
 
 	class CorporationHandler extends EntityHandler {
 
-		static filter () {
+		static filterCorporations () {
 			return async (req, res) => {
 				console.log(req.body);
 				let store 			= await CorporationHandler.getStore();
@@ -17,26 +17,26 @@
 			};
 		}
 
-		static getById () {
+		static getCorporationById () {
 			return async (req, res) => {
 				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findOrCreate(req.params.id - 0);
+				let corporation 	= await store.findOrCreate(req.swagger.params.corporationID.value);
 				res.json(await corporation.toJSON());
 			};
 		}
 
-		static getAlliance () {
+		static getCorporationsAlliance () {
 			return async (req, res) => {
 				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findOrCreate(req.params.id - 0);
+				let corporation 	= await store.findOrCreate(req.swagger.params.corporationID.value);
 				res.json(await corporation.getAlliance().toJSON());
 			};
 		}
 
-		static getCeo () {
+		static getCorporationsCeo () {
 			return async (req, res) => {
 				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findOrCreate(req.params.id - 0);
+				let corporation 	= await store.findOrCreate(req.swagger.params.corporationID.value);
 				res.json(await corporation.getCeo().toJSON());
 			};
 		}
