@@ -152,7 +152,7 @@ paths:
       - "characters"
       summary: ""
       description: "Get a Character by ID\n"
-      operationId: "charactersCharacterIDGET"
+      operationId: "getCharacterByID"
       parameters:
       - name: "characterID"
         in: "path"
@@ -174,7 +174,7 @@ paths:
       - "characters"
       summary: ""
       description: "Get a Character's Corporation\n"
-      operationId: "charactersCharacterIDCorporationGET"
+      operationId: "getCharactersCorporation"
       parameters:
       - name: "characterID"
         in: "path"
