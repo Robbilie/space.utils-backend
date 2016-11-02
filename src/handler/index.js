@@ -13,10 +13,10 @@
 	}});*/
 
 	module.exports = {
-		BaseHandler: new Proxy({}, { get: () => require("./BaseHandler") }),
-		EntityHandler: new Proxy({}, { get: () => require("./EntityHandler") }),
-		CharacterHandler: new Proxy({}, { get: () => require("./CharacterHandler") }),
-		CorporationHandler: new Proxy({}, { get: () => require("./CorporationHandler") }),
-		AllianceHandler: new Proxy({}, { get: () => require("./AllianceHandler") }),
-		KillmailHandler: new Proxy({}, { get: () => require("./KillmailHandler") })
+		BaseHandler: require("./BaseHandler"),
+		EntityHandler: require("./EntityHandler"),
+		CharacterHandler: require("./CharacterHandler"),
+		CorporationHandler: require("./CorporationHandler"),
+		AllianceHandler: require("./AllianceHandler"),
+		KillmailHandler: require("./KillmailHandler")
 	};
