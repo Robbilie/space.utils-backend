@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const EntityHandler = require("handler/EntityHandler");
+	const { EntityHandler } = require("handler/");
 
 	class CharacterHandler extends EntityHandler {
 
