@@ -86,6 +86,9 @@
 					console.log("WAAAAAAAAAAAAAARRRRRRRRRRRRRRRRNIIIIIIIIIIIIIIINGGGGG", await this.getTask().get_id());
 					return;
 				}
+				if(response && response.eveapi && response.eveapi.error && response.eveapi.error[0].$.code != "105") {
+					return await this.update({ state: 0 });
+				}
 			}
 
 			await this.destroy();
