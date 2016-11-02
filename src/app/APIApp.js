@@ -40,18 +40,21 @@
 			web.use(routes);
 			*/
 
+			const controllers = [].concat(...(fs
+				.readdirSync(process.env.NODE_PATH + "/handler")
+				.map(file => require("handler/" + file))
+				.map(cls => Object.getOwnPropertyNames(cls).slice(3).map(name => [cls.name + "_" + name, cls[name]()])))
+				.filter(([k, v]) => typeof(v) == "function")
+			).reduce((p, c) => !(p[c[0]] = c[1]) || p, {});
+
+			console.log(controllers);
+
 			swaggerTools.initializeMiddleware(jsyaml.safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml")), middleware => {
 				web.use(middleware.swaggerMetadata());
 				web.use(middleware.swaggerValidator());
 				web.use(middleware.swaggerRouter({
 					swaggerUi: 		"/swagger.json",
-					controllers:
-						[].concat(...(fs
-							.readdirSync(process.env.NODE_PATH + "/handler")
-							.map(file => require("handler/" + file))
-							.map(cls => Object.getOwnPropertyNames(cls).slice(3).map(name => [cls.name + "_" + name, cls[name]()])))
-							.filter(([k, v]) => typeof(v) == "function")
-						).reduce((p, c) => !(p[c[0]] = c[1]) || p, {}),
+					controllers,
 					useStubs: 		process.env.NODE_ENV === 'development'
 				}));
 				web.use(middleware.swaggerUi());
