@@ -47,6 +47,7 @@
 					.getOwnPropertyNames(cls).slice(3)
 					.map(name => [cls.name + "_" + name, cls[name]()])
 					.filter(([k, v]) => typeof(v) == "function")
+					.map(([k, v]) => [k, (...args) => v(...args)])
 				)
 			)).reduce((p, c) => !(p[c[0]] = c[1]) || p, {});
 
