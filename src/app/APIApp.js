@@ -49,7 +49,7 @@
 						[].concat(...(fs
 							.readdirSync(process.env.NODE_PATH + "/handler")
 							.map(file => require("handler/" + file))
-							.map(cls => Object.getOwnPropertyNames(cls).slice(3).map(name => [cls.name + "_" + name, cls[name]])))
+							.map(cls => Object.getOwnPropertyNames(cls).slice(3).map(name => [cls.name + "_" + name, cls[name]()])))
 						).reduce((p, c) => !(p[c[0]] = c[1]) || p, {}),
 					useStubs: 		process.env.NODE_ENV === 'development'
 				}));
