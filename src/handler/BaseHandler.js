@@ -7,7 +7,8 @@
 	class BaseHandler {
 
 		static getStore () {
-			return DBUtil.getStore(this.name.slice(0, -7));
+			if(this.name != "BaseHandler")
+				return DBUtil.getStore(this.name.slice(0, -7));
 		}
 
 		static sanitize (data = {}) {
