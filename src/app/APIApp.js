@@ -57,11 +57,12 @@
 				web.use(middleware.swaggerMetadata());
 				web.use(middleware.swaggerValidator());
 				web.use(middleware.swaggerRouter({
-					swaggerUi: 		"/swagger.json",
 					controllers: 	controllers,
 					useStubs: 		process.env.NODE_ENV === 'development'
 				}));
-				web.use(middleware.swaggerUi());
+				web.use(middleware.swaggerUi({
+					//apiDocs: 		"/swagger.json"
+				}));
 
 				this.web 		= web;
 				this.webServer 	= http.createServer(this.web).listen(config.site.apiport);
