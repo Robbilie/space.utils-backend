@@ -14,7 +14,7 @@
 					let store = await DBUtil.getStore(req.params.store.singularize().capitalizeFirstLetter());
 
 					if(!store)
-						throw Error("Invalid entity.");
+						return d(new Error("Invalid entity."));
 
 					let entity;
 					if(store.findOrCreate)
