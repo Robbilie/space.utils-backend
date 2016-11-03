@@ -76,7 +76,7 @@
 						["img", { src: `https://imageserver.eveonline.com/Type/${(attacker.weaponType || attacker.shipType).id}_32.png` }],
 						["img", { src: `https://imageserver.eveonline.com/${(["character", "corporation", "alliance"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).id}_32.${["character", "corporation", "alliance"].find(e => !!attacker[e]) == "character" ? "jpg" : "png"}` }],
 						["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
-						["span", { innerHTML: attacker.damageDone }]
+						["span", { innerHTML: attacker.damageDone || 0 }]
 					]])));
 
 					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
