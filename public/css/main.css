@@ -624,7 +624,7 @@ body {
 }
 
 .list > .row > .column > img {
-	border-bottom: 1px solid rgba(255,255,255,.25);
+	border: 1px solid rgba(255,255,255,.25);
 	border-right-width: 0;
 	display: inline-block;
 	vertical-align: middle;
