@@ -28,7 +28,7 @@
 				"filter": Object.assign({}, this.lowKillID ? { killID: { $lt: this.lowKillID } } : {}),
 				"options": { "sort": { "killID": -1 }, "limit": 50 }
 			}).then(data => {
-				data.forEach(kill => {
+				data.items.forEach(kill => {
 					let victim = kill.victim;
 					let attacker = kill.attackers.find(attacker => attacker.finalBlow);
 					let time = new Date(kill.killTime);
