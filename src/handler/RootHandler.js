@@ -5,7 +5,7 @@
 	const fs 				= require("fs");
 	const jsyaml 			= require("js-yaml");
 	const client 			= ejs.render(
-		fs.readFileSync(process.env.NODE_PATH + "/views/client.ejs"),
+		fs.readFileSync(process.env.NODE_PATH + "/../views/client.ejs"),
 		jsyaml.safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml")),
 		{}
 	);
