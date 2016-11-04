@@ -544,11 +544,13 @@ definitions:
   Root:
     type: object
     properties:
+      alliances:
+        $ref: '#/definitions/Href'
       characters:
         $ref: '#/definitions/Href'
       corporations:
         $ref: '#/definitions/Href'
-      alliances:
+      factions:
         $ref: '#/definitions/Href'
       killmails:
         $ref: '#/definitions/Href'
