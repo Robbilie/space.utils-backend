@@ -57,8 +57,7 @@ parameters:
 paths:
   '/':
     get:
-      x-swagger-router-controller: BaseHandler
-      operationId: home
+      operationId: BaseHandler_home
       summary: Root
       description: |
         The root endpoint of the api, returns urls to the other endpoints.
@@ -73,8 +72,7 @@ paths:
             $ref: '#/definitions/Error'
   '/characters/':
     post:
-      x-swagger-router-controller: CharacterHandler
-      operationId: filterCharacters
+      operationId: CharacterHandler_filter
       tags:
         - characters
       summary: Filter Characters
@@ -102,8 +100,7 @@ paths:
     parameters:
       - $ref: '#/parameters/characterID'
     get:
-      x-swagger-router-controller: CharacterHandler
-      operationId: getCharacterById
+      operationId: CharacterHandler_getById
       tags:
         - characters
       summary: ""
@@ -122,8 +119,7 @@ paths:
     parameters:
       - $ref: '#/parameters/characterID'
     get:
-      x-swagger-router-controller: CharacterHandler
-      operationId: getCharactersCorporation
+      operationId: CharacterHandler_getCorporation
       tags:
         - characters
       summary: ""
@@ -141,8 +137,7 @@ paths:
             $ref: '#/definitions/Error'
   '/corporations/':
     post:
-      x-swagger-router-controller: CorporationHandler
-      operationId: filterCorporations
+      operationId: CorporationHandler_filter
       tags:
         - corporations
       summary: Filter Corporations
@@ -170,8 +165,7 @@ paths:
     parameters:
       - $ref: '#/parameters/corporationID'
     get:
-      x-swagger-router-controller: CorporationHandler
-      operationId: getCorporationById
+      operationId: CorporationHandler_getById
       tags:
         - corporations
       summary: ""
@@ -191,8 +185,7 @@ paths:
     parameters:
       - $ref: '#/parameters/corporationID'
     get:
-      x-swagger-router-controller: CorporationHandler
-      operationId: getCorporationsAlliance
+      operationId: CorporationHandler_getAlliance
       tags:
         - corporations
       summary: ""
@@ -212,8 +205,7 @@ paths:
     parameters:
       - $ref: '#/parameters/corporationID'
     get:
-      x-swagger-router-controller: CorporationHandler
-      operationId: getCorporationsCeo
+      operationId: CorporationHandler_getCeo
       tags:
         - corporations
       summary: ""
@@ -231,8 +223,7 @@ paths:
             $ref: '#/definitions/Error'
   '/alliances/':
     post:
-      x-swagger-router-controller: AllianceHandler
-      operationId: filterAlliances
+      operationId: AllianceHandler_filter
       tags:
         - alliances
       summary: Filter Alliances
@@ -260,8 +251,7 @@ paths:
     parameters:
       - $ref: '#/parameters/allianceID'
     get:
-      x-swagger-router-controller: AllianceHandler
-      operationId: getAllianceById
+      operationId: AllianceHandler_getById
       tags:
         - alliances
       summary: ""
@@ -281,8 +271,7 @@ paths:
     parameters:
       - $ref: '#/parameters/allianceID'
     get:
-      x-swagger-router-controller: AllianceHandler
-      operationId: getAlliancesExecutor
+      operationId: AllianceHandler_getExecutor
       tags:
         - alliances
       summary: ""
@@ -302,8 +291,7 @@ paths:
     parameters:
       - $ref: '#/parameters/allianceID'
     get:
-      x-swagger-router-controller: AllianceHandler
-      operationId: getAlliancesCorporations
+      operationId: AllianceHandler_getCorporations
       tags:
         - alliances
       summary: ""
@@ -321,8 +309,7 @@ paths:
             $ref: '#/definitions/Error'
   '/factions/':
     post:
-      x-swagger-router-controller: FactionHandler
-      operationId: filterFactions
+      operationId: FactionHandler_filter
       tags:
         - factions
       summary: Filter Factions
@@ -350,8 +337,7 @@ paths:
     parameters:
       - $ref: '#/parameters/factionID'
     get:
-      x-swagger-router-controller: FactionHandler
-      operationId: getFactionById
+      operationId: FactionHandler_getById
       tags:
         - factions
       summary: ""
@@ -369,8 +355,7 @@ paths:
             $ref: '#/definitions/Error'
   '/killmails/':
     post:
-      x-swagger-router-controller: KillmailHandler
-      operationId: filterKillmails
+      operationId: KillmailHandler_filter
       tags:
         - killmails
       summary: Filter Killmails
@@ -398,8 +383,7 @@ paths:
     parameters:
       - $ref: '#/parameters/killID'
     get:
-      x-swagger-router-controller: KillmailHandler
-      operationId: getKillmailById
+      operationId: KillmailHandler_getById
       tags:
         - killmails
       summary: ""
@@ -424,8 +408,7 @@ paths:
         type: string
         required: true
     get:
-      x-swagger-router-controller: KillmailHandler
-      operationId: getKillmailByIdAndHash
+      operationId: KillmailHandler_getByIdAndHash
       tags:
         - killmails
       summary: ""
@@ -443,8 +426,7 @@ paths:
             $ref: '#/definitions/Error'
   '/systems/':
     post:
-      x-swagger-router-controller: SystemHandler
-      operationId: filterSystems
+      operationId: SystemHandler_filter
       tags:
         - systems
       summary: Filter Systems
@@ -472,8 +454,7 @@ paths:
     parameters:
       - $ref: '#/parameters/systemID'
     get:
-      x-swagger-router-controller: SystemHandler
-      operationId: getSystemById
+      operationId: SystemHandler_getById
       tags:
         - systems
       summary: ""
@@ -491,8 +472,7 @@ paths:
             $ref: '#/definitions/Error'
   '/types/':
     post:
-      x-swagger-router-controller: TypeHandler
-      operationId: filterTypes
+      operationId: TypeHandler_filter
       tags:
         - types
       summary: Filter Types
@@ -520,8 +500,7 @@ paths:
     parameters:
       - $ref: '#/parameters/typeID'
     get:
-      x-swagger-router-controller: TypeHandler
-      operationId: getTypeById
+      operationId: TypeHandler_getById
       tags:
         - types
       summary: ""
