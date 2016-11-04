@@ -44,7 +44,7 @@
 				.readdirSync(process.env.NODE_PATH + "/handler")
 				.filter(file => file != "index.js")
 				.map(file => require("handler/" + file))
-				.map(cls => console.log(cls, cls.getMethods) || cls
+				.map(cls => cls
 					.getMethods()
 					.map(name => [cls.name + "_" + name, cls[name]()])
 					.filter(([k, v]) => typeof(v) == "function")
