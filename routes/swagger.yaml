@@ -70,6 +70,21 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  '/client/':
+    get:
+      operationId: RootHandler_client
+      summary: JS Client
+      description: |
+        A JS Client for Client and Server
+      responses:
+        '200':
+          description: The Client
+          schema:
+            type: string
+        '400':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   '/characters/':
     post:
       operationId: CharacterHandler_filter

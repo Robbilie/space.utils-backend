@@ -1,0 +1,19 @@
+
+    "use strict";
+
+    <% for(var name in definitions) { %>
+        class <%= name %> {
+
+            constructor () {
+
+            }
+
+        }
+    <% } %>
+
+    class SwaggerClient {
+
+    }
+
+    if(typeof(module) != "undefined")
+        module.exports = SwaggerClient;
