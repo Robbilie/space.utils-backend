@@ -57,7 +57,7 @@ parameters:
 paths:
   '/':
     get:
-      operationId: BaseHandler_home
+      operationId: RootHandler_home
       summary: Root
       description: |
         The root endpoint of the api, returns urls to the other endpoints.

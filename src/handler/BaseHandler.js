@@ -18,30 +18,7 @@
 		static limit (data = {}) {
 			return Object.assign(data, { limit: data.limit ? Math.min(data.limit, 250) : 250 })
 		}
-
-		static home () {
-			return async (req, res) => res.json({
-				characters: {
-					href: `${config.site.url}/characters/`
-				},
-				corporations: {
-					href: `${config.site.url}/corporations/`
-				},
-				alliances: {
-					href: `${config.site.url}/alliances/`
-				},
-				killmails: {
-					href: `${config.site.url}/killmails/`
-				},
-				systems: {
-					href: `${config.site.url}/systems/`
-				},
-				types: {
-					href: `${config.site.url}/types/`
-				}
-			});
-		}
-
+		
 		static filter () {
 			return async (req, res) => {
 				let d = Date.now();
