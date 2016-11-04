@@ -1,9 +1,6 @@
 
 	"use strict";
 
-	const { DBUtil } 	= require("util/");
-	const config 		= require("util/../../config/");
-
 	class BaseHandler {
 
 		static getMethods () {
