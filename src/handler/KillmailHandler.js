@@ -1,9 +1,9 @@
 
 	"use strict";
 
-	const { BaseHandler } = require("handler/");
+	const { EntityHandler } = require("handler/");
 
-	class KillmailHandler extends BaseHandler {
+	class KillmailHandler extends EntityHandler {
 
 		static getByIdAndHash () {
 			return async (req, res) => {
