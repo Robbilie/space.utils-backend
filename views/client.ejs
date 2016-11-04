@@ -2,36 +2,38 @@
     "use strict";
 
     <% for(var name in definitions) { %>
-        class <%= name %> {
 
-            constructor () {
+    class <%= name %> {
 
-            }
+        constructor () {
 
         }
 
-        <%= name %>.types = {
-            <% for(var key in definitions[name].properties) { %>
-                <%= key %>: <%
-                    var type = "";
-                    if(definitions[name].properties[key].$ref) {
-                        type = definitions[name].properties[key].$ref.split("/").slice(-1)[0];
-                    } else {
-                        switch (definitions[name].properties[key].type) {
-                            case "number":
-                            case "integer":
-                                type = "Number"; break;
-                            case "string":
-                                type = "String"; break;
-                            case "array":
-                                type = "Array"; break;
-                            default:
-                                type = "Object"; break;
-                        }
-                    }
-              %><%= type %>,
-            <% } %>
-        };
+    }
+
+    <%= name %>.types = {
+        <% for(var key in definitions[name].properties) {
+            var type = "";
+            if(definitions[name].properties[key].$ref) {
+                type = definitions[name].properties[key].$ref.split("/").slice(-1)[0];
+            } else {
+                switch (definitions[name].properties[key].type) {
+                    case "number":
+                    case "integer":
+                        type = "Number"; break;
+                    case "string":
+                        type = "String"; break;
+                    case "array":
+                        type = "Array"; break;
+                    default:
+                        type = "Object"; break;
+                }
+            }
+        %>
+        <%= key %>: <%= type %>,
+        <% } %>
+    };
+
     <% } %>
 
     class SwaggerClient {
@@ -47,19 +49,20 @@
                 var p = paths[path][method].operationId.split("_");
                 if(!handler[p[0]])
                     handler[p[0]] = {};
-                handler[p[0]][p[1]] = function () {
-                    return null;
-                };
+                handler[p[0]][p[1]] =
+        function () {
+            return null;
+        };
             }
         }
 
         for(var handlername in handler) {
     %>
-        class <%= handlername %> {
-        <% for(var methodname in handler[handlername]) { %>
-            <%= methodname %><%= handler[handlername][methodname].toString().slice(8) %>
-        <% } %>
-        }
+    class <%= handlername %> {
+    <% for(var methodname in handler[handlername]) { %>
+        <%= methodname %><%= handler[handlername][methodname].toString().slice(8) %>
+    <% } %>
+    }
     <% } %>
 
     if(typeof(module) != "undefined")
