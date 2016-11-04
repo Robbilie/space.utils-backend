@@ -28,7 +28,7 @@
 			return async (req, res) => {
 				ejs.renderFile(process.env.NODE_PATH + "/../views/client.ejs", swagger, (err, data) => {
 					res.set("Content-Type", "text/javascript");
-					res.send(data);
+					res.send(err ? JSON.stringify(err, null, 2) : data);
 				});
 			};
 		}
