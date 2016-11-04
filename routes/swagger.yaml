@@ -30,6 +30,12 @@ parameters:
     type: integer
     format: int64
     required: true
+  factionID:
+    name: factionID
+    in: path
+    type: integer
+    format: int64
+    required: true
   killID:
     name: killID
     in: path
@@ -85,15 +91,9 @@ paths:
             $ref: '#/definitions/Filter'
       responses:
         '200':
-          description: |
-            A list of Characters
+          description: A list of Characters
           schema:
-            type: object
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: '#/definitions/Character'
+            $ref: '#/definitions/CharacterList'
         '400':
           description: Unexpected error
           schema:
@@ -159,15 +159,9 @@ paths:
             $ref: '#/definitions/Filter'
       responses:
         '200':
-          description: |
-            A list of Corporations
+          description: A list of Corporations
           schema:
-            type: object
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: '#/definitions/Corporation'
+            $ref: '#/definitions/CorporationList'
         '400':
           description: Unexpected error
           schema:
@@ -255,15 +249,9 @@ paths:
             $ref: '#/definitions/Filter'
       responses:
         '200':
-          description: |
-            A list of Alliances
+          description: A list of Alliances
           schema:
-            type: object
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: '#/definitions/Alliance'
+            $ref: '#/definitions/AllianceList'
         '400':
           description: Unexpected error
           schema:
@@ -326,12 +314,55 @@ paths:
           description: |
             The Corporations
           schema:
-            type: object
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: '#/definitions/Corporation'
+            $ref: '#/definitions/CorporationList'
+        '400':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/factions/':
+    post:
+      x-swagger-router-controller: FactionHandler
+      operationId: filterFactions
+      tags:
+        - factions
+      summary: Filter Factions
+      description: |
+        Filter Factions and apply Options
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Filter and Options
+          required: true
+          schema:
+            $ref: '#/definitions/Filter'
+      responses:
+        '200':
+          description: A list of Factions
+          schema:
+            $ref: '#/definitions/FactionList'
+        '400':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/factions/{factionID}/':
+    parameters:
+      - $ref: '#/parameters/factionID'
+    get:
+      x-swagger-router-controller: FactionHandler
+      operationId: getFactionById
+      tags:
+        - factions
+      summary: ""
+      description: |
+        Get a Faction by ID
+      responses:
+        '200':
+          description: |
+            The Faction
+          schema:
+            $ref: '#/definitions/Faction'
         '400':
           description: Unexpected error
           schema:
@@ -356,15 +387,9 @@ paths:
             $ref: '#/definitions/Filter'
       responses:
         '200':
-          description: |
-            A list of Killmails
+          description: A list of Killmails
           schema:
-            type: object
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: '#/definitions/Killmail'
+           $ref: '#/definitions/KillmailList'
         '400':
           description: Unexpected error
           schema:
@@ -436,15 +461,9 @@ paths:
             $ref: '#/definitions/Filter'
       responses:
         '200':
-          description: |
-            A list of Systems
+          description: A list of Systems
           schema:
-            type: object
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: '#/definitions/System'
+            $ref: '#/definitions/SystemList'
         '400':
           description: Unexpected error
           schema:
@@ -490,15 +509,9 @@ paths:
             $ref: '#/definitions/Filter'
       responses:
         '200':
-          description: |
-            A list of Types
+          description: A list of Types
           schema:
-            type: object
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: '#/definitions/Type'
+            $ref: '#/definitions/TypeList'
         '400':
           description: Unexpected error
           schema:
@@ -585,6 +598,13 @@ definitions:
       updated:
         type: integer
         format: int64
+  AllianceList:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Alliance'
   Corporation:
     type: object
     properties:
@@ -606,6 +626,13 @@ definitions:
       updated:
         type: integer
         format: int64
+  CorporationList:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Corporation'
   Character:
     type: object
     properties:
@@ -621,6 +648,13 @@ definitions:
       updated:
         type: integer
         format: int64
+  CharacterList:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Character'
   Faction:
     type: object
     properties:
@@ -631,6 +665,13 @@ definitions:
         type: string
       href:
         type: string
+  FactionList:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Faction'
   Killmail:
     type: object
     properties:
@@ -653,6 +694,13 @@ definitions:
         format: int64
       victim:
         $ref: '#/definitions/KillmailVictim'
+  KillmailList:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Killmail'
   KillmailAttacker:
     type: object
     properties:
@@ -726,6 +774,13 @@ definitions:
         type: string
       securityStatus:
         type: number
+  SystemList:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/System'
   Type:
     type: object
     properties:
@@ -738,6 +793,13 @@ definitions:
         type: string
       description:
         type: string
+  TypeList:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Type'
   Position:
     type: object
     properties:
