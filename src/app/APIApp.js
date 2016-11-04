@@ -43,8 +43,7 @@
 			const controllers = [].concat(...(fs
 				.readdirSync(process.env.NODE_PATH + "/handler")
 				.map(file => require("handler/" + file))
-				.map(cls => Object
-					.getOwnPropertyNames(cls).slice(3)
+				.map(cls => cls.getMethods()
 					.map(name => [cls.name + "_" + name, cls[name]()])
 					.filter(([k, v]) => typeof(v) == "function")
 					.map(([k, v]) => [k, (...args) => v(...args)])

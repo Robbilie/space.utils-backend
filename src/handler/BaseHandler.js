@@ -66,6 +66,12 @@
 			};
 		}
 
+		static getMethods () {
+			return (Object.getPrototypeOf(Base).name == "" ?
+				[] : Object.getOwnPropertyNames(Object.getPrototypeOf(Base)).slice(3)
+			).concat(Object.getOwnPropertyNames(this).slice(3));
+		}
+
 	}
 
 	module.exports = BaseHandler;
