@@ -15,32 +15,38 @@ parameters:
   characterID:
     name: characterID
     in: path
-    type: number
+    type: integer
+    format: int64
     required: true
   corporationID:
     name: corporationID
     in: path
-    type: number
+    type: integer
+    format: int64
     required: true
   allianceID:
     name: allianceID
     in: path
-    type: number
+    type: integer
+    format: int64
     required: true
   killID:
     name: killID
     in: path
-    type: number
+    type: integer
+    format: int64
     required: true
   systemID:
     name: systemID
     in: path
-    type: number
+    type: integer
+    format: int64
     required: true
   typeID:
     name: typeID
     in: path
-    type: number
+    type: integer
+    format: int64
     required: true
 paths:
   '/':
@@ -534,7 +540,8 @@ definitions:
       message:
         type: string
       code:
-        type: number
+        type: integer
+        format: int64
   Filter:
     type: object
     properties:
@@ -561,8 +568,11 @@ definitions:
     type: object
     properties:
       id:
-        type: number
+        type: integer
+        format: int64
       name:
+        type: string
+      href:
         type: string
       shortName:
         type: string
@@ -573,13 +583,17 @@ definitions:
         items:
           $ref: '#/definitions/Corporation'
       updated:
-        type: number
+        type: integer
+        format: int64
   Corporation:
     type: object
     properties:
       id:
-        type: number
+        type: integer
+        format: int64
       name:
+        type: string
+      href:
         type: string
       ticker:
         type: string
@@ -590,42 +604,53 @@ definitions:
       alliance:
         $ref: '#/definitions/Alliance'
       updated:
-        type: number
+        type: integer
+        format: int64
   Character:
     type: object
     properties:
-      id: 
-        type: number
+      id:
+        type: integer
+        format: int64
       name:
+        type: string
+      href:
         type: string
       corporation:
         $ref: '#/definitions/Corporation'
       updated:
-        type: number
+        type: integer
+        format: int64
   Faction:
     type: object
     properties:
       id:
-        type: number
+        type: integer
+        format: int64
       name:
+        type: string
+      href:
         type: string
   Killmail:
     type: object
     properties:
       killID:
-        type: number
+        type: integer
+        format: int64
       hash:
         type: string
       solarSystem:
         $ref: '#/definitions/System'
       killTime:
-        type: number
+        type: integer
+        format: int64
       attackers:
         type: array
         items:
           $ref: '#/definitions/KillmailAttacker'
       attackerCount:
-        type: number
+        type: integer
+        format: int64
       victim:
         $ref: '#/definitions/KillmailVictim'
   KillmailAttacker:
@@ -636,7 +661,8 @@ definitions:
       securityStatus:
         type: number
       damageDone:
-        type: number
+        type: integer
+        format: int64
       character:
         $ref: '#/definitions/Character'
       corporation:
@@ -653,7 +679,8 @@ definitions:
     type: object
     properties:
       damageTaken:
-        type: number
+        type: integer
+        format: int64
       position:
         $ref: '#/definitions/Position'
       items:
@@ -674,21 +701,28 @@ definitions:
     type: object
     properties:
       singleton:
-        type: number
+        type: integer
+        format: int64
       flag:
-        type: number
+        type: integer
+        format: int64
       quantityDestroyed:
-        type: number
+        type: integer
+        format: int64
       quantityDropped:
-        type: number
+        type: integer
+        format: int64
       itemType:
         $ref: '#/definitions/Type'
   System:
     type: object
     properties:
       id:
-        type: number
+        type: integer
+        format: int64
       name:
+        type: string
+      href:
         type: string
       securityStatus:
         type: number
@@ -696,8 +730,11 @@ definitions:
     type: object
     properties:
       id:
-        type: number
+        type: integer
+        format: int64
       name:
+        type: string
+      href:
         type: string
       description:
         type: string
