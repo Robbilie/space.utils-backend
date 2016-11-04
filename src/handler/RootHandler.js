@@ -1,7 +1,8 @@
 
 	"use strict";
 
-	const { BaseHandler } = require("handler/");
+	const { BaseHandler } 	= require("handler/");
+	const config 			= require("util/../../config/");
 
 	class RootHandler extends BaseHandler {
 

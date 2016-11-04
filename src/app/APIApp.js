@@ -4,9 +4,6 @@
 	const http 						= require("http");
 	const express 					= require("express");
 	const cors 						= require("cors");
-	//const cookieParser 			= require("cookie-parser");
-	//const bodyParser 				= require("body-parser");
-	//const routes 					= require("util/../../routes/api");
 	const config 					= require("util/../../config/");
 
 	const swaggerTools 				= require("swagger-tools");
@@ -31,14 +28,6 @@
 			web.enable("trust proxy");
 
 			web.use(cors());
-
-			/*
-			web.use(bodyParser.json());
-			web.use(bodyParser.urlencoded({ extended: false }));
-			web.use(cookieParser(config.cookies.secret));
-
-			web.use(routes);
-			*/
 
 			const controllers = [].concat(...(fs
 				.readdirSync(process.env.NODE_PATH + "/handler")
