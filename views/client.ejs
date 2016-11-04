@@ -42,19 +42,16 @@
         var handler = {};
         for(var path in paths) {
             for(var method in paths[path]) {
-                handler[paths[path][method].operationId.split("_")[0]][paths[path][method].operationId.split("_")[1]] =
-                    `
-                        () {
-                            return null;
-                        }
-                    `;
+                handler[paths[path][method].operationId.split("_")[0]][paths[path][method].operationId.split("_")[1]] = function () {
+                    return null;
+                };
             }
         }
     %>
     <% for(var handlername in handler) { %>
         class <%= handlername %> {
         <% for(var methodname in handler[handlername]) { %>
-            <%= methodname %> <%= handler[handlername][methodname] %>
+            <%= methodname %><%= handler[handlername][methodname].toString().slice(8) %>
         <% } %>
         }
     <% } %>
