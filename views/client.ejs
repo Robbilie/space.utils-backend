@@ -9,6 +9,25 @@
             }
 
         }
+
+        <%= name %>.types = {
+            <% for(var key in definitions[name].properties) { %>
+                <%= key %>: <%
+                    var type = "";
+                    if(definitions[name].properties[key].$ref) {
+                        type = definitions[name].properties[key].$ref.split("/").slice(-1)[0];
+                    } else {
+                        switch (definitions[name].properties[key].type) {
+                            case "number":
+                            case "integer":
+                                type = "Number"; break;
+                            case "string":
+                                type = "String"; break;
+                        }
+                    }
+              %><%= type %>,
+            <% } %>
+        };
     <% } %>
 
     class SwaggerClient {
