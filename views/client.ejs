@@ -43,6 +43,8 @@
         for(var path in paths) {
             for(var method in paths[path]) {
                 var p = paths[path][method].operationId.split("_");
+                if(!handler[p[0]])
+                    handler[p[0]] = {};
                 handler[p[0]][p[1]] = function () {
                     return null;
                 };
