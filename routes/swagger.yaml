@@ -36,8 +36,8 @@ parameters:
     type: integer
     format: int64
     required: true
-  killID:
-    name: killID
+  killmailID:
+    name: killmailID
     in: path
     type: integer
     format: int64
@@ -394,9 +394,9 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/killmails/{killID}/':
+  '/killmails/{killmailID}/':
     parameters:
-      - $ref: '#/parameters/killID'
+      - $ref: '#/parameters/killmailID'
     get:
       operationId: KillmailHandler_getById
       tags:
@@ -414,9 +414,9 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/killmails/{killID}/{hash}/':
+  '/killmails/{killmailID}/{hash}/':
     parameters:
-      - $ref: '#/parameters/killID'
+      - $ref: '#/parameters/killmailID'
       - name: hash
         in: path
         description: The Killmail Hash

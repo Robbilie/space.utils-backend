@@ -1,7 +1,17 @@
+<%
+    function resolveRef($ref) {
+        var spl = $ref.slice(2).split("/");
+        var res;
+        while(spl.length > 0)
+            res = (res || swagger)[spl.shift()];
+        return res;
+    }
+%>
+
 
     "use strict";
 
-    <% for(var name in definitions) { %>
+    <% for(var name in swagger.definitions) { %>
 
     class <%= name %> {
 
@@ -12,12 +22,12 @@
     }
 
     <%= name %>.types = {
-        <% for(var key in definitions[name].properties) {
+        <% for(var key in swagger.definitions[name].properties) {
             var type = "";
-            if(definitions[name].properties[key].$ref) {
-                type = definitions[name].properties[key].$ref.split("/").slice(-1)[0];
+            if(swagger.definitions[name].properties[key].$ref) {
+                type = swagger.definitions[name].properties[key].$ref.split("/").slice(-1)[0];
             } else {
-                switch (definitions[name].properties[key].type) {
+                switch (swagger.definitions[name].properties[key].type) {
                     case "number":
                     case "integer":
                         type = "Number"; break;
@@ -33,7 +43,6 @@
         <%= key %>: "<%= type %>",
         <% } %>
     };
-
     <% } %>
 
     class SwaggerClient {
@@ -42,11 +51,11 @@
 
     <%
         var handler = {};
-        for(var path in paths) {
-            for(var method in paths[path]) {
+        for(var path in swagger.paths) {
+            for(var method in swagger.paths[path]) {
                 if(method == "parameters")
                     continue;
-                var p = paths[path][method].operationId.split("_");
+                var p = swagger.paths[path][method].operationId.split("_");
                 if(!handler[p[0]])
                     handler[p[0]] = {};
                 handler[p[0]][p[1]] =
