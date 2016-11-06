@@ -38,9 +38,13 @@
 			this.pollInterval = setInterval(() => this.tasks.getCollection().find({ $or: [
 				{ "info.state": 0, "info.timestamp": { $lt: Date.now() } },
 				{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 2) } }
-			] }).sort({ "info.timestamp": 1 }).limit(20).each(doc => this.process(doc._id, doc.info.timestamp)), 200);
+			] }).sort({ "info.timestamp": 1 }).limit(20).each((err, doc) => {
+				if (err)
+					throw err;
+				this.process(doc._id, doc.info.timestamp);
+			}), 200);
 
-		}
+		};
 
 		startTaskCursor () {
 			return this.tasks.getUpdates({ op: "i", "o.info.timestamp": 0 }, this.lastTS).then(updates => updates.each((err, data) => {
