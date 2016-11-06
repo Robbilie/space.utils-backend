@@ -35,7 +35,7 @@
 				.then(all => all.forEach(async (task) => this.scheduleTask(await task.get_id(), (await task.getInfo()).timestamp, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
 			*/
 
-			this.pollInterval = setInterval(() => this.tasks.find({ $or: [
+			this.pollInterval = setInterval(() => this.tasks.getCollection().find({ $or: [
 				{ "info.state": 0, "info.timestamp": { $lt: Date.now() } },
 				{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 2) } }
 			] }).sort({ "info.timestamp": 1 }).limit(20).each(doc => this.process(doc._id, doc.info.timestamp)), 200);
