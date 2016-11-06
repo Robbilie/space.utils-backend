@@ -70,7 +70,7 @@
 						{
 							"info.state": 1,
 							"info.modified": {
-								$lt: Date.now() - (1000 * 5)
+								$lt: Date.now() - (1000 * 60)
 							}
 						}
 					]
@@ -135,7 +135,7 @@
 						"info.timestamp": timestamp,
 						$or: [
 							{ "info.state": 0 },
-							{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 5) } }
+							{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 60) } }
 						]
 					},
 					[],
