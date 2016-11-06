@@ -39,7 +39,7 @@
 				{ "info.state": 0 },
 				{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 5) } }
 			] }).sort({ "info.timestamp": 1 }).limit(20).each((err, doc) => {
-				console.log(err, doc);
+				//console.log(err, doc);
 				if (err)
 					throw err;
 				if(doc)
