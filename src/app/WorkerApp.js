@@ -56,7 +56,7 @@
 
 			let timeout = Promise.resolve().wait(200);
 
-			await Promise.all(this
+			await this
 				.getTasks()
 				.getCollection()
 				.find({
@@ -78,8 +78,7 @@
 				.sort({ "info.timestamp": 1 })
 				.limit(200)
 				.toArray()
-				.map(doc => this.process(doc._id, doc.info.timestamp))
-			);
+				.then(docs => Promise.all(docs.map(doc => this.process(doc._id, doc.info.timestamp))));
 
 			timeout.then(() => this.pollForTasks());
 
