@@ -35,18 +35,55 @@
 				.then(all => all.forEach(async (task) => this.scheduleTask(await task.get_id(), (await task.getInfo()).timestamp, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
 			*/
 
+			/*
 			this.pollInterval = setInterval(() => this.tasks.getCollection().find({ "info.timestamp": { $lt: Date.now() }, $or: [
 				{ "info.state": 0 },
 				{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 5) } }
-			] }).sort({ "info.timestamp": 1 }).limit(20).each((err, doc) => {
+			] }).sort({ "info.timestamp": 1 }).limit(200).each((err, doc) => {
 				//console.log(err, doc);
 				if (err)
 					throw err;
 				if(doc)
 					this.process(doc._id, doc.info.timestamp);
 			}), 200);
+			*/
 
-		};
+			this.pollForTasks();
+
+		}
+
+		async pollForTasks () {
+
+			let timeout = Promise.resolve().wait(200);
+
+			await Promise.all(this
+				.getTasks()
+				.getCollection()
+				.find({
+					"info.timestamp": {
+						$lt: Date.now()
+					},
+					$or: [
+						{
+							"info.state": 0
+						},
+						{
+							"info.state": 1,
+							"info.modified": {
+								$lt: Date.now() - (1000 * 5)
+							}
+						}
+					]
+				})
+				.sort({ "info.timestamp": 1 })
+				.limit(200)
+				.toArray()
+				.map(doc => this.process(doc._id, doc.info.timestamp))
+			);
+
+			timeout.then(() => this.pollForTasks());
+
+		}
 
 		startTaskCursor () {
 			return this.tasks.getUpdates({ op: "i", "o.info.timestamp": 0 }, this.lastTS).then(updates => updates.each((err, data) => {
