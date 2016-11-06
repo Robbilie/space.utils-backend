@@ -23,24 +23,32 @@
 			// get stores
 			this.tasks 		= await DBUtil.getStore("Task");
 
-
 			if(typeof(gc) != "undefined")
 				this.gcInterval = setInterval(() => gc(), 1000 * 10);
 
 			await this.startTaskCursor();
 
 			// load all tasks
+			/*
 			await this.tasks
 				.all()
 				.then(all => all.forEach(async (task) => this.scheduleTask(await task.get_id(), (await task.getInfo()).timestamp, (await task.getInfo()).timestamp + (Math.random() * 3 * 1000))));
+			*/
+
+			this.pollInterval = setInterval(() => this.tasks.find({ $or: [
+				{ "info.state": 0, "info.timestamp": { $lt: Date.now() } },
+				{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 2) } }
+			] }).sort({ "info.timestamp": 1 }).limit(20).each(doc => this.process(doc._id, doc.info.timestamp)), 200);
+
 		}
 
 		startTaskCursor () {
-			return this.tasks.getUpdates({}, this.lastTS).then(updates => updates.each((err, data) => {
+			return this.tasks.getUpdates({ op: "i", "o.info.timestamp": 0 }, this.lastTS).then(updates => updates.each((err, data) => {
 				if(err)
 					return console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.startTaskCursor());
 				this.lastTS = data.ts;
-				this.taskUpdate(data);
+				//this.taskUpdate(data);
+				this.process(data.o._id, data.o.info.timestamp);
 			}));
 		}
 
@@ -88,7 +96,8 @@
 					[],
 					{
 						$set: {
-							"info.state": 1
+							"info.state": 1,
+							"info.modified": Date.now()
 						}
 					},
 					{
