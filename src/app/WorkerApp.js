@@ -41,7 +41,8 @@
 			] }).sort({ "info.timestamp": 1 }).limit(20).each((err, doc) => {
 				if (err)
 					throw err;
-				this.process(doc._id, doc.info.timestamp);
+				if(doc)
+					this.process(doc._id, doc.info.timestamp);
 			}), 200);
 
 		};
