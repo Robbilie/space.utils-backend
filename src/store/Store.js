@@ -2,7 +2,6 @@
 	"use strict";
 
 	const { DBUtil, LoadUtil } 		= require("util/");
-	const config 					= require("util/../../config/");
 
 	class Store {
 

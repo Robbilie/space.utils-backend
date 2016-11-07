@@ -7,7 +7,6 @@
 		Timestamp
 	} = require("mongodb");
 	const { LoadUtil } 				= require("util/");
-	const config 					= require("util/../../config/");
 
 	const storage 					= {
 		db: 		undefined,

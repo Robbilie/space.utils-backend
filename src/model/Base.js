@@ -3,7 +3,6 @@
 
 	const { ObjectId } 				= require("mongodb");
 	const { DBUtil, LoadUtil } 		= require("util/");
-	const config 					= require("util/../../config/");
 
 	class Base {
 

@@ -4,7 +4,6 @@
 	const http 						= require("http");
 	const express 					= require("express");
 	const cors 						= require("cors");
-	const config 					= require("util/../../config/");
 
 	const fs 						= require("fs");
 	const swagger 					= require("js-yaml").safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml"));
