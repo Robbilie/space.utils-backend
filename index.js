@@ -20,7 +20,7 @@
 		console.warn(warning.stack);   // Print the stack trace
 	});
 	
-	global.config = require("js-yaml").safeLoad(fs.readFileSync("/etc/secrets/config.yaml"));
+	global.config = require("js-yaml").safeLoad(require("fs").readFileSync("/etc/secrets/config.yaml"));
 
 	const raven 				= require("raven");
 

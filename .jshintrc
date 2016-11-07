@@ -4,11 +4,10 @@
 	"indent": 			1,
 	"node": 			true,
 	"globals": {
+		"require": 		true,
 		"config": 		true,
 		"escape":		true,
 		"unescape":		true,
-		"gc": 			true,
-		"__base": 		true,
-		"require": 		true
+		"gc": 			true
 	}
 }
