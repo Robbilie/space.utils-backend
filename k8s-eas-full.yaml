@@ -9,7 +9,7 @@ spec:
     name: eas
 #  clusterIP: 10.0.0.111
   externalIPs:
-  - "138.201.40.82"
+  - "127.0.0.1"
   ports:
   - protocol: "TCP"
     port: 6001
