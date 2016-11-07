@@ -12,6 +12,12 @@
 
 	}
 
+	System.types = {
+		id: 				Number,
+		name: 				String,
+		securityStatus: 	Number
+	};
+
 	PatchUtil.model(System);
 
 	module.exports = System;

@@ -3,10 +3,8 @@
 
 	const ejs 				= require("ejs");
 	const fs 				= require("fs");
-	const jsyaml 			= require("js-yaml");
-	const swagger 			= jsyaml.safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml"));
+	const swagger 			= require("js-yaml").safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml"));
 	const { BaseHandler } 	= require("handler/");
-	const config 			= require("util/../../config/");
 
 	class RootHandler extends BaseHandler {
 
@@ -20,7 +18,7 @@
 					"killmails",
 					"systems",
 					"types"
-				].reduce((p, c) => !(p[c] = { href: `${config.site.url}/${c}/` }) || p, {})
+				].reduce((p, c) => !(p[c] = { href: `https://api.${config.app.host}/${c}/` }) || p, {})
 			);
 		}
 

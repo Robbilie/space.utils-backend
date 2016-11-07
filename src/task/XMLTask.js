@@ -22,8 +22,8 @@
 
 			let { data, error } = await RequestUtil.call("XML", Object.assign({
 				method: 		"POST",
-				uri: 			`${config.ccp.api.url}/${url}.xml.aspx`,
-				headers: 		{ "User-Agent": config.site.userAgent }
+				uri: 			`${config.ccp.xml.href}/${url}.xml.aspx`,
+				headers: 		{ "User-Agent": config.app.ua }
 			}, query ? { form: query } : {}));
 
 			if(!(data || error))

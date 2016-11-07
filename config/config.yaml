@@ -1,0 +1,22 @@
+app:
+  host: "utils.space"
+  ua: "Kubernetes EAS Node.js Fetcher Test (Robert Schuh/Vincent Eneticum)"
+ccp:
+  xml:
+    href: "https://api.eveonline.com"
+  image:
+    href: "https://imageserver.eveonline.com"
+  login:
+    href: "https://login.eveonline.com"
+  crest:
+    href: "https://crest-tq.eveonline.com"
+    clientID: ""
+    secretKey: ""
+sentry:
+  dsn: ""
+mongo:
+  host: "127.0.0.1"
+  port: 27017
+  db: "test"
+  oplog: "local"
+  prefix: ""

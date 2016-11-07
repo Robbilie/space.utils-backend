@@ -3,7 +3,6 @@
 
 	const { Server } 				= require("ws");
 	const routes 					= require("util/../../routes/api");
-	const config 					= require("util/../../config/");
 	const { DBUtil } 				= require("util/");
 
 	class WSApp {
@@ -18,7 +17,7 @@
 
 		async init () {
 
-			this.ws = new Server({ port: config.site.wsport });
+			this.ws = new Server({ port: process.env.APP_PORT });
 			this.ws.on("connection", socket => {
 				socket.json = function (data) { try { return this.send(JSON.stringify(data)); } catch (e) { return e; } };
 				const onData = data => socket.json(data);

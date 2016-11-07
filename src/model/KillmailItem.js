@@ -11,4 +11,12 @@
 
 	}
 
+	KillmailItem.types = {
+		singleton: 				Number,
+		flag: 					Number,
+		quantityDestroyed: 		Number,
+		quantityDropped: 		Number,
+		itemType: 				"Type"
+	};
+
 	module.exports = KillmailItem;

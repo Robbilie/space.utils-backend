@@ -20,6 +20,12 @@
 		
 	}
 
+	Entity.types = {
+		id: 		Number,
+		name: 		String,
+		updated: 	Number
+	};
+
 	PatchUtil.model(Entity);
 
 	module.exports = Entity;

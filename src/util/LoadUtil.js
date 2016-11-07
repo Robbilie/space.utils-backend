@@ -13,16 +13,12 @@
 			return LoadUtil.file(`task/${name}`);
 		}
 
-		static scheme (name) {
-			return LoadUtil.file(`scheme/${name}Scheme`);
-		}
-
 		static handler (name) {
 			return LoadUtil.file(`handler/${name}Handler`);
 		}
 
 		static store (name) {
-			return LoadUtil.file(`store/${name}Store`);
+			return LoadUtil.file(`store/${name}Store`) || LoadUtil.file(`store/Store`);
 		}
 
 		static app (name) {

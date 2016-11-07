@@ -15,8 +15,8 @@
 
 			let { data, error } = await RequestUtil.call("CREST", {
 				method: 		"GET",
-				uri: 			`${config.crest.api.url}${url}`,
-				headers: 		{ "User-Agent": config.site.userAgent }
+				uri: 			`${config.ccp.crest.href}${url}`,
+				headers: 		{ "User-Agent": config.app.ua}
 			});
 
 			try {

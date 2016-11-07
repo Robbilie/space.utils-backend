@@ -9,7 +9,7 @@
 		constructor (db, type, collectionName) {
 			this.type 		= type || LoadUtil.model(this.constructor.name.slice(0, -5));
 			this.name 		= collectionName || this.type.name.toLowerCase().pluralize();
-			this.collection = db.collection(config.database.prefix + this.name);
+			this.collection = db.collection(config.mongo.prefix + this.name);
 		}
 
 		getType () {
@@ -61,7 +61,7 @@
 				.aggregate([
 					{$match: match},
 					...options,
-					...((LoadUtil.scheme(this.getType().name) || {}).aggregations || [])
+					...(this.getType().aggregations || [])
 				]/*, { allowDiskUse: true }*/); // possibly slower?
 		}
 

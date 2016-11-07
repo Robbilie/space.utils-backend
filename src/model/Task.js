@@ -1,6 +1,7 @@
 
 	"use strict";
 
+	const { ObjectId } 				= require("mongodb");
 	const { Base } 					= require("model/");
 
 	class Task extends Base {
@@ -14,6 +15,12 @@
 		}
 
 	}
+
+	Task.types = {
+		_id: 	ObjectId,
+		info: 	Object,
+		data: 	Object
+	};
 
 	module.exports = Task;
 	

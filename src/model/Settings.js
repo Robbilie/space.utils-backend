@@ -20,6 +20,11 @@
 
 	}
 
+	Settings.types = {
+		id: 		Number,
+		options: 	Object
+	};
+
 	PatchUtil.model(Settings);
 
 	module.exports = Settings;

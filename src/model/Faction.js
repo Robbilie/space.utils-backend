@@ -7,4 +7,9 @@
 
 	}
 
+	Faction.types = {
+		id: 	Number,
+		name: 	String
+	};
+
 	module.exports = Faction;

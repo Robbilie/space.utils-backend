@@ -8,8 +8,21 @@
 
 	require("lib/extendings")();
 
+	try {
+		const heapdump = require("heapdump");
+	} catch (e) {
+		console.log("Couldn't load heapdump");
+	}
+
+	process.on('warning', (warning) => {
+		console.warn(warning.name);    // Print the warning name
+		console.warn(warning.message); // Print the warning message
+		console.warn(warning.stack);   // Print the stack trace
+	});
+	
+	global.config = require("js-yaml").safeLoad(fs.readFileSync("/etc/secrets/config.yaml"));
+
 	const raven 				= require("raven");
-	const config = require("util/../../config/");
 
 	global.err = {};
 	if(config.sentry.dsn && config.sentry.dsn != "") {

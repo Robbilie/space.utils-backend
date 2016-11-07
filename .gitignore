@@ -1,7 +1,6 @@
 node_modules/
 logs/*
 log.txt
-config/index.js
 heapdump*
 eas.sublime-workspace
 eas-repl

@@ -18,6 +18,14 @@
 
 	}
 
+	APIKeyInfo.types = {
+		keyID: 			String,
+		vCode: 			String,
+		accessMask: 	Number,
+		type: 			String,
+		expires: 		Number
+	};
+
 	PatchUtil.model(APIKeyInfo);
 
 	module.exports = APIKeyInfo;

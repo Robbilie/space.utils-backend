@@ -21,7 +21,7 @@
 		static getConnection (field, db) {
 			if(!storage[field])
 				storage[field] = MongoClient.connect(
-					`mongodb://${config.database.host}:${config.database.port}/${db}`,
+					`mongodb://${config.mongo.host}:${config.mongo.port}/${db}`,
 					{
 						server: {
 							reconnectTries: 2000,
@@ -56,11 +56,11 @@
 		}
 
 		static getDB () {
-			return DBUtil.getConnection("db", config.database.name);
+			return DBUtil.getConnection("db", config.mongo.db);
 		}
 
 		static getOplog () {
-			return DBUtil.getConnection("oplog", config.database.oplog);
+			return DBUtil.getConnection("oplog", config.mongo.oplog);
 		}
 
 		static getStore (storeName) {
@@ -71,12 +71,12 @@
 		}
 
 		static getCollection (collectionName) {
-			return DBUtil.getDB().then(db => db.collection(config.database.prefix + collectionName));
+			return DBUtil.getDB().then(db => db.collection(config.mongo.prefix + collectionName));
 		}
 
 		static getOplogCursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
 			const query = properties;
-				query.ns = properties.ns ? config.database.name + "." + properties.ns : { $regex: new RegExp("^" + config.database.name, "i") };
+				query.ns = properties.ns ? config.mongo.db + "." + properties.ns : { $regex: new RegExp("^" + config.mongo.db, "i") };
 			if(properties.op)
 				query.op = properties.op.constructor.name == "String" ? properties.op : { $in: properties.op };
 			// generate key so you dont regen the same cursor twice

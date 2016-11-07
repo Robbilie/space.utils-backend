@@ -12,6 +12,12 @@
 
 	}
 
+	Type.types = {
+		id: 			Number,
+		name: 			String,
+		description: 	String
+	};
+
 	PatchUtil.model(Type);
 
 	module.exports = Type;

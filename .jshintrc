@@ -4,6 +4,7 @@
 	"indent": 			1,
 	"node": 			true,
 	"globals": {
+		"config": 		true,
 		"escape":		true,
 		"unescape":		true,
 		"gc": 			true,
