@@ -9,12 +9,8 @@ spec:
     name: eas
   type: "NodePort"
   ports:
-  - protocol: "TCP"
-    targetPort: 4001
-    nodePort: 30401
-  - protocol: "TCP"
-    targetPort: 4003
-    nodePort: 30403
+  - port: 4001
+  - port: 4002
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -77,9 +73,9 @@ spec:
         - name: APP_NAME
           value: "WS"
         - name: APP_PORT
-          value: "4003"
+          value: "4002"
         ports:
-        - containerPort: 4003
+        - containerPort: 4002
           protocol: "TCP"
       volumes:
       - name: config
