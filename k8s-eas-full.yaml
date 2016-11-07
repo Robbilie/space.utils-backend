@@ -10,7 +10,9 @@ spec:
   type: "NodePort"
   ports:
   - port: 4001
+    name: eas-api-rc
   - port: 4002
+    name: eas-ws-rc
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
