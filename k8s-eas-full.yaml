@@ -8,10 +8,10 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: http
+  - name: "http"
     port: 80
     targetPort: 4001
-  - name: https
+  - name: "https"
     port: 443
     targetPort: 4001
   selector:
@@ -70,10 +70,10 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: http
+  - name: "http"
     port: 80
     targetPort: 4002
-  - name: https
+  - name: "https"
     port: 443
     targetPort: 4002
   selector:
