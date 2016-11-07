@@ -76,7 +76,7 @@
 					]
 				})
 				.sort({ "info.timestamp": 1 })
-				.limit(200)
+				.limit(1000)
 				.toArray()
 				.then(docs => Promise.all(docs.map(doc => this.process(doc._id, doc.info.timestamp))));
 
