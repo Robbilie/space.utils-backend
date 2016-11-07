@@ -27,6 +27,10 @@ spec:
       containers:
       - name: eas-api-pod
         image: index.docker.io/robbilie/eas:full
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/secrets/config.yaml"
+          readOnly: true
         env:
         - name: APP_NAME
           value: "API"
@@ -35,3 +39,7 @@ spec:
         ports:
         - containerPort: 4001
           protocol: "TCP"
+      volumes:
+      - name: config
+        secret:
+          secretName: eas-config
