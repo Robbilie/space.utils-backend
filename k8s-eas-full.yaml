@@ -8,17 +8,16 @@ spec:
   selector:
     name: eas
   type: "NodePort"
-#  clusterIP: 10.0.0.111
-#  externalIPs:
-#  - "138.201.40.82"
   ports:
   - protocol: "TCP"
-    port: 6001
     targetPort: 4001
     nodePort: 30401
+  - protocol: "TCP"
+    targetPort: 4003
+    nodePort: 30403
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   name: eas-api-rc
   labels:
@@ -51,3 +50,125 @@ spec:
       - name: config
         secret:
           secretName: eas-config
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: eas-ws-rc
+  labels:
+    name: eas
+spec:
+  replicas: 1
+  selector:
+    name: eas
+  template:
+    metadata:
+      labels:
+        name: eas
+    spec:
+      containers:
+      - name: eas-ws-pod
+        image: index.docker.io/robbilie/eas:full
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/secrets"
+          readOnly: true
+        env:
+        - name: APP_NAME
+          value: "WS"
+        - name: APP_PORT
+          value: "4003"
+        ports:
+        - containerPort: 4003
+          protocol: "TCP"
+      volumes:
+      - name: config
+        secret:
+          secretName: eas-config
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: eas-worker-rc
+  labels:
+    name: eas
+spec:
+  replicas: 4
+  selector:
+    name: eas
+  template:
+    metadata:
+      labels:
+        name: eas
+    spec:
+      containers:
+      - name: eas-worker-pod
+        image: index.docker.io/robbilie/eas:full
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/secrets"
+          readOnly: true
+        env:
+        - name: APP_NAME
+          value: "Worker"
+      volumes:
+      - name: config
+        secret:
+          secretName: eas-config
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: eas-fetcher-rc
+  labels:
+    name: eas
+spec:
+  replicas: 1
+  selector:
+    name: eas
+  template:
+    metadata:
+      labels:
+        name: eas
+    spec:
+      containers:
+      - name: eas-fetcher-pod
+        image: index.docker.io/robbilie/eas:full
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/secrets"
+          readOnly: true
+        env:
+        - name: APP_NAME
+          value: "Fetcher"
+      volumes:
+      - name: config
+        secret:
+          secretName: eas-config
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  - hosts:
+    - api.utils.space
+      secretName: eas-api-tls
+    - ws.utils.space
+      secretName: eas-ws-tls
+  rules:
+  - host: api.utils.space
+    http:
+      paths:
+      - backend:
+          serviceName: eas-service
+          servicePort: 30401
+  - host: ws.utils.space
+    http:
+      paths:
+      - backend:
+          serviceName: eas-service
+          servicePort: 30403
