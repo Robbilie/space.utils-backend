@@ -6,9 +6,9 @@
 	const cors 						= require("cors");
 	const config 					= require("util/../../config/");
 
-	const swaggerTools 				= require("swagger-tools");
-	const jsyaml 					= require("js-yaml");
 	const fs 						= require("fs");
+	const swagger 					= require("js-yaml").safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml"));
+	const swaggerTools 				= require("swagger-tools");
 
 	class APIApp {
 
@@ -29,6 +29,7 @@
 
 			web.use(cors());
 
+			// black magic to map the controllers to a cached object
 			const controllers = [].concat(...(fs
 				.readdirSync(process.env.NODE_PATH + "/handler")
 				.filter(file => file != "index.js")
@@ -41,9 +42,7 @@
 				)
 			)).reduce((p, c) => !(p[c[0]] = c[1]) || p, {});
 
-			console.log(controllers);
-
-			swaggerTools.initializeMiddleware(jsyaml.safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml")), middleware => {
+			swaggerTools.initializeMiddleware(swagger, middleware => {
 				web.use(middleware.swaggerMetadata());
 				web.use(middleware.swaggerValidator());
 				web.use(middleware.swaggerRouter({
