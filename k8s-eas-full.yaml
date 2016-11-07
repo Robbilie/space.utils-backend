@@ -163,10 +163,10 @@ spec:
       paths:
       - backend:
           serviceName: eas-service
-          servicePort: 30401
+          servicePort: 4001
   - host: ws.utils.space
     http:
       paths:
       - backend:
           serviceName: eas-service
-          servicePort: 30403
+          servicePort: 4002
