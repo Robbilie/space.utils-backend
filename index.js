@@ -22,9 +22,6 @@
 	
 	global.config = require("js-yaml").safeLoad(new Buffer(require("fs").readFileSync("/etc/secrets/config.yaml"), "base64"));
 
-	console.log(require("fs").readFileSync("/etc/secrets/config.yaml"));
-	console.log(global.config);
-
 	const raven 				= require("raven");
 
 	global.err = {};
