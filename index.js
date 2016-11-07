@@ -29,16 +29,14 @@
 		var client = new raven.Client(config.sentry.dsn);
 		client.patchGlobal();
 		client.setUserContext({
-			app: process.argv.slice(-1)[0]
+			app: process.env.APP_NAME
 		});
 		err.raven = client;
 	}
 
 	const { LoadUtil } = require("util/");
-
-	console.log(process.argv.slice(-1)[0]);
 	
-	const App = LoadUtil.app(process.argv.slice(-1)[0]);
+	const App = LoadUtil.app(process.env.APP_NAME);
 	const app = new App();
 
 	/* REPL */
@@ -52,3 +50,4 @@
 		replMode: repl.REPL_MODE_SLOPPY
 	});
 	r.context.app = app;
+	
