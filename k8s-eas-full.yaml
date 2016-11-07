@@ -142,6 +142,7 @@ spec:
         env:
         - name: APP_NAME
           value: "Fetcher"
+        ports:
       volumes:
       - name: config
         secret:
