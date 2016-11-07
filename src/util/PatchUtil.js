@@ -10,7 +10,7 @@
 			PatchUtil.filter(model).forEach(prop => {
 
 				const field = prop.slice(3).lowercaseFirstLetter();
-				const type = !model.constructor.types[field] ? model.constructor.types[field] : (model.constructor.types[field].name ? model.constructor.types[field] : LoadUtil.model(model.constructor.types[field]));
+				const type = !model.types[field] ? model.types[field] : (model.types[field].name ? model.types[field] : LoadUtil.model(model.types[field]));
 
 				if(type && typeof(type) === "function" && type.prototype instanceof Base)
 					Object.defineProperty(model.prototype, prop, {
