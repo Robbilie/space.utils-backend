@@ -188,9 +188,9 @@ metadata:
 spec:
   - hosts:
     - api.utils.space
-      secretName: eas-api-tls
+      secretName: eas-api-notls
     - ws.utils.space
-      secretName: eas-ws-tls
+      secretName: eas-ws-notls
   rules:
   - host: api.utils.space
     http:
