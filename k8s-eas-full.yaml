@@ -111,6 +111,7 @@ spec:
         env:
         - name: APP_NAME
           value: "Worker"
+        ports:
       volumes:
       - name: config
         secret:
