@@ -5,14 +5,14 @@ metadata:
   labels:
     name: eas
 spec:
-  selector:
-    name: eas
-  type: "NodePort"
   ports:
   - port: 4001
     name: eas-api-port
   - port: 4002
     name: eas-ws-port
+  selector:
+    name: eas
+  type: NodePort
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
