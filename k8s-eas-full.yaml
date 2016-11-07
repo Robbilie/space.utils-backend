@@ -31,7 +31,7 @@ spec:
         image: index.docker.io/robbilie/eas:full
         volumeMounts:
         - name: config
-          mountPath: "/etc/secrets/config.yaml"
+          mountPath: "/etc/secrets"
           readOnly: true
         env:
         - name: APP_NAME
