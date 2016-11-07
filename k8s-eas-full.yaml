@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eas-service
+spec:
+  selector:
+      app: eas
+    clusterIP: 10.0.0.111
+    ports:
+      - protocol: "TCP"
+        port: 4001
+        targetPort: 6001
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: eas-api-rc
+  labels:
+    app: eas
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: eas
+    spec:
+      containers:
+      - name: eas-api-pod
+        image: index.docker.io/robbilie/eas:full
+        env:
+        - name: APP_NAME
+          value: "API"
+        - name: APP_PORT
+          value: 4001
+        ports:
+        - containerPort: 4001
+          protocol: "TCP"
