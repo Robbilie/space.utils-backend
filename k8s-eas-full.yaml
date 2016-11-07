@@ -5,7 +5,9 @@ metadata:
 spec:
   selector:
     app: eas
-  clusterIP: 10.0.0.111
+#  clusterIP: 10.0.0.111
+  externalIPs:
+  - "138.201.40.82"
   ports:
   - protocol: "TCP"
     port: 4001
@@ -35,7 +37,7 @@ spec:
         - name: APP_NAME
           value: "API"
         - name: APP_PORT
-          value: 4001
+          value: "4001"
         ports:
         - containerPort: 4001
           protocol: "TCP"

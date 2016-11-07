@@ -17,7 +17,7 @@
 
 		async init () {
 
-			this.ws = new Server({ port: process.env.APP_PORT });
+			this.ws = new Server({ port: parseInt(process.env.APP_PORT) });
 			this.ws.on("connection", socket => {
 				socket.json = function (data) { try { return this.send(JSON.stringify(data)); } catch (e) { return e; } };
 				const onData = data => socket.json(data);
