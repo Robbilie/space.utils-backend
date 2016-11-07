@@ -2,29 +2,33 @@ apiVersion: v1
 kind: Service
 metadata:
   name: eas-service
+  labels:
+    name: eas
 spec:
   selector:
-    app: eas
+    name: eas
 #  clusterIP: 10.0.0.111
   externalIPs:
   - "138.201.40.82"
   ports:
   - protocol: "TCP"
-    port: 4001
-    targetPort: 6001
+    port: 6001
+    targetPort: 4001
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
   name: eas-api-rc
   labels:
-    app: eas
+    name: eas
 spec:
   replicas: 3
+  selector:
+    name: eas
   template:
     metadata:
       labels:
-        app: eas
+        name: eas
     spec:
       containers:
       - name: eas-api-pod
