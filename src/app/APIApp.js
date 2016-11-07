@@ -54,7 +54,7 @@
 				}));
 
 				this.web 		= web;
-				this.webServer 	= http.createServer(this.web).listen(process.env.APP_PORT);
+				http.createServer(this.web).listen(process.env.APP_PORT);
 			});
 
 		}
