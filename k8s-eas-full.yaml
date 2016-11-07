@@ -7,13 +7,15 @@ metadata:
 spec:
   selector:
     name: eas
+  type: "NodePort"
 #  clusterIP: 10.0.0.111
-  externalIPs:
-  - "138.201.40.82"
+#  externalIPs:
+#  - "138.201.40.82"
   ports:
   - protocol: "TCP"
     port: 6001
     targetPort: 4001
+    nodePort: 30401
 ---
 apiVersion: v1
 kind: ReplicationController
