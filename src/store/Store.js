@@ -8,7 +8,7 @@
 		constructor (db, type, collectionName) {
 			this.type 		= type || LoadUtil.model(this.constructor.name.slice(0, -5));
 			this.name 		= collectionName || this.type.name.toLowerCase().pluralize();
-			this.collection = db.collection(config.mongo.prefix + this.name);
+			this.collection = db.collection(this.name);
 		}
 
 		getType () {

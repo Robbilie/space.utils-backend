@@ -64,7 +64,7 @@
 					let type = t.name ? t : LoadUtil.model(t);
 					return (new type(data[key] || data[key + "ID"]).toJSON(depth - 1)).then(res => [key, res]);
 				} else if(((data[key] || data[key + "ID"]) && (data[key] || data[key + "ID"]).constructor.name != (t.name || t)) || (!t.name && depth == 0)) {
-					return Promise.resolve([key, { href: `https://api.${config.app.host}/${name.lowercaseFirstLetter().pluralize()}/${data["id"]}/${key}/` }]);
+					return Promise.resolve([key, { href: `https://api.${process.env.HOST}/${name.lowercaseFirstLetter().pluralize()}/${data["id"]}/${key}/` }]);
 				} else {
 					return Promise.resolve([key, data[key]]);
 				}

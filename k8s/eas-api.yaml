@@ -1,0 +1,75 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: eas-api-service
+  labels:
+    app: eas-api
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 4001
+    protocol: TCP
+  selector:
+    app: eas-api
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  labels:
+    app: eas-api
+  name: eas-api-dep
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eas-api
+  template:
+    metadata:
+      labels:
+        app: eas-api
+    spec:
+      containers:
+      - name: eas-api-pod
+        image: index.docker.io/robbilie/eas:eas-node
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4001
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/secrets"
+          readOnly: true
+        env:
+        - name: APP_NAME
+          value: "API"
+        - name: APP_PORT
+          value: "4001"
+        - name: HOST
+          value: "utils.space"
+        - name: UA
+          value: "Kubernetes EAS Node.js Fetcher Test (Robert Schuh/Vincent Eneticum)"
+        - name: MONGO_URL
+          value: "mongodb://138.201.40.82:27017"
+        - name: MONGO_DB
+          value: "test"
+        - name: XML_URL
+          value: "https://api.eveonline.com"
+        - name: CREST_URL
+          value: "https://crest-tq.eveonline.com"
+        - name: IMAGE_URL
+          value: "https://imageserver.eveonline.com"
+        - name: LOGIN_URL
+          value: "https://login.eveonline.com"
+        - name: ESI_URL
+          value: "https://esi.tech.ccp.is/latest"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 4001
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+      volumes:
+      - name: config
+        secret:
+          secretName: eas-config

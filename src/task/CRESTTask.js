@@ -14,8 +14,8 @@
 
 			let { data, error } = await RequestUtil.call("CREST", {
 				method: 		"GET",
-				uri: 			`${config.ccp.crest.href}${url}`,
-				headers: 		{ "User-Agent": config.app.ua}
+				uri: 			`${process.env.CREST_URL}${url}`,
+				headers: 		{ "User-Agent": process.env.UA }
 			});
 
 			try {

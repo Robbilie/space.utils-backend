@@ -1,0 +1,51 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  labels:
+    app: eas-fetcher
+  name: eas-fetcher-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eas-fetcher
+  template:
+    metadata:
+      labels:
+        app: eas-fetcher
+    spec:
+      containers:
+      - name: eas-fetcher-pod
+        image: index.docker.io/robbilie/eas:eas-node
+        imagePullPolicy: Always
+        ports:
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/secrets"
+          readOnly: true
+        env:
+        - name: APP_NAME
+          value: "Fetcher"
+        - name: HOST
+          value: "utils.space"
+        - name: UA
+          value: "Kubernetes EAS Node.js Fetcher Test (Robert Schuh/Vincent Eneticum)"
+        - name: MONGO_URL
+          value: "mongodb://138.201.40.82:27017"
+        - name: MONGO_DB
+          value: "test"
+        - name: XML_URL
+          value: "https://api.eveonline.com"
+        - name: CREST_URL
+          value: "https://crest-tq.eveonline.com"
+        - name: IMAGE_URL
+          value: "https://imageserver.eveonline.com"
+        - name: LOGIN_URL
+          value: "https://login.eveonline.com"
+        - name: ESI_URL
+          value: "https://esi.tech.ccp.is/latest"
+      volumes:
+      - name: config
+        secret:
+          secretName: eas-config

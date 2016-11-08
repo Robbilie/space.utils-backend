@@ -1,0 +1,41 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: eas-static-service
+  labels:
+    app: eas-static
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+  selector:
+    app: eas-static
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  labels:
+    app: eas-static
+  name: eas-static-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eas-static
+  template:
+    metadata:
+      labels:
+        app: eas-static
+    spec:
+      containers:
+      - name: eas-static-pod
+        image: index.docker.io/robbilie/eas:eas-nginx
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 30

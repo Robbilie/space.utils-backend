@@ -18,7 +18,7 @@
 					"killmails",
 					"systems",
 					"types"
-				].reduce((p, c) => !(p[c] = { href: `https://api.${config.app.host}/${c}/` }) || p, {})
+				].reduce((p, c) => !(p[c] = { href: `https://api.${process.env.HOST}/${c}/` }) || p, {})
 			);
 		}
 
