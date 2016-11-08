@@ -200,13 +200,13 @@ spec:
       paths:
       - backend:
           serviceName: eas-api-service
-          servicePort: 80
+          servicePort: 7080
   - host: ws.utils.space
     http:
       paths:
       - backend:
           serviceName: eas-ws-service
-          servicePort: 80
+          servicePort: 7080
 ---
 kind: Ingress
 apiVersion: extensions/v1beta1
@@ -227,10 +227,10 @@ spec:
       paths:
       - backend:
           serviceName: eas-api-service
-          servicePort: 443
+          servicePort: 7443
   - host: ws.utils.space
     http:
       paths:
       - backend:
           serviceName: eas-ws-service
-          servicePort: 443
+          servicePort: 7443
