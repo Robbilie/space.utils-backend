@@ -188,6 +188,7 @@ spec:
   - host: api.utils.space
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: eas-api-service
           servicePort: 80
