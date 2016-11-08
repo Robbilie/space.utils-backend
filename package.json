@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "docker build -f docker/eas-node -t robbilie/eas:eas-node . && docker push robbilie/eas:eas-node && docker build -f docker/iskstarter-node -t robbilie/eas:eas-nginx . && docker push robbilie/eas:eas-nginx",
     "start": "node --expose-gc --harmony_async_await index.js"
   },
   "author": "",
