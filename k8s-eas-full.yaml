@@ -188,14 +188,14 @@ spec:
   - host: api.utils.space
     http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: eas-api-service
           servicePort: 4001
   - host: ws.utils.space
     http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: eas-ws-service
           servicePort: 4002
