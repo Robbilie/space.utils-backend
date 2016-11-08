@@ -8,7 +8,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 4001
+  - port: 80
+    targetPort: 4001
   selector:
     app: eas-api
 ---
@@ -182,20 +183,11 @@ spec:
   tls:
   - hosts:
     - api.utils.space
-    - ws.utils.space
-    secretName: eas-ingress-secret
+    secretName: eas-ingress
   rules:
   - host: api.utils.space
     http:
       paths:
-      - path: /*
-        backend:
+      - backend:
           serviceName: eas-api-service
-          servicePort: 4001
-  - host: ws.utils.space
-    http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: eas-ws-service
-          servicePort: 4002
+          servicePort: 80
