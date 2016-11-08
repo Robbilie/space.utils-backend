@@ -8,12 +8,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: "http"
-    port: 80
-    targetPort: 4001
-  - name: "https"
-    port: 443
-    targetPort: 4001
+  - port: 4001
   selector:
     app: eas-api
 ---
@@ -69,12 +64,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: "http"
-    port: 80
-    targetPort: 4002
-  - name: "https"
-    port: 443
-    targetPort: 4002
+  - port: 4002
   selector:
     app: eas-ws
 ---
@@ -200,13 +190,13 @@ spec:
       paths:
       - backend:
           serviceName: eas-api-service
-          servicePort: 7080
+          servicePort: 4001
   - host: ws.utils.space
     http:
       paths:
       - backend:
           serviceName: eas-ws-service
-          servicePort: 7080
+          servicePort: 4002
 ---
 kind: Ingress
 apiVersion: extensions/v1beta1
@@ -227,10 +217,10 @@ spec:
       paths:
       - backend:
           serviceName: eas-api-service
-          servicePort: 7443
+          servicePort: 4001
   - host: ws.utils.space
     http:
       paths:
       - backend:
           serviceName: eas-ws-service
-          servicePort: 7443
+          servicePort: 4002
