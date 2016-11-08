@@ -2,7 +2,6 @@
 	"use strict";
 
 	const { Server } 				= require("ws");
-	const routes 					= require("util/../../routes/api");
 	const { DBUtil } 				= require("util/");
 
 	class WSApp {
@@ -30,9 +29,6 @@
 					try {
 						const msg = JSON.parse(message);
 						switch (msg.type) {
-							case "http":
-								routes.handle(msg.data, { json: data => socket.json({ id: msg.id, data }) });
-								break;
 							case "stream":
 								DBUtil
 									.getOplogCursor({ ns: msg.data.name, op: "i" })
