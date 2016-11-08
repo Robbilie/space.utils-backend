@@ -10,6 +10,7 @@ spec:
   ports:
   - port: 80
     targetPort: 4001
+    protocol: TCP
   selector:
     app: eas-api
 ---
@@ -35,7 +36,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 4001
-          protocol: "TCP"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"
@@ -183,7 +183,7 @@ spec:
   tls:
   - hosts:
     - api.utils.space
-    secretName: eas-ingress
+    secretName: eas-ingress-tls
   rules:
   - host: api.utils.space
     http:
