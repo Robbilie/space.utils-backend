@@ -1,24 +1,27 @@
 
 	"use strict";
 
-	const { EntityHandler } = require("handler/");
+	const { EntityHandler } 	= require("handler/");
+	const { Corporation } 		= require("model/");
 
 	class CorporationHandler extends EntityHandler {
 
-		static getAlliance () {
-			return async (req, res) => {
-				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findOrCreate(req.swagger.params.corporationID.value);
-				res.json(await corporation.getAlliance().toJSON());
-			};
+		static get_alliance () {
+			return ({ swagger: { params: { corporation_id } } }, { json }) =>
+				Corporation
+					.find_or_create(corporation_id.value)
+					.get_alliance()
+					.toJSON()
+					.then(json);
 		}
 
-		static getCeo () {
-			return async (req, res) => {
-				let store 			= await CorporationHandler.getStore();
-				let corporation 	= await store.findOrCreate(req.swagger.params.corporationID.value);
-				res.json(await corporation.getCeo().toJSON());
-			};
+		static get_ceo () {
+			return ({ swagger: { params: { corporation_id } } }, { json }) =>
+				Corporation
+					.find_or_create(corporation_id.value)
+					.get_ceo()
+					.toJSON()
+					.then(json);
 		}
 
 	}

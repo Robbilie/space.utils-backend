@@ -12,44 +12,44 @@ produces:
 schemes:
   - https
 parameters:
-  characterID:
-    name: characterID
+  character_id:
+    name: character_id
     in: path
     type: integer
     format: int64
     required: true
-  corporationID:
-    name: corporationID
+  corporation_id:
+    name: corporation_id
     in: path
     type: integer
     format: int64
     required: true
-  allianceID:
-    name: allianceID
+  alliance_id:
+    name: alliance_id
     in: path
     type: integer
     format: int64
     required: true
-  factionID:
-    name: factionID
+  faction_id:
+    name: faction_id
     in: path
     type: integer
     format: int64
     required: true
-  killmailID:
-    name: killmailID
+  killmail_id:
+    name: killmail_id
     in: path
     type: integer
     format: int64
     required: true
-  systemID:
-    name: systemID
+  system_id:
+    name: system_id
     in: path
     type: integer
     format: int64
     required: true
-  typeID:
-    name: typeID
+  type_id:
+    name: type_id
     in: path
     type: integer
     format: int64
@@ -111,11 +111,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/characters/{characterID}/':
+  '/characters/{character_id}/':
     parameters:
-      - $ref: '#/parameters/characterID'
+      - $ref: '#/parameters/character_id'
     get:
-      operationId: CharacterHandler_getById
+      operationId: CharacterHandler_get_by_id
       tags:
         - characters
       summary: ""
@@ -130,11 +130,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/characters/{characterID}/corporation/':
+  '/characters/{character_id}/corporation/':
     parameters:
-      - $ref: '#/parameters/characterID'
+      - $ref: '#/parameters/character_id'
     get:
-      operationId: CharacterHandler_getCorporation
+      operationId: CharacterHandler_get_corporation
       tags:
         - characters
       summary: ""
@@ -176,11 +176,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/corporations/{corporationID}/':
+  '/corporations/{corporation_id}/':
     parameters:
-      - $ref: '#/parameters/corporationID'
+      - $ref: '#/parameters/corporation_id'
     get:
-      operationId: CorporationHandler_getById
+      operationId: CorporationHandler_get_by_id
       tags:
         - corporations
       summary: ""
@@ -196,11 +196,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/corporations/{corporationID}/alliance/':
+  '/corporations/{corporation_id}/alliance/':
     parameters:
-      - $ref: '#/parameters/corporationID'
+      - $ref: '#/parameters/corporation_id'
     get:
-      operationId: CorporationHandler_getAlliance
+      operationId: CorporationHandler_get_alliance
       tags:
         - corporations
       summary: ""
@@ -216,11 +216,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/corporations/{corporationID}/ceo/':
+  '/corporations/{corporation_id}/ceo/':
     parameters:
-      - $ref: '#/parameters/corporationID'
+      - $ref: '#/parameters/corporation_id'
     get:
-      operationId: CorporationHandler_getCeo
+      operationId: CorporationHandler_get_ceo
       tags:
         - corporations
       summary: ""
@@ -262,11 +262,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/alliances/{allianceID}/':
+  '/alliances/{alliance_id}/':
     parameters:
-      - $ref: '#/parameters/allianceID'
+      - $ref: '#/parameters/alliance_id'
     get:
-      operationId: AllianceHandler_getById
+      operationId: AllianceHandler_get_by_id
       tags:
         - alliances
       summary: ""
@@ -282,11 +282,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/alliances/{allianceID}/executor/':
+  '/alliances/{alliance_id}/executor/':
     parameters:
-      - $ref: '#/parameters/allianceID'
+      - $ref: '#/parameters/alliance_id'
     get:
-      operationId: AllianceHandler_getExecutor
+      operationId: AllianceHandler_get_executor
       tags:
         - alliances
       summary: ""
@@ -302,11 +302,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/alliances/{allianceID}/corporations/':
+  '/alliances/{alliance_id}/corporations/':
     parameters:
-      - $ref: '#/parameters/allianceID'
+      - $ref: '#/parameters/alliance_id'
     get:
-      operationId: AllianceHandler_getCorporations
+      operationId: AllianceHandler_get_corporations
       tags:
         - alliances
       summary: ""
@@ -348,11 +348,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/factions/{factionID}/':
+  '/factions/{faction_id}/':
     parameters:
-      - $ref: '#/parameters/factionID'
+      - $ref: '#/parameters/faction_id'
     get:
-      operationId: FactionHandler_getById
+      operationId: FactionHandler_get_by_id
       tags:
         - factions
       summary: ""
@@ -394,11 +394,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/killmails/{killmailID}/':
+  '/killmails/{killmail_id}/':
     parameters:
-      - $ref: '#/parameters/killmailID'
+      - $ref: '#/parameters/killmail_id'
     get:
-      operationId: KillmailHandler_getById
+      operationId: KillmailHandler_get_by_id
       tags:
         - killmails
       summary: ""
@@ -414,16 +414,16 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/killmails/{killmailID}/{hash}/':
+  '/killmails/{killmail_id}/{hash}/':
     parameters:
-      - $ref: '#/parameters/killmailID'
+      - $ref: '#/parameters/killmail_id'
       - name: hash
         in: path
         description: The Killmail Hash
         type: string
         required: true
     get:
-      operationId: KillmailHandler_getByIdAndHash
+      operationId: KillmailHandler_get_by_id_and_hash
       tags:
         - killmails
       summary: ""
@@ -465,11 +465,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/systems/{systemID}/':
+  '/systems/{system_id}/':
     parameters:
-      - $ref: '#/parameters/systemID'
+      - $ref: '#/parameters/system_id'
     get:
-      operationId: SystemHandler_getById
+      operationId: SystemHandler_get_by_id
       tags:
         - systems
       summary: ""
@@ -511,11 +511,11 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/types/{typeID}/':
+  '/types/{type_id}/':
     parameters:
-      - $ref: '#/parameters/typeID'
+      - $ref: '#/parameters/type_id'
     get:
-      operationId: TypeHandler_getById
+      operationId: TypeHandler_get_by_id
       tags:
         - types
       summary: ""

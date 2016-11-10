@@ -1,16 +1,17 @@
 
 	"use strict";
 
-	const { EntityHandler } = require("handler/");
+	const { EntityHandler } 	= require("handler/");
+	const { Killmail } 			= require("model/");
 
 	class KillmailHandler extends EntityHandler {
 
-		static getByIdAndHash () {
-			return async (req, res) => {
-				let store 		= await KillmailHandler.getStore();
-				let killmail 	= await store.findOrCreate(req.swagger.params.killID.value, req.swagger.params.hash.value);
-				res.json(await killmail.toJSON());
-			};
+		static get_by_id_and_hash () {
+			return ({ swagger: { params: { killmail_id, hash } } }, { json }) =>
+				Killmail
+					.find_or_create(killmail_id.value, hash.value)
+					.toJSON()
+					.then(json);
 		}
 
 	}

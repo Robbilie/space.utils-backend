@@ -1,16 +1,18 @@
 
 	"use strict";
 
-	const { EntityHandler } = require("handler/");
+	const { EntityHandler } 	= require("handler/");
+	const { Corporation } 		= require("model/");
 
 	class CharacterHandler extends EntityHandler {
 
-		static getCorporation () {
-			return async (req, res) => {
-				let store 		= await CharacterHandler.getStore();
-				let character 	= await store.findOrCreate(req.swagger.params.characterID.value);
-				res.json(await character.getCorporation().toJSON());
-			};
+		static get_corporation () {
+			return ({ swagger: { params: { character_id } } }, { json }) =>
+				Corporation
+					.find_or_create(character_id.value)
+					.get_corporation()
+					.toJSON()
+					.then(json);
 		}
 
 	}

@@ -9,8 +9,8 @@
 	class RootHandler extends BaseHandler {
 
 		static home () {
-			return async (req, res) => res.json(
-				[
+			return async (_, { json}) =>
+				json([
 					"alliances",
 					"characters",
 					"corporations",
@@ -18,15 +18,14 @@
 					"killmails",
 					"systems",
 					"types"
-				].reduce((p, c) => !(p[c] = { href: `https://api.${process.env.HOST}/${c}/` }) || p, {})
-			);
+				].reduce((p, c) => !(p[c] = { href: `https://api.${process.env.HOST}/${c}/` }) || p, {}));
 		}
 
 		static client () {
-			return async (req, res) => {
+			return async (_, { set, send }) => {
 				ejs.renderFile(process.env.NODE_PATH + "/../views/client.ejs", { swagger }, (err, data) => {
-					res.set("Content-Type", "text/javascript");
-					res.send(err ? JSON.stringify(err, null, 2) : data);
+					set("Content-Type", "text/javascript");
+					send(err ? JSON.stringify(err, null, 2) : data);
 				});
 			};
 		}
