@@ -22,12 +22,11 @@
 		}
 
 		static client () {
-			return async (_, { set, send }) => {
+			return (_, { set, send }) => 
 				ejs.renderFile(process.env.NODE_PATH + "/../views/client.ejs", { swagger }, (err, data) => {
 					set("Content-Type", "text/javascript");
 					send(err ? JSON.stringify(err, null, 2) : data);
 				});
-			};
 		}
 
 	}
