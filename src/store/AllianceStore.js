@@ -31,5 +31,30 @@
 
 	}
 
+	AllianceStore.aggregations = [
+		{
+			$lookup: {
+				from: 			"corporations",
+				localField: 	"executorID",
+				foreignField: 	"id",
+				as: 			"executor"
+			}
+		},
+		{
+			$unwind: {
+				path: 			"$executor",
+				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$lookup: {
+				from: 			"corporations",
+				localField: 	"id",
+				foreignField: 	"allianceID",
+				as: 			"corporations"
+			}
+		}
+	];
+
 	module.exports = AllianceStore;
 	

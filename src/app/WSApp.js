@@ -6,14 +6,6 @@
 
 	class WSApp {
 
-		constructor () {
-			try {
-				this.init();
-			} catch (e) {
-				console.log(e);
-			}
-		}
-
 		async init () {
 
 			this.ws = new Server({ port: parseInt(process.env.APP_PORT) });

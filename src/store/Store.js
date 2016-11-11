@@ -60,7 +60,7 @@
 				.aggregate([
 					{$match: match},
 					...options,
-					...(this.getType().aggregations || [])
+					...(this.constructor.aggregations || [])
 				]/*, { allowDiskUse: true }*/); // possibly slower?
 		}
 

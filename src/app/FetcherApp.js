@@ -22,12 +22,6 @@
 			};
 			this.processing = 0;
 			this.lastTS = undefined;
-
-			try {
-				this.init();
-			} catch (e) {
-				console.log(e, new Error());
-			}
 		}
 
 		async init () {

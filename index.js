@@ -1,31 +1,23 @@
 
 	"use strict";
 
+	// allow more parallel requests
 	process.env.UV_THREADPOOL_SIZE = 128;
 
+	// allow relative imports
 	process.env.NODE_PATH = __dirname + "/src";
 	require("module").Module._initPaths();
 
+	// preload some basic modifications
 	require("lib/extendings")();
 
-	try {
-		const heapdump = require("heapdump");
-	} catch (e) {
-		console.log("Couldn't load heapdump");
-	}
-
-	process.on('warning', (warning) => {
-		console.warn(warning.name);    // Print the warning name
-		console.warn(warning.message); // Print the warning message
-		console.warn(warning.stack);   // Print the stack trace
-	});
-	
+	// import the k8s secrets into a global variable
 	global.config = require("js-yaml").safeLoad(new Buffer(require("fs").readFileSync("/etc/secrets/config.yaml"), "base64"));
 
-	const raven 				= require("raven");
-
+	// setup sentry if dsn is set
 	global.err = {};
 	if(config.sentry.dsn && config.sentry.dsn != "") {
+		const raven = require("raven");
 		var client = new raven.Client(config.sentry.dsn);
 		client.patchGlobal();
 		client.setUserContext({
@@ -34,13 +26,14 @@
 		err.raven = client;
 	}
 
+	// dynamically load app and launch it
 	const { LoadUtil } = require("util/");
-	
-	const App = LoadUtil.app(process.env.APP_NAME);
-	const app = new App();
+	const app = new (LoadUtil.app(process.env.APP_NAME))();
 
-	/* REPL */
+	// init app
+	app.init().catch(e => console.log(e));
 
+	// start a repl, probably not that useful anymore
 	const repl = require("repl");
 	const r = repl.start({
 		prompt: 'Node.js via stdin> ',
