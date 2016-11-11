@@ -1,16 +1,19 @@
 
 	"use strict";
 
-	const { PatchUtil } 			= require("util/");
 	const { Base } 					= require("model/");
 
 	class System extends Base {
 
-		getId () {}
+		get_id () {}
 
-		getName () {}
+		get_name () {}
 
 	}
+
+	module.exports = System;
+
+	/* TYPE DEFINITION */
 
 	System.types = {
 		id: 				Number,
@@ -18,6 +21,6 @@
 		securityStatus: 	Number
 	};
 
-	PatchUtil.model(System);
+	const { PatchUtil } = require("util/");
 
-	module.exports = System;
+	PatchUtil.model(System);

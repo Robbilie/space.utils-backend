@@ -1,12 +1,12 @@
 
 	"use strict";
 
-	const { List } = require("model/");
+	const { List, Corporation } = require("model/");
 
 	class CorporationList extends List {
 
 		constructor (data) {
-			super("Corporation", data);
+			super(Corporation, data);
 		}
 
 	}

@@ -7,19 +7,11 @@
 
 	class KillmailItem extends Base {
 
-		toJSON (depth = 2) {
-			return this.constructor.toJSON(this.constructor.name, this.getFuture(), 1);
+		serialize () {
+			return this.constructor.serialize(this.constructor.name, this.getFuture(), 1);
 		}
 
 	}
-
-	KillmailItem.types = {
-		singleton: 				Number,
-		flag: 					Number,
-		quantityDestroyed: 		Number,
-		quantityDropped: 		Number,
-		itemType: 				"Type"
-	};
 
 	class KillmailItemList extends List {
 
@@ -31,43 +23,19 @@
 
 	class KillmailVictim extends Base {
 
-		toJSON (depth = 1) {
-			return this.constructor.toJSON(this.constructor.name, this.getFuture(), depth);
+		serialize (depth = 1) {
+			return this.constructor.serialize(this.constructor.name, this.getFuture(), depth);
 		}
 
 	}
-
-	KillmailVictim.types = {
-		damageTaken: 	Number,
-		position: 		Object,
-		items: 			KillmailItemList,
-		character: 		"Character",
-		corporation: 	"Corporation",
-		alliance: 		"Alliance",
-		faction: 		"Faction",
-		shipType: 		"Type",
-		weaponType: 	"Type"
-	};
 
 	class KillmailAttacker extends Base {
 
-		toJSON (depth = 2) {
-			return this.constructor.toJSON(this.constructor.name, this.getFuture(), 1);
+		serialize () {
+			return this.constructor.serialize(this.constructor.name, this.getFuture(), 1);
 		}
 
 	}
-
-	KillmailAttacker.types = {
-		finalBlow: 			Boolean,
-		securityStatus: 	Number,
-		damageDone: 		Number,
-		character: 			"Character",
-		corporation: 		"Corporation",
-		alliance: 			"Alliance",
-		faction: 			"Faction",
-		shipType: 			"Type",
-		weaponType: 		"Type"
-	};
 
 	class KillmailAttackerList extends List {
 
@@ -77,17 +45,61 @@
 
 	}
 
+	class Killmail {
+
+		get_id () {}
+
+	}
+
+	module.exports = Killmail;
+
+	/* TYPE DEFINITION */
+
+	const { System, Type, Character, Corporation, Alliance, Faction } = require("model/");
+
+	KillmailItem.types = {
+		singleton: 				Number,
+		flag: 					Number,
+		quantityDestroyed: 		Number,
+		quantityDropped: 		Number,
+		itemType: 				Type
+	};
+
+	KillmailVictim.types = {
+		damageTaken: 	Number,
+		position: 		Object,
+		items: 			KillmailItemList,
+		character: 		Character,
+		corporation: 	Corporation,
+		alliance: 		Alliance,
+		faction: 		Faction,
+		shipType: 		Type,
+		weaponType: 	Type
+	};
+
+	KillmailAttacker.types = {
+		finalBlow: 			Boolean,
+		securityStatus: 	Number,
+		damageDone: 		Number,
+		character: 			Character,
+		corporation: 		Corporation,
+		alliance: 			Alliance,
+		faction: 			Faction,
+		shipType: 			Type,
+		weaponType: 		Type
+	};
+
 	Killmail.types = {
 		_id: 				ObjectId,
 		killID: 			Number,
 		hash: 				String,
-		solarSystem: 		"System",
+		solarSystem: 		System,
 		killTime: 			Number,
 		attackers: 			KillmailAttackerList,
 		attackerCount: 		Number,
 		victim: 			KillmailVictim
 	};
 
-	PatchUtil.model(Killmail);
+	const { PatchUtil } = require("util/");
 
-	module.exports = Killmail;
+	PatchUtil.model(Killmail);

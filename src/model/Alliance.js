@@ -1,8 +1,7 @@
 
 	"use strict";
 
-	const { PatchUtil } 	= require("util/");
-	const { Entity } 		= require("model/");
+	const { Entity } = require("model/");
 
 	class Alliance extends Entity {
 
@@ -10,21 +9,28 @@
 
 		get_corporations () {}
 
+		// TODO move to store?
 		get_members () {
 			return this.getStore().get_members(this);
 		}
 
 	}
 
+	module.exports = Alliance;
+
+	/* TYPE DEFINITION */
+
+	const { Corporation, CorporationList } = require("model/");
+
 	Alliance.types = {
 		id: 			Number,
 		name: 			String,
 		shortName: 		String,
-		executor: 		"Corporation",
-		corporations: 	"CorporationList",
+		executor: 		Corporation,
+		corporations: 	CorporationList,
 		updated: 		Number
 	};
 
-	PatchUtil.model(Alliance);
+	const { PatchUtil } = require("util/");
 
-	module.exports = Alliance;
+	PatchUtil.model(Alliance);

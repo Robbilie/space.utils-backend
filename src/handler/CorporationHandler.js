@@ -11,7 +11,7 @@
 				Corporation
 					.find_or_create(corporation_id.value)
 					.get_alliance()
-					.toJSON()
+					.serialize()
 					.then(json);
 		}
 
@@ -20,7 +20,7 @@
 				Corporation
 					.find_or_create(corporation_id.value)
 					.get_ceo()
-					.toJSON()
+					.serialize()
 					.then(json);
 		}
 

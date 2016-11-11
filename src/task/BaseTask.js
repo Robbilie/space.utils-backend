@@ -43,13 +43,13 @@
 			return this
 				.get_tasks()
 				.then(tasks => tasks
-					.update({ _id: this.get_id() }, { $set: { info: Object.assign(this.get_info(), options) } })
-					.then(() => options.state == 2 ? tasks.update({ _id: this.get_id() }, { "info.state": 0 }) : Promise.resolve())
+					.update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), options) } })
+					.then(() => options.state == 2 ? tasks.update({ _id: this.get__id() }, { "info.state": 0 }) : Promise.resolve())
 				);
 		}
 		
 		destroy () {
-			return this.get_tasks().then(tasks => tasks.remove({ _id: this.get_id() }));
+			return this.get_tasks().then(tasks => tasks.remove({ _id: this.get__id() }));
 		}
 		
 		create (name, data = {}) {
@@ -110,7 +110,7 @@
 		async update (changes = {}) {
 			return this.worker.getTasks().update(
 				{ 
-					_id: await this.task.get_id()
+					_id: await this.task.get__id()
 				}, 
 				{ 
 					$set: { 
@@ -121,7 +121,7 @@
 		}
 
 		async destroy () {
-			return this.worker.getTasks().destroy({ _id: await this.task.get_id() });
+			return this.worker.getTasks().destroy({ _id: await this.task.get__id() });
 		}
 
 		static create (data = {}, info = { type: this.getType(), timestamp: 0, state: 0, name: this.name }) {
@@ -175,7 +175,7 @@
 							} else {
 								let task = await tasks.findBy_id(log.o2._id);
 								if(!await task.isNull() && (await task.getInfo()).state == 2)
-								tid = (await task.get_id()).toString();
+								tid = (await task.get__id()).toString();
 							}
 						}
 						if(tid && storage.tasks.get(tid)) {

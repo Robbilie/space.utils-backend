@@ -1,28 +1,33 @@
 
 	"use strict";
 
-	const { PatchUtil } 	= require("util/");
 	const { Entity } 		= require("model/");
 
 	class Corporation extends Entity {
 
-		getCeo () {}
+		get_ceo () {}
 
-		getAlliance () {}
+		get_alliance () {}
 
 	}
+
+	module.exports = Corporation;
+
+	/* TYPE DEFINITION */
+
+	const { Character, Alliance } = require("model/");
 
 	Corporation.types = {
 		id: 			Number,
 		name: 			String,
 		ticker: 		String,
 		description: 	String,
-		ceo: 			"Character",
-		alliance: 		"Alliance",
+		ceo: 			Character,
+		alliance: 		Alliance,
 		updated: 		Number
 	};
 
-	PatchUtil.model(Corporation);
+	const { PatchUtil } 	= require("util/");
 
-	module.exports = Corporation;
+	PatchUtil.model(Corporation);
 	

@@ -1,7 +1,6 @@
 
 	"use strict";
 
-	const { LoadUtil } 	= require("util/");
 	const { Base } 		= require("model/");
 
 	class PatchUtil {
@@ -10,7 +9,7 @@
 			PatchUtil.filter(model).forEach(prop => {
 
 				const field = prop.slice(3).lowercaseFirstLetter();
-				const type = !model.types[field] ? model.types[field] : (model.types[field].name ? model.types[field] : LoadUtil.model(model.types[field]));
+				const type = model.types[field];
 
 				if(type && typeof(type) === "function" && type.prototype instanceof Base)
 					Object.defineProperty(model.prototype, prop, {

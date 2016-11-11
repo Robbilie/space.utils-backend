@@ -1,14 +1,19 @@
 
 	"use strict";
 
-	const { PatchUtil } 	= require("util/");
-	const { Entity } 		= require("model/");
+	const { Entity } = require("model/");
 
 	class Character extends Entity {
 
-		getCorporation () {}
+		get_corporation () {}
 
 	}
+
+	module.exports = Character;
+
+	/* TYPE DEFINITION */
+
+	const { Corporation } = require("model/");
 
 	Character.types = {
 		id: 			Number,
@@ -17,7 +22,7 @@
 		updated: 		Number
 	};
 
-	PatchUtil.model(Character);
+	const { PatchUtil } = require("util/");
 
-	module.exports = Character;
+	PatchUtil.model(Character);
 	

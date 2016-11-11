@@ -21,7 +21,7 @@
 		async init () {
 
 			// get stores
-			this.tasks 		= await DBUtil.getStore("Task");
+			this.tasks 		= await DBUtil.get_store("Task");
 
 			// gc frequently
 			if(typeof(gc) != "undefined")

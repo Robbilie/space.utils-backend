@@ -17,8 +17,8 @@
 			return LoadUtil.file(`handler/${name}Handler`);
 		}
 
-		static store (name) {
-			return LoadUtil.file(`store/${name}Store`) || LoadUtil.file(`store/Store`);
+		static store (name = "") {
+			return LoadUtil.file(`store/${name}Store`);
 		}
 
 		static app (name) {
@@ -29,23 +29,10 @@
 			try {
 				return require(name);
 			} catch (e) {
-				//if(e.constructor.name == "SyntaxError")
 				if(e.code != "MODULE_NOT_FOUND")
 					console.log(e);
 				return null;
 			}
-		}
-
-		static reloadClass (className) {
-			return LoadUtil.reload(require.resolve(className));
-		}
-
-		static reloadFolder (folderName) {
-			return LoadUtil.reload(path.dirname(require.resolve(folderName || "")));
-		}
-
-		static reloadAll () {
-			return LoadUtil.reloadFolder();
 		}
 
 		static reload (name) {

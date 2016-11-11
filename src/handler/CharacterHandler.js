@@ -11,7 +11,7 @@
 				Corporation
 					.find_or_create(character_id.value)
 					.get_corporation()
-					.toJSON()
+					.serialize()
 					.then(json);
 		}
 

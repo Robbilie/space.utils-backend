@@ -83,7 +83,7 @@
 			} else {
 				console.log("invalid char", (await this.getData()).characterID, response);
 				if(!(await this.getData()).characterID) {
-					console.log("WAAAAAAAAAAAAAARRRRRRRRRRRRRRRRNIIIIIIIIIIIIIIINGGGGG", await this.getTask().get_id());
+					console.log("WAAAAAAAAAAAAAARRRRRRRRRRRRRRRRNIIIIIIIIIIIIIIINGGGGG", await this.getTask().get__id());
 					return;
 				}
 				if(response && response.eveapi && response.eveapi.error && response.eveapi.error[0].$.code != "105") {

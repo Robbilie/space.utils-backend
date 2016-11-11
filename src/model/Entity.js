@@ -1,24 +1,28 @@
 
 	"use strict";
 
-	const { PatchUtil, DBUtil } 	= require("util/");
-	const { Base } 					= require("model/");
+	const { DBUtil } 	= require("util/");
+	const { Base } 		= require("model/");
 	
 	class Entity extends Base {
 
-		getId () {}
+		get_id () {}
 
-		getName () {}
+		get_name () {}
 
-		getSettings () {
+		get_settings () {
 			return DBUtil
 				.getStore("Settings")
 				.then(async (store) => store.findById(await this.getId()));
 		}
 
-		getUpdated () {}
+		get_updated () {}
 		
 	}
+
+	module.exports = Entity;
+
+	/* TYPE DEFINITION */
 
 	Entity.types = {
 		id: 		Number,
@@ -26,7 +30,7 @@
 		updated: 	Number
 	};
 
-	PatchUtil.model(Entity);
+	const { PatchUtil } = require("util/");
 
-	module.exports = Entity;
+	PatchUtil.model(Entity);
 	

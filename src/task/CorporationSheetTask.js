@@ -84,7 +84,7 @@
 			} else {
 				console.log("invalid corp", (await this.getData()).corporationID, response ? response.eveapi.result || response.eveapi.error : response);
 				if(!(await this.getData()).corporationID) {
-					console.log("WAAAAAAAAAAAAAARRRRRRRRRRRRRRRRNIIIIIIIIIIIIIIINGGGGG", await this.getTask().get_id());
+					console.log("WAAAAAAAAAAAAAARRRRRRRRRRRRRRRRNIIIIIIIIIIIIIIINGGGGG", await this.getTask().get__id());
 				}
 				if(response && response.eveapi && response.eveapi.error && response.eveapi.error[0].$.code == "523") {
 					await this.destroy();

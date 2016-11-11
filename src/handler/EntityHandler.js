@@ -9,12 +9,11 @@
 		static filter () {
 			return ({ swagger: { params }, body: { filter, options } }, { json }) =>
 				LoadUtil
-					.model(this.name.slice(0, -7))
+					.model(`${this.name.slice(0, -7)}List`)
 					.from_cursor(c => c
 						.find(InputUtil.sanitize(filter), InputUtil.limit(options))
 					)
-					.map(item => item.toJSON())
-					.toJSON()
+					.serialize()
 					.then(items => json({ items }));
 		}
 
@@ -23,7 +22,7 @@
 				LoadUtil
 					.model(this.name.slice(0, -7))
 					.find_or_create(params[this.name.slice(0, -7).toLowerCase() + "_id"].value)
-					.toJSON()
+					.serialize()
 					.then(json);
 		}
 

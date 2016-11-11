@@ -2,16 +2,15 @@
 	"use strict";
 
 	const { Base } 		= require("model/");
-	const { LoadUtil } 	= require("util/");
 
 	class List extends Base {
 
 		constructor (type, data) {
 			super(data);
-			this.type = type.name ? type : LoadUtil.model(type);
+			this.type = type;
 		}
 
-		getType () {
+		get_type () {
 			return this.type;
 		}
 
@@ -20,19 +19,17 @@
 		}
 
 		toArray () {
-			return this.getFuture().then(arr => arr.map(el => new (this.getType())(el)));
+			return this.getFuture().then(arr => arr.map(el => new (this.get_type())(el)));
 		}
 
-		/* should work ? */
 		map (fn) {
 			return this.getFuture().then(data => Promise.all(data.map(fn)));
 		}
 
-		toJSON (depth = 2) {
+		serialize (depth = 2) {
 			return this
 				.getFuture()
-				.then(arr => arr.map(el => new (this.getType())(el)))
-				.then(arr => Promise.all(arr.map(el => el.toJSON(depth - 1))));
+				.then(arr => Promise.all(arr.map(el => el.serialize(depth - 1))));
 		}
 
 	}

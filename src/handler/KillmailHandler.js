@@ -10,7 +10,7 @@
 			return ({ swagger: { params: { killmail_id, hash } } }, { json }) =>
 				Killmail
 					.find_or_create(killmail_id.value, hash.value)
-					.toJSON()
+					.serialize()
 					.then(json);
 		}
 

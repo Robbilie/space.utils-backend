@@ -11,7 +11,7 @@
 				Alliance
 					.find_or_create(alliance_id.value)
 					.get_executor()
-					.toJSON()
+					.serialize()
 					.then(json);
 		}
 
@@ -20,7 +20,7 @@
 				Alliance
 					.find_or_create(alliance_id.value)
 					.get_corporations()
-					.toJSON()
+					.serialize()
 					.then(json);
 		}
 
