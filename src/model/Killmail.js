@@ -1,9 +1,7 @@
 
 	"use strict";
 
-	const { ObjectId } 					= require("mongodb");
-	const { Base } 						= require("model/");
-	const { List } 						= require("model/");
+	const { Base, List } = require("model/");
 
 	class KillmailItem extends Base {
 
@@ -55,6 +53,7 @@
 
 	/* TYPE DEFINITION */
 
+	const { ObjectId } = require("mongodb");
 	const { System, Type, Character, Corporation, Alliance, Faction } = require("model/");
 
 	KillmailItem.types = {
