@@ -55,36 +55,6 @@ parameters:
     format: int64
     required: true
 paths:
-  '/':
-    get:
-      operationId: RootHandler_home
-      summary: Root
-      description: |
-        The root endpoint of the api, returns urls to the other endpoints.
-      responses:
-        '200':
-          description: The root endpoint
-          schema:
-            $ref: '#/definitions/Root'
-        '400':
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  '/client.js':
-    get:
-      operationId: RootHandler_client
-      summary: JS Client
-      description: |
-        A JS Client for Client and Server
-      responses:
-        '200':
-          description: The Client
-          schema:
-            type: string
-        '400':
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   '/characters/':
     post:
       operationId: CharacterHandler_filter
