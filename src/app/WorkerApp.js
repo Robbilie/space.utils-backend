@@ -58,17 +58,17 @@
 
 			// wait if not yet run out or skip and restart polling
 			await timeout;
-			this.pollForTasks();
+			setImmediate(() => this.pollForTasks());
 
 		}
 
 		startTaskCursor (lastTS) {
 			const storage = { lastTS };
-			return this.tasks.getUpdates({ op: "i", "o.info.timestamp": 0 }, storage.lastTS).then(updates => updates.each((err, data) => {
+			return this.tasks.getUpdates({ op: "i", "o.info.timestamp": 0 }, storage.lastTS).then(updates => updates.each((err, { ts, o }) => {
 				if(err)
 					return console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.startTaskCursor(storage.lastTS));
-				storage.lastTS = data.ts;
-				this.process(data.o._id, data.o.info.timestamp);
+				storage.lastTS = ts;
+				this.process(o._id, o.info.timestamp);
 			}));
 		}
 
@@ -113,4 +113,3 @@
 	}
 
 	module.exports = WorkerApp;
-	

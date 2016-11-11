@@ -35,11 +35,9 @@
 			return DBUtil.get_db().then(db => db.collection(collectionName));
 		}
 
-		/********/
-
 		static get_store (storeName) {
 			return DBUtil
-				.getDB()
+				.get_db()
 				.then(db => storage.stores.get(storeName) || storage.stores.set(storeName, new (LoadUtil.store(storeName))(db, LoadUtil.model(storeName))).get(storeName))
 				.catch(e => console.log(storeName, e, new Error()));
 		}

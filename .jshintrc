@@ -4,6 +4,7 @@
 	"indent": 			1,
 	"node": 			true,
 	"globals": {
+		"setImmediate": true,
 		"require": 		true,
 		"config": 		true,
 		"escape":		true,
