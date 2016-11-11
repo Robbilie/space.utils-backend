@@ -24,11 +24,11 @@
 		}
 
 		static get_db () {
-			return DBUtil.getConnection("db", process.env.MONGO_DB);
+			return DBUtil.get_connection("db", process.env.MONGO_DB);
 		}
 
 		static get_oplog () {
-			return DBUtil.getConnection("oplog", "local");
+			return DBUtil.get_connection("oplog", "local");
 		}
 
 		static get_collection (collectionName) {
@@ -37,19 +37,19 @@
 
 		/********/
 
-		static getStore (storeName) {
+		static get_store (storeName) {
 			return DBUtil
 				.getDB()
 				.then(db => storage.stores.get(storeName) || storage.stores.set(storeName, new (LoadUtil.store(storeName))(db, LoadUtil.model(storeName))).get(storeName))
 				.catch(e => console.log(storeName, e, new Error()));
 		}
 
-		static getOplogCursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
+		static get_oplog_cursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
 			const query = properties;
 				query.ns = properties.ns ? process.env.MONGO_DB + "." + properties.ns : { $regex: new RegExp("^" + process.env.MONGO_DB, "i") };
 			if(properties.op)
 				query.op = properties.op.constructor.name == "String" ? properties.op : { $in: properties.op };
-			// generate key so you dont regen the same cursor twice
+			// generate key so you don't regen the same cursor twice
 			const index = JSON.stringify(query);
 			// add timestamp afterwards otherwise index would differ
 			query.ts = { $gt: timestamp };
