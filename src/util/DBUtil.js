@@ -17,29 +17,31 @@
 
 	class DBUtil {
 
-		static getConnection (field, db) {
+		static get_connection (field, db) {
 			if(!storage[field])
 				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`).catch(e => delete storage[field]);
 			return storage[field];
 		}
 
-		static getDB () {
+		static get_db () {
 			return DBUtil.getConnection("db", process.env.MONGO_DB);
 		}
 
-		static getOplog () {
+		static get_oplog () {
 			return DBUtil.getConnection("oplog", "local");
 		}
+
+		static get_collection (collectionName) {
+			return DBUtil.get_db().then(db => db.collection(collectionName));
+		}
+
+		/********/
 
 		static getStore (storeName) {
 			return DBUtil
 				.getDB()
 				.then(db => storage.stores.get(storeName) || storage.stores.set(storeName, new (LoadUtil.store(storeName))(db, LoadUtil.model(storeName))).get(storeName))
 				.catch(e => console.log(storeName, e, new Error()));
-		}
-
-		static getCollection (collectionName) {
-			return DBUtil.getDB().then(db => db.collection(collectionName));
 		}
 
 		static getOplogCursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {

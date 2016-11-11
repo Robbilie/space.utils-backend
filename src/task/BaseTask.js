@@ -13,6 +13,69 @@
 
 	class BaseTask {
 
+		constructor ({ _id, info, data }) {
+			this.id = _id;
+			this.info = info;
+			this.data = data;
+		}
+
+		get_id () {
+			return this.id;
+		}
+
+		get_info () {
+			return this.info;
+		}
+
+		get_data () {
+			return this.data;
+		}
+
+		get_tasks () {
+			return DBUtil.get_collection("tasks");
+		}
+
+		get_collection () {
+			return DBUtil.get_collection(this.name.slice(0, -4).toLowerCase().pluralize());
+		}
+
+		update (options = {}) {
+			return this
+				.get_tasks()
+				.then(tasks => tasks
+					.update({ _id: this.get_id() }, { $set: { info: Object.assign(this.get_info(), options) } })
+					.then(() => options.state == 2 ? tasks.update({ _id: this.get_id() }, { "info.state": 0 }) : Promise.resolve())
+				);
+		}
+		
+		destroy () {
+			return this.get_tasks().then(tasks => tasks.remove({ _id: this.get_id() }));
+		}
+		
+		create (name, data = {}) {
+			return BaseTask.create(name, data);
+		}
+
+		static create (name, data = {}) {
+			return this.get_tasks().then(tasks => tasks.update(
+				{ data, "info.name": name },
+				{
+					$setOnInsert: {
+						data,
+						info: {
+							name,
+							state: 0,
+							timestamp: 0,
+							modified: 0
+						}
+					}
+				},
+				{ upsert: true }
+			));
+		}
+
+		/******/
+
 		constructor (worker, task) {
 			this.worker = worker;
 			this.task = task;
