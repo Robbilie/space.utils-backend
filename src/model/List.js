@@ -8,11 +8,11 @@
 
 		constructor (type, data) {
 			super(data);
-			this.type = type;
+			this.type = type.name ? type : LoadUtil.model(type);
 		}
 
 		getType () {
-			return LoadUtil.model(this.type);
+			return this.type;
 		}
 
 		get length () {

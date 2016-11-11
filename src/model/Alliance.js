@@ -6,12 +6,12 @@
 
 	class Alliance extends Entity {
 
-		getExecutor () {}
+		get_executor () {}
 
-		getCorporations () {}
+		get_corporations () {}
 
-		getMembers () {
-			return this.getStore().getMembers(this);
+		get_members () {
+			return this.getStore().get_members(this);
 		}
 
 	}

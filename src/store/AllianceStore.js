@@ -23,7 +23,7 @@
 			} catch (e) { console.log(e, new Error()); }
 		}
 
-		async getMembers (alliance, {} = $(1, { alliance }, "Alliance")) {
+		async get_members (alliance, {} = $(1, { alliance }, "Alliance")) {
 			let charStore = await DBUtil.getStore("Character");
 			let corporations = await alliance.getCorporations();
 			return charStore.getAll({ corporation: { $in: await Promise.all(corporations.map(corporation => corporation.getId())) } });

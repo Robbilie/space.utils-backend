@@ -4,6 +4,18 @@
 	const { DBUtil, LoadUtil } 			= require("util/");
 	const { Task } 						= require("model/");
 
+	const $or = [
+		{
+			"info.state": 0
+		},
+		{
+			"info.state": 1,
+			"info.modified": {
+				$lt: Date.now() - (1000 * 60)
+			}
+		}
+	];
+
 	class WorkerApp {
 
 		async init () {
@@ -35,17 +47,7 @@
 					"info.timestamp": {
 						$lt: Date.now()
 					},
-					$or: [
-						{
-							"info.state": 0
-						},
-						{
-							"info.state": 1,
-							"info.modified": {
-								$lt: Date.now() - (1000 * 60)
-							}
-						}
-					]
+					$or
 				})
 				.sort({ "info.timestamp": 1 })
 				.limit(200)
@@ -80,14 +82,7 @@
 
 				// update state and check if still valid
 				let task = await this.getTasks().findAndModify(
-					{
-						_id,
-						"info.timestamp": timestamp,
-						$or: [
-							{ "info.state": 0 },
-							{ "info.state": 1, "info.modified": { $lt: Date.now() - (1000 * 60) } }
-						]
-					},
+					{ _id, "info.timestamp": timestamp, $or },
 					[],
 					{
 						$set: {
@@ -95,9 +90,7 @@
 							"info.modified": Date.now()
 						}
 					},
-					{
-						new: true
-					}
+					{ new: true }
 				);
 
 				// task has already been taken by another worker
