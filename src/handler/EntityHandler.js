@@ -6,7 +6,7 @@
 
 	class EntityHandler extends BaseHandler {
 
-		static async filter ({ swagger: { params }, body: { filter, options } }, { json }) {
+		static async filter ({ body: { filter, options } }, { json }) {
 			json({ items: await LoadUtil
 				.store(`${this.name.slice(0, -7)}`)
 				.from_cursor(c => c
