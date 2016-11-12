@@ -2,13 +2,13 @@
 	"use strict";
 
 	const { EntityHandler } 	= require("handler/");
-	const { Corporation } 		= require("model/");
+	const { CorporationStore } 	= require("store/");
 
 	class CorporationHandler extends EntityHandler {
 
 		static get_alliance () {
 			return ({ swagger: { params: { corporation_id } } }, { json }) =>
-				Corporation
+				CorporationStore
 					.find_or_create(corporation_id.value)
 					.get_alliance()
 					.serialize()
@@ -17,7 +17,7 @@
 
 		static get_ceo () {
 			return ({ swagger: { params: { corporation_id } } }, { json }) =>
-				Corporation
+				CorporationStore
 					.find_or_create(corporation_id.value)
 					.get_ceo()
 					.serialize()
