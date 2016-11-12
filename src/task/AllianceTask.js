@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { BaseTask } 				= require("task/");
+	const { ESIUtil } 				= require("util/");
 
 	class AllianceTask extends BaseTask {
 
@@ -33,7 +34,7 @@
 
 			await this.update({
 				state: 2,
-				timestamp: new Date(corporations_response.expires).getTime()
+				timestamp: Math.max(new Date(alliance_response.expires).getTime(), new Date(corporations_response.expires).getTime())
 			});
 
 		}

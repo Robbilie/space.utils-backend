@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { BaseTask } 				= require("task/");
+	const { ESIUtil } 				= require("util/");
 
 	class TypeTask extends BaseTask {
 

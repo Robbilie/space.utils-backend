@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { BaseTask } 				= require("task/");
+	const { ESIUtil } 				= require("util/");
 
 	class CorporationTask extends BaseTask {
 
@@ -33,11 +34,11 @@
 				{ upsert: true }
 			);
 
-			// TODO: CEO Task and description field
+			// TODO: CEO Task and description field and alliance history?
 
 			await this.update({
 				state: 2,
-				timestamp: new Date(history_response.expires).getTime()
+				timestamp: Math.max(new Date(corporation_response.expires).getTime(), new Date(history_response.expires).getTime())
 			});
 
 		}
