@@ -19,7 +19,7 @@
 							if(data[field]) {
 								return store.from_data(data[field]);
 							} else {
-								return (store.find_or_create || store.find_by_pk)(data[`${field}_id`]);
+								return store.find_by_pk(data[`${field}_id`]);
 							}
 						}
 					});
@@ -43,7 +43,7 @@
 		static store (store) {
 			PatchUtil.filter(store).forEach(property => {
 
-				const slt = prop.split("_");
+				const slt = property.split("_");
 				const params = slt.slice(["by","where"].map(f => slt.indexOf(f) + 1).find(f => f > 0));
 
 				var method;
@@ -56,7 +56,7 @@
 						break;
 				}
 
-				Object.defineProperty(store.prototype, prop, {
+				Object.defineProperty(store, property, {
 					value: function (...args) {
 
 						let query = { [params[0]]: args[0] };

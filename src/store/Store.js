@@ -21,8 +21,6 @@
 
 		static find_or_create () {}
 
-		static find_by_pk () {}
-
 		static get_model () {
 			return LoadUtil.model(this.get_name());
 		}
@@ -51,6 +49,10 @@
 				local_storage.last_ts = log.ts;
 				fn(log);
 			}));
+		}
+
+		static find_by_pk (pk) {
+			return this.findOne({ [this.get_pk()]: pk });
 		}
 
 
@@ -119,10 +121,6 @@
 				]/*, { allowDiskUse: true }*/); // possibly slower?
 		}
 
-		getUpdates (options = {}, timestamp) {
-			return DBUtil.getOplogCursor(Object.assign(options, { ns: this.getName() }), timestamp);
-		}
-
 		update (where, data, options, ignore) {
 			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
 			return this.getCollection()
@@ -141,16 +139,6 @@
 			return this.getCollection()
 				.remove(where)
 				.then(docs => null);
-		}
-
-		insert (data = {}) {
-			return this.getCollection()
-				.insertOne(data)
-				.then(doc => new (this.getType())(doc.result.ok ? data : null));
-		}
-
-		findList (list, id, bare) {
-			return this.find({ [id ? id : "id"]: { $in: list } }, bare);
 		}
 
 	}

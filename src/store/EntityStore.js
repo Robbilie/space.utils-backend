@@ -2,24 +2,25 @@
 	"use strict";
 
 	const { Store } 		= require("store/");
-	const { PatchUtil } 	= require("util/");
 
 	class EntityStore extends Store {
 
-		get_pk () {
+		static get_pk () {
 			return "id";
 		}
 
-		find_by_pk (pk) {
+		static find_by_pk (pk) {
 			return this.find_or_create(pk);
 		}
 
-		find_by_id () {}
+		static find_by_id (id, {} = $(1, { id }, "Number")) {
+			return this.findOne({ id });
+		}
 
-		find_by_name () {}
+		static find_by_name (name, {} = $(1, { name }, "String")) {
+			return this.findOne({ name });
+		}
 
 	}
-
-	PatchUtil.store(EntityStore);
 
 	module.exports = EntityStore;
