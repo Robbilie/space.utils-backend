@@ -19,10 +19,10 @@
 
 	/* TYPE DEFINITION */
 
-	const { ObjectId } = require("mongodb");
+	const { ObjectID } = require("mongodb");
 
 	Task.types = {
-		_id: 	ObjectId,
+		_id: 	ObjectID,
 		info: 	Object,
 		data: 	Object
 	};

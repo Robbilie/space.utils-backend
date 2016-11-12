@@ -4,24 +4,18 @@
 	const { Store } 				= require("store/");
 	const { PatchUtil } 			= require("util/");
 	const { KillmailTask } 			= require("task/");
-	const { Killmail } 				= require("model/");
 
 	class KillmailStore extends Store {
 
-		constructor (db) {
-			super(db, Killmail);
-		}
-
-		async findOrCreate (id, hash, {} = $(1, { id }, "Number")) {
+		static async find_or_create (killmail_id, hash, {} = $(1, { killmail_id }, "Number")) {
 			try {
 
-				let killmail = await this.findByKillID(id);
+				let killmail = await this.findByKillID(killmail_id);
 
-				if(await killmail.isNull()) {
-					//console.log("killmail", !!killmail, id);
-					await KillmailJsonTask.create({ killID: id, hash });
-					killmail = await this.findByKillID(id);
-				}
+				if(await killmail.is_null())
+					await KillmailTask.create({ killmail_id, hash });
+
+				killmail = await this.findByKillID(killmail_id);
 
 				return killmail;
 

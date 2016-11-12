@@ -53,7 +53,7 @@
 
 	/* TYPE DEFINITION */
 
-	const { ObjectId } = require("mongodb");
+	const { ObjectID } = require("mongodb");
 	const { System, Type, Character, Corporation, Alliance, Faction } = require("model/");
 
 	KillmailItem.types = {
@@ -89,7 +89,7 @@
 	};
 
 	Killmail.types = {
-		_id: 				ObjectId,
+		_id: 				ObjectID,
 		killID: 			Number,
 		hash: 				String,
 		solarSystem: 		System,

@@ -2,23 +2,23 @@
 	"use strict";
 
 	const { EntityStore } 		= require("store/");
-	const { SystemJsonTask } 	= require("task/");
+	const { SystemTask } 		= require("task/");
 
 	class SystemStore extends EntityStore {
 
-		async findOrCreate (id, {} = $(1, { id }, "Number")) {
+		static async find_or_create (system_id, {} = $(1, { system_id }, "Number")) {
 
 			try {
 
-				let system = await this.findById(id);
+				let system = await this.find_by_id(system_id);
 
-				if(await system.isNull()) {
-					await SystemJsonTask.create({ systemID: id });
-					system = await this.findById(id);
-					if(await system.isNull()) {
-						console.log("MISSING SYSTEM", id);
-					}
-				}
+				if(await system.is_null())
+					await SystemTask.create({ system_id });
+
+				system = await this.find_by_id(system_id);
+
+				if(await system.is_null())
+					console.log("MISSING SYSTEM", system_id);
 
 				return system;
 

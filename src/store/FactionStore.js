@@ -6,19 +6,18 @@
 
 	class FactionStore extends EntityStore {
 
-		async findOrCreate (id, {} = $(1, { id }, "Number")) {
+		static async find_or_create (faction_id, {} = $(1, { faction_id }, "Number")) {
 			try {
 
-				let faction = await this.findById(id);
+				let faction = await this.find_by_id(faction_id);
 
-				if(await faction.isNull()) {
-					await FactionTask.create({ ids: [id] });
-					faction = await this.findById(id);
-				}
+				if(await faction.isNull())
+					await FactionTask.create({ ids: [faction_id] });
 
-				if(await faction.isNull()) {
-					console.log("MISSING FACTION", id);
-				}
+				faction = await this.find_by_id(faction_id);
+
+				if(await faction.isNull())
+					console.log("MISSING FACTION", faction_id);
 
 				return faction;
 

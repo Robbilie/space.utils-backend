@@ -1,23 +1,22 @@
 
 	"use strict";
 
-	const { DBUtil } 			= require("util/");
-	const { ObjectId } 			= require("mongodb");
+	const { DBUtil } = require("util/");
+	const { ObjectID } = require("mongodb");
 
-	const storage 					= {
-		tasks: 				new Map(),
-		stream: 			null
+	const storage = {
+		tasks: new Map()
 	};
 
 	class BaseTask {
 
 		constructor ({ _id, info, data }) {
-			this.id = _id;
+			this._id = _id;
 			this.info = info;
 			this.data = data;
 		}
 
-		get_id () {
+		get__id () {
 			return this.id;
 		}
 
@@ -29,7 +28,7 @@
 			return this.data;
 		}
 
-		get_tasks () {
+		static get_tasks () {
 			return DBUtil.get_collection("tasks");
 		}
 
@@ -37,33 +36,34 @@
 			return DBUtil.get_collection(this.name.slice(0, -4).toLowerCase().pluralize());
 		}
 
-		update (options = {}) {
-			return this
-				.get_tasks()
-				.then(tasks => tasks
-					.update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), options) } })
-					.then(() => options.state == 2 ? tasks.update({ _id: this.get__id() }, { "info.state": 0 }) : Promise.resolve())
-				);
+		async update (options = {}) {
+			let tasks = await BaseTask.get_tasks();
+
+			await tasks.update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), options) } });
+
+			if(options.state == 2)
+				tasks.update({ _id: this.get__id() }, { "info.state": 0 });
 		}
 		
-		destroy () {
-			return this.get_tasks().then(tasks => tasks.remove({ _id: this.get__id() }));
-		}
-		
-		create (name, data = {}) {
-			return BaseTask.create(name, data);
+		async destroy () {
+			let tasks = await BaseTask.get_tasks();
+			await tasks.remove({ _id: this.get__id() });
 		}
 
-		static create (name, data = {}, faf = false) {
-			return this.get_tasks().then(async tasks => {
+		static create (data = {}, faf = false) {
+			return this.create_task(this.name.slice(0, -4), data, faf);
+		}
 
-				let _id = new ObjectId();
+		static create_task (name = this.name.slice(0, -4), data = {}, faf = false) {
+			return BaseTask.get_tasks().then(async tasks => {
+
+				let _id = new ObjectID();
 
 				const finish = {};
 				let p = new Promise((res) => finish.cb = res);
 
 				if(!faf) {
-					storage.tasks.set(_id.toString())
+					storage.tasks.set(_id.toString(), finish.cb);
 				}
 
 				let response = await tasks.update(
@@ -83,9 +83,14 @@
 					{ upsert: true }
 				);
 
-				if(!faf && !response.nUpserted) {
+				// if fire and forget or not and its no new task, just resolve
+				if(faf || (!faf && !response.nUpserted)) {
+					if(!faf && !response.nUpdated)
+						console.log("task not upsert-ed", name, JSON.stringify(data));
 					finish.cb();
 				}
+
+				return p;
 
 			});
 		}
@@ -117,114 +122,12 @@
 
 		/******/
 
-		constructor (worker, task) {
-			this.worker = worker;
-			this.task = task;
-
-			this.start();
-		}
-
-		getType () {
-			return "debug";
-		}
-
-		getData () {
-			return this.task.getData();
-		}
-
-		getInfo () {
-			return this.task.getInfo();
-		}
-
-		getTask () {
-			return this.task;
-		}
-
 		async dataToForm () {
 			let query = {};
 			let data = await this.getData();
 			for(let i in data)
 				query[i] = (data[i] && typeof data[i] == "object" ? data[i].join(",") : data[i]);
 			return query;
-		}
-
-		async update (changes = {}) {
-			return this.worker.getTasks().update(
-				{ 
-					_id: await this.task.get__id()
-				}, 
-				{ 
-					$set: { 
-						info: Object.assign(await this.getInfo(), changes)
-					} 
-				}
-			);
-		}
-
-		async destroy () {
-			return this.worker.getTasks().destroy({ _id: await this.task.get__id() });
-		}
-
-		static create (data = {}, info = { type: this.getType(), timestamp: 0, state: 0, name: this.name }) {
-			if(!storage.stream)
-				storage.stream = this.stream();
-			return storage.stream.then(stream => stream(data, info));
-		}
-
-		static stream () {
-			return DBUtil.getCollection("tasks")
-				.then(tasks => {
-					storage.taskCollection = tasks;
-				})
-				.then(() => this.tail())
-				.then(() =>
-					(data, info) => new Promise(resolve => {
-						let _id = new ObjectId();
-
-						storage.tasks.set(_id.toString(), resolve);
-
-						let task = {
-							_id,
-							data,
-							info
-						};
-
-						if((task.data.characterID && task.info.name == "CorporationSheetTask") || (task.info.name == "CharacterInfoTask" && task.data.corporationID))
-							throw new Error("WHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU" + JSON.stringify(task));
-
-						storage.taskCollection.save(task);
-					})
-				);
-		}
-
-		static tail () {
-			return DBUtil
-				.getStore("Task")
-				.then(tasks => tasks.getUpdates({}, storage.lastTS)
-					.then(cursor => cursor.each(async (err, log) => {
-						if(err)
-							return console.log(err, "restarting cursor…") || setImmediate(() => this.tail());
-						storage.lastTS = log.ts;
-						let tid;
-						if(log.op == "d") {
-							tid = log.o._id.toString();
-						}
-						if(log.op == "u") {
-							if(log.o.$set.info && log.o.$set.info.state) {
-								if(log.o.$set.info.state == 2)
-									tid = log.o2._id.toString();
-							} else {
-								let task = await tasks.findBy_id(log.o2._id);
-								if(!await task.isNull() && (await task.getInfo()).state == 2)
-								tid = (await task.get__id()).toString();
-							}
-						}
-						if(tid && storage.tasks.get(tid)) {
-							storage.tasks.get(tid)();
-							storage.tasks.delete(tid);
-						}
-					}))
-				);
 		}
 
 	}

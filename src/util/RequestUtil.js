@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { DBUtil } 			= require("util/");
-	const { ObjectId } 			= require("mongodb");
+	const { ObjectID } 			= require("mongodb");
 
 	const storage = {
 		requests: new Map(),
@@ -27,7 +27,7 @@
 				.then(() => RequestUtil.tail())
 				.then(() =>
 					(type, options) => new Promise(resolve => {
-						let _id = new ObjectId();
+						let _id = new ObjectID();
 
 						storage.requests.set(_id.toString(), resolve);
 

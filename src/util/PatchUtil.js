@@ -41,9 +41,9 @@
 		}
 
 		static store (store) {
-			PatchUtil.filter(store).forEach(prop => {
+			PatchUtil.filter(store).forEach(property => {
 
-				const slt = prop.split(/(?=[A-Z_][Ia-z_$])/).map(s => s.lowercaseFirstLetter());
+				const slt = prop.split("_");
 				const params = slt.slice(["by","where"].map(f => slt.indexOf(f) + 1).find(f => f > 0));
 
 				var method;

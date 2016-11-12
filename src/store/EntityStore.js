@@ -6,17 +6,17 @@
 
 	class EntityStore extends Store {
 
-		getPK () {
+		get_pk () {
 			return "id";
 		}
 
-		findByPK (pk) {
-			return this.findOrCreate(pk);
+		find_by_pk (pk) {
+			return this.find_or_create(pk);
 		}
 
-		findById () {}
+		find_by_id () {}
 
-		findByName () {}
+		find_by_name () {}
 
 	}
 

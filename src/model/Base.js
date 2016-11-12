@@ -17,6 +17,18 @@
 			return DBUtil.get_store(this.name);
 		}
 
+		valueOf () {
+			return this;
+		}
+
+		is_null () {
+			return this.getFuture().then(data => !data);
+		}
+
+		get__id () {
+			return this.getFuture().then(data => data._id);
+		}
+
 		/***************/
 
 		constructor (data) {
@@ -91,8 +103,8 @@
 
 	/* TYPE DEFINITION */
 
-	const { ObjectId } = require("mongodb");
+	const { ObjectID } = require("mongodb");
 
 	Base.types = {
-		_id: ObjectId
+		_id: ObjectID
 	};
