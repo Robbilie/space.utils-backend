@@ -44,9 +44,15 @@
 
 		static get_oplog_cursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
 			const query = properties;
-				query.ns = properties.ns ? process.env.MONGO_DB + "." + properties.ns : { $regex: new RegExp("^" + process.env.MONGO_DB, "i") };
+
+			if(properties.ns)
+				query.ns = process.env.MONGO_DB + "." + properties.ns;
+			else
+				query.ns = { $regex: new RegExp("^" + process.env.MONGO_DB, "i") };
+
 			if(properties.op)
 				query.op = properties.op.constructor.name == "String" ? properties.op : { $in: properties.op };
+
 			// generate key so you don't regen the same cursor twice
 			const index = JSON.stringify(query);
 			// add timestamp afterwards otherwise index would differ
@@ -54,7 +60,7 @@
 
 			if(!storage.oplogs.get(index))
 				storage.oplogs.set(index, DBUtil
-					.getOplog()
+					.get_oplog()
 					.then(oplog => oplog
 						.collection("oplog.rs")
 						.find(query)
