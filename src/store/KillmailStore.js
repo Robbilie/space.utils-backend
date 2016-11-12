@@ -3,12 +3,13 @@
 
 	const { Store } 				= require("store/");
 	const { PatchUtil } 			= require("util/");
-	const { KillmailJsonTask } 		= require("task/");
+	const { KillmailTask } 			= require("task/");
+	const { Killmail } 				= require("model/");
 
 	class KillmailStore extends Store {
 
 		constructor (db) {
-			super(db, null, "kms");
+			super(db, Killmail);
 		}
 
 		async findOrCreate (id, hash, {} = $(1, { id }, "Number")) {

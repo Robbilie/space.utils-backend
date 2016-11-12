@@ -6,13 +6,11 @@
 
 	class CharacterHandler extends EntityHandler {
 
-		static get_corporation () {
-			return ({ swagger: { params: { character_id } } }, { json }) =>
-				CorporationStore
-					.find_or_create(character_id.value)
-					.get_corporation()
-					.serialize()
-					.then(json);
+		static async get_corporation ({ swagger: { params: { character_id } } }, { json }) {
+			json(await CorporationStore
+				.find_or_create(character_id.value)
+				.get_corporation()
+				.serialize());
 		}
 
 	}

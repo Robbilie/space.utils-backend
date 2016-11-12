@@ -5,10 +5,9 @@
 	const { ObjectId } 			= require("mongodb");
 
 	const storage 					= {
-		tasks: 		new Map(),
-		stream: 	null,
-		taskCollection: null,
-		lastTS: undefined
+		tasks: 				new Map(),
+		stream: 			null,
+		lastTS: 			undefined
 	};
 
 	class BaseTask {
@@ -56,22 +55,31 @@
 			return BaseTask.create(name, data);
 		}
 
-		static create (name, data = {}) {
-			return this.get_tasks().then(tasks => tasks.update(
-				{ data, "info.name": name },
-				{
-					$setOnInsert: {
-						data,
-						info: {
-							name,
-							state: 0,
-							timestamp: 0,
-							modified: 0
+		static create (name, data = {}, faf = false) {
+			return this.get_tasks().then(async tasks => {
+
+				let _id = new ObjectId();
+
+				let response = await tasks.update(
+					{ data, "info.name": name },
+					{
+						$setOnInsert: {
+							_id,
+							data,
+							info: {
+								name,
+								state: 0,
+								timestamp: 0,
+								modified: 0
+							}
 						}
-					}
-				},
-				{ upsert: true }
-			));
+					},
+					{ upsert: true }
+				);
+
+				if(response.nUpserted) {}
+
+			});
 		}
 
 		/******/

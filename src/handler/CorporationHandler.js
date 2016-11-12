@@ -6,22 +6,18 @@
 
 	class CorporationHandler extends EntityHandler {
 
-		static get_alliance () {
-			return ({ swagger: { params: { corporation_id } } }, { json }) =>
-				CorporationStore
-					.find_or_create(corporation_id.value)
-					.get_alliance()
-					.serialize()
-					.then(json);
+		static async get_alliance ({ swagger: { params: { corporation_id } } }, { json }) {
+			json(await CorporationStore
+				.find_or_create(corporation_id.value)
+				.get_alliance()
+				.serialize());
 		}
 
-		static get_ceo () {
-			return ({ swagger: { params: { corporation_id } } }, { json }) =>
-				CorporationStore
-					.find_or_create(corporation_id.value)
-					.get_ceo()
-					.serialize()
-					.then(json);
+		static async get_ceo ({ swagger: { params: { corporation_id } } }, { json }) {
+			json(await CorporationStore
+				.find_or_create(corporation_id.value)
+				.get_ceo()
+				.serialize());
 		}
 
 	}
