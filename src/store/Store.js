@@ -5,11 +5,15 @@
 
 	class Store {
 
-		static from_cursor (fn) {
+		static from_cursor (param) {
 			return new (this.get_list())(this
 				.get_collection()
-				.then(c => fn(c).toArray())
-				.then(docs => docs.map(doc => new (this.get_model(Promise.resolve(doc))))));
+				.then(c => (param.constructor.name == "Cursor" ? param : param(c)).toArray())
+				.then(docs => docs.map(doc => this.from_data(doc))));
+		}
+
+		static from_promise (prom) {
+			return new (this.get_model(prom));
 		}
 
 		static from_data (data) {
@@ -51,11 +55,46 @@
 			}));
 		}
 
-		static find_by_pk (pk) {
-			return this.findOne({ [this.get_pk()]: pk });
+		static get_pk () {
+			return "_id";
 		}
 
+		static find_by_pk (pk, ...args) {
+			return this.findOne({ [this.get_pk()]: pk }, ...args);
+		}
 
+		static find_by__id (_id, ...args) {
+			return this.findOne({ _id }, ...args);
+		}
+
+		static findOne (data = {}, options = {}, bare) {
+			return this.from_promise(
+				bare ?
+					this.getCollection().findOne(data, options) :
+					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => results[0])
+			);
+		}
+
+		static find (data = {}, options = {}, bare) {
+			return this.from_cursor(
+				bare ?
+					this.getCollection().find(data, options) :
+					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, []))
+			);
+		}
+
+		static all () {
+			return this.find();
+		}
+
+		static aggregate ($match, options = []) {
+			return this.get_collection()
+				.aggregate([
+					{ $match },
+					...options,
+					...(this.aggregations || [])
+				], { allowDiskUse: true }); // possibly slower?
+		}
 
 
 
@@ -68,58 +107,6 @@
 			this.collection = db.collection(this.name);
 		}
 
-		getType () {
-			return this.type;
-		}
-
-		getName () {
-			return this.name;
-		}
-
-		getCollection () {
-			return this.collection;
-		}
-
-		getPK () {
-			return "_id";
-		}
-
-		findByPK (pk) {
-			return this.findOne({ [this.getPK()]: pk });
-		}
-
-		findBy_id (_id, options, bare) {
-			return this.findOne({ _id: DBUtil.to_id(_id) }, options, bare);
-		}
-
-		findOne (data = {}, options = {}, bare) {
-			return (
-				bare ?
-					this.getCollection().findOne(data, options) :
-					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => results[0])
-			).then(doc => new (this.getType())(doc));
-		}
-
-		find (data = {}, options = {}, bare) {
-			return (
-				bare ?
-					this.getCollection().find(data, options) :
-					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, []))
-			).toArray().then(docs => docs.map(doc => new (this.getType())(doc)));
-		}
-		
-		all () {
-			return this.find({});
-		}
-		
-		aggregate (match, options = []) {
-			return this.getCollection()
-				.aggregate([
-					{$match: match},
-					...options,
-					...(this.constructor.aggregations || [])
-				]/*, { allowDiskUse: true }*/); // possibly slower?
-		}
 
 		update (where, data, options, ignore) {
 			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
