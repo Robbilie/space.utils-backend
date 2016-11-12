@@ -5,7 +5,19 @@
 
 	class Base {
 
+		constructor (future_data) {
+			this.future_data = future_data;
+		}
 
+		get_future () {
+			return this.future_data;
+		}
+
+		static get_store () {
+			return DBUtil.get_store(this.name);
+		}
+
+		/***************/
 
 		constructor (data) {
 			this.future = (data && data.constructor.name == "Promise" ? data : Promise.resolve(data))

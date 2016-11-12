@@ -6,26 +6,30 @@
 	class PatchUtil {
 
 		static model (model) {
-			PatchUtil.filter(model).forEach(prop => {
+			PatchUtil.filter(model).forEach(property => {
 
-				const field = prop.slice(3).lowercaseFirstLetter();
-				const type = model.types[field];
+				const field 	= property.split("_").slice(1);
+				const type 		= model.types[field];
 
-				if(type && typeof(type) === "function" && type.prototype instanceof Base)
-					Object.defineProperty(model.prototype, prop, {
-						value: function () {
-							return (new type(
-								this.getFuture()
-									.then(data => data[field] || data[field + "ID"])
-							));
+				if(type.prototype instanceof Base) {
+					const store = type.get_store();
+					Object.defineProperty(model.prototype, property, {
+						value: async function () {
+							let data = this.get_future();
+							if(data[field]) {
+								return store.from_data(data[field]);
+							} else {
+								return (store.find_or_create || store.find_by_pk)(data[`${field}_id`]);
+							}
 						}
 					});
-				else
+				} else {
 					Object.defineProperty(model.prototype, prop, {
 						value: function () {
-							return this.getFuture().then(data => data[field] || data[field + "ID"]);
+							return this.get_future().then(data => data[field] || data[`${field}_id`]);
 						}
 					});
+				}
 
 			});
 		}
@@ -33,7 +37,7 @@
 		static filter (model) {
 			return Object
 				.getOwnPropertyNames(model.prototype)
-				.filter(prop => model.prototype[prop].toString().slice(-2) == "{}");
+				.filter(property => model.prototype[property].toString().slice(-2) == "{}");
 		}
 
 		static store (store) {

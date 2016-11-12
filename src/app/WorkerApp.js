@@ -28,7 +28,8 @@
 				setInterval(() => gc(), 1000 * 10);
 
 			// start listener for brand new tasks
-			await this.startTaskCursor();
+			this.get_tasks().get_continuous_updates({ op: "i", "o.info.timestamp": 0 }, undefined,
+				({ o: { _id, info: { timestamp } } }) => this.process(_id, timestamp));
 
 			// start polling for old tasks that have to be fetched
 			this.pollForTasks();
@@ -41,7 +42,7 @@
 
 			// get 200 tasks to work on
 			let tasks = await this
-				.getTasks()
+				.get_tasks()
 				.getCollection()
 				.find({
 					"info.timestamp": {
@@ -62,17 +63,7 @@
 
 		}
 
-		startTaskCursor (lastTS) {
-			const storage = { lastTS };
-			return this.tasks.getUpdates({ op: "i", "o.info.timestamp": 0 }, storage.lastTS).then(updates => updates.each((err, { ts, o }) => {
-				if(err)
-					return console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.startTaskCursor(storage.lastTS));
-				storage.lastTS = ts;
-				this.process(o._id, o.info.timestamp);
-			}));
-		}
-
-		getTasks () {
+		get_tasks () {
 			return this.tasks;
 		}
 
@@ -81,7 +72,7 @@
 			try {
 
 				// update state and check if still valid
-				let task = await this.getTasks().findAndModify(
+				let task = await this.get_tasks().findAndModify(
 					{ _id, "info.timestamp": timestamp, $or },
 					[],
 					{

@@ -5,6 +5,61 @@
 
 	class Store {
 
+		static from_cursor (fn) {
+			return new (this.get_list())(this
+				.get_collection()
+				.then(c => fn(c).toArray())
+				.then(docs => docs.map(doc => new (this.get_model(Promise.resolve(doc))))));
+		}
+
+		static from_data (data) {
+			if(data.constructor.name == "Array")
+				return new (this.get_list())(Promise.resolve(data.map(doc => new (this.get_model())(Promise.resolve(doc)))));
+			else
+				return new (this.get_model())(Promise.resolve(data));
+		}
+
+		static find_or_create () {}
+
+		static find_by_pk () {}
+
+		static get_model () {
+			return LoadUtil.model(this.get_name());
+		}
+
+		static get_list () {
+			return LoadUtil.model(`${this.get_name()}List`);
+		}
+
+		static get_collection () {
+			return DBUtil.get_collection(this.get_name());
+		}
+
+		static get_name () {
+			return this.name.slice(0, -5);
+		}
+
+		static get_updates (options, last_ts) {
+			return DBUtil.get_oplog_cursor(Object.assign(options, { ns: this.get_name().toLowerCase().pluralize() }), last_ts);
+		}
+
+		static get_continuous_updates (options, last_ts, fn) {
+			const local_storage = { last_ts };
+			return this.get_updates(options, local_storage.last_ts).then(updates => updates.each((err, log) => {
+				if(err)
+					return console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.get_continuous_updates(local_storage.last_ts));
+				local_storage.last_ts = log.ts;
+				fn(log);
+			}));
+		}
+
+
+
+
+
+
+		/************/
+
 		constructor (db, type, collectionName) {
 			this.type 		= type || LoadUtil.model(this.constructor.name.slice(0, -5));
 			this.name 		= collectionName || this.type.name.toLowerCase().pluralize();

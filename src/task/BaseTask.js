@@ -6,8 +6,7 @@
 
 	const storage 					= {
 		tasks: 				new Map(),
-		stream: 			null,
-		lastTS: 			undefined
+		stream: 			null
 	};
 
 	class BaseTask {
@@ -60,6 +59,13 @@
 
 				let _id = new ObjectId();
 
+				const finish = {};
+				let p = new Promise((res) => finish.cb = res);
+
+				if(!faf) {
+					storage.tasks.set(_id.toString())
+				}
+
 				let response = await tasks.update(
 					{ data, "info.name": name },
 					{
@@ -77,8 +83,35 @@
 					{ upsert: true }
 				);
 
-				if(response.nUpserted) {}
+				if(!faf && !response.nUpserted) {
+					finish.cb();
+				}
 
+			});
+		}
+
+		static async watch () {
+			let tasks = await DBUtil.get_collection("tasks");
+			tasks.get_continuous_updates({}, undefined, async ({ op, o, o2 }) => {
+				// giant BLA BLA BLA of finding the _id to call from the map
+				let tid;
+				if(op == "d") {
+					tid = o._id.toString();
+				}
+				if(op == "u") {
+					if(o.$set.info && o.$set.info.state) {
+						if(o.$set.info.state == 2)
+							tid = o2._id.toString();
+					} else {
+						let task = await tasks.findBy_id(o2._id);
+						if(!await task.isNull() && (await task.getInfo()).state == 2)
+						tid = (await task.get__id()).toString();
+					}
+				}
+				if(tid && storage.tasks.get(tid)) {
+					storage.tasks.get(tid)();
+					storage.tasks.delete(tid);
+				}
 			});
 		}
 
@@ -195,5 +228,7 @@
 		}
 
 	}
+
+	storage.watcher = BaseTask.watch();
 
 	module.exports = BaseTask;
