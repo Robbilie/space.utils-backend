@@ -96,36 +96,41 @@
 				], { allowDiskUse: true }); // possibly slower?
 		}
 
-
-
-
-		/************/
-
-		constructor (db, type, collectionName) {
-			this.type 		= type || LoadUtil.model(this.constructor.name.slice(0, -5));
-			this.name 		= collectionName || this.type.name.toLowerCase().pluralize();
-			this.collection = db.collection(this.name);
+		static update_model (model, data, options, ignore) {
+			return model.get__id()
+				.then(_id => this.update({ _id }, data, options, ignore));
 		}
 
-
-		update (where, data, options, ignore) {
-			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
-			return this.getCollection()
-				.update(where, data, options)
-				.then(docs => null);
+		static update (where, data, options, ignore) {
+			if(!this.check_data(data) && !ignore)
+				return Promise.reject("Data is missing fields, use ignore to bypass.");
+			else
+				return this.get_collection().update(where, data, options, ignore);
 		}
 
-		findAndModify (where, arr, data, options, ignore) {
-			if(!(data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert) && !ignore) return Promise.reject("No $set, $setOnInsert, $addToSet, $unset, $push or $pull found, use ignore to bypass.");
-			return this.getCollection()
-				.findAndModify(where, arr, data, options)
-				.then(res => new (this.getType())(res.value));
+		static modify_model (model, arr, data, options, ignore) {
+			return this.from_promise(model.get__id()
+				.then(_id => this.modify({ _id }, arr, data, options, ignore))
+				.then(({ value }) => value));
 		}
 
-		destroy (where) {
-			return this.getCollection()
-				.remove(where)
-				.then(docs => null);
+		static modify (where, arr, data, options, ignore) {
+			if(!this.check_data(data) && !ignore)
+				return Promise.reject("Data is missing fields, use ignore to bypass.");
+			else
+				return this.get_collection().findAndModify(where, arr, data, options, ignore);
+		}
+
+		static destroy_model (model) {
+			return model.get__id().then(_id => this.destroy({ _id }));
+		}
+
+		static destroy (where) {
+			return this.get_collection().remove(where);
+		}
+
+		static check_data (data) {
+			return (data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert);
 		}
 
 	}

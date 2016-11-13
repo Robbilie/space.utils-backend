@@ -32,10 +32,7 @@
 		}
 
 		static get_store (storeName) {
-			return DBUtil
-				.get_db()
-				.then(db => storage.stores.get(storeName) || storage.stores.set(storeName, new (LoadUtil.store(storeName))(db, LoadUtil.model(storeName))).get(storeName))
-				.catch(e => console.log(storeName, e, new Error()));
+			return LoadUtil.store(storeName);
 		}
 
 		static get_oplog_cursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
