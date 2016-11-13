@@ -18,7 +18,7 @@
 
 		static from_data (data) {
 			if(data.constructor.name == "Array")
-				return new (this.get_list())(Promise.resolve(data.map(doc => new (this.get_model())(Promise.resolve(doc)))));
+				return new (this.get_list())(Promise.resolve(data.map(doc => this.from_promise(Promise.resolve(doc)))));
 			else
 				return new (this.get_model())(Promise.resolve(data));
 		}
@@ -70,16 +70,27 @@
 		static findOne (data = {}, options = {}, bare) {
 			return this.from_promise(
 				bare ?
-					this.getCollection().findOne(data, options) :
-					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])).toArray().then(results => results[0])
+					this
+						.get_collection()
+						.then(c => c.findOne(data, options)) :
+					this
+						.get_collection()
+						.then(c => this
+							.aggregate(c, data, Object
+								.entries(options)
+								.reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])
+							)
+							.toArray()
+						)
+						.then(results => results[0])
 			);
 		}
 
 		static find (data = {}, options = {}, bare) {
 			return this.from_cursor(
 				bare ?
-					this.getCollection().find(data, options) :
-					this.aggregate(data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, []))
+					c => c.find(data, options) :
+					c => this.aggregate(c, data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, []))
 			);
 		}
 
@@ -87,8 +98,8 @@
 			return this.find();
 		}
 
-		static aggregate ($match, options = []) {
-			return this.get_collection()
+		static aggregate (collection, $match, options = []) {
+			return collection
 				.aggregate([
 					{ $match },
 					...options,

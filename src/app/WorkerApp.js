@@ -21,9 +21,6 @@
 
 		async init () {
 
-			// get stores
-			this.tasks = await DBUtil.get_store("Task");
-
 			// gc frequently
 			if(typeof(gc) != "undefined")
 				setInterval(() => gc(), 1000 * 10);
@@ -45,9 +42,8 @@
 			let timeout = Promise.resolve().wait(200);
 
 			// get 200 tasks to work on
-			let tasks = await this
-				.get_tasks()
-				.getCollection()
+			let collection = await this.get_tasks().get_collection();
+			let tasks = await collection
 				.find({
 					"info.timestamp": {
 						$lt: Date.now()
@@ -68,7 +64,7 @@
 		}
 
 		get_tasks () {
-			return this.tasks;
+			return DBUtil.get_store("Task");
 		}
 
 		async process (_id, timestamp) {
@@ -76,9 +72,8 @@
 			try {
 
 				// update state and check if still valid
-				let task = await this.get_tasks().findAndModify(
+				let task = await this.get_tasks().modify(
 					{ _id, "info.timestamp": timestamp, $or },
-					[],
 					{
 						$set: {
 							"info.state": 1,
