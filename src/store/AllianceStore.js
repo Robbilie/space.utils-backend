@@ -1,29 +1,31 @@
 
 	"use strict";
 
-	const { DBUtil }				= require("util/");
-	const { EntityStore } 			= require("store/");
-	const { AllianceJsonTask } 		= require("task/");
+	const { DBUtil } = require("util/");
+	const { EntityStore } = require("store/");
+	const { AllianceTask } = require("task/");
 
 	class AllianceStore extends EntityStore {
 
-		async findOrCreate (id, {} = $(1, { id }, "Number")) {
+		static async find_or_create (alliance_id, {} = $(1, { alliance_id }, "Number")) {
 			try {
 
-				let alliance = await this.findById(id);
+				let alliance = await this.find_by_id(alliance_id);
 				
-				if(await alliance.isNull()) {
-					console.log("alli", !!alliance, id);
-					await AllianceJsonTask.create({ allianceID: id });
-					alliance = await this.findById(id);
-				}
-				
+				if(await alliance.is_null())
+					await AllianceTask.create({ alliance_id });
+
+				alliance = await this.find_by_id(alliance_id);
+
+				if(await alliance.is_null())
+					console.log("MISSING ALLI", alliance_id);
+
 				return alliance;
 
 			} catch (e) { console.log(e, new Error()); }
 		}
 
-		async get_members (alliance, {} = $(1, { alliance }, "Alliance")) {
+		static async get_members (alliance, {} = $(1, { alliance }, "Alliance")) {
 			let charStore = await DBUtil.getStore("Character");
 			let corporations = await alliance.getCorporations();
 			return charStore.getAll({ corporation: { $in: await Promise.all(corporations.map(corporation => corporation.getId())) } });

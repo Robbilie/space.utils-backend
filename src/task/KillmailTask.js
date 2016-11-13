@@ -17,9 +17,7 @@
 				killmail.id 	= this.get_data().killmail_id;
 				killmail.hash 	= this.get_data().killmail_hash;
 
-			let killmails = await this.get_collection();
-
-			await killmails.update(
+			await this.get_store().update(
 				{ id: killmail.id },
 				{
 					$set: killmail

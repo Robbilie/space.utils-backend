@@ -29,20 +29,24 @@
 		}
 
 		static get_tasks () {
-			return DBUtil.get_collection("tasks");
+			return DBUtil.get_store("Task");
 		}
 
 		get_collection () {
 			return DBUtil.get_collection(this.name.slice(0, -4).toLowerCase().pluralize());
 		}
 
+		get_store () {
+			return DBUtil.get_store(this.name.slice(0, -4));
+		}
+
 		async update (options = {}) {
-			let tasks = await BaseTask.get_tasks();
+			let tasks = BaseTask.get_tasks();
 
 			await tasks.update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), options) } });
 
 			if(options.state == 2)
-				tasks.update({ _id: this.get__id() }, { "info.state": 0 });
+				await tasks.update({ _id: this.get__id() }, { $set: { "info.state": 0 } });
 		}
 		
 		async destroy () {
@@ -54,45 +58,43 @@
 			return this.create_task(this.name.slice(0, -4), data, faf);
 		}
 
-		static create_task (name = this.name.slice(0, -4), data = {}, faf = false) {
-			return BaseTask.get_tasks().then(async tasks => {
+		static async create_task (name = this.name.slice(0, -4), data = {}, faf = false) {
 
-				let _id = new ObjectID();
+			let _id = new ObjectID();
 
-				const finish = {};
-				let p = new Promise((res) => finish.cb = res);
+			const finish = {};
+			let p = new Promise((res) => finish.cb = res);
 
-				if(!faf) {
-					storage.tasks.set(_id.toString(), finish.cb);
-				}
+			if(!faf) {
+				storage.tasks.set(_id.toString(), finish.cb);
+			}
 
-				let response = await tasks.update(
-					{ data, "info.name": name },
-					{
-						$setOnInsert: {
-							_id,
-							data,
-							info: {
-								name,
-								state: 0,
-								timestamp: 0,
-								modified: 0
-							}
+			let response = await BaseTask.get_tasks().update(
+				{ data, "info.name": name },
+				{
+					$setOnInsert: {
+						_id,
+						data,
+						info: {
+							name,
+							state: 0,
+							timestamp: 0,
+							modified: 0
 						}
-					},
-					{ upsert: true }
-				);
+					}
+				},
+				{ upsert: true }
+			);
 
-				// if fire and forget or not and its no new task, just resolve
-				if(faf || (!faf && !response.nUpserted)) {
-					if(!faf && !response.nUpdated)
-						console.log("task not upsert-ed", name, JSON.stringify(data));
-					finish.cb();
-				}
+			// if fire and forget or not and its no new task, just resolve
+			if(faf || (!faf && !response.nUpserted)) {
+				if(!faf && !response.nUpdated)
+					console.log("task not upsert-ed", name, JSON.stringify(data));
+				finish.cb();
+			}
 
-				return p;
+			return p;
 
-			});
 		}
 
 		static async watch () {

@@ -13,9 +13,7 @@
 			let corporation_response = await client.Corporation.get_corporations_corporation_id(this.get_data());
 			let history_response = await client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
 
-			let corporations = await this.get_collection();
-
-			await corporations.update(
+			await this.get_store().update(
 				{ id: this.get_data().corporation_id },
 				{
 					$set: Object.assign({

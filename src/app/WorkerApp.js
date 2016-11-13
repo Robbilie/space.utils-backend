@@ -3,6 +3,7 @@
 
 	const { DBUtil, LoadUtil } 			= require("util/");
 	const { Task } 						= require("model/");
+	const { BaseTask } 					= require("task/");
 
 	const $or = [
 		{
@@ -26,6 +27,9 @@
 			// gc frequently
 			if(typeof(gc) != "undefined")
 				setInterval(() => gc(), 1000 * 10);
+
+			// start some basic tasks
+			BaseTask.create_task("Alliances", {}, true);
 
 			// start listener for brand new tasks
 			this.get_tasks().get_continuous_updates({ op: "i", "o.info.timestamp": 0 }, undefined,

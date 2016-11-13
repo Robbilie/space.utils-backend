@@ -1,21 +1,21 @@
 
 	"use strict";
 
-	const { EntityStore } 				= require("store/");
-	const { CorporationSheetTask } 		= require("task/");
+	const { EntityStore } = require("store/");
+	const { CorporationTask } = require("task/");
 
 	class CorporationStore extends EntityStore {
 
-		async findOrCreate (id, {} = $(1, { id }, "Number")) {
+		static async find_or_create (corporation_id, {} = $(1, { corporation_id }, "Number")) {
 
 			try {
 				
-				let corporation = await this.findById(id);
+				let corporation = await this.find_by_id(corporation_id);
 				
-				if(await corporation.isNull()) {
-					await CorporationSheetTask.create({ corporationID: id });
-					corporation = await this.findById(id);
-				}
+				if(await corporation.is_null())
+					await CorporationTask.create({ corporation_id });
+
+				corporation = await this.find_by_id(corporation_id);
 
 				return corporation;
 

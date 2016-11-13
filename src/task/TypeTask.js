@@ -12,9 +12,7 @@
 
 			let type_response = await client.Universe.get_universe_types_type_id(this.get_data());
 
-			let types = await this.get_collection();
-
-			await types.update(
+			await this.get_store().update(
 				{ id: this.get_data().type_id },
 				{
 					$set: {

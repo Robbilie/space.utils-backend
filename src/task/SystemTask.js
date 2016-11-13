@@ -12,9 +12,7 @@
 
 			let system_response = await client.Universe.get_universe_systems_system_id(this.get_data());
 
-			let systems = await this.get_collection();
-
-			await systems.update(
+			await this.get_store().update(
 				{ id: this.get_data().system_id },
 				{
 					$set: {
