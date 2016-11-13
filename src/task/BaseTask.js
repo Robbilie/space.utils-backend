@@ -98,8 +98,7 @@
 		}
 
 		static async watch () {
-			let tasks = await DBUtil.get_collection("tasks");
-			tasks.get_continuous_updates({}, undefined, async ({ op, o, o2 }) => {
+			this.get_tasks().get_continuous_updates({}, undefined, async ({ op, o, o2 }) => {
 				// giant BLA BLA BLA of finding the _id to call from the map
 				let tid;
 				if(op == "d") {

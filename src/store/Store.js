@@ -105,20 +105,20 @@
 			if(!this.check_data(data) && !ignore)
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			else
-				return this.get_collection().update(where, data, options, ignore);
+				return this.get_collection().update(where, data, options);
 		}
 
-		static modify_model (model, arr, data, options, ignore) {
+		static modify_model (model, data, options, ignore) {
 			return this.from_promise(model.get__id()
-				.then(_id => this.modify({ _id }, arr, data, options, ignore))
+				.then(_id => this.modify({ _id }, data, options, ignore))
 				.then(({ value }) => value));
 		}
 
-		static modify (where, arr, data, options, ignore) {
+		static modify (where, data, options, ignore) {
 			if(!this.check_data(data) && !ignore)
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			else
-				return this.get_collection().findAndModify(where, arr, data, options, ignore);
+				return this.get_collection().findOneAndUpdate(where, data, options);
 		}
 
 		static destroy_model (model) {
