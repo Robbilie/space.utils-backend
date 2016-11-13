@@ -121,16 +121,6 @@
 			});
 		}
 
-		/******/
-
-		async dataToForm () {
-			let query = {};
-			let data = await this.getData();
-			for(let i in data)
-				query[i] = (data[i] && typeof data[i] == "object" ? data[i].join(",") : data[i]);
-			return query;
-		}
-
 	}
 
 	storage.watcher = BaseTask.watch();
