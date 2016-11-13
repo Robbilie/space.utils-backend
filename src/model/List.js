@@ -26,10 +26,9 @@
 			return this.getFuture().then(data => Promise.all(data.map(fn)));
 		}
 
-		serialize (depth = 2) {
-			return this
-				.getFuture()
-				.then(arr => Promise.all(arr.map(el => el.serialize(depth - 1))));
+		async serialize (depth = 2) {
+			const data = await this.get_future();
+			return Promise.all(data.map(element => element.serialize(depth - 1)));
 		}
 
 	}

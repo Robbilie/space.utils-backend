@@ -6,7 +6,7 @@
 	class KillmailItem extends Base {
 
 		serialize () {
-			return this.constructor.serialize(this.constructor.name, this.getFuture(), 1);
+			return super.serialize(1);
 		}
 
 	}
@@ -21,16 +21,12 @@
 
 	class KillmailVictim extends Base {
 
-		serialize (depth = 1) {
-			return this.constructor.serialize(this.constructor.name, this.getFuture(), depth);
-		}
-
 	}
 
 	class KillmailAttacker extends Base {
 
 		serialize () {
-			return this.constructor.serialize(this.constructor.name, this.getFuture(), 1);
+			return super.serialize(1);
 		}
 
 	}
