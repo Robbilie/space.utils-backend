@@ -29,7 +29,7 @@
 			BaseTask.create_task("Alliances", {}, true);
 
 			// start listener for brand new tasks
-			this.get_tasks().get_continuous_updates({ op: "i", "o.info.timestamp": 0 }, undefined,
+			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.timestamp": 0 }, undefined,
 				({ o: { _id, info: { timestamp } } }) => this.process(_id, timestamp));
 
 			// start polling for old tasks that have to be fetched
@@ -42,7 +42,7 @@
 			let timeout = Promise.resolve().wait(200);
 
 			// get 200 tasks to work on
-			let collection = await this.get_tasks().get_collection();
+			let collection = await WorkerApp.get_tasks().get_collection();
 			let tasks = await collection
 				.find({
 					"info.timestamp": {
@@ -63,7 +63,7 @@
 
 		}
 
-		get_tasks () {
+		static get_tasks () {
 			return DBUtil.get_store("Task");
 		}
 
@@ -72,7 +72,7 @@
 			try {
 
 				// update state and check if still valid
-				let task = await this.get_tasks().modify(
+				let task = await WorkerApp.get_tasks().modify(
 					{ _id, "info.timestamp": timestamp, $or },
 					{
 						$set: {

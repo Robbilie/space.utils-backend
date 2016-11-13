@@ -6,21 +6,31 @@
 	class Store {
 
 		static from_cursor (param) {
-			return new (this.get_list())(this
-				.get_collection()
-				.then(c => (param.constructor.name == "Cursor" ? param : param(c)).toArray())
-				.then(docs => docs.map(doc => this.from_data(doc))));
+			return this.from_promise(
+				(async () => {
+					let cursor;
+					if(param.constructor.name == "Cursor") {
+						cursor = param;
+					} else {
+						let collection = await this.get_collection();
+						cursor = param(collection);
+					}
+					let docs = await cursor.toArray();
+					return Promise.all(docs.map(doc => this.from_data(doc)));
+				})(),
+				this.get_list()
+			);
 		}
 
-		static from_promise (prom) {
-			return new (this.get_model(prom));
+		static from_promise (prom, model = this.get_model()) {
+			return new model(prom);
 		}
 
 		static from_data (data) {
 			if(data.constructor.name == "Array")
-				return new (this.get_list())(Promise.resolve(data.map(doc => this.from_promise(Promise.resolve(doc)))));
+				return this.from_promise(Promise.resolve(data.map(doc => this.from_promise(Promise.resolve(doc)))), this.get_list());
 			else
-				return new (this.get_model())(Promise.resolve(data));
+				return this.from_promise(Promise.resolve(data));
 		}
 
 		static find_or_create () {}
@@ -47,12 +57,10 @@
 
 		static get_continuous_updates (options, last_ts, fn) {
 			const local_storage = { last_ts };
-			return this.get_updates(options, local_storage.last_ts).then(updates => updates.each((err, log) => {
-				if(err)
-					return console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.get_continuous_updates(local_storage.last_ts));
-				local_storage.last_ts = log.ts;
-				fn(log);
-			}));
+			return this.get_updates(options, local_storage.last_ts).then(updates => updates.forEach(
+				log => local_storage.last_ts = log.ts || fn(log),
+				error => console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.get_continuous_updates(local_storage.last_ts)))
+			);
 		}
 
 		static get_pk () {
@@ -68,22 +76,19 @@
 		}
 
 		static findOne (data = {}, options = {}, bare) {
-			return this.from_promise(
-				bare ?
-					this
-						.get_collection()
-						.then(c => c.findOne(data, options)) :
-					this
-						.get_collection()
-						.then(c => this
-							.aggregate(c, data, Object
-								.entries(options)
-								.reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])
-							)
-							.toArray()
+			return this.from_promise((async () => {
+				let collection = await this.get_collection();
+				if(bare) {
+					return await collection.findOne(data, options);
+				} else {
+					return (await this
+						.aggregate(collection, data, Object
+							.entries(options)
+							.reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])
 						)
-						.then(results => results[0])
-			);
+						.toArray())[0];
+				}
+			})());
 		}
 
 		static find (data = {}, options = {}, bare) {
@@ -120,9 +125,10 @@
 		}
 
 		static modify_model (model, data, options, ignore) {
-			return this.from_promise(model.get__id()
-				.then(_id => this.modify({ _id }, data, options, ignore))
-				.then(({ value }) => value));
+			return this.from_promise((async () => {
+				let _id = await model.get__id();
+				return (await this.modify({ _id }, data, options, ignore)).value;
+			})());
 		}
 
 		static modify (where, data, options, ignore) {

@@ -52,9 +52,9 @@
 			query.ts = { $gt: timestamp };
 
 			if(!storage.oplogs.get(index))
-				storage.oplogs.set(index, DBUtil
-					.get_oplog()
-					.then(oplog => oplog
+				storage.oplogs.set(index, (async () => {
+					let oplog = await DBUtil.get_oplog();
+					let cursor = oplog
 						.collection("oplog.rs")
 						.find(query)
 						.batchSize(10000)
@@ -62,10 +62,10 @@
 						.addCursorFlag('awaitData', true)
 						.addCursorFlag('oplogReplay', true)
 						.addCursorFlag('noCursorTimeout', true)
-						.setCursorOption('numberOfRetries', Number.MAX_VALUE)
-					)
-					.then(cursor => cursor.each(e => e ? storage.oplogs.delete(index) : null) || cursor)
-				);
+						.setCursorOption('numberOfRetries', Number.MAX_VALUE);
+					cursor.forEach(() => {}, error => storage.oplogs.delete(index));
+					return cursor;
+				})());
 			return storage.oplogs.get(index);
 		}
 
