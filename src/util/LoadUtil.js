@@ -10,7 +10,7 @@
 		}
 
 		static task (name) {
-			return LoadUtil.file(`task/${name}`);
+			return LoadUtil.file(`task/${name}Task`);
 		}
 
 		static handler (name) {
