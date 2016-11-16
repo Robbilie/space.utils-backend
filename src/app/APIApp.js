@@ -20,7 +20,7 @@
 				.map(Class => Class
 					.getMethods()
 					.map(MethodName => [`${Class.name}_${MethodName}`, Class[MethodName]])
-					.map(([key, fn]) => [key, (...args) => fn(...args)])
+					.map(([key, fn]) => [key, (...args) => fn(...args).catch(e => console.log(e))])
 				)
 			)).reduce((p, c) => !(p[c[0]] = c[1]) || p, {});
 
