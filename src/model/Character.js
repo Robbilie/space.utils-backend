@@ -18,7 +18,7 @@
 	Character.types = {
 		id: 			Number,
 		name: 			String,
-		corporation: 	"Corporation",
+		corporation: 	Corporation,
 		updated: 		Number
 	};
 
