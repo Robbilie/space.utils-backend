@@ -32,7 +32,7 @@
 
 			await this.update({
 				state: 2,
-				timestamp: Math.max(new Date(alliance_response.expires).getTime(), new Date(corporations_response.expires).getTime())
+				timestamp: Math.max(new Date(alliance_response.headers.expires).getTime(), new Date(corporations_response.headers.expires).getTime())
 			});
 
 		}

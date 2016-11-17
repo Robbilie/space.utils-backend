@@ -30,7 +30,7 @@
 
 			await this.update({
 				state: 2,
-				timestamp: Math.max(new Date(character_response.expires).getTime(), new Date(history_response.expires).getTime())
+				timestamp: Math.max(new Date(character_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
 			});
 
 		}
