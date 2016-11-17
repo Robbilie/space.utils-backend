@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { EntityStore } = require("store/");
-	const { CharacterTask, NPCAffiliationTask } = require("task/");
+	const { CharacterTask } = require("task/");
 
 	class CharacterStore extends EntityStore {
 
@@ -17,10 +17,12 @@
 
 				character = await this.find_by_id(character_id);
 
+				/*
 				if(await character.is_null())
 					await NPCAffiliationTask.create({ ids: [character_id] });
 
 				character = await this.find_by_id(character_id);
+				*/
 
 				if(await character.is_null())
 					console.log("MISSING CHAR", character_id);
