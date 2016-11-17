@@ -89,7 +89,7 @@
 
 				try {
 					// do special processing stuff
-					new (LoadUtil.task((await task.getInfo()).name))(this, task);
+					new (LoadUtil.task((await task.getInfo()).name))(await task.get_future());
 				} catch (e) {
 					console.log((await task.getInfo()).name, e, new Error());
 				}
