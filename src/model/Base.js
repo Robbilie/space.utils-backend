@@ -30,7 +30,7 @@
 		}
 
 		async serialize (depth = 2) {
-			const data = this.get_future();
+			const data = await this.get_future();
 			const results = await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
 				if(field_name == "_id" || !(data[field_name] || data[`${field_name}_id`]))
