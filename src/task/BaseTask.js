@@ -17,7 +17,7 @@
 		}
 
 		get__id () {
-			return this.id;
+			return this._id;
 		}
 
 		get_info () {
