@@ -25,7 +25,7 @@
 
 			await this.update({
 				state: 2,
-				timestamp: new Date(system_response.expires).getTime()
+				timestamp: new Date(system_response.headers.expires).getTime()
 			});
 
 		}
