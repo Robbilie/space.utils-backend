@@ -15,15 +15,15 @@
 		}
 
 		get length () {
-			return this.getFuture().then(data => data.length);
+			return this.get_future().then(data => data.length);
 		}
 
 		toArray () {
-			return this.getFuture().then(arr => arr.map(el => new (this.get_type())(el)));
+			return this.get_future().then(arr => arr.map(el => new (this.get_type())(el)));
 		}
 
 		map (fn) {
-			return this.getFuture().then(data => Promise.all(data.map(fn)));
+			return this.get_future().then(data => Promise.all(data.map(fn)));
 		}
 
 		async serialize (depth = 2) {

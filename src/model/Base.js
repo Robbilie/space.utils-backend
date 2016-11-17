@@ -22,11 +22,11 @@
 		}
 
 		is_null () {
-			return this.getFuture().then(data => !data);
+			return this.get_future().then(data => !data);
 		}
 
 		get__id () {
-			return this.getFuture().then(data => data._id);
+			return this.get_future().then(data => data._id);
 		}
 
 		async serialize (depth = 2) {
