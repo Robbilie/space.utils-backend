@@ -55,6 +55,14 @@ parameters:
     format: int64
     required: true
 paths:
+  '/':
+    get:
+      operationId: RootHandler_home
+      responses:
+        '200':
+          description: Root
+          schema:
+            $ref: '#/definitions/Root'
   '/characters/':
     post:
       operationId: CharacterHandler_filter
@@ -502,13 +510,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 definitions:
-  Href:
-    type: object
-    properties:
-      href:
-        type: string
-        description: |
-          The URL to another resource
   Error:
     type: object
     properties:
@@ -528,21 +529,6 @@ definitions:
         type: object
   Root:
     type: object
-    properties:
-      alliances:
-        $ref: '#/definitions/Href'
-      characters:
-        $ref: '#/definitions/Href'
-      corporations:
-        $ref: '#/definitions/Href'
-      factions:
-        $ref: '#/definitions/Href'
-      killmails:
-        $ref: '#/definitions/Href'
-      types:
-        $ref: '#/definitions/Href'
-      systems:
-        $ref: '#/definitions/Href'
   Alliance:
     type: object
     properties:
