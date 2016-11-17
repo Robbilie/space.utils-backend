@@ -83,8 +83,6 @@
 					{ returnOriginal: false }
 				);
 
-				console.log(task);
-
 				// task has already been taken by another worker
 				if (!task.value)
 					return;
