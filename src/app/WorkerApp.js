@@ -97,6 +97,15 @@
 
 			} catch (e) {
 				console.log(e, new Error());
+				await WorkerApp.get_tasks().update(
+					{ _id },
+					{
+						$set: {
+							"info.state": 0,
+							"info.modified": Date.now()
+						}
+					}
+				);
 			}
 
 		}
