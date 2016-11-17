@@ -89,6 +89,8 @@
 				if (!task.value)
 					return;
 
+				console.log("processing", _id);
+
 				try {
 					// do special processing stuff
 					let runner = new (LoadUtil.task(task.value.info.name))(task.value);
