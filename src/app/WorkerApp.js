@@ -91,7 +91,8 @@
 
 				try {
 					// do special processing stuff
-					new (LoadUtil.task(task.value.info.name))(task.value);
+					let task = new (LoadUtil.task(task.value.info.name))(task.value);
+					await task.start();
 				} catch (e) {
 					console.log(task.value.info.name, e, new Error());
 				}
