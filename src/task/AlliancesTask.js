@@ -12,7 +12,7 @@
 
 			let alliances_response = await client.Alliance.get_alliances();
 
-			await Promise.all(alliances_response.obj.map(alliance_id => AlliancesTask.create({ alliance_id })));
+			await Promise.all(alliances_response.obj.map(alliance_id => AllianceTask.create({ alliance_id })));
 
 			await this.update({
 				state: 0,
