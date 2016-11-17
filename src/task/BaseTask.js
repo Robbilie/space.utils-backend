@@ -110,7 +110,7 @@
 							tid = o2._id.toString();
 					} else {
 						let task = await tasks.findBy_id(o2._id);
-						if(!await task.isNull() && (await task.getInfo()).state == 2)
+						if(!await task.is_null() && (await task.getInfo()).state == 2)
 						tid = (await task.get__id()).toString();
 					}
 				}
