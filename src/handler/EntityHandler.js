@@ -16,9 +16,10 @@
 		}
 
 		static async get_by_id ({ swagger: { params } }, { json }) {
+			console.log(this.name);
 			json(await LoadUtil
 				.store(this.name.slice(0, -7))
-				.find_or_create(params[this.name.slice(0, -7).toLowerCase() + "_id"].value)
+				.find_by_pk(params[this.name.slice(0, -7).toLowerCase() + "_id"].value)
 				.serialize());
 		}
 
