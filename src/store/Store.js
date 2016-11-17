@@ -135,7 +135,7 @@
 			if(!this.check_data(data) && !ignore)
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			else
-				return this.get_collection().findOneAndUpdate(where, data, options);
+				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
 		}
 
 		static destroy_model (model) {
@@ -143,7 +143,7 @@
 		}
 
 		static destroy (where) {
-			return this.get_collection().remove(where);
+			return this.get_collection().then(collection => collection.remove(where));
 		}
 
 		static check_data (data) {
