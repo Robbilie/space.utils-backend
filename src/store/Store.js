@@ -121,7 +121,7 @@
 			if(!this.check_data(data) && !ignore)
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			else
-				return this.get_collection().update(where, data, options);
+				return this.get_collection().then(collection => collection.update(where, data, options));
 		}
 
 		static modify_model (model, data, options, ignore) {
