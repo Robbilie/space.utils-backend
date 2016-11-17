@@ -30,7 +30,7 @@
 
 			// start listener for brand new tasks
 			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.timestamp": 0 }, undefined,
-				({ o: { _id, info: { timestamp } } }) => this.process(_id, timestamp));
+				({ o: { _id, info: { timestamp } } }) => WorkerApp.process(_id, timestamp));
 
 			// start polling for old tasks that have to be fetched
 			this.pollForTasks();
@@ -55,7 +55,7 @@
 				.toArray();
 
 			// process them
-			await Promise.all(tasks.map(doc => this.process(doc._id, doc.info.timestamp)));
+			await Promise.all(tasks.map(doc => WorkerApp.process(doc._id, doc.info.timestamp)));
 
 			// wait if not yet run out or skip and restart polling
 			await timeout;
@@ -67,7 +67,7 @@
 			return DBUtil.get_store("Task");
 		}
 
-		async process (_id, timestamp) {
+		static async process (_id, timestamp) {
 
 			try {
 
