@@ -25,6 +25,8 @@
 			if(typeof(gc) != "undefined")
 				setInterval(() => gc(), 1000 * 10);
 
+			this.running = 0;
+
 			// start some basic tasks
 			BaseTask.create_task("Alliances", {}, true);
 
@@ -39,7 +41,15 @@
 
 		async pollForTasks () {
 
-			let timeout = Promise.resolve().wait(200);
+			let timeout = Promise.resolve().wait(
+				Math.min(
+					Math.max(
+						this.running / 2,
+						200
+					),
+					10000
+				)
+			);
 
 			// get 200 tasks to work on
 			let collection = await WorkerApp.get_tasks().get_collection();
@@ -51,7 +61,15 @@
 					$or
 				})
 				.sort({ "info.timestamp": 1 })
-				.limit(200)
+				.limit(
+					Math.min(
+						Math.max(
+							this.running / 100,
+							10
+						),
+						200
+					)
+				)
 				.toArray();
 
 			// process them
@@ -89,12 +107,14 @@
 				if (!task.value)
 					return;
 
-				console.log("processing", _id);
+				this.running++;
 
 				try {
 					// do special processing stuff
 					let runner = new (LoadUtil.task(task.value.info.name))(task.value);
 					await runner.start();
+
+					console.log("processed", _id);
 				} catch (e) {
 					console.log(task.value.info.name, e, new Error());
 					await WorkerApp.get_tasks().update(
@@ -107,6 +127,8 @@
 						}
 					);
 				}
+
+				this.running--;
 
 			} catch (e) {
 				console.log(e, new Error());

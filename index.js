@@ -17,8 +17,8 @@
 	// setup sentry if dsn is set
 	global.err = {};
 	if(config.sentry.dsn && config.sentry.dsn != "") {
-		const raven = require("raven");
-		var client = new raven.Client(config.sentry.dsn);
+		const { Client } = require("raven");
+		let client = new Client(config.sentry.dsn);
 		client.patchGlobal();
 		client.setUserContext({
 			app: process.env.APP_NAME
