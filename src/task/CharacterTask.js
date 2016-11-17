@@ -10,8 +10,8 @@
 
 			let client = await ESIUtil.get_client();
 
-			let character_response = await client.Character.get_character_character_id(this.get_data());
-			let history_response = await client.Character.get_character_character_id_corporationhistory(this.get_data());
+			let character_response = await client.Character.get_characters_character_id(this.get_data());
+			let history_response = await client.Character.get_characters_character_id_corporationhistory(this.get_data());
 
 			await this.get_store().update(
 				{ id: this.get_data().character_id },
