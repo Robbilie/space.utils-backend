@@ -20,7 +20,7 @@
 				if(await system.is_null())
 					console.log("MISSING SYSTEM", system_id);
 
-				return system;
+				return system.get_future();
 
 			} catch (e) { console.log(e, new Error()); }
 

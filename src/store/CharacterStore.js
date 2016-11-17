@@ -27,7 +27,7 @@
 				if(await character.is_null())
 					console.log("MISSING CHAR", character_id);
 
-				return character;
+				return character.get_future();
 
 			} catch (e) { console.log(e, new Error()); }
 

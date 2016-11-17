@@ -11,15 +11,15 @@
 
 				let faction = await this.find_by_id(faction_id);
 
-				if(await faction.isNull())
+				if(await faction.is_null())
 					await FactionTask.create({ ids: [faction_id] });
 
 				faction = await this.find_by_id(faction_id);
 
-				if(await faction.isNull())
+				if(await faction.is_null())
 					console.log("MISSING FACTION", faction_id);
 
-				return faction;
+				return faction.get_future();
 
 			} catch (e) { console.log(e, new Error()); }
 		}

@@ -17,7 +17,10 @@
 
 				corporation = await this.find_by_id(corporation_id);
 
-				return corporation;
+				if(await corporation.is_null())
+					console.log("MISSING CORP", corporation_id);
+
+				return corporation.get_future();
 
 			} catch (e) { console.log(e, new Error()); }
 

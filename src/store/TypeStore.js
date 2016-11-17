@@ -20,7 +20,7 @@
 				if(await type.is_null())
 					console.log("MISSING TYPE", type_id);
 
-				return type;
+				return type.get_future();
 
 			} catch (e) { console.log(e, new Error()); }
 

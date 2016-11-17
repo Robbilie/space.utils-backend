@@ -16,7 +16,7 @@
 
 				killmail = await this.find_by_id(killmail_id);
 
-				return killmail;
+				return killmail.get_future();
 
 			} catch (e) { console.log(e, new Error()); }
 		}

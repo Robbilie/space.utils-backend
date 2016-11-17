@@ -20,7 +20,7 @@
 				if(await alliance.is_null())
 					console.log("MISSING ALLI", alliance_id);
 
-				return alliance;
+				return alliance.get_future();
 
 			} catch (e) { console.log(e, new Error()); }
 		}
