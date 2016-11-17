@@ -5,7 +5,7 @@
 
 	class RootHandler extends BaseHandler {
 
-		static home (_, { json }) {
+		static async home (_, { json }) {
 			json({});
 		}
 
