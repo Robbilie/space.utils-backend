@@ -97,19 +97,19 @@
 					await runner.start();
 				} catch (e) {
 					console.log(task.value.info.name, e, new Error());
+					await WorkerApp.get_tasks().update(
+						{ _id },
+						{
+							$set: {
+								"info.state": 0,
+								"info.modified": Date.now()
+							}
+						}
+					);
 				}
 
 			} catch (e) {
 				console.log(e, new Error());
-				await WorkerApp.get_tasks().update(
-					{ _id },
-					{
-						$set: {
-							"info.state": 0,
-							"info.modified": Date.now()
-						}
-					}
-				);
 			}
 
 		}
