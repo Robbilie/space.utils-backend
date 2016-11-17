@@ -28,16 +28,20 @@
 			return this.data;
 		}
 
+		get_name () {
+			return this.info.name;
+		}
+
 		static get_tasks () {
 			return DBUtil.get_store("Task");
 		}
 
 		get_collection () {
-			return DBUtil.get_collection(this.name.slice(0, -4).toLowerCase().pluralize());
+			return DBUtil.get_collection(this.get_name().toLowerCase().pluralize());
 		}
 
 		get_store () {
-			return DBUtil.get_store(this.name.slice(0, -4));
+			return DBUtil.get_store(this.get_name());
 		}
 
 		async update (options = {}) {
