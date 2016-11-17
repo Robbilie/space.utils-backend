@@ -80,18 +80,18 @@
 							"info.modified": Date.now()
 						}
 					},
-					{ new: true }
+					{ returnOriginal: false }
 				);
 
 				// task has already been taken by another worker
-				if (await task.is_null())
+				if (!task.value)
 					return;
 
 				try {
 					// do special processing stuff
-					new (LoadUtil.task((await task.getInfo()).name))(await task.get_future());
+					new (LoadUtil.task(task.value.info.name))(task.value);
 				} catch (e) {
-					console.log((await task.getInfo()).name, e, new Error());
+					console.log(task.value.info.name, e, new Error());
 				}
 
 			} catch (e) {
