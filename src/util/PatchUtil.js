@@ -8,7 +8,7 @@
 		static model (model) {
 			PatchUtil.filter(model).forEach(property => {
 
-				const field 	= property.split("_").slice(1);
+				const field 	= property.split("_").slice(1).join("_");
 				const type 		= model.types[field];
 
 				if(type.prototype instanceof Base) {
