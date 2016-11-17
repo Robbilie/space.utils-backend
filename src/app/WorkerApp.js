@@ -91,8 +91,8 @@
 
 				try {
 					// do special processing stuff
-					let task = new (LoadUtil.task(task.value.info.name))(task.value);
-					await task.start();
+					let runner = new (LoadUtil.task(task.value.info.name))(task.value);
+					await runner.start();
 				} catch (e) {
 					console.log(task.value.info.name, e, new Error());
 				}
