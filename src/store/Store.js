@@ -44,7 +44,7 @@
 		}
 
 		static get_collection () {
-			return DBUtil.get_collection(this.get_name());
+			return DBUtil.get_collection(this.get_name().toLowerCase().pluralize());
 		}
 
 		static get_name () {
