@@ -23,12 +23,12 @@
 	const { Corporation, CorporationList } = require("model/");
 
 	Alliance.types = {
-		id: 			Number,
-		name: 			String,
-		shortName: 		String,
-		executor: 		Corporation,
-		corporations: 	CorporationList,
-		updated: 		Number
+		id: 					Number,
+		name: 					String,
+		ticker: 				String,
+		executor_corporation: 	Corporation,
+		date_founded: 			Number,
+		corporations: 			CorporationList
 	};
 
 	const { PatchUtil } = require("util/");

@@ -18,8 +18,7 @@
 	Character.types = {
 		id: 			Number,
 		name: 			String,
-		corporation: 	Corporation,
-		updated: 		Number
+		corporation: 	Corporation
 	};
 
 	const { PatchUtil } = require("util/");

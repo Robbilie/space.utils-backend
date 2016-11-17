@@ -32,7 +32,7 @@
 		{
 			$lookup: {
 				from: 			"alliances",
-				localField: 	"allianceID",
+				localField: 	"alliance_id",
 				foreignField: 	"id",
 				as: 			"alliance"
 			}
@@ -46,7 +46,7 @@
 		{
 			$lookup: {
 				from: 			"characters",
-				localField: 	"ceoID",
+				localField: 	"ceo_id",
 				foreignField: 	"id",
 				as: 			"ceo"
 			}

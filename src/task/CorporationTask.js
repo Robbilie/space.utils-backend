@@ -21,6 +21,7 @@
 						name: 				corporation_response.obj.corporation_name,
 						ticker: 			corporation_response.obj.ticker,
 						member_count: 		corporation_response.obj.member_count,
+						ceo_id: 			corporation_response.obj.ceo_id,
 						alliance_history: 	history_response.obj
 					}, corporation_response.obj.alliance_id ? {
 						alliance_id: corporation_response.obj.alliance_id

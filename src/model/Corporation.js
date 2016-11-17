@@ -22,9 +22,9 @@
 		name: 			String,
 		ticker: 		String,
 		description: 	String,
+		member_count: 	Number,
 		ceo: 			Character,
-		alliance: 		Alliance,
-		updated: 		Number
+		alliance: 		Alliance
 	};
 
 	const { PatchUtil } 	= require("util/");
