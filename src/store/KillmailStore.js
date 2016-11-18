@@ -21,6 +21,10 @@
 			} catch (e) { console.log(e, new Error()); }
 		}
 
+		static find_by_id (killID, {} = $(1, { killID }, "Number")) {
+			return this.findOne({ killID });
+		}
+
 	}
 
 	KillmailStore.aggregations = [
