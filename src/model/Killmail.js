@@ -41,8 +41,6 @@
 
 	class Killmail {
 
-		get_id () {}
-
 	}
 
 	module.exports = Killmail;
