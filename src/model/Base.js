@@ -41,7 +41,7 @@
 						if(data[field_name]) {
 							// killmails…
 							if(!field_type.get_store()) {
-								if(data[field_name].constructor == "Array") {
+								if(field_type.name.slice(-4) == "List") {
 									return [field_name, await (new field_type(Promise.resolve(data[field_name].map(element => new (field_type.types.item)(Promise.resolve(element)))))).serialize(depth - 1)];
 								} else {
 									return [field_name, await (new field_type(Promise.resolve(data[field_name]))).serialize(depth - 1)];
