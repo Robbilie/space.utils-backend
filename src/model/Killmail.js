@@ -39,7 +39,7 @@
 
 	}
 
-	class Killmail {
+	class Killmail extends Base {
 
 	}
 
