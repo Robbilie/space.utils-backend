@@ -58,6 +58,10 @@
 		itemType: 				Type
 	};
 
+	KillmailItemList.types = {
+		item: KillmailItem
+	};
+
 	KillmailVictim.types = {
 		damageTaken: 	Number,
 		position: 		Object,
@@ -80,6 +84,10 @@
 		faction: 			Faction,
 		shipType: 			Type,
 		weaponType: 		Type
+	};
+
+	KillmailAttackerList.types = {
+		item: KillmailAttacker
 	};
 
 	Killmail.types = {

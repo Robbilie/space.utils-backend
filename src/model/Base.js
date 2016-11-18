@@ -41,7 +41,11 @@
 						if(data[field_name]) {
 							// killmails…
 							if(!field_type.get_store()) {
-								return [field_name, await (new field_type(Promise.resolve(data[field_name]))).serialize(depth - 1)];
+								if(data[field_name].constructor == "Array") {
+									return [field_name, await (new field_type(Promise.resolve(data[field_name].map(element => new (field_type.types.item)(Promise.resolve(element)))))).serialize(depth - 1)];
+								} else {
+									return [field_name, await (new field_type(Promise.resolve(data[field_name]))).serialize(depth - 1)];
+								}
 							} else {
 								return [field_name, await field_type.get_store().from_data(data[field_name]).serialize(depth - 1)];
 							}
