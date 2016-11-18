@@ -11,6 +11,9 @@
 				const field 	= property.split("_").slice(1).join("_");
 				const type 		= model.types[field];
 
+				if(!type)
+					console.log("missing type", model.name, property);
+
 				if(type.prototype instanceof Base) {
 					const store = type.get_store();
 					Object.defineProperty(model.prototype, property, {
