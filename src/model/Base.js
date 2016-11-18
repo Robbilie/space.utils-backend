@@ -39,7 +39,12 @@
 				if(depth > 0) {
 					if(field_type.prototype instanceof Base) {
 						if(data[field_name]) {
-							return [field_name, await field_type.get_store().from_data(data[field_name]).serialize(depth - 1)];
+							// killmails…
+							if(!field_type.get_store()) {
+								return [field_name, await (new field_type(Promise.resolve(data[field_name]))).serialize(depth - 1)];
+							} else {
+								return [field_name, await field_type.get_store().from_data(data[field_name]).serialize(depth - 1)];
+							}
 						} else {
 							return [field_name, await field_type.get_store().find_by_pk(data[`${field_name}_id`]).serialize(depth - 1)];
 						}
