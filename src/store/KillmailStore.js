@@ -25,6 +25,14 @@
 			return this.findOne({ killID });
 		}
 
+		static get_pk () {
+			return "killID";
+		}
+
+		static find_by_pk (pk) {
+			return this.from_promise(this.find_or_create(pk));
+		}
+
 	}
 
 	KillmailStore.aggregations = [
