@@ -264,7 +264,7 @@ paths:
     parameters:
       - $ref: '#/parameters/alliance_id'
     get:
-      operationId: AllianceHandler_get_executor
+      operationId: AllianceHandler_get_executor_corporation
       tags:
         - alliances
       summary: ""

@@ -6,10 +6,10 @@
 
 	class AllianceHandler extends EntityHandler {
 
-		static async get_executor ({ swagger: { params: { alliance_id } } }, res) {
+		static async get_executor_corporation ({ swagger: { params: { alliance_id } } }, res) {
 			res.json(await AllianceStore
 				.find_or_create(alliance_id.value)
-				.get_executor()
+				.get_executor_corporation()
 				.serialize());
 		}
 

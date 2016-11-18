@@ -5,7 +5,7 @@
 
 	class Alliance extends Entity {
 
-		get_executor () {}
+		get_executor_corporation () {}
 
 		get_corporations () {}
 
