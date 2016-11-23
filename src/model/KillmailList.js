@@ -5,8 +5,8 @@
 
 	class KillmailList extends List {
 
-		constructor (data) {
-			super(Killmail, data);
+		constructor (future_data) {
+			super(Killmail, future_data);
 		}
 
 	}

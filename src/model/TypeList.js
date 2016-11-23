@@ -5,8 +5,8 @@
 
 	class TypeList extends List {
 
-		constructor (data) {
-			super(Type, data);
+		constructor (future_data) {
+			super(Type, future_data);
 		}
 
 	}

@@ -5,8 +5,8 @@
 
 	class CorporationList extends List {
 
-		constructor (data) {
-			super(Corporation, data);
+		constructor (future_data) {
+			super(Corporation, future_data);
 		}
 
 	}

@@ -26,11 +26,11 @@
 			return new model(prom);
 		}
 
-		static from_data (data) {
+		static from_data (data, model) {
 			if(data.constructor.name == "Array")
-				return this.from_promise(Promise.resolve(data.map(doc => this.from_promise(Promise.resolve(doc)))), this.get_list());
+				return this.from_promise(Promise.resolve(data.map(doc => this.from_promise(Promise.resolve(doc), model))), model || this.get_list());
 			else
-				return this.from_promise(Promise.resolve(data));
+				return this.from_promise(Promise.resolve(data), model);
 		}
 
 		static find_or_create () {}

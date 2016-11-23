@@ -13,8 +13,8 @@
 
 	class KillmailItemList extends List {
 
-		constructor (data) {
-			super(KillmailItem, data);
+		constructor (future_data) {
+			super(KillmailItem, future_data);
 		}
 
 	}
@@ -33,8 +33,8 @@
 
 	class KillmailAttackerList extends List {
 
-		constructor (data) {
-			super(KillmailAttacker, data);
+		constructor (future_data) {
+			super(KillmailAttacker, future_data);
 		}
 
 	}
@@ -58,9 +58,7 @@
 		itemType: 				Type
 	};
 
-	KillmailItemList.types = {
-		item: KillmailItem
-	};
+	KillmailItemList.types = {};
 
 	KillmailVictim.types = {
 		damageTaken: 	Number,
@@ -86,9 +84,7 @@
 		weaponType: 		Type
 	};
 
-	KillmailAttackerList.types = {
-		item: KillmailAttacker
-	};
+	KillmailAttackerList.types = {};
 
 	Killmail.types = {
 		_id: 				ObjectID,

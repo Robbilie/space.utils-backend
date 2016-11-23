@@ -2,11 +2,12 @@
 	"use strict";
 
 	const { Base } 		= require("model/");
+	const { Store } = require("store/");
 
 	class List extends Base {
 
-		constructor (type, data) {
-			super(data);
+		constructor (type, future_data) {
+			super(future_data.then(data => data.map(doc => Store.from_promise(doc, type))));
 			this.type = type;
 		}
 
@@ -27,7 +28,7 @@
 		}
 
 		async serialize (depth = 2) {
-			const data = await this.get_future();
+			let data = await this.get_future();
 			return Promise.all(data.map(element => element.serialize(depth - 1)));
 		}
 

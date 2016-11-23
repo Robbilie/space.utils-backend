@@ -5,8 +5,8 @@
 
 	class SystemList extends List {
 
-		constructor (data) {
-			super(System, data);
+		constructor (future_data) {
+			super(System, future_data);
 		}
 
 	}

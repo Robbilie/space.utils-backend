@@ -5,8 +5,8 @@
 
 	class CharacterList extends List {
 
-		constructor (data) {
-			super(Character, data);
+		constructor (future_data) {
+			super(Character, future_data);
 		}
 
 	}

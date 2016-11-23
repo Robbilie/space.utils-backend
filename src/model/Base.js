@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { DBUtil } = require("util/");
+	const { Store } = require("store/");
 
 	class Base {
 
@@ -33,32 +34,21 @@
 			const data = await this.get_future();
 			const results = await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
-				if(field_name == "_id" || !(data[field_name] || data[`${field_name}_id`]))
+				if(
+					field_name == "_id" ||								// hide _id field
+					!(data[field_name] || data[`${field_name}_id`]) ||	// hide if field is empty and no PK field set; TODO: use PK instead of id only
+					depth == 0 											// if depth limit reached go home
+				)
 					return;
 
-				if(depth > 0) {
-					if(field_type.prototype instanceof Base) {
-						if(data[field_name]) {
-							// killmails…
-							if(!field_type.get_store()) {
-								if(field_type.name.slice(-4) == "List") {
-									return [field_name, await (new field_type(Promise.resolve(data[field_name].map(element => new (field_type.types.item)(Promise.resolve(element)))))).serialize(depth - 1)];
-								} else {
-									return [field_name, await (new field_type(Promise.resolve(data[field_name]))).serialize(depth - 1)];
-								}
-							} else {
-								return [field_name, await field_type.get_store().from_data(data[field_name]).serialize(depth - 1)];
-							}
-						} else {
-							return [field_name, await field_type.get_store().find_by_pk(data[`${field_name}_id`]).serialize(depth - 1)];
-						}
+				if(field_type.prototype instanceof Base) {
+					if(data[field_name]) {
+						return [field_namem, await Store.from_data(data[field_name], field_type).serialize(depth - 1)];
 					} else {
-						return [field_name, (new field_type(data[field_name])).valueOf()];
+						return [field_name, await field_type.get_store().find_by_pk(data[`${field_name}_id`]).serialize(depth - 1)];
 					}
-				//} else if (depth == 0 || ((data[field_name] || data[`${field_name}_id`] || { constructor: { name: "" } }).constructor.name != field_type.name)) {
-				//	return [field_name, { href: `https://api.${process.env.HOST}/${this.constructor.name.lowercaseFirstLetter().pluralize()}/${data["id"]}/${field_name}/` }];
 				} else {
-					return [field_name, data[field_name]];
+					return [field_name, (new field_type(data[field_name])).valueOf()];
 				}
 
 			}));

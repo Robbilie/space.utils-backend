@@ -5,8 +5,8 @@
 
 	class FactionList extends List {
 
-		constructor (data) {
-			super(Faction, data);
+		constructor (future_data) {
+			super(Faction, future_data);
 		}
 
 	}
