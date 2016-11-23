@@ -46,7 +46,7 @@
 					} else {
 						return [field_name, await field_type.get_store().find_by_pk(data[`${field_name}_id`]).serialize(depth - 1)];
 					}
-				} else {
+				} else if(!(field_type.prototype instanceof Base)) {
 					return [field_name, (new field_type(data[field_name])).valueOf()];
 				}
 
