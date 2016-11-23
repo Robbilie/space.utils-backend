@@ -55,7 +55,7 @@
 		
 		async destroy () {
 			let tasks = await BaseTask.get_tasks();
-			await tasks.remove({ _id: this.get__id() });
+			await tasks.destroy({ _id: this.get__id() });
 		}
 
 		static create (data = {}, faf = false) {
