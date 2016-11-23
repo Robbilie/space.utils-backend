@@ -14,9 +14,10 @@
 
 			let killmail = killmail_response.obj;
 				delete killmail.killmail_id;
-				killmail.id 	= this.get_data().killmail_id;
-				killmail.hash 	= this.get_data().killmail_hash;
-				killmail.attacker_count = killmails.attackers.length;
+				killmail.id 				= this.get_data().killmail_id;
+				killmail.hash 				= this.get_data().killmail_hash;
+				killmail.attacker_count 	= killmails.attackers.length;
+				killmail.killmail_time 		= new Date(killmail.killmail_time).getTime();
 
 			await this.get_store().update(
 				{ id: killmail.id },

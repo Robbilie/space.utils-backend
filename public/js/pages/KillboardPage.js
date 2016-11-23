@@ -31,7 +31,7 @@
 				data.items.forEach(kill => {
 					let victim = kill.victim;
 					let attacker = kill.attackers.find(attacker => attacker.final_blow);
-					let time = new Date(kill.kill_time);
+					let time = new Date(kill.killmail_time);
 					this.getList().append($(["a", { className: "row", href: `/killmails/${kill.id}/` }, [
 						["div", { className: "column grad col-1" }, [
 							["img", { src: `https://imageserver.eveonline.com/Type/${kill.victim.ship_type.id}_64.png`, alt: kill.victim.ship_type.name }],
