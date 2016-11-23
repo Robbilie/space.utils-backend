@@ -35,8 +35,11 @@
 			const results = await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
 				if(
-					field_name == "_id" ||								// hide _id field
-					!(data[field_name] || data[`${field_name}_id`]) 	// hide if field is empty and no PK field set; TODO: use PK instead of id only
+					field_name == "_id" ||	// hide _id field
+					!(
+						typeof(data[field_name]) != "undefined" ||
+						typeof(data[`${field_name}_id`]) != "undefined"
+					) 	// hide if field is empty and no PK field set; TODO: use PK instead of id only
 				)
 					return;
 
