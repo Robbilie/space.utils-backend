@@ -3,13 +3,13 @@
 
 	class KillmailPage extends Page {
 
-		constructor (parent, killID) {
+		constructor (parent, id) {
 			super(parent, "Killmail");
 			this.classList.push("page");
 
-			this.killID = killID - 0;
+			this.id = id - 0;
 
-			console.log("Kill", killID);
+			console.log("Kill", id);
 
 			if(true) { // desktop
 				this.header = $(["canvas", { className: "kill-header-bg" }]);
@@ -59,27 +59,27 @@
 		loadInitial () {
 			this.getApp().setLoadingState(true);
 			return new Promise((resolve) => {
-				json(`https://api.utils.space/killmails/${this.killID}/`).then(kill => {
+				json(`https://api.utils.space/killmails/${this.id}/`).then(kill => {
 
 					console.log(kill);
 
 					//this.getFittingConti().children[1].style.display = kill.victim.items.length == 0 ? "none" : "block";
 
-					kill.victim.items.forEach(item => this.getTab("items").append($(["div", { className: item.quantityDestroyed ? "destroyed" : "dropped" }, [
-						["img", { src: `https://imageserver.eveonline.com/Type/${item.itemType.id}_32.png` }],
-						["span", { innerHTML: item.itemType.name }],
-						["span", { innerHTML: item.quantityDestroyed || item.quantityDropped }]
+					kill.victim.items.forEach(item => this.getTab("items").append($(["div", { className: item.quantity_destroyed ? "destroyed" : "dropped" }, [
+						["img", { src: `https://imageserver.eveonline.com/Type/${item.item_type.id}_32.png` }],
+						["span", { innerHTML: item.item_type.name }],
+						["span", { innerHTML: item.quantity_destroyed || item.quantity_dropped }]
 					]])));
 
 					kill.attackers.forEach(attacker => this.getTab("attackers").append($(["div", { className: "" }, [
-						["img", { src: `https://imageserver.eveonline.com/Type/${attacker.shipType.id}_32.png` }],
-						["img", { src: `https://imageserver.eveonline.com/Type/${(attacker.weaponType || attacker.shipType).id}_32.png` }],
+						["img", { src: `https://imageserver.eveonline.com/Type/${attacker.ship_type.id}_32.png` }],
+						["img", { src: `https://imageserver.eveonline.com/Type/${(attacker.weapon_type || attacker.ship_type).id}_32.png` }],
 						["img", { src: `https://imageserver.eveonline.com/${(["character", "corporation", "alliance"].find(e => !!attacker[e]) || "alliance").capitalizeFirstLetter()}/${[attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).id}_32.${["character", "corporation", "alliance"].find(e => !!attacker[e]) == "character" ? "jpg" : "png"}` }],
 						["span", { innerHTML: [attacker.character, attacker.corporation, attacker.alliance, attacker.faction].find(e => !!e).name }],
-						["span", { innerHTML: attacker.damageDone || 0 }]
+						["span", { innerHTML: attacker.damage_done || 0 }]
 					]])));
 
-					Helper.typeToGraphic(kill.victim.shipType.id).then(dna => {
+					Helper.typeToGraphic(kill.victim.ship_type.id).then(dna => {
 						const page = this;
 						this.scene = this.ccpwgl.loadScene(`res:/dx9/scene/universe/${((f) => ["a", "c", "g", "m"].find(c => c == f) || "c")(dna.split(":").slice(-1)[0][0])}09_cube.red`);
 
@@ -132,7 +132,7 @@
 		}
 
 		getKillID () {
-			return this.killID;
+			return this.id;
 		}
 
 		getFittingConti () {
