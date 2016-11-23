@@ -30,7 +30,7 @@
 			return this.get_future().then(data => data._id);
 		}
 
-		async serialize (depth = 2) {
+		async serialize (depth = 3) {
 			const data = await this.get_future();
 			const results = await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
