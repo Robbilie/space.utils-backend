@@ -15,8 +15,7 @@
 						let collection = await this.get_collection();
 						cursor = param(collection);
 					}
-					let docs = await cursor.toArray();
-					return Promise.all(docs.map(doc => this.from_data(doc)));
+					return await cursor.toArray();
 				})(),
 				this.get_list()
 			);
