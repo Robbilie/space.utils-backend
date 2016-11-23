@@ -21,6 +21,10 @@
 
 	class KillmailVictim extends Base {
 
+		serialize () {
+			return super.serialize(1);
+		}
+
 	}
 
 	class KillmailAttacker extends Base {
