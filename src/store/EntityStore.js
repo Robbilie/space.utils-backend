@@ -9,8 +9,8 @@
 			return "id";
 		}
 
-		static find_by_pk (pk) {
-			return this.from_promise(this.find_or_create(pk));
+		static find_by_pk (...keys) {
+			return this.from_promise(this.find_or_create(...keys));
 		}
 
 		static find_by_id (id, {} = $(1, { id }, "Number")) {
