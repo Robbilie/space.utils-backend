@@ -59,7 +59,7 @@
 			const local_storage = { last_ts };
 			return this.get_updates(options, local_storage.last_ts).then(updates => updates.forEach(
 				log => local_storage.last_ts = log.ts || fn(log),
-				error => console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.get_continuous_updates(local_storage.last_ts)))
+				error => console.log(err, new Error(), "restarting cursor…") || setImmediate(() => this.get_continuous_updates(options, local_storage.last_ts, fn)))
 			);
 		}
 
