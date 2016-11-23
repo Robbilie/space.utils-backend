@@ -21,12 +21,12 @@
 			} catch (e) { console.log(e, new Error()); }
 		}
 
-		static find_by_id (killID, {} = $(1, { killID }, "Number")) {
-			return this.findOne({ killID });
+		static find_by_id (id, {} = $(1, { id }, "Number")) {
+			return this.findOne({ id });
 		}
 
 		static get_pk () {
-			return "killID";
+			return "id";
 		}
 
 		static find_by_pk (...keys) {
@@ -46,7 +46,7 @@
 		{
 			$lookup: {
 				from: 			"characters",
-				localField: 	"attackers.characterID",
+				localField: 	"attackers.character_id",
 				foreignField: 	"id",
 				as: 			"attackers.character"
 			}
@@ -60,7 +60,7 @@
 		{
 			$lookup: {
 				from: 			"corporations",
-				localField: 	"attackers.corporationID",
+				localField: 	"attackers.corporation_id",
 				foreignField: 	"id",
 				as: 			"attackers.corporation"
 			}
@@ -74,7 +74,7 @@
 		{
 			$lookup: {
 				from: 			"alliances",
-				localField: 	"attackers.allianceID",
+				localField: 	"attackers.alliance_id",
 				foreignField: 	"id",
 				as: 			"attackers.alliance"
 			}
@@ -88,7 +88,7 @@
 		{
 			$lookup: {
 				from: 			"factions",
-				localField: 	"attackers.factionID",
+				localField: 	"attackers.faction_id",
 				foreignField: 	"id",
 				as: 			"attackers.faction"
 			}
@@ -102,41 +102,41 @@
 		{
 			$lookup: {
 				from: 			"types",
-				localField: 	"attackers.shipTypeID",
+				localField: 	"attackers.ship_type_id",
 				foreignField: 	"id",
-				as: 			"attackers.shipType"
+				as: 			"attackers.ship_type"
 			}
 		},
 		{
 			$unwind: {
-				path: 			"$attackers.shipType",
+				path: 			"$attackers.ship_type",
 				preserveNullAndEmptyArrays: true
 			}
 		},
 		{
 			$lookup: {
 				from: 			"types",
-				localField: 	"attackers.weaponTypeID",
+				localField: 	"attackers.weapon_type_id",
 				foreignField: 	"id",
-				as: 			"attackers.weaponType"
+				as: 			"attackers.weapon_type"
 			}
 		},
 		{
 			$unwind: {
-				path: 			"$attackers.weaponType",
+				path: 			"$attackers.weapon_type",
 				preserveNullAndEmptyArrays: true
 			}
 		},
 		{
 			$group: {
 				_id: "$_id",
-				killID: { $first: "$killID" },
+				id: { $first: "$id" },
 				hash: { $first: "$hash" },
-				killTime: { $first: "$killTime"},
-				attackerCount: { $first: "$attackerCount" },
+				kill_time: { $first: "$kill_time"},
+				attacker_count: { $first: "$attacker_count" },
 				victim: { $first: "$victim" },
-				solarSystemID: { $first: "$solarSystemID" },
-				warID: { $first: "$warID" },
+				solar_system_id: { $first: "$solar_system_id" },
+				war_id: { $first: "$war_id" },
 				attackers: { $push: "$attackers" }
 			}
 		},
@@ -150,48 +150,48 @@
 		{
 			$lookup: {
 				from: 			"types",
-				localField: 	"victim.items.itemTypeID",
+				localField: 	"victim.items.item_type_id",
 				foreignField: 	"id",
-				as: 			"victim.items.itemType"
+				as: 			"victim.items.item_type"
 			}
 		},
 		{
 			$unwind: {
-				path: 			"$victim.items.itemType",
+				path: 			"$victim.items.item_type",
 				preserveNullAndEmptyArrays: true
 			}
 		},
 		{
 			$group: {
 				_id: "$_id",
-				killID: { $first: "$killID" },
+				id: { $first: "$id" },
 				hash: { $first: "$hash" },
-				killTime: { $first: "$killTime" },
-				attackerCount: { $first: "$attackerCount" },
+				kill_time: { $first: "$kill_time" },
+				attacker_count: { $first: "$attacker_count" },
 				victim: { $first: "$victim" },
-				solarSystemID: { $first: "$solarSystemID" },
-				warID: { $first: "$warID" },
+				solar_system_id: { $first: "$solar_system_id" },
+				war_id: { $first: "$war_id" },
 				attackers: { $first: "$attackers" },
 				items: { $push: "$victim.items" }
 			}
 		},
 		{
 			$project: {
-				killID: 1,
+				id: 1,
 				hash: 1,
-				killTime: 1,
-				attackerCount: 1,
-				solarSystemID: 1,
-				warID: 1,
+				kill_time: 1,
+				attacker_count: 1,
+				solar_system_id: 1,
+				war_id: 1,
 				attackers: 1,
 				victim: {
-					damageTaken: 1,
+					damage_taken: 1,
 					position: 1,
-					characterID: 1,
-					corporationID: 1,
-					allianceID: 1,
-					factionID: 1,
-					shipTypeID: 1,
+					character_id: 1,
+					corporation_id: 1,
+					alliance_id: 1,
+					faction_id: 1,
+					ship_type_id: 1,
 					items: "$items"
 				}
 			}
@@ -200,14 +200,14 @@
 		{
 			$lookup: {
 				from: 			"systems",
-				localField: 	"solarSystemID",
+				localField: 	"solar_system_id",
 				foreignField: 	"id",
-				as: 			"solarSystem"
+				as: 			"solar_system"
 			}
 		},
 		{
 			$unwind: {
-				path: 			"$solarSystem",
+				path: 			"$solar_system",
 				preserveNullAndEmptyArrays: true
 			}
 		},
@@ -215,7 +215,7 @@
 		{
 			$lookup: {
 				from: 			"characters",
-				localField: 	"victim.characterID",
+				localField: 	"victim.character_id",
 				foreignField: 	"id",
 				as: 			"victim.character"
 			}
@@ -229,7 +229,7 @@
 		{
 			$lookup: {
 				from: 			"corporations",
-				localField: 	"victim.corporationID",
+				localField: 	"victim.corporation_id",
 				foreignField: 	"id",
 				as: 			"victim.corporation"
 			}
@@ -243,7 +243,7 @@
 		{
 			$lookup: {
 				from: 			"alliances",
-				localField: 	"victim.allianceID",
+				localField: 	"victim.alliance_id",
 				foreignField: 	"id",
 				as: 			"victim.alliance"
 			}
@@ -257,7 +257,7 @@
 		{
 			$lookup: {
 				from: 			"factions",
-				localField: 	"victim.factionID",
+				localField: 	"victim.faction_id",
 				foreignField: 	"id",
 				as: 			"victim.faction"
 			}
@@ -271,14 +271,14 @@
 		{
 			$lookup: {
 				from: 			"types",
-				localField: 	"victim.shipTypeID",
+				localField: 	"victim.ship_type_id",
 				foreignField: 	"id",
-				as: 			"victim.shipType"
+				as: 			"victim.ship_type"
 			}
 		},
 		{
 			$unwind: {
-				path: 			"$victim.shipType",
+				path: 			"$victim.ship_type",
 				preserveNullAndEmptyArrays: true
 			}
 		}

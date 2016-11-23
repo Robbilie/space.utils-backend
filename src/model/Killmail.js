@@ -53,47 +53,47 @@
 	KillmailItem.types = {
 		singleton: 				Number,
 		flag: 					Number,
-		quantityDestroyed: 		Number,
-		quantityDropped: 		Number,
-		itemType: 				Type
+		quantity_destroyed: 	Number,
+		quantity_dropped: 		Number,
+		item_type: 				Type
 	};
 
 	KillmailItemList.types = {};
 
 	KillmailVictim.types = {
-		damageTaken: 	Number,
+		damage_taken: 	Number,
 		position: 		Object,
 		items: 			KillmailItemList,
 		character: 		Character,
 		corporation: 	Corporation,
 		alliance: 		Alliance,
 		faction: 		Faction,
-		shipType: 		Type,
-		weaponType: 	Type
+		ship_type: 		Type,
+		weapon_type: 	Type
 	};
 
 	KillmailAttacker.types = {
-		finalBlow: 			Boolean,
-		securityStatus: 	Number,
-		damageDone: 		Number,
+		final_blow: 			Boolean,
+		security_status: 	Number,
+		damage_done: 		Number,
 		character: 			Character,
 		corporation: 		Corporation,
 		alliance: 			Alliance,
 		faction: 			Faction,
-		shipType: 			Type,
-		weaponType: 		Type
+		ship_type: 			Type,
+		weapon_type: 		Type
 	};
 
 	KillmailAttackerList.types = {};
 
 	Killmail.types = {
 		_id: 				ObjectID,
-		killID: 			Number,
+		id: 				Number,
 		hash: 				String,
-		solarSystem: 		System,
-		killTime: 			Number,
+		solar_system: 		System,
+		kill_time: 			Number,
 		attackers: 			KillmailAttackerList,
-		attackerCount: 		Number,
+		attacker_count: 	Number,
 		victim: 			KillmailVictim
 	};
 
