@@ -30,20 +30,17 @@
 			return this.get_future().then(data => data._id);
 		}
 
-		async serialize (depth = 3) {
-			if(depth == 0)
-				return;
+		async serialize (depth = 2) {
 			const data = await this.get_future();
 			const results = await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
 				if(
 					field_name == "_id" ||								// hide _id field
-					!(data[field_name] || data[`${field_name}_id`]) ||	// hide if field is empty and no PK field set; TODO: use PK instead of id only
-					depth == 0 											// if depth limit reached go home
+					!(data[field_name] || data[`${field_name}_id`]) 	// hide if field is empty and no PK field set; TODO: use PK instead of id only
 				)
 					return;
 
-				if(field_type.prototype instanceof Base) {
+				if(depth > 0 && field_type.prototype instanceof Base) {
 					if(data[field_name]) {
 						return [field_name, await Store.from_data(data[field_name], field_type).serialize(depth - 1)];
 					} else {

@@ -6,7 +6,7 @@
 	class KillmailItem extends Base {
 
 		serialize () {
-			return super.serialize(2);
+			return super.serialize(1);
 		}
 
 	}
@@ -26,7 +26,7 @@
 	class KillmailAttacker extends Base {
 
 		serialize () {
-			return super.serialize(2);
+			return super.serialize(1);
 		}
 
 	}
