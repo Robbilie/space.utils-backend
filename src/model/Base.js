@@ -43,7 +43,7 @@
 
 				if(field_type.prototype instanceof Base) {
 					if(data[field_name]) {
-						return [field_namem, await Store.from_data(data[field_name], field_type).serialize(depth - 1)];
+						return [field_name, await Store.from_data(data[field_name], field_type).serialize(depth - 1)];
 					} else {
 						return [field_name, await field_type.get_store().find_by_pk(data[`${field_name}_id`]).serialize(depth - 1)];
 					}
