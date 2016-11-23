@@ -6,13 +6,13 @@
 
 	class KillmailStore extends Store {
 
-		static async find_or_create (killmail_id, hash, {} = $(1, { killmail_id }, "Number")) {
+		static async find_or_create (killmail_id, killmail_hash, {} = $(1, { killmail_id }, "Number")) {
 			try {
 
 				let killmail = await this.find_by_id(killmail_id);
 
 				if(await killmail.is_null())
-					await KillmailTask.create({ killmail_id, hash });
+					await KillmailTask.create({ killmail_id, killmail_hash });
 
 				killmail = await this.find_by_id(killmail_id);
 
