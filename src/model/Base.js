@@ -32,7 +32,7 @@
 
 		async serialize (depth = 2) {
 			const data = await this.get_future();
-			const results = await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
+			(await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
 				if(
 					field_name == "_id" ||	// hide _id field
@@ -44,17 +44,22 @@
 					return;
 
 				if(depth > 0 && field_type.prototype instanceof Base) {
+					let model;
 					if(data[field_name]) {
-						return [field_name, await Store.from_data(data[field_name], field_type).serialize(depth - 1)];
+						model = Store.from_data(data[field_name], field_type);
 					} else {
-						return [field_name, await field_type.get_store().find_by_pk(data[`${field_name}_id`]).serialize(depth - 1)];
+						model = field_type.get_store().find_by_pk(data[`${field_name}_id`]);
 					}
-				} else if(!(field_type.prototype instanceof Base)) {
-					return [field_name, (new field_type(data[field_name])).valueOf()];
+					return [field_name, await model.serialize(depth - 1)];
+				} else {
+					if(field_type.prototype instanceof Base) {
+						return [`${field_name}_id`, data[`${field_name}_id`]];
+					} else {
+						return [field_name, (new field_type(data[field_name])).valueOf()];
+					}
 				}
 
-			}));
-			return results
+			})))
 				.filter(c => !!c)
 				.reduce(
 					(p, c) => { p[c[0]] = c[1]; return p; },

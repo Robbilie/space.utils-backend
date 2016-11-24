@@ -537,19 +537,14 @@ definitions:
         format: int64
       name:
         type: string
-      href:
+      ticker:
         type: string
-      shortName:
-        type: string
-      executor:
+      executor_corporation:
         $ref: '#/definitions/Corporation'
       corporations:
         type: array
         items:
           $ref: '#/definitions/Corporation'
-      updated:
-        type: integer
-        format: int64
   AllianceList:
     type: object
     properties:
@@ -565,8 +560,6 @@ definitions:
         format: int64
       name:
         type: string
-      href:
-        type: string
       ticker:
         type: string
       description:
@@ -575,9 +568,6 @@ definitions:
         $ref: '#/definitions/Character'
       alliance:
         $ref: '#/definitions/Alliance'
-      updated:
-        type: integer
-        format: int64
   CorporationList:
     type: object
     properties:
@@ -593,13 +583,8 @@ definitions:
         format: int64
       name:
         type: string
-      href:
-        type: string
       corporation:
         $ref: '#/definitions/Corporation'
-      updated:
-        type: integer
-        format: int64
   CharacterList:
     type: object
     properties:
@@ -615,8 +600,6 @@ definitions:
         format: int64
       name:
         type: string
-      href:
-        type: string
   FactionList:
     type: object
     properties:
@@ -627,21 +610,21 @@ definitions:
   Killmail:
     type: object
     properties:
-      killID:
+      id:
         type: integer
         format: int64
       hash:
         type: string
-      solarSystem:
+      solar_system:
         $ref: '#/definitions/System'
-      killTime:
+      killmail_time:
         type: integer
         format: int64
       attackers:
         type: array
         items:
           $ref: '#/definitions/KillmailAttacker'
-      attackerCount:
+      attacker_count:
         type: integer
         format: int64
       victim:
@@ -656,11 +639,11 @@ definitions:
   KillmailAttacker:
     type: object
     properties:
-      finalBlow:
+      final_blow:
         type: boolean
-      securityStatus:
+      security_status:
         type: number
-      damageDone:
+      damage_done:
         type: integer
         format: int64
       character:
@@ -671,14 +654,14 @@ definitions:
         $ref: '#/definitions/Alliance'
       faction:
         $ref: '#/definitions/Faction'
-      shipType:
+      ship_type:
         $ref: '#/definitions/Type'
-      weaponType:
+      weapon_type:
         $ref: '#/definitions/Type'
   KillmailVictim:
     type: object
     properties:
-      damageTaken:
+      damage_taken:
         type: integer
         format: int64
       position:
@@ -695,7 +678,7 @@ definitions:
         $ref: '#/definitions/Alliance'
       faction:
         $ref: '#/definitions/Faction'
-      shipType:
+      ship_type:
         $ref: '#/definitions/Type'
   KillmailItem:
     type: object
@@ -706,13 +689,13 @@ definitions:
       flag:
         type: integer
         format: int64
-      quantityDestroyed:
+      quantity_destroyed:
         type: integer
         format: int64
-      quantityDropped:
+      quantity_dropped:
         type: integer
         format: int64
-      itemType:
+      item_type:
         $ref: '#/definitions/Type'
   System:
     type: object
@@ -722,9 +705,7 @@ definitions:
         format: int64
       name:
         type: string
-      href:
-        type: string
-      securityStatus:
+      security_status:
         type: number
   SystemList:
     type: object
