@@ -60,11 +60,10 @@
 				}
 
 			})))
-				.filter(c => !!c)
-				.reduce(
-					(p, c) => { p[c[0]] = c[1]; return p; },
-					data.constructor.name == "Object" ? {} : []
-				);
+			.reduce(
+				(p, c) => { if(!!c) p[c[0]] = c[1]; return p; },
+				data.constructor.name == "Object" ? {} : []
+			);
 		}
 
 	}
