@@ -5,7 +5,7 @@
 	process.env.UV_THREADPOOL_SIZE = 128;
 
 	// allow relative imports
-	process.env.NODE_PATH = __dirname + "/src";
+	process.env.NODE_PATH = `${__dirname}/src`;
 	require("module").Module._initPaths();
 
 	// preload some basic modifications
