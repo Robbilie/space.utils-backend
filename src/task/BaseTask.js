@@ -114,7 +114,7 @@
 						if(o.$set.info.state == 2)
 							tid = o2._id.toString();
 					} else {
-						let task = await this.get_tasks.find_by__id(o2._id);
+						let task = await this.get_tasks().find_by__id(o2._id);
 						if(!await task.is_null() && (await task.getInfo()).state == 2)
 							tid = (await task.get__id()).toString();
 					}
