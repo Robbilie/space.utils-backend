@@ -12,10 +12,10 @@
 
 				let alliance = await this.find_by_id(alliance_id);
 				
-				if(await alliance.is_null())
+				if(await alliance.is_null()) {
 					await AllianceTask.create({ alliance_id });
-
-				alliance = await this.find_by_id(alliance_id);
+					alliance = await this.find_by_id(alliance_id);
+				}
 
 				if(await alliance.is_null())
 					console.log("MISSING ALLI", alliance_id);

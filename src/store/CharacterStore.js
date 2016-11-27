@@ -12,17 +12,10 @@
 
 				let character = await this.find_by_id(character_id);
 
-				if(await character.is_null())
+				if(await character.is_null()) {
 					await CharacterTask.create({ character_id });
-
-				character = await this.find_by_id(character_id);
-
-				/*
-				if(await character.is_null())
-					await NPCAffiliationTask.create({ ids: [character_id] });
-
-				character = await this.find_by_id(character_id);
-				*/
+					character = await this.find_by_id(character_id);
+				}
 
 				if(await character.is_null())
 					console.log("MISSING CHAR", character_id);

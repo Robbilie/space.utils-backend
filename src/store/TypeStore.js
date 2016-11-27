@@ -12,10 +12,10 @@
 
 				let type = await this.find_by_id(type_id);
 
-				if(await type.is_null())
+				if(await type.is_null()) {
 					await TypeTask.create({ type_id });
-
-				type = await this.find_by_id(type_id);
+					type = await this.find_by_id(type_id);
+				}
 
 				if(await type.is_null())
 					console.log("MISSING TYPE", type_id);

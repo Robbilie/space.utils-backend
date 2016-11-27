@@ -11,10 +11,10 @@
 
 				let killmail = await this.find_by_id(killmail_id);
 
-				if(await killmail.is_null())
+				if(await killmail.is_null() && killmail_hash) {
 					await KillmailTask.create({ killmail_id, killmail_hash });
-
-				killmail = await this.find_by_id(killmail_id);
+					killmail = await this.find_by_id(killmail_id);
+				}
 
 				return killmail.get_future();
 

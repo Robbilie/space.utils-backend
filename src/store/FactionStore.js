@@ -11,10 +11,10 @@
 
 				let faction = await this.find_by_id(faction_id);
 
-				if(await faction.is_null())
+				if(await faction.is_null()) {
 					await FactionTask.create({ ids: [faction_id] });
-
-				faction = await this.find_by_id(faction_id);
+					faction = await this.find_by_id(faction_id);
+				}
 
 				if(await faction.is_null())
 					console.log("MISSING FACTION", faction_id);
