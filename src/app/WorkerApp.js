@@ -73,9 +73,7 @@
 				.toArray();
 
 			// process them
-			//await Promise.all(
-				tasks.map(doc => WorkerApp.process(doc._id, doc.info.timestamp))
-			//);
+			tasks.map(doc => WorkerApp.process(doc._id, doc.info.timestamp));
 
 			// wait if not yet run out or skip and restart polling
 			await timeout;

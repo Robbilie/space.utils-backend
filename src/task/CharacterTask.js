@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { BaseTask } 				= require("task/");
-	const { ESIUtil } 				= require("util/");
+	const { BaseTask, CorporationTask } = require("task/");
+	const { ESIUtil } = require("util/");
 
 	class CharacterTask extends BaseTask {
 
@@ -26,10 +26,13 @@
 				{ upsert: true }
 			);
 
-			// TODO fetch corporation history?
+			// get corp
+			await CorporationTask.create({ corporation_id: character_response.obj.corporation_id });
+
+			// get all corps from history
+			await Promise.all(history_response.obj.map(({ corporation_id }) => CorporationTask.create({ corporation_id })));
 
 			await this.update({
-				state: 2,
 				timestamp: Math.max(new Date(character_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
 			});
 

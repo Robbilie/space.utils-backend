@@ -31,7 +31,6 @@
 			await Promise.all(corporations_response.obj.map(corporation_id => CorporationTask.create({ corporation_id })));
 
 			await this.update({
-				state: 2,
 				timestamp: Math.max(new Date(alliance_response.headers.expires).getTime(), new Date(corporations_response.headers.expires).getTime())
 			});
 

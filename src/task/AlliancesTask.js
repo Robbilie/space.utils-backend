@@ -15,7 +15,6 @@
 			await Promise.all(alliances_response.obj.map(alliance_id => AllianceTask.create({ alliance_id })));
 
 			await this.update({
-				state: 0,
 				timestamp: new Date(alliances_response.headers.expires).getTime()
 			});
 

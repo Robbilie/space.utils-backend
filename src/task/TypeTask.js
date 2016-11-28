@@ -27,7 +27,6 @@
 			);
 
 			await this.update({
-				state: 2,
 				timestamp: new Date(type_response.headers.expires).getTime()
 			});
 

@@ -44,18 +44,12 @@
 			return DBUtil.get_store(this.get_name());
 		}
 
-		async update (options = {}) {
-			let tasks = BaseTask.get_tasks();
-
-			await tasks.update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), options) } });
-
-			if(options.state == 2)
-				await tasks.update({ _id: this.get__id() }, { $set: { "info.state": 0 } });
+		update (options = {}) {
+			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), { state: 0 }, options) } });
 		}
 		
-		async destroy () {
-			let tasks = await BaseTask.get_tasks();
-			await tasks.destroy({ _id: this.get__id() });
+		destroy () {
+			return BaseTask.get_tasks().destroy({ _id: this.get__id() });
 		}
 
 		static create (data = {}, faf = false) {
@@ -102,24 +96,25 @@
 
 		}
 
-		static async watch () {
+		static watch () {
 			this.get_tasks().get_continuous_updates({}, undefined, async ({ op, o, o2 }) => {
 				// giant BLA BLA BLA of finding the _id to call from the map
 				let tid;
-				if(op == "d") {
-					tid = o._id.toString();
-				}
-				if(op == "u") {
-					if(o.$set.info && o.$set.info.state) {
-						if(o.$set.info.state == 2)
+				switch (op) {
+					case "d":
+						tid = o._id.toString();
+						break;
+					case "u":
+						if(o.$set.info && o.$set.info.state && o.$set.info.state != 1) {
 							tid = o2._id.toString();
-					} else {
-						let task = await this.get_tasks().find_by__id(o2._id);
-						if(!await task.is_null() && (await task.get_info()).state == 2)
-							tid = (await task.get__id()).toString();
-					}
+						} else {
+							let task = await this.get_tasks().find_by__id(o2._id);
+							if(!await task.is_null() && (await task.get_info()).state != 1)
+								tid = (await task.get__id()).toString();
+						}
+						break;
 				}
-				if(tid && storage.tasks.get(tid)) {
+				if(storage.tasks.get(tid)) {
 					storage.tasks.get(tid)();
 					storage.tasks.delete(tid);
 				}
