@@ -38,7 +38,9 @@
 				await BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id });
 
 			// get ceo
-			if(corporation_response.obj.ceo_id >= 3000000 && corporation_response.obj.ceo_id < 4000000) {
+			if(corporation_response.obj.ceo_id == 1) {
+				// dead corp
+			} else if(corporation_response.obj.ceo_id >= 3000000 && corporation_response.obj.ceo_id < 4000000) {
 				// is npc ceo
 			} else {
 				await BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
