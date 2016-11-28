@@ -31,8 +31,8 @@
 			BaseTask.create_task("Alliances", {}, true);
 
 			// start listener for brand new tasks
-			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.timestamp": 0 }, undefined,
-				({ o: { _id, info: { timestamp } } }) => WorkerApp.process(_id, timestamp));
+			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.expires": 0 }, undefined,
+				({ o: { _id, info: { expires } } }) => WorkerApp.process(_id, expires));
 
 			// start polling for old tasks that have to be fetched
 			this.pollForTasks();
@@ -55,12 +55,12 @@
 			let collection = await WorkerApp.get_tasks().get_collection();
 			let tasks = await collection
 				.find({
-					"info.timestamp": {
+					"info.expires": {
 						$lt: Date.now()
 					},
 					$or
 				})
-				.sort({ "info.timestamp": 1 })
+				.sort({ "info.expires": 1 })
 				.limit(
 					Math.min(
 						Math.max(
@@ -73,7 +73,7 @@
 				.toArray();
 
 			// process them
-			tasks.map(doc => WorkerApp.process(doc._id, doc.info.timestamp));
+			tasks.map(doc => WorkerApp.process(doc._id, doc.info.expires));
 
 			// wait if not yet run out or skip and restart polling
 			await timeout;
@@ -85,13 +85,13 @@
 			return DBUtil.get_store("Task");
 		}
 
-		static async process (_id, timestamp) {
+		static async process (_id, expires) {
 
 			try {
 
 				// update state and check if still valid
 				let task = await WorkerApp.get_tasks().modify(
-					{ _id, "info.timestamp": timestamp, $or },
+					{ _id, "info.expires": expires, $or },
 					{
 						$set: {
 							"info.state": 1,

@@ -31,7 +31,7 @@
 			await Promise.all(corporations_response.obj.map(corporation_id => BaseTask.create_task("Corporation", { corporation_id })));
 
 			await this.update({
-				timestamp: Math.max(new Date(alliance_response.headers.expires).getTime(), new Date(corporations_response.headers.expires).getTime())
+				expires: Math.max(new Date(alliance_response.headers.expires).getTime(), new Date(corporations_response.headers.expires).getTime())
 			});
 
 		}

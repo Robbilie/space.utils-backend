@@ -76,7 +76,7 @@
 						info: {
 							name,
 							state: 0,
-							timestamp: 0,
+							expires: 0,
 							modified: 0
 						}
 					}

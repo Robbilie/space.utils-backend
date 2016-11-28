@@ -33,7 +33,7 @@
 			await Promise.all(history_response.obj.map(({ corporation_id }) => BaseTask.create_task("Corporation", { corporation_id })));
 
 			await this.update({
-				timestamp: Math.max(new Date(character_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
+				expires: Math.max(new Date(character_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
 			});
 
 		}

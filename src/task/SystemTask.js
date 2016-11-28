@@ -24,7 +24,7 @@
 			);
 
 			await this.update({
-				timestamp: new Date(system_response.headers.expires).getTime()
+				expires: new Date(system_response.headers.expires).getTime()
 			});
 
 		}
