@@ -41,7 +41,7 @@
 			await BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
 
 			// get all alliances
-			await Promise.all(history_response.obj.map(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id })));
+			await Promise.all(history_response.obj.filter(alliance => !!alliance.alliance).map(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id })));
 
 			await this.update({
 				timestamp: Math.max(new Date(corporation_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
