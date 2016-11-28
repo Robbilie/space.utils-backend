@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { BaseTask, AllianceTask } = require("task/");
+	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
 
 	class AlliancesTask extends BaseTask {
@@ -12,7 +12,7 @@
 
 			let alliances_response = await client.Alliance.get_alliances();
 
-			await Promise.all(alliances_response.obj.map(alliance_id => AllianceTask.create({ alliance_id })));
+			await Promise.all(alliances_response.obj.map(alliance_id => BaseTask.create_task("Alliance", { alliance_id })));
 
 			await this.update({
 				timestamp: new Date(alliances_response.headers.expires).getTime()

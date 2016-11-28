@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { BaseTask, CharacterTask, AllianceTask } = require("task/");
+	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
 
 	class CorporationTask extends BaseTask {
@@ -35,13 +35,13 @@
 
 			// get alliance
 			if(corporation_response.obj.alliance_id)
-				await AllianceTask.create({ alliance_id: corporation_response.obj.alliance_id });
+				await BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id });
 
 			// get ceo
-			await CharacterTask.create({ character_id: corporation_response.obj.ceo_id }, true);
+			await BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
 
 			// get all alliances
-			await Promise.all(history_response.obj.map(({ alliance: { alliance_id } }) => AllianceTask.create({ alliance_id })));
+			await Promise.all(history_response.obj.map(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id })));
 
 			await this.update({
 				timestamp: Math.max(new Date(corporation_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
