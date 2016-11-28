@@ -32,7 +32,7 @@
 
 		async serialize (depth = 2) {
 			const data = await this.get_future();
-			(await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
+			return (await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
 				if(
 					field_name == "_id" ||	// hide _id field
