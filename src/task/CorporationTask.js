@@ -38,7 +38,11 @@
 				await BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id });
 
 			// get ceo
-			await BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
+			if(corporation_response.obj.ceo_id >= 3000000 && corporation_response.obj.ceo_id < 4000000) {
+				// is npc ceo
+			} else {
+				await BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
+			}
 
 			// get all alliances
 			await Promise.all(history_response.obj.filter(alliance => !!alliance.alliance).map(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id })));
