@@ -35,8 +35,8 @@
 									});
 								break;
 						}
-					} catch (e) {
-						socket.json({ error: e })
+					} catch (error) {
+						socket.json({ error })
 					}
 				});
 			});
