@@ -24,6 +24,9 @@
 			app: process.env.APP_NAME
 		});
 		err.raven = client;
+		process.on("unhandledRejection", function (reason) {
+			err.raven.captureException(reason);
+		});
 	}
 
 	// dynamically load app and launch it
