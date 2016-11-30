@@ -30,7 +30,7 @@ spec:
         - name: HOST
           value: "utils.space"
         - name: UA
-          value: "Kubernetes EAS Node.js Fetcher Test (Robert Schuh/Vincent Eneticum)"
+          value: "utils.space-eas-node.js-kubernetes-worker (Robert Schuh/Vincent Eneticum)"
         - name: MONGO_URL
           value: "mongodb://mongo-service:27017"
         - name: MONGO_DB

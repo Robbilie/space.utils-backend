@@ -16,7 +16,7 @@
 		}
 
 		static new_client (options = {}) {
-			return new Swagger(Object.assign({ url: process.env.ESI_URL, usePromise: true }, options));
+			return new Swagger(Object.assign({ url: process.env.ESI_URL, usePromise: true, authorizations: { someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header") } }, options));
 		}
 		
 	}
