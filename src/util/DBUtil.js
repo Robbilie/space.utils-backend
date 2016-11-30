@@ -15,7 +15,7 @@
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`).catch(e => !(delete storage[field]) || get_connection(field, db));
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`).catch(e => !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
 		}
 
