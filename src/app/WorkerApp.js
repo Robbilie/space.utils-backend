@@ -62,13 +62,11 @@
 						$or
 					})
 					.sort({ "info.expires": 1 })
-					.limit(100)
+					.limit(1000)
 					.toArray()
 				)
-				.then(docs => {
-					docs.map(doc => this.process(doc._id, doc.info.expires));
-					setImmediate(() => this.poll_for_tasks())
-				});
+				.then(docs => Promise.all(docs.map(doc => this.process(doc._id, doc.info.expires))))
+				.then(() =>	setImmediate(() => this.poll_for_tasks()));
 
 
 			/*
