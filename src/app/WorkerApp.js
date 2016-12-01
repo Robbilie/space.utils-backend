@@ -103,7 +103,7 @@
 				);
 
 				if(r.modifiedCount != 1) {
-					console.log(r.modifiedCount);
+					console.log(JSON.stringify(r));
 					this.running--;
 					return;
 				}
