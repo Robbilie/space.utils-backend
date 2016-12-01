@@ -84,7 +84,7 @@
 						$or
 					})
 					.sort({ "info.expires": 1 })
-					.limit(5000)
+					.limit(1000)
 					.toArray()
 				)
 				.then(docs => {
