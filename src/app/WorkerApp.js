@@ -62,7 +62,7 @@
 						$or
 					})
 					.sort({ "info.expires": 1 })
-					.limit(1000)
+					.limit(10000)
 					.toArray()
 				)
 				.then(docs => Promise.all(docs.map(doc => this.process(doc._id, doc.info.expires))))
