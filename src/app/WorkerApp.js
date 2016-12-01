@@ -68,7 +68,7 @@
 					await Promise.resolve().wait(200);
 				}
 
-				this.process(await tasks.next());
+				await this.process(await tasks.next());
 
 			}
 
@@ -182,7 +182,7 @@
 			}
 
 			this.running--;
-			console.log("took", Date.now() - start, "ms", name);
+			console.log("took", Date.now() - start, "ms", task.info.name);
 
 		}
 
