@@ -51,50 +51,6 @@
 
 		async poll_for_tasks () {
 
-			/*
-
-			let collection = await WorkerApp.get_tasks().get_collection();
-
-			let cursor = collection
-				.find({
-					"info.expires": {
-						$lt: Date.now()
-					},
-					$or
-				})
-				.sort({ "info.expires": 1 });
-
-			while(await cursor.hasNext()) {
-				let { _id, info } = await cursor.next();
-				await this.process(_id, info.expires);
-			}
-
-			setImmediate(() => this.poll_for_tasks());
-
-			*/
-
-			WorkerApp
-				.get_tasks()
-				.get_collection()
-				.then(collection => collection
-					.find({
-						"info.expires": {
-							$lt: Date.now()
-						},
-						$or
-					})
-					.sort({ "info.expires": 1 })
-					.limit(1000)
-					.toArray()
-				)
-				.then(docs => {
-					docs.map(doc => this.process(doc._id, doc.info.expires));
-				})
-				.then(() =>	setImmediate(() => this.poll_for_tasks()));
-
-
-			/*
-
 			let timeout = Promise.resolve().wait(100);
 
 			// get 200 tasks to work on
@@ -107,7 +63,7 @@
 					$or
 				})
 				.sort({ "info.expires": 1 })
-				.limit(200)
+				.limit(5000)
 				.toArray();
 
 			// process them
@@ -115,9 +71,7 @@
 
 			// wait if not yet run out or skip and restart polling
 			await timeout;
-			setImmediate(() => this.pollForTasks());
-
-			*/
+			setImmediate(() => this.poll_for_tasks());
 
 		}
 
