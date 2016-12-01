@@ -102,8 +102,6 @@
 					}
 				);
 
-				console.log(JSON.stringify(r));
-
 				if(nModified != 1) {
 					this.running--;
 					return;
