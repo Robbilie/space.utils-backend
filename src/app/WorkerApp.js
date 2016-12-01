@@ -102,8 +102,9 @@
 					}
 				);
 
+				console.log(JSON.stringify(r));
+
 				if(r.modifiedCount != 1) {
-					console.log(JSON.stringify(r));
 					this.running--;
 					return;
 				}
