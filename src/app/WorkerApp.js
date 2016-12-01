@@ -102,9 +102,9 @@
 					}
 				);
 
-				console.log(r);
+				console.log(r.modifiedCount);
 
-				if(r.nModified != 1) {
+				if(r.modifiedCount != 1) {
 					this.running--;
 					return;
 				}
