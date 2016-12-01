@@ -27,10 +27,10 @@
 			);
 
 			// get corp
-			await BaseTask.create_task("Corporation", { corporation_id: character_response.obj.corporation_id }, true);
+			BaseTask.create_task("Corporation", { corporation_id: character_response.obj.corporation_id }, true);
 
 			// get all corps from history
-			history_response.obj.map(({ corporation_id }) => BaseTask.create_task("Corporation", { corporation_id }, true));
+			history_response.obj.forEach(({ corporation_id }) => BaseTask.create_task("Corporation", { corporation_id }, true));
 
 			await this.update({
 				expires: Math.max(new Date(character_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())

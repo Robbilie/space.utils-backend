@@ -12,7 +12,7 @@
 
 			let alliances_response = await client.Alliance.get_alliances();
 
-			await Promise.all(alliances_response.obj.map(alliance_id => BaseTask.create_task("Alliance", { alliance_id })));
+			alliances_response.obj.forEach(alliance_id => BaseTask.create_task("Alliance", { alliance_id }, true));
 
 			await this.update({
 				expires: new Date(alliances_response.headers.expires).getTime()

@@ -35,7 +35,7 @@
 
 			// get alliance
 			if(corporation_response.obj.alliance_id)
-				await BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id }, true);
+				BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id }, true);
 
 			// get ceo
 			if(corporation_response.obj.ceo_id == 1) {
@@ -43,11 +43,11 @@
 			} else if(corporation_response.obj.ceo_id >= 3000000 && corporation_response.obj.ceo_id < 4000000) {
 				// is npc ceo
 			} else {
-				await BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
+				BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
 			}
 
 			// get all alliances
-			history_response.obj.filter(alliance => !!alliance.alliance).map(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id }, true));
+			history_response.obj.filter(alliance => !!alliance.alliance).forEach(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id }, true));
 
 			await this.update({
 				expires: Math.max(new Date(corporation_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
