@@ -43,7 +43,7 @@
 
 			// start listener for brand new tasks
 			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.expires": 0 }, undefined,
-				({ o: { _id, info: { expires } } }) => this.process(_id, expires));
+				({ o }) => this.process(o));
 
 			// start polling for old tasks that have to be fetched
 			this.poll_for_tasks();
@@ -67,7 +67,7 @@
 				.toArray();
 
 			// process them
-			tasks.map(doc => this.process(doc._id, doc.info.expires));
+			tasks.map(doc => this.process(doc));
 
 			// wait if not yet run out or skip and restart polling
 			await timeout;
