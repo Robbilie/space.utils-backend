@@ -115,7 +115,7 @@
 			return DBUtil.get_store("Task");
 		}
 
-		async process ({ _id, info: { name, expires } }) {
+		async process (task) {
 
 			let start = Date.now();
 
@@ -123,8 +123,12 @@
 
 			try {
 
-				// update state and check if still valid
-				let result = await WorkerApp.get_tasks().modify(
+				let { _id, info: { name, expires } } = task;
+
+				let now = Date.now();
+
+				let collection = await WorkerApp.get_tasks().get_collection();
+				let r = await collection.updateOne(
 					{ _id, "info.expires": expires, $or: [
 						{
 							"info.state": 0
@@ -132,25 +136,25 @@
 						{
 							"info.state": 1,
 							"info.modified": {
-								$lt: Date.now() - (1000 * 60)
+								$lt: now - (1000 * 60)
 							}
 						}
 					] },
 					{
 						$set: {
 							"info.state": 1,
-							"info.modified": Date.now()
+							"info.modified": now
 						}
-					},
-					{ returnOriginal: false }
+					}
 				);
-				// task has already been taken by another worker
-				if (!result.value) {
+
+				if(r.modifiedCount != 1) {
 					this.running--;
 					return;
 				}
 
-				let task = result.value;
+				task.info.state = 1;
+				task.info.modified = now;
 
 				this.started++;
 
@@ -161,7 +165,7 @@
 					this.completed++;
 				} catch (e) {
 					console.log(name, e);
-					await WorkerApp.get_tasks().update(
+					await collection.updateOne(
 						{ _id },
 						{
 							$set: {
