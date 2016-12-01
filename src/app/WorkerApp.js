@@ -132,6 +132,8 @@
 				if(this.running >= parseInt(process.env.REQUEST_LIMIT))
 					return;
 
+				this.running++;
+
 				// update state and check if still valid
 				let task = await WorkerApp.get_tasks().modify(
 					{ _id, "info.expires": expires, $or },
@@ -145,10 +147,11 @@
 				);
 
 				// task has already been taken by another worker
-				if (!task.value)
+				if (!task.value) {
+					this.running--;
 					return;
+				}
 
-				this.running++;
 				this.started++;
 
 				try {
