@@ -81,12 +81,12 @@
 
 		async process ({ _id, info: { name, expires } }) {
 
+			if(this.running >= this.PARALLEL_TASK_LIMIT)
+				return;
+
+			this.running++;
+
 			try {
-
-				if(this.running >= this.PARALLEL_TASK_LIMIT)
-					return;
-
-				this.running++;
 
 				// update state and check if still valid
 				let result = await WorkerApp.get_tasks().modify(
@@ -110,8 +110,10 @@
 					{ returnOriginal: false }
 				);
 				// task has already been taken by another worker
-				if (!result.value)
+				if (!result.value) {
+					this.running--;
 					return;
+				}
 
 				let task = result.value;
 
@@ -136,11 +138,11 @@
 					this.errors++;
 				}
 
-				this.running--;
-
 			} catch (e) {
 				console.log("WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT", e);
 			}
+
+			this.running--;
 
 		}
 
