@@ -92,7 +92,7 @@
 
 				let collection = await WorkerApp.get_tasks().get_collection();
 
-				let { nModified } = await collection.updateOne(
+				let r = await collection.updateOne(
 					{ _id, "info.expires": expires, $or },
 					{
 						$set: {
@@ -102,9 +102,9 @@
 					}
 				);
 
-				console.log(nModified);
+				console.log(r);
 
-				if(nModified != 1) {
+				if(r.nModified != 1) {
 					this.running--;
 					return;
 				}
