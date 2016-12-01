@@ -102,6 +102,8 @@
 					}
 				);
 
+				console.log(nModified);
+
 				if(nModified != 1) {
 					this.running--;
 					return;
