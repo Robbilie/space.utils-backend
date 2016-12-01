@@ -173,7 +173,7 @@
 				this.running--;
 
 			} catch (e) {
-				console.log("WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT", e, new Error());
+				console.log("WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT", e);
 			}
 
 		}
