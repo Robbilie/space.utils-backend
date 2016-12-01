@@ -117,9 +117,6 @@
 
 		async process ({ _id, info: { name, expires } }) {
 
-			if(this.running >= this.PARALLEL_TASK_LIMIT)
-				return;
-
 			let start = Date.now();
 
 			this.running++;
@@ -181,7 +178,7 @@
 			}
 
 			this.running--;
-			console.log("took", Date.now() - start, "ms");
+			console.log("took", Date.now() - start, "ms", name);
 
 		}
 
