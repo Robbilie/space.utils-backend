@@ -42,7 +42,7 @@
 
 		async poll_for_tasks () {
 
-			let timeout = Promise.resolve().wait(0);
+			let timeout = Promise.resolve().wait(200);
 
 			let collection = await WorkerApp.get_tasks().get_collection();
 			let tasks = await collection
@@ -79,7 +79,7 @@
 			return DBUtil.get_store("Task");
 		}
 
-		async process (task) {
+		async process ({ _id, info: { name, expires } }) {
 
 			try {
 
@@ -88,11 +88,8 @@
 
 				this.running++;
 
-				let { _id, info: { expires, name } } = task;
-
-				let collection = await WorkerApp.get_tasks().get_collection();
-
-				let r = await collection.updateOne(
+				// update state and check if still valid
+				let result = await WorkerApp.get_tasks().modify(
 					{ _id, "info.expires": expires, $or: [
 						{
 							"info.state": 0
@@ -102,20 +99,21 @@
 							"info.modified": {
 								$lt: Date.now() - (1000 * 60)
 							}
-						}]
-					},
+						}
+					] },
 					{
 						$set: {
 							"info.state": 1,
 							"info.modified": Date.now()
 						}
-					}
+					},
+					{ returnOriginal: false }
 				);
-
-				if(r.modifiedCount != 1) {
-					this.running--;
+				// task has already been taken by another worker
+				if (!result.value)
 					return;
-				}
+
+				let task = result.value;
 
 				this.started++;
 
