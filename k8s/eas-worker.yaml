@@ -45,6 +45,8 @@ spec:
           value: "https://login.eveonline.com"
         - name: ESI_URL
           value: "https://esi.tech.ccp.is/latest/swagger.json"
+        - name: REQUEST_LIMIT
+          value: "128"
       volumes:
       - name: config
         secret:

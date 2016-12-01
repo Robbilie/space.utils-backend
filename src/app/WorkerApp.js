@@ -51,6 +51,8 @@
 
 		async poll_for_tasks () {
 
+			/*
+
 			let collection = await WorkerApp.get_tasks().get_collection();
 
 			let cursor = collection
@@ -69,7 +71,7 @@
 
 			setImmediate(() => this.poll_for_tasks());
 
-			/*
+			*/
 
 			WorkerApp
 				.get_tasks()
@@ -85,10 +87,10 @@
 					.limit(5000)
 					.toArray()
 				)
-				.then(docs => Promise.all(docs.map(doc => this.process(doc._id, doc.info.expires))))
+				.then(docs => {
+					docs.map(doc => this.process(doc._id, doc.info.expires));
+				})
 				.then(() =>	setImmediate(() => this.poll_for_tasks()));
-
-			 */
 
 
 			/*
@@ -127,6 +129,9 @@
 
 			try {
 
+				if(this.running >= parseInt(process.env.REQUEST_LIMIT))
+					return;
+
 				// update state and check if still valid
 				let task = await WorkerApp.get_tasks().modify(
 					{ _id, "info.expires": expires, $or },
@@ -150,8 +155,6 @@
 					// do special processing stuff
 					let runner = new (LoadUtil.task(task.value.info.name))(task.value);
 					await runner.start();
-
-					//console.log("processed", _id);
 				} catch (e) {
 					this.errors++;
 					console.log(task.value.info.name, e);
@@ -167,11 +170,10 @@
 				}
 
 				this.completed++;
-
 				this.running--;
 
 			} catch (e) {
-				console.log(e, new Error());
+				console.log("WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT", e, new Error());
 			}
 
 		}
