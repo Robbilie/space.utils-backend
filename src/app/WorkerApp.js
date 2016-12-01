@@ -51,6 +51,24 @@
 
 		async poll_for_tasks () {
 
+			let collection = await WorkerApp.get_tasks().get_collection();
+
+			let cursor = collection
+				.find({
+					"info.expires": {
+						$lt: Date.now()
+					},
+					$or
+				})
+				.sort({ "info.expires": 1 });
+
+			while(await cursor.hasNext()) {
+				let { _id, info } = await cursor.next();
+				await this.process(_id, info.expires);
+			}
+
+			/*
+
 			WorkerApp
 				.get_tasks()
 				.get_collection()
@@ -67,6 +85,8 @@
 				)
 				.then(docs => Promise.all(docs.map(doc => this.process(doc._id, doc.info.expires))))
 				.then(() =>	setImmediate(() => this.poll_for_tasks()));
+
+			 */
 
 
 			/*
@@ -132,7 +152,7 @@
 					//console.log("processed", _id);
 				} catch (e) {
 					this.errors++;
-					console.log(task.value.info.name, e, new Error());
+					console.log(task.value.info.name, e);
 					await WorkerApp.get_tasks().update(
 						{ _id },
 						{
