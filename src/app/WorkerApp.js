@@ -129,7 +129,7 @@
 
 			try {
 
-				if(this.running >= parseInt(process.env.REQUEST_LIMIT))
+				if(this.running >= parseInt(process.env.PARALLEL_TASK_LIMIT))
 					return;
 
 				this.running++;

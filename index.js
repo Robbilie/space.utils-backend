@@ -1,9 +1,6 @@
 
 	"use strict";
 
-	// allow more parallel requests
-	process.env.UV_THREADPOOL_SIZE = parseInt(process.env.REQUEST_LIMIT);
-
 	// allow relative imports
 	process.env.NODE_PATH = `${__dirname}/src`;
 	require("module").Module._initPaths();

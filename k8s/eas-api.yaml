@@ -63,8 +63,10 @@ spec:
           value: "https://login.eveonline.com"
         - name: ESI_URL
           value: "https://esi.tech.ccp.is/latest/swagger.json"
-        - name: REQUEST_LIMIT
-          value: "128"
+        - name: UV_THREADPOOL_SIZE
+          value: "512"
+        - name: PARALLEL_TASK_LIMIT
+          value: "512"
         livenessProbe:
           httpGet:
             path: /
