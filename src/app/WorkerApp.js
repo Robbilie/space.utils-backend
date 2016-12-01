@@ -79,7 +79,7 @@
 			return DBUtil.get_store("Task");
 		}
 
-		async process (_id, expires) {
+		async process (task) {
 
 			try {
 
@@ -88,20 +88,21 @@
 
 				this.running++;
 
-				// update state and check if still valid
-				let task = await WorkerApp.get_tasks().modify(
-					{ _id, "info.expires": expires, $or },
+				let { _id, info: { expires, name } } = task;
+
+				let collection = await WorkerApp.get_tasks().get_collection();
+
+				let { modifiedCount } = await collection.updateOne(
+					{ _id, expires, $or },
 					{
 						$set: {
 							"info.state": 1,
 							"info.modified": Date.now()
 						}
-					},
-					{ returnOriginal: false }
+					}
 				);
 
-				// task has already been taken by another worker
-				if (!task.value) {
+				if(modifiedCount != 1) {
 					this.running--;
 					return;
 				}
@@ -110,12 +111,12 @@
 
 				try {
 					// do special processing stuff
-					let runner = new (LoadUtil.task(task.value.info.name))(task.value);
+					let runner = new (LoadUtil.task(name))(task);
 					await runner.start();
 					this.completed++;
 				} catch (e) {
-					console.log(task.value.info.name, e);
-					await WorkerApp.get_tasks().update(
+					console.log(name, e);
+					await collection.updateOne(
 						{ _id },
 						{
 							$set: {
