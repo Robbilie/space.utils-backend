@@ -26,6 +26,9 @@
 				setInterval(() => gc(), 1000 * 10);
 
 			this.running = 0;
+			this.completed = 0;
+
+			setInterval(() => console.log("completed", this.completed, "tasks") || (this.completed = 0), 60 * 1000);
 
 			// start some basic tasks
 			BaseTask.create_task("Alliances", {}, true);
@@ -112,7 +115,7 @@
 					let runner = new (LoadUtil.task(task.value.info.name))(task.value);
 					await runner.start();
 
-					console.log("processed", _id);
+					//console.log("processed", _id);
 				} catch (e) {
 					console.log(task.value.info.name, e, new Error());
 					await WorkerApp.get_tasks().update(
@@ -125,6 +128,8 @@
 						}
 					);
 				}
+
+				this.completed++;
 
 				this.running--;
 
