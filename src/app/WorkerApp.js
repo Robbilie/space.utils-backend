@@ -60,7 +60,8 @@
 						}
 					]
 				})
-				.sort({ "info.expires": 1 });
+				.sort({ "info.expires": 1 })
+				.limit(5000);
 
 			while(await tasks.hasNext()) {
 
