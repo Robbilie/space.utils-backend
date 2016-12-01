@@ -50,7 +50,7 @@ spec:
         - name: UV_THREADPOOL_SIZE
           value: "128"
         - name: PARALLEL_TASK_LIMIT
-          value: "1024"
+          value: "256"
       volumes:
       - name: config
         secret:
