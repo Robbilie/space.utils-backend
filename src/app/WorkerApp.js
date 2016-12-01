@@ -63,7 +63,7 @@
 					]
 				})
 				.sort({ "info.expires": 1 })
-				.limit(1000)
+				.limit(200)
 				.toArray();
 
 			// process them
