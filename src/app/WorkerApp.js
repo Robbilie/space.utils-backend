@@ -67,7 +67,7 @@
 				.toArray();
 
 			// process them
-			tasks.map(doc => this.process(doc));
+			await Promise.all(tasks.map(doc => this.process(doc)));
 
 			// wait if not yet run out or skip and restart polling
 			await timeout;
