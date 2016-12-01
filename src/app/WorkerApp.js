@@ -124,7 +124,7 @@
 					this.completed++;
 				} catch (e) {
 					console.log(name, e);
-					await collection.updateOne(
+					await WorkerApp.get_tasks().update(
 						{ _id },
 						{
 							$set: {
