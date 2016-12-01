@@ -67,6 +67,8 @@
 				await this.process(_id, info.expires);
 			}
 
+			setImmediate(() => this.poll_for_tasks());
+
 			/*
 
 			WorkerApp
