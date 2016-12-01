@@ -44,15 +44,7 @@
 
 		async pollForTasks () {
 
-			let timeout = Promise.resolve().wait(
-				Math.min(
-					Math.max(
-						this.running / 2,
-						200
-					),
-					10000
-				)
-			);
+			let timeout = Promise.resolve().wait(200);
 
 			// get 200 tasks to work on
 			let collection = await WorkerApp.get_tasks().get_collection();
@@ -64,15 +56,7 @@
 					$or
 				})
 				.sort({ "info.expires": 1 })
-				.limit(
-					Math.min(
-						Math.max(
-							this.running / 100,
-							10
-						),
-						200
-					)
-				)
+				.limit(200)
 				.toArray();
 
 			// process them
