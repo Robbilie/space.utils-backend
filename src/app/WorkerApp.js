@@ -30,12 +30,13 @@
 			this.errors = 0;
 			this.completed = 0;
 
+			const log_interval = 60;
 			setInterval(() => {
-				console.log("tasks:", this.started, this.errors, this.running, this.completed);
+				console.log("tasks:", this.started / log_interval, this.errors / log_interval, this.completed / log_interval, this.running);
 				this.started = 0;
 				this.errors = 0;
 				this.completed = 0;
-			}, 60 * 1000);
+			}, log_interval * 1000);
 
 			// start some basic tasks
 			BaseTask.create_task("Alliances", {}, true);
@@ -53,7 +54,6 @@
 
 			let timeout = Promise.resolve().wait(100);
 
-			// get 200 tasks to work on
 			let collection = await WorkerApp.get_tasks().get_collection();
 			let tasks = await collection
 				.find({
@@ -112,8 +112,8 @@
 					// do special processing stuff
 					let runner = new (LoadUtil.task(task.value.info.name))(task.value);
 					await runner.start();
+					this.completed++;
 				} catch (e) {
-					this.errors++;
 					console.log(task.value.info.name, e);
 					await WorkerApp.get_tasks().update(
 						{ _id },
@@ -124,9 +124,9 @@
 							}
 						}
 					);
+					this.errors++;
 				}
 
-				this.completed++;
 				this.running--;
 
 			} catch (e) {
