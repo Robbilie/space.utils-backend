@@ -5,18 +5,6 @@
 	const { Task } 						= require("model/");
 	const { BaseTask } 					= require("task/");
 
-	const $or = [
-		{
-			"info.state": 0
-		},
-		{
-			"info.state": 1,
-			"info.modified": {
-				$lt: Date.now() - (1000 * 60)
-			}
-		}
-	];
-
 	class WorkerApp {
 
 		async init () {
@@ -54,7 +42,7 @@
 
 		async poll_for_tasks () {
 
-			let timeout = Promise.resolve().wait(100);
+			let timeout = Promise.resolve().wait(0);
 
 			let collection = await WorkerApp.get_tasks().get_collection();
 			let tasks = await collection
@@ -62,7 +50,17 @@
 					"info.expires": {
 						$lt: Date.now()
 					},
-					$or
+					$or: [
+						{
+							"info.state": 0
+						},
+						{
+							"info.state": 1,
+							"info.modified": {
+								$lt: Date.now() - (1000 * 60)
+							}
+						}
+					]
 				})
 				.sort({ "info.expires": 1 })
 				.limit(5000)
@@ -95,7 +93,17 @@
 				let collection = await WorkerApp.get_tasks().get_collection();
 
 				let r = await collection.updateOne(
-					{ _id, "info.expires": expires, $or },
+					{ _id, "info.expires": expires, $or: [
+						{
+							"info.state": 0
+						},
+						{
+							"info.state": 1,
+							"info.modified": {
+								$lt: Date.now() - (1000 * 60)
+							}
+						}]
+					},
 					{
 						$set: {
 							"info.state": 1,
