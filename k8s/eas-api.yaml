@@ -36,6 +36,9 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 4001
+        resources:
+          limits:
+            memory: "512Mi"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"

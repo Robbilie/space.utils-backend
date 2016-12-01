@@ -19,7 +19,9 @@ spec:
       - name: eas-worker-pod
         image: index.docker.io/robbilie/eas:eas-node
         imagePullPolicy: Always
-        ports:
+        resources:
+          limits:
+            memory: "512Mi"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"
