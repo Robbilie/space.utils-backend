@@ -11,7 +11,7 @@
 		
 		static get_client () {
 			if(!storage.client)
-				storage.client = this.new_client().catch(e => delete storage.client);
+				storage.client = this.new_client().catch(e => !(delete storage.client) || ESIUtil.get_client());
 			return storage.client;
 		}
 

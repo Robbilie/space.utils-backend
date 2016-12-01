@@ -28,7 +28,7 @@
 
 			let corporations_response = await client.Alliance.get_alliances_alliance_id_corporations(this.get_data());
 
-			await Promise.all(corporations_response.obj.map(corporation_id => BaseTask.create_task("Corporation", { corporation_id })));
+			corporations_response.obj.map(corporation_id => BaseTask.create_task("Corporation", { corporation_id }, true));
 
 			await this.update({
 				expires: Math.max(new Date(alliance_response.headers.expires).getTime(), new Date(corporations_response.headers.expires).getTime())

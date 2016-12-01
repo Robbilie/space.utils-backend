@@ -35,7 +35,7 @@
 
 			// get alliance
 			if(corporation_response.obj.alliance_id)
-				await BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id });
+				await BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id }, true);
 
 			// get ceo
 			if(corporation_response.obj.ceo_id == 1) {
@@ -47,7 +47,7 @@
 			}
 
 			// get all alliances
-			await Promise.all(history_response.obj.filter(alliance => !!alliance.alliance).map(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id })));
+			history_response.obj.filter(alliance => !!alliance.alliance).map(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id }, true));
 
 			await this.update({
 				expires: Math.max(new Date(corporation_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
