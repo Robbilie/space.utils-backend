@@ -120,6 +120,8 @@
 			if(this.running >= this.PARALLEL_TASK_LIMIT)
 				return;
 
+			let start = Date.now();
+
 			this.running++;
 
 			try {
@@ -179,6 +181,7 @@
 			}
 
 			this.running--;
+			console.log("took", Date.now() - start, "ms");
 
 		}
 
