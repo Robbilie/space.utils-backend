@@ -164,7 +164,6 @@
 					await runner.start();
 					this.completed++;
 				} catch (e) {
-					console.log(name, e);
 					await collection.updateOne(
 						{ _id },
 						{
@@ -175,6 +174,7 @@
 						}
 					);
 					this.errors++;
+					console.log(name, e);
 				}
 
 			} catch (e) {
