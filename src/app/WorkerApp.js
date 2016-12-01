@@ -45,11 +45,33 @@
 				({ o: { _id, info: { expires } } }) => this.process(_id, expires));
 
 			// start polling for old tasks that have to be fetched
-			this.pollForTasks();
+			this.poll_for_tasks();
 
 		}
 
-		async pollForTasks () {
+		async poll_for_tasks () {
+
+			WorkerApp
+				.get_tasks()
+				.get_collection()
+				.then(collection => collection
+					.find({
+						"info.expires": {
+							$lt: Date.now()
+						},
+						$or
+					})
+					.sort({ "info.expires": 1 })
+					.limit(100)
+					.toArray()
+				)
+				.then(docs => {
+					docs.map(doc => this.process(doc._id, doc.info.expires));
+					setImmediate(() => this.poll_for_tasks())
+				});
+
+
+			/*
 
 			let timeout = Promise.resolve().wait(100);
 
@@ -72,6 +94,8 @@
 			// wait if not yet run out or skip and restart polling
 			await timeout;
 			setImmediate(() => this.pollForTasks());
+
+			*/
 
 		}
 
