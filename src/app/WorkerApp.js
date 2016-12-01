@@ -93,7 +93,7 @@
 				let collection = await WorkerApp.get_tasks().get_collection();
 
 				let r = await collection.updateOne(
-					{ _id, expires, $or },
+					{ _id, "info.expires": expires, $or },
 					{
 						$set: {
 							"info.state": 1,
