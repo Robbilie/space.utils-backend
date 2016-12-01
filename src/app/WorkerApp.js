@@ -83,8 +83,8 @@
 
 			try {
 
-				//if(this.running >= this.PARALLEL_TASK_LIMIT)
-				//	return;
+				if(this.running >= this.PARALLEL_TASK_LIMIT)
+					return;
 
 				this.running++;
 
