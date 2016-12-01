@@ -26,9 +26,16 @@
 				setInterval(() => gc(), 1000 * 10);
 
 			this.running = 0;
+			this.started = 0;
+			this.errors = 0;
 			this.completed = 0;
 
-			setInterval(() => console.log("completed", this.completed, "tasks") || (this.completed = 0), 60 * 1000);
+			setInterval(() => {
+				console.log("tasks:", this.started, this.errors, this.running, this.completed);
+				this.started = 0;
+				this.errors = 0;
+				this.completed = 0;
+			}, 60 * 1000);
 
 			// start some basic tasks
 			BaseTask.create_task("Alliances", {}, true);
@@ -44,7 +51,7 @@
 
 		async pollForTasks () {
 
-			let timeout = Promise.resolve().wait(200);
+			let timeout = Promise.resolve().wait(100);
 
 			// get 200 tasks to work on
 			let collection = await WorkerApp.get_tasks().get_collection();
@@ -93,6 +100,7 @@
 					return;
 
 				this.running++;
+				this.started++;
 
 				try {
 					// do special processing stuff
@@ -101,6 +109,7 @@
 
 					//console.log("processed", _id);
 				} catch (e) {
+					this.errors++;
 					console.log(task.value.info.name, e, new Error());
 					await WorkerApp.get_tasks().update(
 						{ _id },
