@@ -42,6 +42,8 @@
 
 		async poll_for_tasks () {
 
+			/*
+
 			let collection = await WorkerApp.get_tasks().get_collection();
 			let tasks = await collection
 				.find({
@@ -75,7 +77,7 @@
 
 			setImmediate(() => this.poll_for_tasks());
 
-			/*
+			*/
 
 			let timeout = Promise.resolve().wait(200);
 
@@ -108,7 +110,6 @@
 			await timeout;
 			setImmediate(() => this.poll_for_tasks());
 
-			*/
 
 		}
 
