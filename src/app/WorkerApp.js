@@ -25,6 +25,8 @@
 			if(typeof(gc) != "undefined")
 				setInterval(() => gc(), 1000 * 10);
 
+			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
+
 			this.running = 0;
 			this.started = 0;
 			this.errors = 0;
@@ -83,7 +85,7 @@
 
 			try {
 
-				if(this.running >= parseInt(process.env.PARALLEL_TASK_LIMIT))
+				if(this.running >= this.PARALLEL_TASK_LIMIT)
 					return;
 
 				this.running++;
@@ -101,8 +103,6 @@
 						}
 					}
 				);
-
-				console.log(r.modifiedCount);
 
 				if(r.modifiedCount != 1) {
 					this.running--;
