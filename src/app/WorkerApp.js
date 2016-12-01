@@ -42,6 +42,40 @@
 
 		async poll_for_tasks () {
 
+			let collection = await WorkerApp.get_tasks().get_collection();
+			let tasks = await collection
+				.find({
+					"info.expires": {
+						$lt: Date.now()
+					},
+					$or: [
+						{
+							"info.state": 0
+						},
+						{
+							"info.state": 1,
+							"info.modified": {
+								$lt: Date.now() - (1000 * 60)
+							}
+						}
+					]
+				})
+				.sort({ "info.expires": 1 });
+
+			while(await tasks.hasNext()) {
+
+				while(this.running >= this.PARALLEL_TASK_LIMIT) {
+					await Promise.resolve().wait(200);
+				}
+
+				this.process(await tasks.next());
+
+			}
+
+			setImmediate(() => this.poll_for_tasks());
+
+			/*
+
 			let timeout = Promise.resolve().wait(200);
 
 			let collection = await WorkerApp.get_tasks().get_collection();
@@ -72,6 +106,8 @@
 			// wait if not yet run out or skip and restart polling
 			await timeout;
 			setImmediate(() => this.poll_for_tasks());
+
+			*/
 
 		}
 
