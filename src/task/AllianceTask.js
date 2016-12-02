@@ -12,7 +12,8 @@
 
 			let alliance_response = await client.Alliance.get_alliances_alliance_id(this.get_data());
 
-			await this.get_store().update(
+			let collection = await this.get_collection();
+			await collection.update(
 				{ id: this.get_data().alliance_id },
 				{
 					$set: {

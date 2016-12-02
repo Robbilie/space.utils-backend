@@ -13,7 +13,8 @@
 			let character_response = await client.Character.get_characters_character_id(this.get_data());
 			let history_response = await client.Character.get_characters_character_id_corporationhistory(this.get_data());
 
-			await this.get_store().update(
+			let collection = await this.get_collection();
+			await collection.update(
 				{ id: this.get_data().character_id },
 				{
 					$set: {
