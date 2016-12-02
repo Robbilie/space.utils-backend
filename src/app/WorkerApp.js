@@ -170,7 +170,7 @@
 						{ _id },
 						{
 							$set: {
-								"info.state": 0,
+								//"info.state": 0, // leaving it on state 1 and just changing the modified should mean back off for 1 minute
 								"info.modified": Date.now()
 							}
 						}
