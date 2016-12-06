@@ -79,7 +79,7 @@
 
 			*/
 
-			let timeout = Promise.resolve().wait(200);
+			let timeout = Promise.resolve().wait(1000);
 
 			let collection = await WorkerApp.get_tasks().get_collection();
 			let tasks = await collection
