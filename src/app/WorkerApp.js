@@ -20,6 +20,10 @@
 			this.errors = 0;
 			this.completed = 0;
 
+			this.task_limit = 30;
+			this.running_tasks = 0;
+			this.queued_tasks = [];
+
 			const log_interval = 60;
 			setInterval(() => {
 				console.log("tasks:", this.started / log_interval, this.errors / log_interval, this.completed / log_interval, this.running);
@@ -40,7 +44,62 @@
 
 		}
 
+		enqueue (task) {
+			return new Promise(resolve => {
+
+				const run = (runnable, done) => {
+					this.process(runnable).then(() => {
+						if(this.queued_tasks.length)
+							this.queued_tasks.shift()();
+						else
+							this.running_tasks--;
+					});
+					done();
+				};
+
+				if(this.running_tasks < this.task_limit) {
+					this.running_tasks++;
+					run(task, resolve);
+				} else {
+					this.queued_tasks.push(() => run(task, resolve));
+				}
+
+			});
+		}
+
 		async poll_for_tasks () {
+
+			let collection = await WorkerApp.get_tasks().get_collection();
+			let cursor;
+
+			while (!cursor) {
+
+				cursor = collection
+					.find({
+						"info.expires": {
+							$lt: Date.now()
+						},
+						$or: [
+							{
+								"info.state": 0
+							},
+							{
+								"info.state": 1,
+								"info.modified": {
+									$lt: Date.now() - (1000 * 60)
+								}
+							}
+						]
+					})
+					.sort({ "info.expires": 1 })
+					.limit(200);
+
+				while (await cursor.hasNext())
+					await this.enqueue(await cursor.next());
+
+				cursor = undefined;
+
+			}
 
 			/*
 
@@ -79,6 +138,8 @@
 
 			*/
 
+			/*
+
 			let timeout = Promise.resolve().wait(200);
 
 			let collection = await WorkerApp.get_tasks().get_collection();
@@ -110,6 +171,7 @@
 			await timeout;
 			setImmediate(() => this.poll_for_tasks());
 
+			*/
 
 		}
 
