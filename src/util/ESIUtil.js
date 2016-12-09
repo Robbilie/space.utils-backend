@@ -32,7 +32,7 @@
 					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
 				},
 				client: {
-					execute: obj => {
+					execute: function (obj) {
 						request({
 							method: obj.method,
 							url: obj.url,
