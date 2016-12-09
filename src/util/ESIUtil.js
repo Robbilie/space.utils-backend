@@ -34,12 +34,12 @@
 				client: {
 					execute: async (obj) => {
 						try {
-							obj.on.response(await request({
+							obj.on.response(JSON.parse(await request({
 								method: obj.method,
 								url: obj.url,
 								headers: obj.headers,
 								body: obj.body
-							}));
+							})));
 						} catch (e) {
 							obj.on.error(e);
 						}
