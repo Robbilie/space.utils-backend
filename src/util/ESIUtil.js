@@ -39,7 +39,7 @@
 							headers: obj.headers,
 							body: obj.body
 						})
-							.then(d => obj.on.response(d))
+							.then(obj => obj.on.response({ obj }))
 							.catch(e => obj.on.error(e));
 					}
 				}
