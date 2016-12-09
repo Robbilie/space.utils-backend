@@ -37,9 +37,10 @@
 							method: obj.method,
 							url: obj.url,
 							headers: obj.headers,
-							body: obj.body
+							body: obj.body,
+							resolveWithFullResponse: true
 						})
-							.then(data => obj.on.response({ obj: JSON.parse(data) }))
+							.then(response => obj.on.response(Object.assign(response, { obj: JSON.parse(response.body) })))
 							.catch(e => console.log(e) || obj.on.error(e));
 					}
 				}
