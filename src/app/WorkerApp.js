@@ -20,7 +20,7 @@
 			this.errors = 0;
 			this.completed = 0;
 
-			this.task_limit = 30;
+			this.task_limit = 15;
 			this.running_tasks = 0;
 			this.queued_tasks = [];
 
