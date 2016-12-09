@@ -39,7 +39,7 @@
 							headers: obj.headers,
 							body: obj.body
 						})
-							.then(data => obj.on.response({ obj: data }))
+							.then(data => obj.on.response({ obj: JSON.parse(data) }))
 							.catch(e => console.log(e) || obj.on.error(e));
 					}
 				}
