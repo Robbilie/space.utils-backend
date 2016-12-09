@@ -32,17 +32,15 @@
 					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
 				},
 				client: {
-					execute: async (obj) => {
-						try {
-							obj.on.response(JSON.parse(await request({
-								method: obj.method,
-								url: obj.url,
-								headers: obj.headers,
-								body: obj.body
-							})));
-						} catch (e) {
-							obj.on.error(e);
-						}
+					execute: obj => {
+						request({
+							method: obj.method,
+							url: obj.url,
+							headers: obj.headers,
+							body: obj.body
+						})
+							.then(d => obj.on.response(d))
+							.catch(e => obj.on.error(e));
 					}
 				}
 			}, options));
