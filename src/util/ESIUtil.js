@@ -40,7 +40,7 @@
 							body: obj.body
 						})
 							.then(obj => obj.on.response({ obj }))
-							.catch(e => obj.on.error(e));
+							.catch(e => console.log(e) || obj.on.error(e));
 					}
 				}
 			}, options));
