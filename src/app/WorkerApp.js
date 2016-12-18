@@ -73,8 +73,8 @@
 			while (!cursor) {
 
                 try {
-                    
-    			    let collection = await WorkerApp.get_tasks().get_collection();
+
+    		        let collection = await WorkerApp.get_tasks().get_collection();
     				cursor = collection
     					.find({
     						"info.expires": {
@@ -91,13 +91,13 @@
     								}
     							}
     						]
-    					})
-    					.sort({ "info.expires": 1 })
-    					.limit(200);
-    
+                        })
+                        .sort({ "info.expires": 1 })
+                		.limit(200);
+
     				while (await cursor.hasNext())
     					await this.enqueue(await cursor.next());
-    					
+
                 } catch (e) {
                     console.log("worker error", e);
                 }
