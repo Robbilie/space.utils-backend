@@ -1,4 +1,3 @@
-
 	"use strict";
 
 	const { DBUtil, LoadUtil } 			= require("util/");
@@ -69,33 +68,39 @@
 
 		async poll_for_tasks () {
 
-			let collection = await WorkerApp.get_tasks().get_collection();
 			let cursor;
 
 			while (!cursor) {
 
-				cursor = collection
-					.find({
-						"info.expires": {
-							$lt: Date.now()
-						},
-						$or: [
-							{
-								"info.state": 0
-							},
-							{
-								"info.state": 1,
-								"info.modified": {
-									$lt: Date.now() - (1000 * 60)
-								}
-							}
-						]
-					})
-					.sort({ "info.expires": 1 })
-					.limit(200);
-
-				while (await cursor.hasNext())
-					await this.enqueue(await cursor.next());
+                try {
+                    
+    			    let collection = await WorkerApp.get_tasks().get_collection();
+    				cursor = collection
+    					.find({
+    						"info.expires": {
+    							$lt: Date.now()
+    						},
+    						$or: [
+    							{
+    								"info.state": 0
+    							},
+    							{
+    								"info.state": 1,
+    								"info.modified": {
+    									$lt: Date.now() - (1000 * 60)
+    								}
+    							}
+    						]
+    					})
+    					.sort({ "info.expires": 1 })
+    					.limit(200);
+    
+    				while (await cursor.hasNext())
+    					await this.enqueue(await cursor.next());
+    					
+                } catch (e) {
+                    console.log("worker error", e);
+                }
 
 				cursor = undefined;
 
