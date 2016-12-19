@@ -11,8 +11,10 @@
 			let client = await ESIUtil.get_client();
 
 			let now = Date.now();
-			let character_response = await client.Character.get_characters_character_id(this.get_data());
-			let history_response = await client.Character.get_characters_character_id_corporationhistory(this.get_data());
+			let [character_response, history_response] = await Promise.all([
+				client.Character.get_characters_character_id(this.get_data()),
+				client.Character.get_characters_character_id_corporationhistory(this.get_data())
+			]);
 			console.log("character requests", Date.now() - now);
 
 			await this.get_store().update(

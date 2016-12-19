@@ -11,8 +11,10 @@
 			let client = await ESIUtil.get_client();
 
 			let now = Date.now();
-			let alliance_response = await client.Alliance.get_alliances_alliance_id(this.get_data());
-			let corporations_response = await client.Alliance.get_alliances_alliance_id_corporations(this.get_data());
+			let [alliance_response, corporations_response] = await Promise.all([
+				client.Alliance.get_alliances_alliance_id(this.get_data()),
+				client.Alliance.get_alliances_alliance_id_corporations(this.get_data())
+			]);
 			console.log("alliance requests", Date.now() - now);
 
 			await this.get_store().update(

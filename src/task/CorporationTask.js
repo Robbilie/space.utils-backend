@@ -11,8 +11,10 @@
 			let client = await ESIUtil.get_client();
 
 			let now = Date.now();
-			let corporation_response = await client.Corporation.get_corporations_corporation_id(this.get_data());
-			let history_response = await client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
+			let [corporation_response, history_response] = await Promise.all([
+				client.Corporation.get_corporations_corporation_id(this.get_data()),
+				client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data())
+			]);
 			console.log("corporation requests", Date.now() - now);
 
 			await this.get_store().update(
