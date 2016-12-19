@@ -6,7 +6,7 @@ metadata:
     app: eas-worker
   name: eas-worker-dep
 spec:
-  replicas: 4
+  replicas: 10
   selector:
     matchLabels:
       app: eas-worker
@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "512Mi"
+            memory: "256Mi"
             cpu: "250m"
         volumeMounts:
         - name: config

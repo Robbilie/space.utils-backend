@@ -19,7 +19,7 @@
 			this.errors = 0;
 			this.completed = 0;
 
-			this.task_limit = 15;
+			this.task_limit = 5;
 			this.running_tasks = 0;
 			this.queued_tasks = [];
 
@@ -72,35 +72,35 @@
 
 			while (!cursor) {
 
-                try {
+				try {
 
-    		        let collection = await WorkerApp.get_tasks().get_collection();
-    				cursor = collection
-    					.find({
-    						"info.expires": {
-    							$lt: Date.now()
-    						},
-    						$or: [
-    							{
-    								"info.state": 0
-    							},
-    							{
-    								"info.state": 1,
-    								"info.modified": {
-    									$lt: Date.now() - (1000 * 60)
-    								}
-    							}
-    						]
-                        })
-                        .sort({ "info.expires": 1 })
-                		.limit(200);
+					let collection = await WorkerApp.get_tasks().get_collection();
+					cursor = collection
+						.find({
+							"info.expires": {
+								$lt: Date.now()
+							},
+							$or: [
+								{
+									"info.state": 0
+								},
+								{
+									"info.state": 1,
+									"info.modified": {
+										$lt: Date.now() - (1000 * 60)
+									}
+								}
+							]
+						})
+						.sort({ "info.expires": 1 })
+						.limit(1000);
 
-    				while (await cursor.hasNext())
-    					await this.enqueue(await cursor.next());
+					while (await cursor.hasNext())
+						await this.enqueue(await cursor.next());
 
-                } catch (e) {
-                    console.log("worker error", e);
-                }
+				} catch (e) {
+					console.log("worker error", e);
+				}
 
 				cursor = undefined;
 
