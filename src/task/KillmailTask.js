@@ -24,7 +24,7 @@
 				{
 					$set: killmail
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			await this.destroy();

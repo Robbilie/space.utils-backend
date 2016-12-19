@@ -32,7 +32,7 @@
 						[corporation_response.obj.alliance_id ? "unset" : "alliance_id"]: true
 					}
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			// get alliance

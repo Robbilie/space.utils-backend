@@ -30,7 +30,7 @@
 						[alliance_response.obj.executor_corporation ? "unset" : "executor_corporation_id"]: true
 					}
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			corporations_response.obj.forEach(corporation_id => BaseTask.create_task("Corporation", { corporation_id }, true));

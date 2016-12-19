@@ -45,7 +45,7 @@
 		}
 
 		update (options = {}) {
-			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), { state: 0 }, options) } });
+			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: { info: Object.assign(this.get_info(), { state: 0 }, Object.assign({ w: 0 }, options)) } });
 		}
 		
 		destroy () {

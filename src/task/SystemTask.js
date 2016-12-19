@@ -20,7 +20,7 @@
 						name: 	system_response.obj.solar_system_name
 					}
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			await this.update({

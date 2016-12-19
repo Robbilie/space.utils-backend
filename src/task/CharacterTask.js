@@ -25,7 +25,7 @@
 						corporation_history: 	history_response.obj
 					}
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			// get corp
