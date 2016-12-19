@@ -6,7 +6,7 @@
 	const request = rp.defaults({
 		gzip: true,
 		forever: true,
-		timeout: 1000 * 10,
+		//timeout: 1000 * 10,
 		pool: {
 			maxSockets: Infinity
 		}

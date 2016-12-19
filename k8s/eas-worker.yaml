@@ -22,7 +22,7 @@ spec:
         resources:
           limits:
             memory: "256Mi"
-            cpu: "150m"
+            cpu: "100m"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"
