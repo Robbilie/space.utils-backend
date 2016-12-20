@@ -102,7 +102,8 @@
 						]
 					})
 					.sort({ "info.expires": 1 })
-					.limit(500);
+					.limit(500)
+					.toArray();
 
 				for(let i = 0; i < this.tasks.length; i++) {
 
