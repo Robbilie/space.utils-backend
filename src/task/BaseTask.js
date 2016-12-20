@@ -50,7 +50,7 @@
 					_id: this.get__id()
 				},
 				{
-					$set: Object.values(Object.assign({ state: 0 }, options)).reduce((p, [k, v]) => {
+					$set: Object.entries(Object.assign({ state: 0 }, options)).reduce((p, [k, v]) => {
 						p[`info.${k}`] = v;
 						return p;
 					}, {})
