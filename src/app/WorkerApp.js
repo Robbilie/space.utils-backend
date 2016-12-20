@@ -23,6 +23,8 @@
 			this.running_tasks = 0;
 			this.queued_tasks = [];
 
+			this.tasks = [];
+
 			const log_interval = 60;
 			setInterval(() => {
 				console.log("tasks:", this.started / log_interval, this.errors / log_interval, this.completed / log_interval, this.running);
@@ -37,6 +39,16 @@
 			// start listener for brand new tasks
 			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.expires": 0 }, undefined,
 				({ o }) => this.process(o));
+
+			// start listener for just taken tasks
+			WorkerApp.get_tasks().get_continuous_updates({ op: "u" }, undefined,
+				({ o2: { _id }, o }) => {
+					if(o && o.$set && o.$set.info && o.$set.info.state == 1) {
+						let ind = this.tasks.findIndex(x => x._id == _id);
+						if(ind >= 0)
+							this.tasks[ind] = null;
+					}
+				});
 
 			// start polling for old tasks that have to be fetched
 			this.poll_for_tasks();
@@ -67,6 +79,49 @@
 		}
 
 		async poll_for_tasks () {
+
+			try {
+
+				let now = Date.now();
+				let collection = await WorkerApp.get_tasks().get_collection();
+				this.tasks = await collection
+					.find({
+						"info.expires": {
+							$lt: now
+						},
+						$or: [
+							{
+								"info.state": 0
+							},
+							{
+								"info.state": 1,
+								"info.modified": {
+									$lt: now - (1000 * 60)
+								}
+							}
+						]
+					})
+					.sort({ "info.expires": 1 })
+					.limit(500);
+
+				for(let i = 0; i < this.tasks.length; i++) {
+
+					let task = this.tasks.shift();
+
+					if(!task)
+						continue;
+
+					await this.enqueue(task);
+
+				}
+
+			} catch (e) {
+				console.log("worker error", e);
+			}
+
+			setImmediate(() => this.poll_for_tasks());
+
+			/*
 
 			let cursor;
 
@@ -105,6 +160,8 @@
 				cursor = undefined;
 
 			}
+
+			*/
 
 			/*
 
