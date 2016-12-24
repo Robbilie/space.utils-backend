@@ -68,7 +68,7 @@
 					done();
 				};
 
-				if(this.running_tasks < this.task_limit) {
+				if(this.running_tasks < this.PARALLEL_TASK_LIMIT) {
 					this.running_tasks++;
 					run(task, resolve);
 				} else {
