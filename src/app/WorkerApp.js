@@ -78,8 +78,59 @@
 			});
 		}
 
+		async pull_new_tasks () {
+			let collection = await WorkerApp.get_tasks().get_collection();
+			this.tasks = await collection
+				.find({
+					"info.expires": {
+						$lt: now
+					},
+					$or: [
+						{
+							"info.state": 0
+						},
+						{
+							"info.state": 1,
+							"info.modified": {
+								$lt: now - (1000 * 60)
+							}
+						}
+					]
+				})
+				.sort({ "info.expires": 1 })
+				.limit(this.task_limit * 10 * 5)
+				.toArray();
+		}
+
 		async poll_for_tasks () {
 
+			let pulling_tasks = undefined;
+
+			try {
+
+				while (true) {
+
+					if (this.tasks.length < this.task_limit * 10) {
+						if(!pulling_tasks)
+							pulling_tasks = this.pull_new_tasks();
+						if(this.tasks.length == 0)
+							pulling_tasks = await pulling_tasks;
+					}
+
+					let task = this.tasks.shift();
+
+					if(task)
+						await this.enqueue(task);
+
+				}
+
+			} catch (e) {
+				console.log("worker error", e);
+			}
+
+			setImmediate(() => this.poll_for_tasks());
+
+			/*
 			try {
 
 				let now = Date.now();
@@ -121,6 +172,7 @@
 			}
 
 			setImmediate(() => this.poll_for_tasks());
+			*/
 
 			/*
 
