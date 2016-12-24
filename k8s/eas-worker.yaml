@@ -6,7 +6,7 @@ metadata:
     app: eas-worker
   name: eas-worker-dep
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: eas-worker
