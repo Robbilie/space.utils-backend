@@ -79,6 +79,7 @@
 		}
 
 		async pull_new_tasks () {
+			let now = Date.now();
 			let collection = await WorkerApp.get_tasks().get_collection();
 			this.tasks = await collection
 				.find({
