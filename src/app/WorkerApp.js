@@ -362,7 +362,7 @@
 			}
 
 			this.running--;
-			console.log("took", Date.now() - start, "ms", task.info.name);
+			//console.log("took", Date.now() - start, "ms", task.info.name);
 
 		}
 

@@ -15,7 +15,6 @@
 
 			times.push(Date.now() - start);
 
-			let now = Date.now();
 			let [alliance_response, corporations_response] = await Promise.all([
 				client.Alliance.get_alliances_alliance_id(this.get_data()),
 				client.Alliance.get_alliances_alliance_id_corporations(this.get_data())
@@ -53,7 +52,7 @@
 
 			times.push(Date.now() - start);
 
-			console.log("alliance", ...times);
+			//console.log("alliance", ...times);
 
 		}
 

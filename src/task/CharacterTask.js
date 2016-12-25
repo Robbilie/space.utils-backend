@@ -15,7 +15,6 @@
 
 			times.push(Date.now() - start);
 
-			let now = Date.now();
 			let [character_response, history_response] = await Promise.all([
 				client.Character.get_characters_character_id(this.get_data()),
 				client.Character.get_characters_character_id_corporationhistory(this.get_data())
@@ -54,7 +53,7 @@
 
 			times.push(Date.now() - start);
 
-			console.log("character", ...times);
+			//console.log("character", ...times);
 
 		}
 
