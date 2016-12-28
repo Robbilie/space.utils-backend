@@ -1,4 +1,3 @@
-
 	"use strict";
 
 	const { DBUtil, LoadUtil } 		= require("util/");
@@ -108,7 +107,7 @@
 					{ $match },
 					...options,
 					...(this.aggregations || [])
-				], { allowDiskUse: true }); // possibly slower?
+				]/*, { allowDiskUse: true }*/); // possibly slower?
 		}
 
 		static update_model (model, data, options, ignore) {
