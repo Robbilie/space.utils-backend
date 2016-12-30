@@ -107,7 +107,7 @@
 					{ $match },
 					...options,
 					...(this.aggregations || [])
-				]/*, { allowDiskUse: true }*/); // possibly slower?
+				], { allowDiskUse: true }); // possibly slower?
 		}
 
 		static update_model (model, data, options, ignore) {
@@ -116,7 +116,7 @@
 		}
 
 		static update (where, data, options, ignore) {
-			if(!this.check_data(data) && !ignore)
+			if(!ignore && !this.check_data(data))
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			else
 				return this.get_collection().then(collection => collection.updateOne(where, data, options));
@@ -130,7 +130,7 @@
 		}
 
 		static modify (where, data, options, ignore) {
-			if(!this.check_data(data) && !ignore)
+			if(!ignore && !this.check_data(data))
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			else
 				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
