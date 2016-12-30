@@ -22,24 +22,24 @@
 
 			times.push(Date.now() - start);
 
+			let { corporation_name, name = corporation_name, ticker, member_count, ceo_id, alliance_id } = corporation_response;
+
 			await this.get_store().update(
 				{ id: this.get_data().corporation_id },
 				{
-					$set: Object.assign({
-						id: 				this.get_data().corporation_id,
-						name: 				corporation_response.obj.corporation_name,
-						ticker: 			corporation_response.obj.ticker,
-						member_count: 		corporation_response.obj.member_count,
-						ceo_id: 			corporation_response.obj.ceo_id,
-						alliance_history: 	history_response.obj
-					}, corporation_response.obj.alliance_id ? {
-						alliance_id: corporation_response.obj.alliance_id
-					} : {}),
+					$set: {
+						name,
+						ticker,
+						member_count,
+						ceo_id,
+						alliance_id,
+						alliance_history: history_response.obj
+					},
 					$unset: {
-						[corporation_response.obj.alliance_id ? "unset" : "alliance_id"]: true
+						[alliance_id ? "unset" : "alliance_id"]: true
 					}
 				},
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			times.push(Date.now() - start);

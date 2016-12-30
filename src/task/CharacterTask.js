@@ -22,23 +22,24 @@
 
 			times.push(Date.now() - start);
 
+			let { name, corporation_id } = character_response;
+
 			await this.get_store().update(
 				{ id: this.get_data().character_id },
 				{
 					$set: {
-						id: 					this.get_data().character_id,
-						name: 					character_response.obj.name,
-						corporation_id: 		character_response.obj.corporation_id,
-						corporation_history: 	history_response.obj
+						name,
+						corporation_id,
+						corporation_history: history_response.obj
 					}
 				},
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			times.push(Date.now() - start);
 
 			// get corp
-			BaseTask.create_task("Corporation", { corporation_id: character_response.obj.corporation_id }, true);
+			BaseTask.create_task("Corporation", { corporation_id }, true);
 
 			times.push(Date.now() - start);
 

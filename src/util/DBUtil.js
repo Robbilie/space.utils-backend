@@ -15,7 +15,7 @@
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`).catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`, { db: { ignoreUndefined: true } }).catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
 		}
 

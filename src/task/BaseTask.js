@@ -44,18 +44,18 @@
 			return DBUtil.get_store(this.get_name());
 		}
 
-		update (options = {}) {
+		update ({ state = 0, expires, modified } = {}) {
 			return BaseTask.get_tasks().update(
 				{
 					_id: this.get__id()
 				},
 				{
-					$set: Object.entries(Object.assign({ state: 0 }, options)).reduce((p, [k, v]) => {
-						p[`info.${k}`] = v;
-						return p;
-					}, {})
-				},
-				{ w: 0 }
+					$set: {
+						state,
+						expires,
+						modified
+					}
+				}
 			);
 		}
 		
