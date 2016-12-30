@@ -44,7 +44,7 @@
 			times.push(Date.now() - start);
 
 			// get all corps from history
-			history_response.obj.forEach(({ corporation_id }) => BaseTask.create_task("Corporation", { corporation_id }, true));
+			history_response.obj.forEach(({ corporation_id }) => corporation_id ? BaseTask.create_task("Corporation", { corporation_id }, true) : console.log("optional corporation_id", this.get_data().character_id));
 
 			times.push(Date.now() - start);
 
