@@ -39,7 +39,10 @@
 			times.push(Date.now() - start);
 
 			// get corp
-			BaseTask.create_task("Corporation", { corporation_id }, true);
+			if(corporation_id)
+				BaseTask.create_task("Corporation", { corporation_id }, true);
+			else
+				console.log("optional corporation_id", this.get_data().character_id);
 
 			times.push(Date.now() - start);
 
