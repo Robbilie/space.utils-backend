@@ -34,7 +34,7 @@
 						date_founded: new Date(date_founded).getTime()
 					},
 					$unset: {
-						[alliance_response.obj.executor_corporation ? "unset" : "executor_corporation_id"]: true
+						[executor_corporation_id ? "unset" : "executor_corporation_id"]: true
 					}
 				},
 				{ upsert: true }
