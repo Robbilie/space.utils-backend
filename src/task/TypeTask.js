@@ -23,7 +23,7 @@
 						category_id: 	type_response.obj.category_id
 					}
 				},
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			await this.update({

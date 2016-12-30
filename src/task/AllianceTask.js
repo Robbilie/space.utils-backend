@@ -37,7 +37,7 @@
 						[alliance_response.obj.executor_corporation ? "unset" : "executor_corporation_id"]: true
 					}
 				},
-				{ upsert: true, w }
+				{ upsert: true }
 			);
 
 			times.push(Date.now() - start);
