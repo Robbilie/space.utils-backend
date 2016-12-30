@@ -22,7 +22,7 @@
 
 			times.push(Date.now() - start);
 
-			let { name, corporation_id } = character_response;
+			let { name, corporation_id } = character_response.obj;
 
 			await this.get_store().update(
 				{ id: this.get_data().character_id },

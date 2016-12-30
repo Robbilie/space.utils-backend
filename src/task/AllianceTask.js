@@ -22,7 +22,7 @@
 
 			times.push(Date.now() - start);
 
-			let { alliance_name, name = alliance_name, ticker, date_founded, executor_corp, executor_corporation_id = executor_corp } = alliance_response;
+			let { alliance_name, name = alliance_name, ticker, date_founded, executor_corp, executor_corporation_id = executor_corp } = alliance_response.obj;
 
 			await this.get_store().update(
 				{ id: this.get_data().alliance_id },
@@ -31,7 +31,7 @@
 						name,
 						ticker,
 						executor_corporation_id,
-						date_founded: new Date(alliance_response.obj.date_founded).getTime()
+						date_founded: new Date(date_founded).getTime()
 					},
 					$unset: {
 						[alliance_response.obj.executor_corporation ? "unset" : "executor_corporation_id"]: true
