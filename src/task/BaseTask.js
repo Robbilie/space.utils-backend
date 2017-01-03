@@ -51,9 +51,9 @@
 				},
 				{
 					$set: {
-						state,
-						expires,
-						modified
+						"info.state": 		state,
+						"info.expires": 	expires,
+						"info.modified": 	modified
 					}
 				}
 			);
