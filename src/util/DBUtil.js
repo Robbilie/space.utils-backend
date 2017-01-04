@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { ObjectID, MongoClient, Timestamp } = require("mongodb");
-	const { LoadUtil } 				= require("util/");
+	const { LoadUtil } = require("util/");
 
 	const storage = { db: undefined, oplog: undefined };
 
