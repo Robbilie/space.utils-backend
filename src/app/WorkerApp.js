@@ -116,6 +116,8 @@
 							pulling_tasks = this.pull_new_tasks();
 						if(this.tasks.length == 0)
 							pulling_tasks = await pulling_tasks;
+						if(this.tasks.length == 0)
+							await Promise.resolve().wait(1000 * 10);
 					}
 
 					let task = this.tasks.shift();
