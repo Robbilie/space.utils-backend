@@ -4,12 +4,11 @@
 	const { ObjectID, MongoClient, Timestamp } = require("mongodb");
 	const { LoadUtil } 				= require("util/");
 
-	const storage 					= {
-		db: 		undefined,
-		oplog: 		undefined,
-		stores: 	new Map(),
-		oplogs: 	new Map()
-	};
+	const storage = { db, oplog } = {};
+
+	const oplogs 		= new Map();
+	const stores 		= new Map();
+	const collections 	= new Map();
 
 	class DBUtil {
 
@@ -27,12 +26,16 @@
 			return DBUtil.get_connection("oplog", "local");
 		}
 
-		static get_collection (collectionName) {
-			return DBUtil.get_db().then(db => db.collection(collectionName));
+		static get_collection (name) {
+			if(!collections.get(name))
+				collections.set(name, DBUtil.get_db().then(db => db.collection(name)));
+			return collections.get(name);
 		}
 
-		static get_store (storeName) {
-			return LoadUtil.store(storeName);
+		static get_store (name) {
+			if(!stores.get(name))
+				stores.set(name, LoadUtil.store(storeName));
+			return stores.get(name);
 		}
 
 		static get_oplog_cursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
@@ -51,8 +54,8 @@
 			// add timestamp afterwards otherwise index would differ
 			query.ts = { $gt: timestamp };
 
-			if(!storage.oplogs.get(index))
-				storage.oplogs.set(index, (async () => {
+			if(!oplogs.get(index))
+				oplogs.set(index, (async () => {
 					let oplog = await DBUtil.get_oplog();
 					let cursor = oplog
 						.collection("oplog.rs")
@@ -63,10 +66,10 @@
 						.addCursorFlag('oplogReplay', true)
 						.addCursorFlag('noCursorTimeout', true)
 						.setCursorOption('numberOfRetries', Number.MAX_VALUE);
-					cursor.forEach(() => {}, error => storage.oplogs.delete(index));
+					cursor.forEach(() => {}, error => oplogs.delete(index));
 					return cursor;
 				})());
-			return storage.oplogs.get(index);
+			return oplogs.get(index);
 		}
 
 		static to_id (id) {
