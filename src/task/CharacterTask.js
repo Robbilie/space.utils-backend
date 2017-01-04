@@ -33,7 +33,7 @@
 						corporation_history: history_response.obj
 					}
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			times.push(Date.now() - start);
@@ -52,7 +52,7 @@
 			times.push(Date.now() - start);
 
 			await this.update({
-				expires: Math.max(new Date(character_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
+				expires: new Date(character_response.headers.expires).getTime()
 			});
 
 			times.push(Date.now() - start);

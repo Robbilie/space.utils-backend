@@ -55,7 +55,8 @@
 						"info.expires": 	expires,
 						"info.modified": 	modified
 					}
-				}
+				},
+				{ w: 0 }
 			);
 		}
 		

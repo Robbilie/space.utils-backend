@@ -37,7 +37,7 @@
 						[executor_corporation_id ? "unset" : "executor_corporation_id"]: true
 					}
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			times.push(Date.now() - start);
@@ -47,7 +47,7 @@
 			times.push(Date.now() - start);
 
 			await this.update({
-				expires: Math.max(new Date(alliance_response.headers.expires).getTime(), new Date(corporations_response.headers.expires).getTime())
+				expires: new Date(alliance_response.headers.expires).getTime()
 			});
 
 			times.push(Date.now() - start);

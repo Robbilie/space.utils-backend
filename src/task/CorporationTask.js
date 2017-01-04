@@ -39,7 +39,7 @@
 						[alliance_id ? "unset" : "alliance_id"]: true
 					}
 				},
-				{ upsert: true }
+				{ upsert: true, w: 0 }
 			);
 
 			times.push(Date.now() - start);
@@ -67,7 +67,7 @@
 			times.push(Date.now() - start);
 
 			await this.update({
-				expires: Math.max(new Date(corporation_response.headers.expires).getTime(), new Date(history_response.headers.expires).getTime())
+				expires: new Date(corporation_response.headers.expires).getTime()
 			});
 
 			times.push(Date.now() - start);
