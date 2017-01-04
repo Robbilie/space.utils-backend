@@ -343,7 +343,7 @@
 					await runner.start();
 					this.completed++;
 				} catch (e) {
-					await collection.updateOne(
+					await WorkerApp.get_tasks().update(
 						{ _id },
 						{
 							$set: {
