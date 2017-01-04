@@ -34,7 +34,7 @@
 
 		static get_store (name) {
 			if(!stores.get(name))
-				stores.set(name, LoadUtil.store(storeName));
+				stores.set(name, LoadUtil.store(name));
 			return stores.get(name);
 		}
 
