@@ -19,6 +19,8 @@ spec:
       - name: eas-worker-pod
         image: index.docker.io/robbilie/eas:eas-node
         imagePullPolicy: Always
+        ports:
+        - containerPort: 4001
         resources:
           limits:
             memory: "256Mi"
@@ -30,6 +32,8 @@ spec:
         env:
         - name: APP_NAME
           value: "Worker"
+        - name: APP_PORT
+          value: "4001"
         - name: HOST
           value: "utils.space"
         - name: UA
@@ -52,6 +56,12 @@ spec:
         #  value: "128"
         - name: PARALLEL_TASK_LIMIT
           value: "50"
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 4001
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
       volumes:
       - name: config
         secret:

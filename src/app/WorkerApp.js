@@ -3,6 +3,7 @@
 	const { DBUtil, LoadUtil } 			= require("util/");
 	const { Task } 						= require("model/");
 	const { BaseTask } 					= require("task/");
+	const http 							= require("http");
 
 	class WorkerApp {
 
@@ -24,6 +25,18 @@
 			this.queued_tasks = [];
 
 			this.tasks = [];
+
+			this.heartbeat = Date.now();
+
+			http.createServer((req, res) => {
+				switch (req.url) {
+					case "/ping":
+						res.writeHead(200); break;
+					case "/healthcheck":
+						res.writeHead(this.heartbeat > Date.now() - (60 * 1000) ? 200 : 500); break;
+				}
+				res.end();
+			}).listen(parseInt(process.env.APP_PORT));
 
 			const log_interval = 60;
 			setInterval(() => {
@@ -101,6 +114,7 @@
 				.sort({ "info.expires": 1 })
 				.limit(this.task_limit * 10 * 5)
 				.toArray();
+			this.heartbeat = Date.now();
 		}
 
 		async poll_for_tasks () {
@@ -364,6 +378,8 @@
 
 			this.running--;
 			//console.log("took", Date.now() - start, "ms", task.info.name);
+
+			this.heartbeat = Date.now();
 
 		}
 
