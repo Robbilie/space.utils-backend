@@ -4,7 +4,7 @@
 	const { ObjectID, MongoClient, Timestamp } = require("mongodb");
 	const { LoadUtil } 				= require("util/");
 
-	const storage = { db, oplog } = {};
+	const storage = { db: undefined, oplog: undefined };
 
 	const oplogs 		= new Map();
 	const stores 		= new Map();
