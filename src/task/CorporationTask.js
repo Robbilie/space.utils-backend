@@ -45,24 +45,24 @@
 			times.push(Date.now() - start);
 
 			// get alliance
-			if(corporation_response.obj.alliance_id)
-				BaseTask.create_task("Alliance", { alliance_id: corporation_response.obj.alliance_id }, true);
+			if(alliance_id)
+				BaseTask.create_task("Alliance", { alliance_id }, true);
 
 			times.push(Date.now() - start);
 
 			// get ceo
-			if(corporation_response.obj.ceo_id == 1) {
+			if(ceo_id == 1) {
 				// dead corp
-			} else if(corporation_response.obj.ceo_id >= 3000000 && corporation_response.obj.ceo_id < 4000000) {
+			} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
 				// is npc ceo
 			} else {
-				BaseTask.create_task("Character", { character_id: corporation_response.obj.ceo_id }, true);
+				BaseTask.create_task("Character", { character_id: ceo_id }, true);
 			}
 
 			times.push(Date.now() - start);
 
 			// get all alliances
-			history_response.obj.filter(alliance => !!alliance.alliance).forEach(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id }, true));
+			history_response.obj.filter(({ alliance }) => !!alliance).forEach(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id }, true));
 
 			times.push(Date.now() - start);
 

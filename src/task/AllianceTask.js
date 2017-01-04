@@ -42,7 +42,7 @@
 
 			times.push(Date.now() - start);
 
-			corporations_response.obj.forEach(corporation_id => corporation_id ? BaseTask.create_task("Corporation", { corporation_id }, true) : console.log("optional corporation_id", this.get_data().alliance_id));
+			corporations_response.obj.forEach(corporation_id => BaseTask.create_task("Corporation", { corporation_id }, true));
 
 			times.push(Date.now() - start);
 

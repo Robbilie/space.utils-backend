@@ -39,15 +39,12 @@
 			times.push(Date.now() - start);
 
 			// get corp
-			if(corporation_id)
-				BaseTask.create_task("Corporation", { corporation_id }, true);
-			else
-				console.log("optional corporation_id", this.get_data().character_id);
+			BaseTask.create_task("Corporation", { corporation_id }, true);
 
 			times.push(Date.now() - start);
 
 			// get all corps from history
-			history_response.obj.forEach(({ corporation_id }) => corporation_id ? BaseTask.create_task("Corporation", { corporation_id }, true) : console.log("optional corporation_id", this.get_data().character_id));
+			history_response.obj.forEach(({ corporation_id }) => BaseTask.create_task("Corporation", { corporation_id }, true));
 
 			times.push(Date.now() - start);
 

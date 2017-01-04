@@ -307,8 +307,7 @@
 
 				let now = Date.now();
 
-				let collection = await WorkerApp.get_tasks().get_collection();
-				let r = await collection.updateOne(
+				let r = await WorkerApp.get_tasks().update(
 					{ _id, "info.expires": expires, $or: [
 						{
 							"info.state": 0
