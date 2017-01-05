@@ -33,18 +33,24 @@
 					case "/ping":
 						res.writeHead(200); break;
 					case "/healthcheck":
-						res.writeHead(this.heartbeat > Date.now() - (60 * 1000) ? 200 : 500); break;
+						res.writeHead(this.heartbeat > Date.now() - (120 * 1000) ? 200 : 500); break;
 				}
 				res.end();
 			}).listen(parseInt(process.env.APP_PORT));
 
-			const log_interval = 60;
-			setInterval(() => {
-				console.log("tasks:", this.started / log_interval, this.errors / log_interval, this.completed / log_interval, this.running);
+			this.log_interval = 60;
+			this.interval = setInterval(() => {
+				console.log(
+					"tasks:",
+					this.started 	/ this.log_interval,
+					this.errors 	/ this.log_interval,
+					this.completed 	/ this.log_interval,
+					this.running
+				);
 				this.started = 0;
 				this.errors = 0;
 				this.completed = 0;
-			}, log_interval * 1000);
+			}, this.log_interval * 1000);
 
 			// start some basic tasks
 			BaseTask.create_task("Alliances", {}, true);
