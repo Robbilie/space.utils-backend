@@ -23,7 +23,7 @@ spec:
         - containerPort: 4001
         resources:
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "100m"
         volumeMounts:
         - name: config
