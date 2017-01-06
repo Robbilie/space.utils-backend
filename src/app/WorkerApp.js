@@ -42,9 +42,9 @@
 			this.interval = setInterval(() => {
 				console.log(
 					"tasks:",
-					this.started 	/ this.log_interval,
-					this.errors 	/ this.log_interval,
-					this.completed 	/ this.log_interval,
+					(this.started 	/ this.log_interval).toLocaleString(),
+					(this.errors 	/ this.log_interval).toLocaleString(),
+					(this.completed / this.log_interval).toLocaleString(),
 					this.running
 				);
 				this.started = 0;
