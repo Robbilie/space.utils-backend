@@ -375,7 +375,7 @@
 						}
 					);
 					this.errors++;
-					console.log(name, e);
+					console.log(name, e.name != "StatusCodeError" ? e : { name: e.name, statusCode: e.statusCode, error: e.error, href: e.response.request.href });
 				}
 
 			} catch (e) {
