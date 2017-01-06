@@ -13,21 +13,15 @@
 			if(typeof(gc) != "undefined")
 				setInterval(() => gc(), 1000 * 10);
 
+			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
-
-			this.running = 0;
-			this.started = 0;
-			this.errors = 0;
-			this.completed = 0;
-
-			this.task_limit = 20;
 			this.running_tasks = 0;
 			this.queued_tasks = [];
 
 			this.tasks = [];
 
+			// liveness probe from k8s
 			this.heartbeat = Date.now();
-
 			http.createServer((req, res) => {
 				switch (req.url) {
 					case "/ping":
@@ -38,6 +32,11 @@
 				res.end();
 			}).listen(parseInt(process.env.APP_PORT));
 
+			// some debug logs
+			this.running = 0;
+			this.started = 0;
+			this.errors = 0;
+			this.completed = 0;
 			this.log_interval = 60;
 			this.interval = setInterval(() => {
 				console.log(
@@ -97,28 +96,12 @@
 			});
 		}
 
-		async pull_new_tasks () {
-			let now = Date.now();
+		async pull_new_tasks (now = Date.now()) {
 			let collection = await WorkerApp.get_tasks().get_collection();
 			this.tasks = await collection
-				.find({
-					"info.expires": {
-						$lt: now
-					},
-					$or: [
-						{
-							"info.state": 0
-						},
-						{
-							"info.state": 1,
-							"info.modified": {
-								$lt: now - (1000 * 60)
-							}
-						}
-					]
-				})
+				.find({ "info.expires": { $lt: now }, $or: WorkerApp.task_query(now) })
 				.sort({ "info.expires": 1 })
-				.limit(this.task_limit * 10 * 5)
+				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5)
 				.toArray();
 			this.heartbeat = Date.now();
 		}
@@ -129,9 +112,9 @@
 
 			try {
 
-				while (true) {
+				while (this.heartbeat > Date.now() - (120 * 1000)) {
 
-					if (this.tasks.length < this.task_limit * 10) {
+					if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 5) {
 						if(!pulling_tasks)
 							pulling_tasks = this.pull_new_tasks();
 						if(this.tasks.length == 0)
@@ -153,237 +136,55 @@
 
 			setImmediate(() => this.poll_for_tasks());
 
-			/*
-			try {
-
-				let now = Date.now();
-				let collection = await WorkerApp.get_tasks().get_collection();
-				this.tasks = await collection
-					.find({
-						"info.expires": {
-							$lt: now
-						},
-						$or: [
-							{
-								"info.state": 0
-							},
-							{
-								"info.state": 1,
-								"info.modified": {
-									$lt: now - (1000 * 60)
-								}
-							}
-						]
-					})
-					.sort({ "info.expires": 1 })
-					.limit(500)
-					.toArray();
-
-				for(let i = 0; i < this.tasks.length; i++) {
-
-					let task = this.tasks.shift();
-
-					if(!task)
-						continue;
-
-					await this.enqueue(task);
-
-				}
-
-			} catch (e) {
-				console.log("worker error", e);
-			}
-
-			setImmediate(() => this.poll_for_tasks());
-			*/
-
-			/*
-
-			let cursor;
-
-			while (!cursor) {
-
-				try {
-
-					let collection = await WorkerApp.get_tasks().get_collection();
-					cursor = collection
-						.find({
-							"info.expires": {
-								$lt: Date.now()
-							},
-							$or: [
-								{
-									"info.state": 0
-								},
-								{
-									"info.state": 1,
-									"info.modified": {
-										$lt: Date.now() - (1000 * 60)
-									}
-								}
-							]
-						})
-						.sort({ "info.expires": 1 })
-						.limit(1000);
-
-					while (await cursor.hasNext())
-						await this.enqueue(await cursor.next());
-
-				} catch (e) {
-					console.log("worker error", e);
-				}
-
-				cursor = undefined;
-
-			}
-
-			*/
-
-			/*
-
-			let collection = await WorkerApp.get_tasks().get_collection();
-			let tasks = await collection
-				.find({
-					"info.expires": {
-						$lt: Date.now()
-					},
-					$or: [
-						{
-							"info.state": 0
-						},
-						{
-							"info.state": 1,
-							"info.modified": {
-								$lt: Date.now() - (1000 * 60)
-							}
-						}
-					]
-				})
-				.sort({ "info.expires": 1 })
-				.limit(5000);
-
-			while(await tasks.hasNext()) {
-
-				while(this.running >= this.PARALLEL_TASK_LIMIT) {
-					await Promise.resolve().wait(200);
-				}
-
-				await this.process(await tasks.next());
-
-			}
-
-			setImmediate(() => this.poll_for_tasks());
-
-			*/
-
-			/*
-
-			let timeout = Promise.resolve().wait(200);
-
-			let collection = await WorkerApp.get_tasks().get_collection();
-			let tasks = await collection
-				.find({
-					"info.expires": {
-						$lt: Date.now()
-					},
-					$or: [
-						{
-							"info.state": 0
-						},
-						{
-							"info.state": 1,
-							"info.modified": {
-								$lt: Date.now() - (1000 * 60)
-							}
-						}
-					]
-				})
-				.sort({ "info.expires": 1 })
-				.limit(200)
-				.toArray();
-
-			// process them
-			await Promise.all(tasks.map(doc => this.process(doc)));
-
-			// wait if not yet run out or skip and restart polling
-			await timeout;
-			setImmediate(() => this.poll_for_tasks());
-
-			*/
-
 		}
 
 		static get_tasks () {
 			return DBUtil.get_store("Task");
 		}
 
-		async process (task) {
+		static task_query(now = Date.now()) {
+			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: now - (1000 * 60) } }];
+		}
 
-			let start = Date.now();
+		async process ({ _id, info: { name, expires } }) {
 
 			this.running++;
 
 			try {
 
-				let { _id, info: { name, expires } } = task;
-
 				let now = Date.now();
 
-				let r = await WorkerApp.get_tasks().update(
-					{ _id, "info.expires": expires, $or: [
-						{
-							"info.state": 0
-						},
-						{
-							"info.state": 1,
-							"info.modified": {
-								$lt: now - (1000 * 60)
-							}
-						}
-					] },
-					{
-						$set: {
-							"info.state": 1,
-							"info.modified": now
-						}
-					}
+				let { value } = await WorkerApp.get_tasks().modify(
+					{ _id, "info.expires": expires, $or: WorkerApp.task_query(now) },
+					{ $set: { "info.state": 1, "info.modified": now } },
+					{ returnOriginal: false }
 				);
 
-				if(r.modifiedCount != 1) {
-					this.running--;
-					return;
-				}
+				if(value)
+					++this.started;
+				else
+					return --this.running;
 
-				task.info.state = 1;
-				task.info.modified = now;
-
-				this.started++;
-
+				// do special processing stuff or error out
 				try {
-					// do special processing stuff
-					let runner = new (LoadUtil.task(name))(task);
-					await runner.start();
+					await new (LoadUtil.task(name))(value).start();
 					this.completed++;
 				} catch (e) {
-					await WorkerApp.get_tasks().update(
-						{ _id },
-						{
-							$set: {
-								//"info.state": 0, // leaving it on state 1 and just changing the modified should mean back off for 1 minute
-								"info.modified": Date.now()
-							}
-						}
-					);
+					await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": Date.now() } });
 					this.errors++;
+
+					// log error & slow down requests
 					console.log(name, e.name != "StatusCodeError" ? e : { name: e.name, statusCode: e.statusCode, error: e.error, href: e.response.request.href });
+					++this.running_tasks;
+					// increases wait time to up to 5m
+					setTimeout(() => --this.running_tasks, 5 * 60 * 1000 / this.PARALLEL_TASK_LIMIT * this.errors);
 				}
 
 			} catch (e) {
-				console.log("WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT", e);
+				console.log("shouldn't happen", e);
 			}
 
 			this.running--;
-			//console.log("took", Date.now() - start, "ms", task.info.name);
 
 			this.heartbeat = Date.now();
 
