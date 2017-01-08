@@ -141,7 +141,7 @@
 				let tasks = await collection
 					.find({ "info.expires": { $lt: now }, $or: WorkerApp.task_query(now) })
 					.sort({ "info.expires": 1 })
-					.limit(this.PARALLEL_TASK_LIMIT * 10)
+					.limit(this.PARALLEL_TASK_LIMIT * 5)
 					.toArray();
 
 				// process them
