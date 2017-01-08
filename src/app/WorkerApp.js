@@ -101,7 +101,7 @@
 			this.tasks = await collection
 				.find({ "info.expires": { $lt: now }, $or: WorkerApp.task_query(now) })
 				.sort({ "info.expires": 1 })
-				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5)
+				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5 * 5)
 				.toArray();
 			this.heartbeat = Date.now();
 		}
