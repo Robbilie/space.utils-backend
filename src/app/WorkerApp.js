@@ -104,7 +104,7 @@
 			this.heartbeat = Date.now();
 		}
 
-		async poll_for_tasks () {
+		async poll_for_tasks (now = Date.now()) {
 
 			/*let pulling_tasks = undefined;
 
