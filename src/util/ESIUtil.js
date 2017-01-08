@@ -31,7 +31,7 @@
 				authorizations: {
 					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
 				},
-				/*client: {
+				client: {
 					execute: function (obj) {
 						request({
 							method: obj.method,
@@ -41,9 +41,9 @@
 							resolveWithFullResponse: true
 						})
 							.then(response => obj.on.response(Object.assign(response, { obj: JSON.parse(response.body) })))
-							.catch(e => /*console.log(e) || obj.on.error(e));
+							.catch(e => /*console.log(e) || */obj.on.error(e));
 					}
-				}*/
+				}
 			}, options));
 		}
 		
