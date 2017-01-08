@@ -4,7 +4,7 @@
 	const Swagger = require("swagger-client");
 	const rp = require("request-promise-native");
 	const request = rp.defaults({
-		gzip: true,
+		//gzip: true,
 		forever: true,
 		timeout: 1000 * 15,
 		pool: {
