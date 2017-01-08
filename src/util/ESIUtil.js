@@ -9,7 +9,8 @@
 		timeout: 1000 * 15,
 		pool: {
 			maxSockets: Infinity
-		}
+		},
+		resolveWithFullResponse: true
 	});
 
 	const storage = {
@@ -33,15 +34,13 @@
 				},
 				client: {
 					execute: function (obj) {
-						request({
-							method: obj.method,
-							url: obj.url,
-							headers: obj.headers,
-							body: obj.body,
-							resolveWithFullResponse: true
-						})
-							.then(response => obj.on.response(Object.assign(response, { obj: JSON.parse(response.body) })))
-							.catch(e => /*console.log(e) || */obj.on.error(e));
+						let { method, url, headers, body } = obj;
+						request({ method, url, headers, body })
+							.then(response => {
+								response.obj = JSON.parse(response.body);
+								obj.on.response(response);
+							})
+							.catch(e => obj.on.error(e));
 					}
 				}
 			}, options));
