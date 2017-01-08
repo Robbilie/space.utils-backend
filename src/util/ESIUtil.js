@@ -5,7 +5,7 @@
 	const rp = require("request-promise-native");
 	const request = rp.defaults({
 		//gzip: true,
-		forever: true,
+		//forever: true,
 		timeout: 1000 * 15,
 		pool: {
 			maxSockets: Infinity
