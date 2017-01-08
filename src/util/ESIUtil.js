@@ -41,7 +41,7 @@
 							resolveWithFullResponse: true
 						})
 							.then(response => obj.on.response(Object.assign(response, { obj: JSON.parse(response.body) })))
-							.catch(e => console.log(e) || obj.on.error(e));
+							.catch(e => /*console.log(e) || */obj.on.error(e));
 					}
 				}
 			}, options));
