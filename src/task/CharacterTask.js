@@ -54,7 +54,7 @@
 
 			times.push(Date.now() - start);
 
-			console.log("character", ...times);
+			//console.log("character", ...times);
 
 		}
 
