@@ -174,7 +174,7 @@
 					this.errors++;
 
 					// log error & slow down requests
-					console.log(name, e.name != "StatusCodeError" ? e : { name: e.name, statusCode: e.statusCode, error: e.error, href: e.response.request.href });
+					console.log(name, e.name != "StatusCodeError" ? e : JSON.stringify({ name: e.name, statusCode: e.statusCode, error: e.error, href: e.response.request.href }));
 					++this.running_tasks;
 					// increases wait time to up to 5m
 					setTimeout(() => --this.running_tasks, 5 * 60 * 1000 / this.PARALLEL_TASK_LIMIT * this.errors);
