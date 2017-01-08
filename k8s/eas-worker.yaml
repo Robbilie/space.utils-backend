@@ -55,7 +55,7 @@ spec:
         - name: UV_THREADPOOL_SIZE
           value: "128"
         - name: PARALLEL_TASK_LIMIT
-          value: "50"
+          value: "100"
         livenessProbe:
           httpGet:
             path: /healthcheck
