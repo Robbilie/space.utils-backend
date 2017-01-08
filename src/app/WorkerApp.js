@@ -136,18 +136,29 @@
 
 			try {
 
-				let timeout = Promise.resolve().wait(200);
-				let collection = await WorkerApp.get_tasks().get_collection();
-				let tasks = await collection
-					.find({ "info.expires": { $lt: now }, $or: WorkerApp.task_query(now) })
-					.sort({ "info.expires": 1 })
-					.limit(this.PARALLEL_TASK_LIMIT * 5)
-					.toArray();
+				let cursor;
 
-				// process them
-				await Promise.all(tasks.map(doc => this.process(doc).catch(e => console.log(e))));
-				// wait if not yet run out or skip and restart polling
-				await timeout;
+				while (!cursor) {
+
+					try {
+
+						let collection = await WorkerApp.get_tasks().get_collection();
+						cursor = collection
+							.find({ "info.expires": { $lt: now }, $or: WorkerApp.task_query(now) })
+							.sort({ "info.expires": 1 })
+							.limit(this.PARALLEL_TASK_LIMIT * 10);
+
+						while (await cursor.hasNext())
+							await this.enqueue(await cursor.next());
+
+					} catch (e) {
+
+						console.log("worker error", e);
+
+					}
+
+					cursor = undefined;
+				}
 
 			} catch (e) {
 				console.log("worker error", e);
