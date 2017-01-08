@@ -114,7 +114,7 @@
 
 				while (this.heartbeat > Date.now() - (120 * 1000)) {
 
-					if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 5) {
+					if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
 						if(!pulling_tasks)
 							pulling_tasks = this.pull_new_tasks();
 						if(this.tasks.length == 0)
