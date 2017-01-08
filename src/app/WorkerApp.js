@@ -41,10 +41,8 @@
 			this.interval = setInterval(() => {
 				console.log(
 					"tasks:",
-					(this.started 	/ this.log_interval).toLocaleString(),
 					(this.errors 	/ this.log_interval).toLocaleString(),
-					(this.completed / this.log_interval).toLocaleString(),
-					this.running
+					(this.completed / this.log_interval).toLocaleString()
 				);
 				this.started = 0;
 				this.errors = 0;
@@ -108,7 +106,7 @@
 
 		async poll_for_tasks () {
 
-			let pulling_tasks = undefined;
+			/*let pulling_tasks = undefined;
 
 			try {
 
@@ -134,6 +132,20 @@
 				console.log("worker error", e);
 			}
 
+			setImmediate(() => this.poll_for_tasks());*/
+
+			let timeout = Promise.resolve().wait(200);
+			let collection = await WorkerApp.get_tasks().get_collection();
+			let tasks = await collection
+				.find({ "info.expires": { $lt: now }, $or: WorkerApp.task_query(now) })
+				.sort({ "info.expires": 1 })
+				.limit(this.PARALLEL_TASK_LIMIT * 10)
+				.toArray();
+
+			// process them
+			await Promise.all(tasks.map(doc => this.process(doc).catch(e => console.log(e))));
+			// wait if not yet run out or skip and restart polling
+			await timeout;
 			setImmediate(() => this.poll_for_tasks());
 
 		}
