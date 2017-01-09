@@ -27,9 +27,10 @@
 		}
 
 		static get_collection (name) {
-			if(!collections.get(name))
-				collections.set(name, DBUtil.get_db().then(db => db.collection(name)));
-			return collections.get(name);
+			//if(!collections.get(name))
+			//	collections.set(name, DBUtil.get_db().then(db => db.collection(name)));
+			//return collections.get(name);
+			return DBUtil.get_db().then(db => db.collection(name));
 		}
 
 		static get_store (name) {
