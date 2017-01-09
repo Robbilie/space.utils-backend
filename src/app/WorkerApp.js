@@ -104,9 +104,9 @@
 			this.heartbeat = Date.now();
 		}
 
-		async poll_for_tasks (now = Date.now()) {
+		async poll_for_tasks () {
 
-			/*let pulling_tasks = undefined;
+			let pulling_tasks = undefined;
 
 			try {
 
@@ -126,38 +126,6 @@
 					if(task)
 						await this.enqueue(task);
 
-				}
-
-			} catch (e) {
-				console.log("worker error", e);
-			}
-
-			setImmediate(() => this.poll_for_tasks());*/
-
-			try {
-
-				let cursor;
-
-				while (!cursor) {
-
-					try {
-
-						let collection = await WorkerApp.get_tasks().get_collection();
-						cursor = collection
-							.find({ "info.expires": { $lt: now }, $or: WorkerApp.task_query(now) })
-							.sort({ "info.expires": 1 })
-							.limit(this.PARALLEL_TASK_LIMIT * 10);
-
-						while (await cursor.hasNext())
-							await this.enqueue(await cursor.next());
-
-					} catch (e) {
-
-						console.log("worker error", e);
-
-					}
-
-					cursor = undefined;
 				}
 
 			} catch (e) {
