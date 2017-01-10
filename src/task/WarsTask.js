@@ -18,17 +18,19 @@
 
 			const expirations = [];
 
-			let more_wars = true;
-			let page = 1;
+			const storage = {
+				more_wars: true,
+				page: 1
+			};
 
-			while (more_wars) {
+			while (storage.more_wars) {
 				// fetch data for 10 pages
-				let wars = await Promise.all([...new Array(10).keys()].map(i => client.Wars.get_wars({ page: page + i })));
+				let wars = await Promise.all([...new Array(10).keys()].map(() => client.Wars.get_wars({ page: storage.page++ })));
 				// push expirations & create wars
 				wars.forEach(({ obj, headers: { expires } }) => {
 					obj.forEach(id => WarStore.find_or_create(id));
 					if (obj.length < 2000)
-						more_wars = false;
+						storage.more_wars = false;
 					expirations.push(new Date(expires).getTime());
 				});
 			}

@@ -16,14 +16,11 @@
 
 			times.push(Date.now() - start);
 
-			let [war_response, killmails_response] = await Promise.all([
-				client.Wars.get_wars_war_id(this.get_data()),
-				client.Wars.get_wars_war_id_killmails(this.get_data())
-			]);
+			let { obj, headers } = client.Wars.get_wars_war_id(this.get_data());
 
 			times.push(Date.now() - start);
 
-			let war = war_response.obj;
+			let war = obj;
 				if(war.declared)
 					war.declared = new Date(war.declared).getTime();
 				if(war.started)
@@ -31,11 +28,11 @@
 				if(war.finished)
 					war.finished = new Date(war.finished).getTime();
 
-			let { finished, aggressor, defender } = war_response.obj;
+			let { finished, aggressor, defender } = obj;
 
 			await this.get_store().update(
 				{ id: this.get_data().war_id },
-				{ $set: war_response.obj },
+				{ $set: obj },
 				{ upsert: true, w: 0 }
 			);
 
@@ -51,7 +48,19 @@
 			if (defender.alliance_id)
 				BaseTask.create_task("Alliance", { alliance_id: defender.alliance_id }, true);
 
-			killmails_response.obj.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash));
+			times.push(Date.now() - start);
+
+			const storage = {
+				more_killmails: true,
+				page: 1
+			};
+
+			while (storage.more_killmails) {
+				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page: page++ });
+				obj.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash));
+				if (obj.length < 2000)
+					storage.more_killmails = false;
+			}
 
 			times.push(Date.now() - start);
 
@@ -59,7 +68,7 @@
 				await this.destroy();
 			else
 				await this.update({
-					expires: new Date(war_response.headers.expires).getTime()
+					expires: new Date(headers.expires).getTime()
 				});
 
 			times.push(Date.now() - start);
