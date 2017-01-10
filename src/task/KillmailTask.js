@@ -21,10 +21,8 @@
 
 			await this.get_store().update(
 				{ id: killmail.id },
-				{
-					$set: killmail
-				},
-				{ upsert: true }
+				{ $set: killmail },
+				{ upsert: true, w: 0 }
 			);
 
 			await this.destroy();

@@ -51,6 +51,7 @@
 
 			// start some basic tasks
 			BaseTask.create_task("Alliances", {}, true);
+			BaseTask.create_task("Wars", {}, true);
 
 			// start listener for brand new tasks
 			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.expires": 0 }, undefined,
