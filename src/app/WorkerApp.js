@@ -33,20 +33,20 @@
 			}).listen(parseInt(process.env.APP_PORT));
 
 			// some debug logs
-			this.running = 0;
-			this.started = 0;
-			this.errors = 0;
-			this.completed = 0;
-			this.log_interval = 60;
+			this.running 		= 0;
+			this.started 		= 0;
+			this.errors 		= 0;
+			this.completed 		= 0;
+			this.log_interval 	= 60;
 			this.interval = setInterval(() => {
 				console.log(
 					"tasks:",
 					(this.errors 	/ this.log_interval).toLocaleString(),
 					(this.completed / this.log_interval).toLocaleString()
 				);
-				this.started = 0;
-				this.errors = 0;
-				this.completed = 0;
+				this.started 	= 0;
+				this.errors 	= 0;
+				this.completed 	= 0;
 			}, this.log_interval * 1000);
 
 			// start some basic tasks

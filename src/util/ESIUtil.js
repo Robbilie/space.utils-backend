@@ -14,7 +14,11 @@
 	});
 
 	const storage = {
-		client: undefined
+		client: 		undefined,
+		interval: 		undefined,
+		log_interval: 	60,
+		errors: 		0,
+		completed: 		0
 	};
 	
 	class ESIUtil {
@@ -26,6 +30,16 @@
 		}
 
 		static new_client (options = {}) {
+			if(!storage.interval)
+				storage.interval = setInterval(() => {
+					console.log(
+						"esi:",
+						(storage.errors 	/ storage.log_interval).toLocaleString(),
+						(storage.completed 	/ storage.log_interval).toLocaleString()
+					);
+					storage.errors 		= 0;
+					storage.completed 	= 0;
+				}, storage.log_interval * 1000);
 			return new Swagger(Object.assign({
 				url: process.env.ESI_URL,
 				usePromise: true,
@@ -40,7 +54,11 @@
 								response.obj = JSON.parse(response.body);
 								obj.on.response(response);
 							})
-							.catch(e => obj.on.error(e));
+							.catch(e => {
+								++storage.errors;
+								obj.on.error(e);
+							})
+							.then(() => ++storage.completed);
 					}
 				}
 			}, options));
