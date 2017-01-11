@@ -5,11 +5,11 @@
 	const spdy 		= require("spdy");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
-		agentClass: spdy.Agent,
+		/*agentClass: spdy.Agent,
 		agentOptions: {
 			host: "esi.tech.ccp.is",
 			port: 443
-		},
+		},*/
 		//gzip: true, // actually slows down
 		forever: true,
 		timeout: 1000 * 12,
