@@ -3,6 +3,7 @@
 
 	const Swagger 	= require("swagger-client");
 	const spdy 		= require("spdy");
+	const http2 	= require("http2");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
 		/*agentClass: spdy.Agent,
@@ -10,6 +11,7 @@
 			host: "esi.tech.ccp.is",
 			port: 443
 		},*/
+		agentClass: http2.Agent,
 		//gzip: true, // actually slows down
 		forever: true,
 		timeout: 1000 * 12,
