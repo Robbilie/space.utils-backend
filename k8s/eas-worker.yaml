@@ -61,7 +61,7 @@ spec:
             path: /healthcheck
             port: 4001
           initialDelaySeconds: 90
-          timeoutSeconds: 10
+          timeoutSeconds: 30
       volumes:
       - name: config
         secret:
