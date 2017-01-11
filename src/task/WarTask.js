@@ -56,7 +56,7 @@
 			};
 
 			while (storage.more_killmails) {
-				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page: page++ });
+				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page: storage.page++ });
 				obj.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash));
 				if (obj.length < 2000)
 					storage.more_killmails = false;
