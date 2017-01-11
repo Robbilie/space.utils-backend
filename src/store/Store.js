@@ -138,7 +138,7 @@
 
 		static insert_model (model, options, ignore) {
 			return model.get_future()
-				.then(data => this.insertOne(data, options, ignore));
+				.then(data => this.insert(data, options, ignore));
 		}
 
 		static insert (data, options) {
