@@ -136,6 +136,18 @@
 				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
 		}
 
+		static insert_model (model, options, ignore) {
+			return model.get_future()
+				.then(data => this.insertOne(data, options, ignore));
+		}
+
+		static insert (data, options, ignore) {
+			if(!ignore && !this.check_data(data))
+				return Promise.reject("Data is missing fields, use ignore to bypass.");
+			else
+				return this.get_collection().then(collection => collection.insertOne(data, options));
+		}
+
 		static destroy_model (model) {
 			return model.get__id().then(_id => this.destroy({ _id }));
 		}

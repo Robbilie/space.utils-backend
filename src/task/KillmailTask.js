@@ -17,13 +17,9 @@
 				killmail.id 				= this.get_data().killmail_id;
 				killmail.hash 				= this.get_data().killmail_hash;
 				killmail.attacker_count 	= killmail.attackers.length;
-				killmail.killmail_time 		= new Date(killmail.killmail_time).getTime();
+				killmail.time 				= new Date(killmail.killmail_time).getTime();
 
-			await this.get_store().update(
-				{ id: killmail.id },
-				{ $set: killmail },
-				{ upsert: true, w: 0 }
-			);
+			await this.get_store().insert(killmail, { w: 0 });
 
 			await this.destroy();
 

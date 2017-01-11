@@ -12,23 +12,15 @@
 
 			let type_response = await client.Universe.get_universe_types_type_id(this.get_data());
 
-			await this.get_store().update(
-				{ id: this.get_data().type_id },
-				{
-					$set: {
-						id: 			this.get_data().type_id,
-						name: 			type_response.obj.type_name,
-						description: 	type_response.obj.type_description,
-						group_id: 		type_response.obj.group_id,
-						category_id: 	type_response.obj.category_id
-					}
-				},
-				{ upsert: true }
-			);
+			await this.get_store().insert({
+				id: 			this.get_data().type_id,
+				name: 			type_response.obj.type_name,
+				description: 	type_response.obj.type_description,
+				group_id: 		type_response.obj.group_id,
+				category_id: 	type_response.obj.category_id
+			}, { w: 0 });
 
-			await this.update({
-				expires: new Date(type_response.headers.expires).getTime()
-			});
+			await this.destroy();
 
 		}
 
