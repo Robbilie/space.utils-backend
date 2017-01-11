@@ -30,7 +30,7 @@
 					$set: {
 						name,
 						corporation_id,
-						corporation_history: history_response.obj
+						corporation_history: history_response.obj.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }))
 					}
 				},
 				{ upsert: true, w: 0 }
