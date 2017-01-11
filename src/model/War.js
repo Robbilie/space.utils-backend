@@ -17,6 +17,22 @@
 
 	/* TYPE DEFINITION */
 
+	const { Corporation, Alliance } = require("model/");
+
+	WarAggressor.types = {
+		ships_killed: 		Number,
+		isk_destroyed: 		Number,
+		corporation: 		Corporation,
+		alliance: 			Alliance
+	};
+
+	WarDefender.types = {
+		ships_killed: 		Number,
+		isk_destroyed: 		Number,
+		corporation: 		Corporation,
+		alliance: 			Alliance
+	};
+
 	War.types = {
 		id: 				Number,
 		declared: 			Number,
