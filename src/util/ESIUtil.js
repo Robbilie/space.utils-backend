@@ -5,14 +5,14 @@
 	const spdy 		= require("spdy");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
+		agentClass: spdy.Agent,
 		//gzip: true, // actually slows down
 		forever: true,
 		timeout: 1000 * 12,
 		pool: {
 			maxSockets: Infinity
 		},
-		resolveWithFullResponse: true,
-		agent: spdy.createAgent({ host: "esi.tech.ccp.is", port: 443 })
+		resolveWithFullResponse: true
 	});
 
 	const storage = {
