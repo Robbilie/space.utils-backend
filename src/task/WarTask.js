@@ -27,6 +27,8 @@
 					war.started = new Date(war.started).getTime();
 				if(war.finished)
 					war.finished = new Date(war.finished).getTime();
+				if(war.retracted)
+					war.retracted = new Date(war.retracted).getTime();
 
 			let { finished, aggressor, defender } = obj;
 
