@@ -51,8 +51,12 @@
 						let { method, url, headers, body } = obj;
 						request({ method, url, headers, body })
 							.then(response => {
-								response.obj = JSON.parse(response.body);
-								obj.on.response(response);
+								try {
+									response.obj = JSON.parse(response.body);
+									obj.on.response(response);
+								} catch (e) {
+									throw ({ e, response });
+								}
 							})
 							.catch(e => {
 								++storage.errors;
