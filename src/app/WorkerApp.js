@@ -17,9 +17,21 @@
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
 			this.running_tasks = 0;
 			this.queued_tasks = [];
-
 			this.tasks = [];
 
+			this.start_heartbeat();
+			this.start_logging();
+			this.start_task_watch();
+
+			// start some basic tasks
+			WorkerApp.create_base_tasks();
+
+			// start polling for old tasks that have to be fetched
+			this.poll_for_tasks();
+
+		}
+
+		start_heartbeat () {
 			// liveness probe from k8s
 			this.heartbeat = Date.now();
 			http.createServer((req, res) => {
@@ -31,6 +43,9 @@
 				}
 				res.end();
 			}).listen(parseInt(process.env.APP_PORT));
+		}
+
+		start_logging () {
 
 			// some debug logs
 			this.running 		= 0;
@@ -49,9 +64,9 @@
 				this.completed 	= 0;
 			}, this.log_interval * 1000);
 
-			// start some basic tasks
-			BaseTask.create_task("Alliances", {}, true);
-			BaseTask.create_task("Wars", {}, true);
+		}
+
+		start_task_watch () {
 
 			// start listener for brand new tasks
 			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.expires": 0 }, undefined,
@@ -67,9 +82,11 @@
 					}
 				});
 
-			// start polling for old tasks that have to be fetched
-			this.poll_for_tasks();
+		}
 
+		static create_base_tasks () {
+			BaseTask.create_task("Alliances", {}, true);
+			BaseTask.create_task("Wars", {}, true);
 		}
 
 		enqueue (task) {
