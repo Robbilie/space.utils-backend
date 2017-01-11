@@ -16,7 +16,7 @@
 
 			times.push(Date.now() - start);
 
-			let { obj, headers } = client.Wars.get_wars_war_id(this.get_data());
+			let { obj, headers } = await client.Wars.get_wars_war_id(this.get_data());
 
 			times.push(Date.now() - start);
 
