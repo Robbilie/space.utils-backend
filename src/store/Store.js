@@ -141,11 +141,8 @@
 				.then(data => this.insertOne(data, options, ignore));
 		}
 
-		static insert (data, options, ignore) {
-			if(!ignore && !this.check_data(data))
-				return Promise.reject("Data is missing fields, use ignore to bypass.");
-			else
-				return this.get_collection().then(collection => collection.insertOne(data, options));
+		static insert (data, options) {
+			return this.get_collection().then(collection => collection.insertOne(data, options));
 		}
 
 		static destroy_model (model) {
