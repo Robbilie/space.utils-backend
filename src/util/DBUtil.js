@@ -10,11 +10,23 @@
 	const stores 		= new Map();
 	const collections 	= new Map();
 
+	const settings = {
+		db: {
+			ignoreUndefined: true
+		},
+		server: {
+			pool: 10,
+			socketOptions: {
+				socketTimeoutMS: 15 * 1000
+			}
+		}
+	};
+
 	class DBUtil {
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`, { db: { ignoreUndefined: true } }).catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`, settings).catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
 		}
 
