@@ -10,8 +10,8 @@
 		async init () {
 
 			// gc frequently
-			if(typeof(gc) != "undefined")
-				setInterval(() => gc(), 1000 * 10);
+			//if(typeof(gc) != "undefined")
+			//	setInterval(() => gc(), 1000 * 10);
 
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
