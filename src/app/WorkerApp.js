@@ -72,6 +72,9 @@
 
 			this.interval = RPSUtil.monotonic_loop(difference => {
 				console.log("tasks:", ...[this.errors, this.completed].map(x => (x / difference).toLocaleString()));
+				this.started 		= 0;
+				this.errors 		= 0;
+				this.completed 		= 0;
 			});
 
 			setInterval(() => console.log("~~~~~~~~~~~~~~~~~~~~"), 10 * 1000);
