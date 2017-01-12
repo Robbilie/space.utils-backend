@@ -27,6 +27,7 @@
 			WorkerApp.create_base_tasks();
 
 			// start polling for old tasks that have to be fetched
+			this.pulling_tasks = null;
 			this.poll_for_tasks();
 
 		}
@@ -135,33 +136,27 @@
 
 		async poll_for_tasks () {
 
-			let pulling_tasks = undefined;
-
 			try {
 
-				while (true) {
-
-					if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
-						if(!pulling_tasks)
-							pulling_tasks = this.pull_new_tasks();
-						if(this.tasks.length == 0)
-							pulling_tasks = await pulling_tasks;
-						if(this.tasks.length == 0)
-							await Promise.resolve().wait(1000 * 10);
-					}
-
-					let task = this.tasks.shift();
-
-					if(task)
-						await this.enqueue(task);
-
+				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
+					if(!pulling_tasks)
+						this.pulling_tasks = this.pull_new_tasks();
+					if(this.tasks.length == 0)
+						this.pulling_tasks = await this.pulling_tasks;
+					if(this.tasks.length == 0)
+						await Promise.resolve().wait(1000 * 10);
 				}
+
+				let task = this.tasks.shift();
+
+				if(task)
+					await this.enqueue(task);
 
 			} catch (e) {
 				console.log("worker error", e);
 			}
 
-			setImmediate(() => this.poll_for_tasks());
+			process.nextTick(() => this.poll_for_tasks());
 
 		}
 
