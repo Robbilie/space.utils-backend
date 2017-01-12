@@ -36,10 +36,13 @@
 			this.heartbeat = Date.now();
 			http.createServer((req, res) => {
 				switch (req.url) {
-					case "/ping":
-						res.writeHead(200); break;
 					case "/healthcheck":
 						res.writeHead(this.heartbeat > Date.now() - (120 * 1000) ? 200 : 500); break;
+					default:
+						console.log("WTF HEARTBEAT DEFAULT");
+						console.log(req);
+					case "/ping":
+						res.writeHead(200); break;
 				}
 				res.end();
 			}).listen(parseInt(process.env.APP_PORT));
