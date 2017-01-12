@@ -60,8 +60,14 @@ spec:
           httpGet:
             path: /healthcheck
             port: 4001
-          initialDelaySeconds: 90
-          timeoutSeconds: 30
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 4001
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
       volumes:
       - name: config
         secret:
