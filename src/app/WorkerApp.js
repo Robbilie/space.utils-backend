@@ -35,17 +35,23 @@
 			// liveness probe from k8s
 			this.heartbeat = Date.now();
 			this.server = http.createServer((req, res) => {
-				console.log("SERVER:", req);
-				switch (req.url) {
-					case "/healthcheck":
-						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500); break;
-					default:
-						console.log("WTF HEARTBEAT DEFAULT");
-						console.log(req);
-					case "/ping":
-						res.writeHead(200); break;
+				try {
+					console.log("SERVER:", req);
+					switch (req.url) {
+						case "/healthcheck":
+							res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500);
+							break;
+						default:
+							console.log("WTF HEARTBEAT DEFAULT");
+							console.log(req);
+						case "/ping":
+							res.writeHead(200);
+							break;
+					}
+					res.end();
+				} catch (e) {
+					console.log("REQ ERR", e);
 				}
-				res.end();
 			}).listen(parseInt(process.env.APP_PORT));
 		}
 
