@@ -1,6 +1,6 @@
 	"use strict";
 
-	const { DBUtil, LoadUtil } 			= require("util/");
+	const { DBUtil, LoadUtil, RPSUtil } = require("util/");
 	const { Task } 						= require("model/");
 	const { BaseTask } 					= require("task/");
 	const http 							= require("http");
@@ -55,20 +55,10 @@
 			this.started 		= 0;
 			this.errors 		= 0;
 			this.completed 		= 0;
-			this.log_interval 	= 60;
-			this.interval_beat 	= Date.now();
-			this.interval = setInterval(() => {
-				let timeframe = (Date.now() - this.interval_beat) / 1000;
-				console.log(
-					"tasks:",
-					(this.errors 	/ timeframe).toLocaleString(),
-					(this.completed / timeframe).toLocaleString()
-				);
-				this.started 		= 0;
-				this.errors 		= 0;
-				this.completed 		= 0;
-				this.interval_beat 	= Date.now();
-			}, this.log_interval * 1000);
+
+			this.interval = RPSUtil.monotonic_loop(difference => {
+				console.log("tasks:", ...[this.errors, this.completed].map(x => (x / difference).toLocaleString()));
+			});
 
 		}
 

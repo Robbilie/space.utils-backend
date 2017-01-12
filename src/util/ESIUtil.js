@@ -13,11 +13,11 @@
 		resolveWithFullResponse: true
 	});
 
+	const { RPSUtil } = require("util/");
+
 	const storage = {
 		client: 		undefined,
 		interval: 		undefined,
-		interval_beat: 	Date.now(),
-		log_interval: 	60,
 		errors: 		0,
 		completed: 		0
 	};
@@ -32,17 +32,11 @@
 
 		static new_client (options = {}) {
 			if(!storage.interval)
-				storage.interval = setInterval(() => {
-					let timeframe = (Date.now() - storage.interval_beat) / 1000;
-					console.log(
-						"esi:",
-						(storage.errors 	/ timeframe).toLocaleString(),
-						(storage.completed 	/ timeframe).toLocaleString()
-					);
-					storage.errors 			= 0;
-					storage.completed 		= 0;
-					storage.interval_beat 	= Date.now();
-				}, storage.log_interval * 1000);
+				storage.interval = RPSUtil.monotonic_loop(difference => {
+					console.log("esi:", ...[storage.errors, storage.completed].map(x => (x / difference).toLocaleString()));
+					storage.errors 		= 0;
+					storage.completed 	= 0;
+				});
 			return new Swagger(Object.assign({
 				url: process.env.ESI_URL,
 				usePromise: true,
