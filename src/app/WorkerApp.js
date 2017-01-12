@@ -139,7 +139,7 @@
 			try {
 
 				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
-					if(!pulling_tasks)
+					if(!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
 					if(this.tasks.length == 0)
 						this.pulling_tasks = await this.pulling_tasks;
