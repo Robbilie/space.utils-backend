@@ -39,20 +39,20 @@
 					//console.log("SERVER:", req);
 					switch (req.url) {
 						case "/healthcheck":
-							console.log("HEALTHCHECK", this.heartbeat > Date.now() - (2 * 60 * 1000));
 							res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
 							res.end("healthcheck");
+							console.log("HEALTHCHECK", this.heartbeat > Date.now() - (2 * 60 * 1000));
 							break;
 						case "/ping":
-							console.log("PING");
 							res.writeHead(200, { "Content-Type": "text/plain" });
 							res.end("ping");
+							console.log("PING");
 							break;
 						default:
-							console.log("WTF HEARTBEAT DEFAULT");
-							console.log(req);
 							res.writeHead(200, { "Content-Type": "text/plain" });
 							res.end("ok");
+							console.log("WTF HEARTBEAT DEFAULT");
+							console.log(req);
 							break;
 					}
 				} catch (e) {
@@ -72,6 +72,8 @@
 			this.interval = RPSUtil.monotonic_loop(difference => {
 				console.log("tasks:", ...[this.errors, this.completed].map(x => (x / difference).toLocaleString()));
 			});
+
+			setInterval(() => console.log("~~~~~~~~~~~~~~~~~~~~"), 10 * 1000);
 
 		}
 
