@@ -33,7 +33,7 @@
 		static new_client (options = {}) {
 			if(!storage.interval)
 				storage.interval = setInterval(() => {
-					let timeframe = (storage.interval_beat - Date.now()) / 1000;
+					let timeframe = (Date.now() - storage.interval_beat) / 1000;
 					console.log(
 						"esi:",
 						(storage.errors 	/ timeframe).toLocaleString(),
