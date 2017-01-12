@@ -37,7 +37,7 @@
 			http.createServer((req, res) => {
 				switch (req.url) {
 					case "/healthcheck":
-						res.writeHead(this.heartbeat > Date.now() - (120 * 1000) ? 200 : 500); break;
+						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500); break;
 					default:
 						console.log("WTF HEARTBEAT DEFAULT");
 						console.log(req);
@@ -198,9 +198,9 @@
 						error = JSON.parse(error);
 					} catch (e) {}
 					console.log(name, e.name != "StatusCodeError" ? e : JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
-					++this.running_tasks;
 					// increases wait time to up to 5m
-					setTimeout(() => --this.running_tasks, 5 * 60 * 1000 / this.PARALLEL_TASK_LIMIT * this.errors);
+					// ++this.running_tasks;
+					// setTimeout(() => --this.running_tasks, 5 * 60 * 1000 / this.PARALLEL_TASK_LIMIT * this.errors);
 				}
 
 			} catch (e) {
