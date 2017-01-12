@@ -6,7 +6,7 @@
 	const request 	= rp.defaults({
 		//gzip: true, // actually slows down // esi is borked -.-
 		forever: true,
-		timeout: 1000 * 15,
+		//timeout: 1000 * 15,
 		pool: {
 			maxSockets: Infinity
 		},
@@ -16,6 +16,7 @@
 	const storage = {
 		client: 		undefined,
 		interval: 		undefined,
+		interval_beat: 	Date.now(),
 		log_interval: 	60,
 		errors: 		0,
 		completed: 		0
@@ -32,13 +33,15 @@
 		static new_client (options = {}) {
 			if(!storage.interval)
 				storage.interval = setInterval(() => {
+					let timeframe = (storage.interval_beat - Date.now()) / 1000;
 					console.log(
 						"esi:",
-						(storage.errors 	/ storage.log_interval).toLocaleString(),
-						(storage.completed 	/ storage.log_interval).toLocaleString()
+						(storage.errors 	/ timeframe).toLocaleString(),
+						(storage.completed 	/ timeframe).toLocaleString()
 					);
-					storage.errors 		= 0;
-					storage.completed 	= 0;
+					storage.errors 			= 0;
+					storage.completed 		= 0;
+					storage.interval_beat 	= Date.now();
 				}, storage.log_interval * 1000);
 			return new Swagger(Object.assign({
 				url: process.env.ESI_URL,

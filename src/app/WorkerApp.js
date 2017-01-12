@@ -56,15 +56,18 @@
 			this.errors 		= 0;
 			this.completed 		= 0;
 			this.log_interval 	= 60;
+			this.interval_beat 	= Date.now();
 			this.interval = setInterval(() => {
+				let timeframe = (Date.now() - this.interval_beat) / 1000;
 				console.log(
 					"tasks:",
-					(this.errors 	/ this.log_interval).toLocaleString(),
-					(this.completed / this.log_interval).toLocaleString()
+					(this.errors 	/ timeframe).toLocaleString(),
+					(this.completed / timeframe).toLocaleString()
 				);
-				this.started 	= 0;
-				this.errors 	= 0;
-				this.completed 	= 0;
+				this.started 		= 0;
+				this.errors 		= 0;
+				this.completed 		= 0;
+				this.interval_beat 	= Date.now();
 			}, this.log_interval * 1000);
 
 		}
