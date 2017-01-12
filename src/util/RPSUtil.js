@@ -4,11 +4,11 @@
 	class RPSUtil {
 
 		static monotonic_loop (cb, interval = 60000) {
-			const storage = { last_ts: process.hrtime() };
+			const data = { last_ts: process.hrtime() };
 			return setInterval(() => {
-				let { difference, new_ts } = RPSUtil.monotonic_diff(storage.last_ts);
+				let { difference, new_ts } = RPSUtil.monotonic_diff(data.last_ts);
 				cb(difference);
-				storage.last_ts = new_ts;
+				data.last_ts = new_ts;
 			}, interval);
 		}
 
