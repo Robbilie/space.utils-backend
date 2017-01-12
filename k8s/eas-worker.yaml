@@ -53,7 +53,7 @@ spec:
         - name: ESI_URL
           value: "https://esi.tech.ccp.is/latest/swagger.json"
         - name: UV_THREADPOOL_SIZE
-          value: "128"
+          value: "256"
         - name: PARALLEL_TASK_LIMIT
           value: "100"
         livenessProbe:
