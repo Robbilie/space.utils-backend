@@ -39,7 +39,7 @@
 					//console.log("SERVER:", req);
 					switch (req.url) {
 						case "/healthcheck":
-							console.log("HEALTHCHECK");
+							console.log("HEALTHCHECK", this.heartbeat > Date.now() - (2 * 60 * 1000));
 							res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
 							res.end("healthcheck");
 							break;
