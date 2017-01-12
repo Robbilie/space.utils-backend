@@ -40,16 +40,19 @@
 					switch (req.url) {
 						case "/healthcheck":
 							console.log("HEALTHCHECK");
-							res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" }).end("healthcheck");
+							res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
+							res.end("healthcheck");
 							break;
 						case "/ping":
 							console.log("PING");
-							res.writeHead(200, { "Content-Type": "text/plain" }).end("ping");
+							res.writeHead(200, { "Content-Type": "text/plain" });
+							res.end("ping");
 							break;
 						default:
 							console.log("WTF HEARTBEAT DEFAULT");
 							console.log(req);
-							res.writeHead(200, { "Content-Type": "text/plain" }).end("ok");
+							res.writeHead(200, { "Content-Type": "text/plain" });
+							res.end("ok");
 							break;
 					}
 				} catch (e) {
