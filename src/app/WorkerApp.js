@@ -34,7 +34,8 @@
 		start_heartbeat () {
 			// liveness probe from k8s
 			this.heartbeat = Date.now();
-			http.createServer((req, res) => {
+			this.server = http.createServer((req, res) => {
+				console.log("SERVER:", req);
 				switch (req.url) {
 					case "/healthcheck":
 						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500); break;
