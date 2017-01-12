@@ -56,18 +56,18 @@ spec:
           value: "256"
         - name: PARALLEL_TASK_LIMIT
           value: "100"
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 4001
+          initialDelaySeconds: 60
+          timeoutSeconds: 30
         livenessProbe:
           httpGet:
             path: /healthcheck
             port: 4001
-          initialDelaySeconds: 30
-          timeoutSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /healthcheck
-            port: 4001
-          initialDelaySeconds: 30
-          timeoutSeconds: 10
+          initialDelaySeconds: 60
+          timeoutSeconds: 30
       volumes:
       - name: config
         secret:
