@@ -155,6 +155,8 @@
 				if(task)
 					await this.enqueue(task);
 
+				console.log("enqueued task");
+
 			} catch (e) {
 				console.log("worker error", e);
 			}
@@ -216,6 +218,7 @@
 			this.running--;
 
 			this.heartbeat = Date.now();
+			console.log("done with task");
 
 		}
 
