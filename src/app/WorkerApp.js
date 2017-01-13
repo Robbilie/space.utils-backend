@@ -77,7 +77,7 @@
 				this.completed 		= 0;
 			});
 
-			setInterval(() => console.log("~~~~~~~~~~~~~~~~~~~~"), 10 * 1000);
+			this.ten_secs = setInterval(() => console.log("~~~~~~~~~~~~~~~~~~~~"), 10 * 1000);
 
 		}
 
