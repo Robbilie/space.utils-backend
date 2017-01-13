@@ -8,21 +8,18 @@
 
 		static async find_or_create (character_id, {} = $(1, { character_id }, "Number")) {
 
-			try {
+			let character = await this.find_by_id(character_id);
 
-				let character = await this.find_by_id(character_id);
+			if(await character.is_null()) {
+				await CharacterTask.create({ character_id });
+				character = await this.find_by_id(character_id);
+			}
 
-				if(await character.is_null()) {
-					await CharacterTask.create({ character_id });
-					character = await this.find_by_id(character_id);
-				}
+			if(await character.is_null())
+				console.log("MISSING CHAR", character_id);
 
-				if(await character.is_null())
-					console.log("MISSING CHAR", character_id);
+			return character.get_future();
 
-				return character.get_future();
-
-			} catch (e) { console.log(e, new Error()); }
 
 		}
 

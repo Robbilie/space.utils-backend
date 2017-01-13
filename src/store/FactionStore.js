@@ -7,7 +7,6 @@
 	class FactionStore extends EntityStore {
 
 		static async find_or_create (faction_id, {} = $(1, { faction_id }, "Number")) {
-			try {
 
 				let faction = await this.find_by_id(faction_id);
 
@@ -21,7 +20,6 @@
 
 				return faction.get_future();
 
-			} catch (e) { console.log(e, new Error()); }
 		}
 
 	}

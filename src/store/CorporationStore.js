@@ -8,21 +8,17 @@
 
 		static async find_or_create (corporation_id, {} = $(1, { corporation_id }, "Number")) {
 
-			try {
+			let corporation = await this.find_by_id(corporation_id);
 
-				let corporation = await this.find_by_id(corporation_id);
+			if(await corporation.is_null()) {
+				await CorporationTask.create({ corporation_id });
+				corporation = await this.find_by_id(corporation_id);
+			}
 
-				if(await corporation.is_null()) {
-					await CorporationTask.create({ corporation_id });
-					corporation = await this.find_by_id(corporation_id);
-				}
+			if(await corporation.is_null())
+				console.log("MISSING CORP", corporation_id);
 
-				if(await corporation.is_null())
-					console.log("MISSING CORP", corporation_id);
-
-				return corporation.get_future();
-
-			} catch (e) { console.log(e, new Error()); }
+			return corporation.get_future();
 
 		}
 

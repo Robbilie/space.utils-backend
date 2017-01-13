@@ -7,18 +7,15 @@
 	class KillmailStore extends Store {
 
 		static async find_or_create (killmail_id, killmail_hash, {} = $(1, { killmail_id }, "Number")) {
-			try {
 
-				let killmail = await this.find_by_id(killmail_id);
+			let killmail = await this.find_by_id(killmail_id);
 
-				if(await killmail.is_null() && killmail_hash) {
-					await KillmailTask.create({ killmail_id, killmail_hash });
-					killmail = await this.find_by_id(killmail_id);
-				}
+			if(await killmail.is_null() && killmail_hash) {
+				await KillmailTask.create({ killmail_id, killmail_hash });
+				killmail = await this.find_by_id(killmail_id);
+			}
 
-				return killmail.get_future();
-
-			} catch (e) { console.log(e, new Error()); }
+			return killmail.get_future();
 		}
 
 		static find_by_id (id, {} = $(1, { id }, "Number")) {
