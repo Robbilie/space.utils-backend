@@ -114,7 +114,7 @@
 						else
 							this.running_tasks--;
 					});
-					done();
+					process.nextTick(() => done());
 				};
 
 				if(this.running_tasks < this.PARALLEL_TASK_LIMIT) {
