@@ -61,13 +61,13 @@ spec:
             path: /ping
             port: 4001
           initialDelaySeconds: 60
-          timeoutSeconds: 30
+          timeoutSeconds: 60
         livenessProbe:
           httpGet:
             path: /healthcheck
             port: 4001
           initialDelaySeconds: 60
-          timeoutSeconds: 30
+          timeoutSeconds: 60
       volumes:
       - name: config
         secret:
