@@ -17,7 +17,8 @@
 		server: {
 			pool: 10,
 			socketOptions: {
-				socketTimeoutMS: 15 * 1000
+				socketTimeoutMS: 15 * 1000,
+				connectionTimeoutMS: 15 * 1000
 			}
 		}
 	};
