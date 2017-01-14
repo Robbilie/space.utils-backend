@@ -141,6 +141,8 @@
 
 			try {
 
+				console.log("polling");
+
 				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
 					if(!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
