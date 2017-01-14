@@ -146,11 +146,14 @@
 				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
 					if(!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
+					console.log(this.tasks.length);
 					if(this.tasks.length == 0)
 						this.pulling_tasks = await this.pulling_tasks;
 					if(this.tasks.length == 0)
-						await Promise.resolve().wait(1000 * 10);
+						await Promise.resolve().wait(1000 * 2);
 				}
+
+				console.log("shifting");
 
 				let task = this.tasks.shift();
 
