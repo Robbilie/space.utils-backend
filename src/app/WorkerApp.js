@@ -166,7 +166,7 @@
 				console.log("worker error", e);
 			}
 
-			process.nextTick(() => this.poll_for_tasks());
+			setImmediate(() => this.poll_for_tasks());
 
 		}
 
@@ -223,6 +223,7 @@
 
 			} catch (e) {
 				console.log("shouldn't happen", e);
+				await this.process({ _id, info: { name, expires } });
 			}
 
 			this.running--;
