@@ -21,7 +21,9 @@
 				autoReconnect: false,
 				socketTimeoutMS: 10 * 1000,
 				connectionTimeoutMS: 10 * 1000
-			}
+			},
+			reconnectTries: 10,
+			reconnectInterval: 500
 		}
 	};
 
