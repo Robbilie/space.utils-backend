@@ -12,13 +12,15 @@
 
 	const settings = {
 		db: {
-			ignoreUndefined: true
+			ignoreUndefined: true,
+			bufferMaxEntries: 0
 		},
 		server: {
 			pool: 10,
 			socketOptions: {
-				socketTimeoutMS: 15 * 1000,
-				connectionTimeoutMS: 15 * 1000
+				autoReconnect: false,
+				socketTimeoutMS: 10 * 1000,
+				connectionTimeoutMS: 10 * 1000
 			}
 		}
 	};
