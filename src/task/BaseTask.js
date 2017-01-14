@@ -14,6 +14,8 @@
 			this._id = _id;
 			this.info = info;
 			this.data = data;
+
+			console.log("task constructor");
 		}
 
 		get__id () {
