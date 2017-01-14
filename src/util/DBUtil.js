@@ -13,12 +13,12 @@
 	const settings = {
 		db: {
 			ignoreUndefined: true,
-			bufferMaxEntries: 0
+			//bufferMaxEntries: 0
 		},
 		server: {
 			pool: 100,
 			socketOptions: {
-				autoReconnect: false,
+				//autoReconnect: false,
 				socketTimeoutMS: 10 * 1000,
 				connectionTimeoutMS: 10 * 1000
 			},
@@ -31,7 +31,7 @@
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?socketTimeoutMS=${10 * 60 * 1000}`, settings).catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?socketTimeoutMS=${10 * 1000}&connectTimeoutMS=${10 * 1000}&waitQueueTimeoutMS=100`, settings).catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
 		}
 
