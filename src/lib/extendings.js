@@ -27,17 +27,7 @@
 
 		Object.defineProperty(Promise.prototype, 'wait', {
 			value: function (time) {
-				return new Promise(
-					(a,d) => 
-						setTimeout(
-							() => 
-								this.then(
-									data => 
-										a(data)
-								), 
-								time
-						)
-				);
+				return new Promise((a,d) => proscess.nextTick(() => setTimeout(() => this.then(data => a(data)), time)));
 			},
 			configurable: true,
 			writable: true
