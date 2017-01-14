@@ -143,7 +143,7 @@
 
 				console.log("polling");
 
-				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
+				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 5) {
 					if(!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
 					console.log(this.tasks.length);
@@ -184,6 +184,8 @@
 
 			try {
 
+				console.log("in process");
+
 				let now = Date.now();
 
 				let { value } = await WorkerApp.get_tasks().modify(
@@ -199,6 +201,7 @@
 
 				// do special processing stuff or error out
 				try {
+					console.log("before start");
 					await new (LoadUtil.task(name))(value).start();
 					this.completed++;
 				} catch (e) {
