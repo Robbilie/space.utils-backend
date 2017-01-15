@@ -30,7 +30,7 @@
 		var oldCall = Function.prototype.call;
 		var newCall = function(self) {
 			Function.prototype.call = oldCall;
-			if(this.name != "" && this.name != "toString")
+			if(!["", "toString", "slice", "Readable"].some(x => x == this.name))
 				console.log('call:', this.name);
 			var args = Array.prototype.slice.call(arguments, 1);
 			var res = this.apply(self, args);
