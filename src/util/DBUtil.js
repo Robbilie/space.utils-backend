@@ -96,9 +96,9 @@
 						.batchSize(10000)
 						.addCursorFlag('tailable', true)
 						.addCursorFlag('awaitData', true)
-						.addCursorFlag('oplogReplay', true)
-						.addCursorFlag('noCursorTimeout', true)
-						.setCursorOption('numberOfRetries', Number.MAX_VALUE);
+						.addCursorFlag('oplogReplay', true);
+						//.addCursorFlag('noCursorTimeout', true)
+						//.setCursorOption('numberOfRetries', Number.MAX_VALUE);
 					cursor.forEach(() => {}, error => oplogs.delete(index));
 					return cursor;
 				})());
