@@ -28,7 +28,7 @@
 
 			// start polling for old tasks that have to be fetched
 			this.pulling_tasks = null;
-			//this.poll_for_tasks();
+			this.poll_for_tasks();
 
 		}
 
