@@ -201,11 +201,13 @@
 
 				// do special processing stuff or error out
 				try {
+					/*
 					console.log("before constructor");
 					let r = new (LoadUtil.task(name))(value);
 					console.log("before start");
 					await r.start();
 					this.completed++;
+					*/
 				} catch (e) {
 
 					await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": Date.now() } });
