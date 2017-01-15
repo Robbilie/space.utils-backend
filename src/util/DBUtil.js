@@ -20,17 +20,21 @@
 			socketOptions: {
 				//autoReconnect: false,
 				keepAlive: 1,
-				reconnectTries: Number.MAX_VALUE,
 				socketTimeoutMS: 10 * 1000,
 				connectTimeoutMS: 10 * 1000
 			},
-			replSet: {
-				replicaSet: "rs0",
+			reconnectTries: Number.MAX_VALUE,
+			reconnectInterval: 500
+		},
+		replSet: {
+			poolSize: 100,
+			replicaSet: "rs0",
+			socketOptions: {
 				keepAlive: 1,
 				socketTimeoutMS: 10 * 1000,
 				connectTimeoutMS: 10 * 1000
 			},
-			reconnectTries: 10,
+			reconnectTries: Number.MAX_VALUE,
 			reconnectInterval: 500
 		}
 	};
