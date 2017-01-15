@@ -31,7 +31,9 @@
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?socketTimeoutMS=${10 * 1000}&connectTimeoutMS=${10 * 1000}`, settings).catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?socketTimeoutMS=${10 * 1000}&connectTimeoutMS=${10 * 1000}`, settings)
+					.then(db => db.on("error", e => console.log("DB Error:", e)))
+					.catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
 		}
 
