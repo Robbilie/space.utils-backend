@@ -19,8 +19,15 @@
 			poolSize: 100,
 			socketOptions: {
 				//autoReconnect: false,
+				keepAlive: 1,
+				reconnectTries: Number.MAX_VALUE,
 				socketTimeoutMS: 10 * 1000,
-				connectionTimeoutMS: 10 * 1000
+				connectTimeoutMS: 10 * 1000
+			},
+			replset: {
+				keepAlive: 1,
+				socketTimeoutMS: 10 * 1000,
+				connectTimeoutMS: 10 * 1000
 			},
 			reconnectTries: 10,
 			reconnectInterval: 500
