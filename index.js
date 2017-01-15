@@ -8,6 +8,8 @@
 	// preload some basic modifications
 	require("lib/extendings")();
 
+	Error.stackTraceLimit = Infinity;
+
 	// import the k8s secrets into a global variable
 	global.config = require("js-yaml").safeLoad(new Buffer(require("fs").readFileSync("/etc/secrets/config.yaml"), "base64"));
 
@@ -26,7 +28,7 @@
 		});
 	}
 
-	(function () {
+	/*(function () {
 		var oldCall = Function.prototype.call;
 		var newCall = function(self) {
 			Function.prototype.call = oldCall;
@@ -38,7 +40,7 @@
 			return res
 		}
 		Function.prototype.call = newCall;
-	})();
+	})();*/
 
 	// dynamically load app and launch it
 	const { LoadUtil } = require("util/");
