@@ -47,6 +47,7 @@
 			//if(!collections.get(name))
 			//	collections.set(name, DBUtil.get_db().then(db => db.collection(name)));
 			//return collections.get(name);
+			console.log("coll", name);
 			return DBUtil.get_db().then(db => db.collection(name));
 		}
 
