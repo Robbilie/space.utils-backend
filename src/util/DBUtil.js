@@ -16,7 +16,7 @@
 			//bufferMaxEntries: 0
 		},
 		server: {
-			pool: 100,
+			poolSize: 100,
 			socketOptions: {
 				//autoReconnect: false,
 				socketTimeoutMS: 10 * 1000,
