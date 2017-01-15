@@ -21,10 +21,10 @@
 
 			this.start_heartbeat();
 			this.start_logging();
-			//this.start_task_watch();
+			this.start_task_watch();
 
 			// start some basic tasks
-			//WorkerApp.create_base_tasks();
+			WorkerApp.create_base_tasks();
 
 			// start polling for old tasks that have to be fetched
 			this.pulling_tasks = null;
@@ -88,14 +88,14 @@
 				({ o }) => this.process(o));
 
 			// start listener for just taken tasks
-			/*WorkerApp.get_tasks().get_continuous_updates({ op: "u" }, undefined,
+			WorkerApp.get_tasks().get_continuous_updates({ op: "u" }, undefined,
 				({ o2: { _id }, o }) => {
 					if(o && o.$set && o.$set.info && o.$set.info.state == 1) {
 						let ind = this.tasks.findIndex(x => x._id == _id);
 						if(ind >= 0)
 							this.tasks[ind] = null;
 					}
-				});*/
+				});
 
 		}
 
