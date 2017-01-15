@@ -26,6 +26,19 @@
 		});
 	}
 
+	(function () {
+		var oldCall = Function.prototype.call;
+		var newCall = function(self) {
+			Function.prototype.call = oldCall;
+			console.log('Function called:', this.name);
+			var args = Array.prototype.slice.call(arguments, 1);
+			var res = this.apply(self, args);
+			Function.prototype.call = newCall;
+			return res
+		}
+		Function.prototype.call = newCall;
+	})();
+
 	// dynamically load app and launch it
 	const { LoadUtil } = require("util/");
 	const app = new (LoadUtil.app(process.env.APP_NAME))();
@@ -34,7 +47,7 @@
 	app.init().catch(e => console.log(e));
 
 	// start a repl, probably not that useful anymore
-	const repl = require("repl");
+	/*const repl = require("repl");
 	const r = repl.start({
 		prompt: 'Node.js via stdin> ',
 		input: process.stdin,
@@ -42,5 +55,5 @@
 		useGlobal: true,
 		replMode: repl.REPL_MODE_SLOPPY
 	});
-	r.context.app = app;
+	r.context.app = app;*/
 	
