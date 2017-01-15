@@ -21,14 +21,14 @@
 
 			this.start_heartbeat();
 			this.start_logging();
-			this.start_task_watch();
+			//this.start_task_watch();
 
 			// start some basic tasks
-			WorkerApp.create_base_tasks();
+			//WorkerApp.create_base_tasks();
 
 			// start polling for old tasks that have to be fetched
 			this.pulling_tasks = null;
-			this.poll_for_tasks();
+			//this.poll_for_tasks();
 
 		}
 
