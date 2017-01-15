@@ -52,11 +52,11 @@
 					_id: this.get__id()
 				},
 				{
-					$set: {
+					$set: { info: Object.assign({}, this.get_info(), { state, expires, modified }) }/*{
 						"info.state": 		state,
 						"info.expires": 	expires,
 						"info.modified": 	modified
-					}
+					}*/
 				},
 				{ w: 0 }
 			);
