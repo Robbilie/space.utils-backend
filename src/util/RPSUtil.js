@@ -3,20 +3,13 @@
 
 	class RPSUtil {
 
-		static monotonic_loop (cb, interval = 60000) {
-			const data = { last_ts: process.hrtime() };
+		static monotonic_loop (cb, interval = 60 * 1000) {
+			const local_storage = { last_ts: process.hrtime() };
 			return setInterval(() => {
-				let { difference, new_ts } = RPSUtil.monotonic_diff(data.last_ts);
-				cb(difference);
-				data.last_ts = new_ts;
+				let [s, ns] = process.hrtime(local_storage.last_ts);
+				cb(s + (ns / 1e9));
+				local_storage.last_ts = process.hrtime();
 			}, interval);
-		}
-
-		static monotonic_diff (old_ts, new_ts = process.hrtime()) {
-			return {
-				new_ts,
-				difference: (new_ts[0] - old_ts[0]) + (new_ts[1] > old_ts[1] ? 0 : 1) + ((new_ts[1] - old_ts[1] + 1000000000) / 1000000000 % 1)
-			}
 		}
 
 	}
