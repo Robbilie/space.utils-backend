@@ -24,7 +24,8 @@
 				socketTimeoutMS: 10 * 1000,
 				connectTimeoutMS: 10 * 1000
 			},
-			replset: {
+			replSet: {
+				replicaSet: "rs0",
 				keepAlive: 1,
 				socketTimeoutMS: 10 * 1000,
 				connectTimeoutMS: 10 * 1000
