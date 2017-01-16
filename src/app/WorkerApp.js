@@ -35,7 +35,7 @@
 		start_heartbeat () {
 			// liveness probe from k8s
 			this.heartbeat = Date.now();
-			this.server = http.createServer((req, res) => {
+			http.createServer((req, res) => {
 				try {
 					//console.log("SERVER:", req);
 					switch (req.url) {
@@ -65,19 +65,16 @@
 		start_logging () {
 
 			// some debug logs
-			this.running 		= 0;
-			this.started 		= 0;
 			this.errors 		= 0;
 			this.completed 		= 0;
 
 			this.interval = RPSUtil.monotonic_loop(difference => {
 				console.log("tasks:", ...[this.errors, this.completed].map(x => (x / difference).toLocaleString()));
-				this.started 		= 0;
 				this.errors 		= 0;
 				this.completed 		= 0;
 			});
 
-			this.ten_secs = setInterval(() => console.log("~~~~~~~~~~~~~~~~~~~~"), 10 * 1000);
+			setInterval(() => console.log("~~~~~~~~~~~~~~~~~~~~"), 10 * 1000);
 
 		}
 
@@ -135,6 +132,7 @@
 				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5)
 				.toArray();
 			this.heartbeat = Date.now();
+			console.log("pulled new tasks");
 		}
 
 		async poll_for_tasks () {
@@ -157,6 +155,8 @@
 				if(task)
 					await this.enqueue(task);
 
+				console.log("enqueued,", this.tasks.length, "left");
+
 			} catch (e) {
 				console.log("worker error", e);
 			}
@@ -175,12 +175,7 @@
 
 		async process ({ _id, info: { name, expires } }) {
 
-			this.running++;
-
 			try {
-
-				if(!_id || !name || expires == undefined)
-					throw Error("wtf " + !!_id + " " + !!name + " " + !!expires);
 
 				let now = Date.now();
 
@@ -190,10 +185,8 @@
 					{ returnOriginal: false }
 				);
 
-				if(value)
-					++this.started;
-				else
-					return --this.running;
+				if(!value)
+					return null;
 
 				// do special processing stuff or error out
 				try {
@@ -219,8 +212,6 @@
 				console.log("shouldn't happen", e);
 				await this.process({ _id, info: { name, expires } });
 			}
-
-			this.running--;
 
 			this.heartbeat = Date.now();
 
