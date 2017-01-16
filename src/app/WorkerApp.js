@@ -141,12 +141,9 @@
 
 			try {
 
-				console.log("polling");
-
 				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 5) {
 					if(!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
-					console.log(this.tasks.length);
 					if(this.tasks.length == 0)
 						this.pulling_tasks = await this.pulling_tasks;
 					if(this.tasks.length == 0) {
@@ -155,14 +152,10 @@
 					}
 				}
 
-				console.log("shifting");
-
 				let task = this.tasks.shift();
 
 				if(task)
 					await this.enqueue(task);
-
-				console.log("enqueued task");
 
 			} catch (e) {
 				console.log("worker error", e);
@@ -189,8 +182,6 @@
 				if(!_id || !name || expires == undefined)
 					throw Error("wtf " + !!_id + " " + !!name + " " + !!expires);
 
-				console.log("in process");
-
 				let now = Date.now();
 
 				let { value } = await WorkerApp.get_tasks().modify(
@@ -206,16 +197,7 @@
 
 				// do special processing stuff or error out
 				try {
-					console.log("before constructor");
-					let r = new (LoadUtil.task(name))(value);
-					if(["Alliances", "Alliance", "Corporation", "Character", "War", "Wars"].some(x => x == name)) {
-						console.log("before start", name);
-						await r.start();
-
-					}
-					/*
-					await r.start();
-					 */
+					await new (LoadUtil.task(name))(value).start();
 					this.completed++;
 				} catch (e) {
 
@@ -241,7 +223,6 @@
 			this.running--;
 
 			this.heartbeat = Date.now();
-			console.log("done with task");
 
 		}
 
