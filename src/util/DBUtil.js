@@ -17,25 +17,25 @@
 		},
 		server: {
 			poolSize: 100,
-			socketOptions: {
+			/*socketOptions: {
 				//autoReconnect: false,
 				keepAlive: 1,
 				socketTimeoutMS: 10 * 1000,
 				connectTimeoutMS: 10 * 1000
 			},
 			reconnectTries: Number.MAX_VALUE,
-			reconnectInterval: 500
+			reconnectInterval: 500*/
 		},
 		replSet: {
 			poolSize: 100,
 			replicaSet: "rs0",
-			socketOptions: {
+			/*socketOptions: {
 				keepAlive: 1,
 				socketTimeoutMS: 10 * 1000,
 				connectTimeoutMS: 10 * 1000
 			},
 			reconnectTries: Number.MAX_VALUE,
-			reconnectInterval: 500
+			reconnectInterval: 500*/
 		}
 	};
 
@@ -43,7 +43,7 @@
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?replicaSet=rs0&socketTimeoutMS=${10 * 1000}&connectTimeoutMS=${10 * 1000}`, settings)
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`/*?replicaSet=rs0&socketTimeoutMS=${10 * 1000}&connectTimeoutMS=${10 * 1000}`*/, settings)
 					.then(db => db.on("error", e => console.log("DB Error:", e)))
 					.catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
