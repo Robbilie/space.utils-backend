@@ -149,8 +149,10 @@
 					console.log(this.tasks.length);
 					if(this.tasks.length == 0)
 						this.pulling_tasks = await this.pulling_tasks;
-					if(this.tasks.length == 0)
+					if(this.tasks.length == 0) {
+						console.log("no tasks, waiting for 2s");
 						await Promise.resolve().wait(1000 * 2);
+					}
 				}
 
 				console.log("shifting");
@@ -203,7 +205,7 @@
 				try {
 					console.log("before constructor");
 					let r = new (LoadUtil.task(name))(value);
-					if(["Alliance", "Corporation", "Character"].some(x => name)) {
+					if(["Alliance", "Corporation", "Character"].some(x => x == name)) {
 						console.log("before start", name);
 						await r.start();
 
