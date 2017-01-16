@@ -203,9 +203,11 @@
 				try {
 					console.log("before constructor");
 					let r = new (LoadUtil.task(name))(value);
-					console.log("before start", name);
-					if(["Alliance", "Corporation", "Character"].some(x => name))
+					if(["Alliance", "Corporation", "Character"].some(x => name)) {
+						console.log("before start", name);
 						await r.start();
+
+					}
 					/*
 					await r.start();
 					 */
