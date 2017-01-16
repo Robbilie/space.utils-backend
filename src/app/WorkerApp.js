@@ -186,6 +186,9 @@
 
 			try {
 
+				if(!_id || !name || !expires)
+					throw Error("wtf " + !!_id + " " + !!name + " " + !!expires);
+
 				console.log("in process");
 
 				let now = Date.now();
