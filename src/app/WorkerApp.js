@@ -133,6 +133,7 @@
 				.toArray();
 			this.heartbeat = Date.now();
 			console.log("pulled new tasks");
+			return null;
 		}
 
 		async poll_for_tasks () {
@@ -140,11 +141,11 @@
 			try {
 
 				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
-					if(!this.pulling_tasks)
+					if (!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
-					if(this.tasks.length == 0)
+					if (this.tasks.length == 0)
 						this.pulling_tasks = await this.pulling_tasks;
-					if(this.tasks.length == 0) {
+					if (this.tasks.length == 0) {
 						console.log("no tasks, waiting for 2s");
 						await Promise.resolve().wait(1000 * 2);
 					}
@@ -155,7 +156,7 @@
 				if(task)
 					await this.enqueue(task);
 
-				console.log("enqueued,", this.tasks.length, "left");
+				console.log("enqueued,", this.tasks.length, "left while", this.running_tasks, "are running");
 
 			} catch (e) {
 				console.log("worker error", e);
