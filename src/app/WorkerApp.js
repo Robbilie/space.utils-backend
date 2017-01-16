@@ -186,7 +186,7 @@
 
 			try {
 
-				if(!_id || !name || !expires)
+				if(!_id || !name || expires == undefined)
 					throw Error("wtf " + !!_id + " " + !!name + " " + !!expires);
 
 				console.log("in process");
