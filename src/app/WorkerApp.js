@@ -141,7 +141,7 @@
 
 			try {
 
-				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 5) {
+				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 10) {
 					if(!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
 					if(this.tasks.length == 0)
