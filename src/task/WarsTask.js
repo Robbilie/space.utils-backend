@@ -16,6 +16,19 @@
 
 			times.push(Date.now() - start);
 
+			for (let page of new Array(1000).keys()) {
+				if (!page) continue;
+				let { obj, headers: { expires } } = await client.Wars.get_wars({ page });
+				obj.forEach(id => WarStore.find_or_create(id));
+				if (obj.length < 2000) {
+					await this.update({
+						expires: new Date(expires).getTime()
+					});
+					break;
+				}
+			}
+
+			/*
 			const expirations = [];
 
 			const storage = {
@@ -44,6 +57,7 @@
 			await this.update({
 				expires: Math.max(...expirations)
 			});
+			*/
 
 			times.push(Date.now() - start);
 
