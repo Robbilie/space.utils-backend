@@ -174,7 +174,7 @@
 			return DBUtil.get_store("Task");
 		}
 
-		static task_query(now = Date.now()) {
+		static task_query (now = Date.now()) {
 			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: now - (1000 * 60) } }];
 		}
 
@@ -203,8 +203,8 @@
 				try {
 					console.log("before constructor");
 					let r = new (LoadUtil.task(name))(value);
-					console.log("before start");
-					if(["Alliances", "Alliance", "Corporation", "Character"].some(x => name))
+					console.log("before start", name);
+					if(["Alliance", "Corporation", "Character"].some(x => name))
 						await r.start();
 					/*
 					await r.start();
