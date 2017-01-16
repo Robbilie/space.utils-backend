@@ -5,7 +5,7 @@
 
 		Object.defineProperty(Error.prototype, 'toJSON', {
 			value: function () {
-				var alt = {};
+				const alt = {};
 
 				Object.getOwnPropertyNames(this).forEach(function (key) {
 					alt[key] = this[key];
@@ -27,7 +27,7 @@
 
 		Object.defineProperty(Promise.prototype, 'wait', {
 			value: function (time) {
-				return new Promise((a,d) => setImmediate(() => setTimeout(() => this.then(data => a(data)), time)));
+				return new Promise((a,d) => setTimeout(() => this.then(data => a(data)), time));
 			},
 			configurable: true,
 			writable: true
@@ -97,9 +97,9 @@
 
 		Object.defineProperty(Array.prototype, 'chunk', {
 			value: function(chunkSize) {
-				var R = [];
-				for (var i=0; i<this.length; i+=chunkSize)
-					R.push(this.slice(i,i+chunkSize));
+				let R = [];
+				for (let i = 0; i < this.length; i += chunkSize)
+					R.push(this.slice(i, i + chunkSize));
 				return R;
 			}
 		});
