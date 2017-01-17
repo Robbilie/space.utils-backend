@@ -16,7 +16,7 @@
 
 			times.push(Date.now() - start);
 
-
+			/*
 			for (let i of new Array(100).keys()) {
 				const local_storage = { c: i * 10, br: false };
 				console.log("wars start from", i);
@@ -46,8 +46,8 @@
 					break;
 				}
 			}
+			*/
 
-			/*
 			for (let page of new Array(1000).keys()) {
 				if (!page) continue;
 				let time = process.hrtime();
@@ -62,7 +62,6 @@
 					break;
 				}
 			}
-			*/
 
 			/*
 			const expirations = [];
