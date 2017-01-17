@@ -162,7 +162,7 @@
 				console.log("worker error", e);
 			}
 
-			setImmediate(() => this.poll_for_tasks());
+			process.nextTick(() => this.poll_for_tasks());
 
 		}
 
