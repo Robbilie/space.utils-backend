@@ -16,9 +16,9 @@
 
 			times.push(Date.now() - start);
 
-			for (let i = 1; i < 1000; i += 10) {
-				const local_storage = { c: i, br: false };
-				let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x })));
+			for (let i of new Array(100).keys()) {
+				const local_storage = { c: i * 10, br: false };
+				let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 })));
 				pages.forEach(({ obj, headers: { expires } }) => {
 					obj.forEach(id => WarStore.find_or_create(id));
 					if (obj.length < 2000)
