@@ -22,9 +22,11 @@
 				console.log("wars start from", i);
 
 				let proms = [...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 }));
+
+				console.log("wars created promises");
 				let pages = [];
-				for (let prom in proms)
-					pages.push(await proms[prom]);
+				for (let i of new Array(proms.length).keys())
+					pages.push(await proms[i]);
 
 				//let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 })));
 
