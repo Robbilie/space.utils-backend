@@ -24,7 +24,7 @@
 				let proms = [...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 }));
 				let pages = [];
 				for (let prom in proms)
-					pages.push(await prom);
+					pages.push(await proms[prom]);
 
 				//let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 })));
 
