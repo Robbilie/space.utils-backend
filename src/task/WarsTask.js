@@ -18,8 +18,11 @@
 
 			for (let page of new Array(1000).keys()) {
 				if (!page) continue;
+				let time = process.hrtime();
 				let { obj, headers: { expires } } = await client.Wars.get_wars({ page });
+				console.log("wars page", page, "took", ...process.hrtime(time));
 				obj.forEach(id => WarStore.find_or_create(id));
+				console.log("wars", obj.length);
 				if (obj.length < 2000) {
 					await this.update({
 						expires: new Date(expires).getTime()
