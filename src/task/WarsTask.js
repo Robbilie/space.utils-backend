@@ -20,7 +20,14 @@
 			for (let i of new Array(100).keys()) {
 				const local_storage = { c: i * 10, br: false };
 				console.log("wars start from", i);
-				let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 })));
+
+				let proms = [...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 }));
+				let pages = [];
+				for (let prom in proms)
+					pages.push(await prom);
+
+				//let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 })));
+
 				console.log("wars loaded pages");
 				pages.forEach(({ obj, headers: { expires } }) => {
 					console.log("wars loop");
