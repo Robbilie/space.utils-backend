@@ -16,6 +16,24 @@
 
 			times.push(Date.now() - start);
 
+			for (let i = 1; i < 1000; i += 10) {
+				const local_storage = { c: i, br: false };
+				let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x })));
+				pages.forEach(({ obj, headers: { expires } }) => {
+					obj.forEach(id => WarStore.find_or_create(id));
+					if (obj.length < 2000)
+						local_storage.br = expires;
+				});
+				console.log("wars", "done with page", i + 10);
+				if (local_storage.br) {
+					await this.update({
+						expires: new Date(local_storage.br).getTime()
+					});
+					break;
+				}
+			}
+
+			/*
 			for (let page of new Array(1000).keys()) {
 				if (!page) continue;
 				let time = process.hrtime();
@@ -30,6 +48,7 @@
 					break;
 				}
 			}
+			*/
 
 			/*
 			const expirations = [];
