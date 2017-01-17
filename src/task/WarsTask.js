@@ -16,6 +16,7 @@
 
 			times.push(Date.now() - start);
 
+			/*
 			for (let i of new Array(100).keys()) {
 				const local_storage = { c: i * 10, br: false };
 				let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 })));
@@ -32,8 +33,8 @@
 					break;
 				}
 			}
+			*/
 
-			/*
 			for (let page of new Array(1000).keys()) {
 				if (!page) continue;
 				let time = process.hrtime();
@@ -48,7 +49,6 @@
 					break;
 				}
 			}
-			*/
 
 			/*
 			const expirations = [];
