@@ -19,9 +19,13 @@
 
 			for (let i of new Array(100).keys()) {
 				const local_storage = { c: i * 10, br: false };
+				console.log("wars start from", i);
 				let pages = await Promise.all([...new Array(10).keys()].map(x => client.Wars.get_wars({ page: local_storage.c + x + 1 })));
+				console.log("wars loaded pages");
 				pages.forEach(({ obj, headers: { expires } }) => {
+					console.log("wars loop");
 					obj.forEach(id => setImmediate(() => WarStore.find_or_create(id)));
+					console.log("wars tasks");
 					if (obj.length < 2000)
 						local_storage.br = expires;
 				});
