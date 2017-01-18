@@ -65,7 +65,7 @@
 			}
 			*/
 
-			let ids = this.get_all_pages(client);
+			let ids = await this.get_all_pages(client);
 			console.log("wars", ids.length);
 			ids.forEach(id => WarStore.find_or_create(id));
 
