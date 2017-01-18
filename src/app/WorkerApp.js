@@ -176,6 +176,8 @@
 
 		async process ({ _id, info: { name, expires } }) {
 
+			this.heartbeat = Date.now();
+
 			try {
 
 				let now = Date.now();
