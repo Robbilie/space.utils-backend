@@ -20,7 +20,7 @@
 			console.log("types", ids.length);
 
 			let chunks = ids.chunk(2000);
-			const process_chunk = chunk => new Promise(resolve => process.nextTick(() => chunk.forEach(id => TypeStore.find_or_create(id)) || resolve()));
+			const process_chunk = chunk => new Promise(resolve => setImmediate(() => chunk.forEach(id => TypeStore.find_or_create(id)) || resolve()));
 			for (let i = 0; i < chunks.length; i++)
 				await process_chunk(chunks[i]);
 
