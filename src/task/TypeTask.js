@@ -17,7 +17,8 @@
 				name: 			type_response.obj.type_name,
 				description: 	type_response.obj.type_description,
 				group_id: 		type_response.obj.group_id,
-				category_id: 	type_response.obj.category_id
+				category_id: 	type_response.obj.category_id,
+				published: 		type_response.obj.published
 			}, { w: 0 });
 
 			await this.destroy();

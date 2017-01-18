@@ -99,6 +99,7 @@
 		static create_base_tasks () {
 			BaseTask.create_task("Alliances", {}, true);
 			BaseTask.create_task("Wars", {}, true);
+			BaseTask.create_task("Types", {}, true);
 		}
 
 		enqueue (task) {
