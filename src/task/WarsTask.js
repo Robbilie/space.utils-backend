@@ -18,7 +18,11 @@
 
 			const { expires, ids } = await ESIUtil.get_all_pages(client.Wars.get_wars);
 			console.log("wars", ids.length);
-			process.nextTick(() => ids.forEach(id => process.nextTick(() => WarStore.find_or_create(id))));
+
+			let chunks = ids.chunk(2000);
+			const process_chunk = chunk => new Promise(resolve => chunk.forEach(id => WarStore.find_or_create(id)) || resolve());
+			for (let i = 0; i < chunks.length; i++)
+				await process_chunk(chunks[i]);
 
 			await this.update({
 				expires
