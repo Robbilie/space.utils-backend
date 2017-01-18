@@ -16,9 +16,9 @@
 
 			times.push(Date.now() - start);
 
-			let { expires, ids } = await ESIUtil.get_all_pages(client.Wars.get_wars);
+			const { expires, ids } = await ESIUtil.get_all_pages(client.Wars.get_wars);
 			console.log("wars", ids.length);
-			ids.forEach(id => process.nextTick(() => WarStore.find_or_create(id)));
+			process.nextTick(() => ids.forEach(id => process.nextTick(() => WarStore.find_or_create(id))));
 
 			await this.update({
 				expires
