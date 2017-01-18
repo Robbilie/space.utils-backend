@@ -11,11 +11,12 @@
 			let client = await ESIUtil.get_client();
 
 			let system_response = await client.Universe.get_universe_systems_system_id(this.get_data());
+			let system = system_response.obj;
+				system.id = this.get_data().system_id;
+				system.name = system.solar_system_name;
+				delete system.solar_system_name;
 
-			await this.get_store().insert({
-				id: 	this.get_data().system_id,
-				name: 	system_response.obj.solar_system_name
-			}, { w: 0 });
+			await this.get_store().insert(system, { w: 0 });
 
 			await this.destroy();
 
