@@ -76,12 +76,13 @@
 					.map(id => ESIUtil.get_page(fn, params, id))
 				).then(pages => {
 					console.log(fn.name, "pages", skip * parallel + 1, "to", (skip + 1) * parallel);
+					const expires = Math.max(...pages.map(({ headers: { expires } }) => new Date(expires).getTime()));
 					const ids = [].concat(...pages.map(({ obj }) => obj));
 					if (ids.length % 2000 == 0)
 						return ESIUtil.get_pages(fn, params, parallel, skip + 1)
-							.then(arr => ids.concat(arr));
+							.then(obj => ({ expires: Math.max(expires, obj.expires), ids: ids.concat(obj.ids) }));
 					else
-						return ids;
+						return { expires, ids };
 				});
 		}
 
