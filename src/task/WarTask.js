@@ -75,7 +75,7 @@
 
 			times.push(Date.now() - start);
 
-			if (finished)
+			if (finished && finished < Date.now())
 				await this.destroy();
 			else
 				await this.update({
