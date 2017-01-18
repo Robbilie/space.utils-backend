@@ -64,6 +64,30 @@
 				}
 			}, options));
 		}
+
+		static get_all_pages (fn, params = {}, parallel = 10) {
+			return ESIUtil.get_pages(fn, params, parallel);
+		}
+
+		static get_pages (fn, params = {}, parallel = 10, skip = 0) {
+			return Promise
+				.all([...new Array(parallel).keys()]
+					.map(x => (skip * parallel + 1 + x))
+					.map(id => ESIUtil.get_page(fn, params, id))
+				).then(pages => {
+					console.log(fn.name, "pages", skip * parallel + 1, "to", (skip + 1) * parallel);
+					const ids = [].concat(...pages.map(({ obj }) => obj));
+					if (ids.length % 2000 == 0)
+						return ESIUtil.get_pages(fn, params, parallel, skip + 1)
+							.then(arr => ids.concat(arr));
+					else
+						return ids;
+				});
+		}
+
+		static get_page (fn, params, page) {
+			return new Promise((resolve, reject) => process.nextTick(() => fn(Object.assign(params, { page})).then(resolve).catch(reject)));
+		}
 		
 	}
 	
