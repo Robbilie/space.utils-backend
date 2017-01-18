@@ -75,7 +75,7 @@ spec:
           httpGet:
             path: /
             port: 4001
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           timeoutSeconds: 30
       volumes:
       - name: config
