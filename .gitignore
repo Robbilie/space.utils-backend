@@ -6,3 +6,4 @@ eas.sublime-workspace
 eas-repl
 .idea/
 public/testing/
+public/node_modules/
