@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<title></title>
+		<script type="text/javascript" src="/js/libs.js"></script>
+		<script type="text/javascript" src="/js/bganim.js"></script>
+		<!-- extendings -->
+		<script type="text/javascript" src="/js/extendings.js"></script>
+		<!-- ccpwgl -->
+		<script type="text/javascript" src="/js/ccpwgl/glMatrix-0.9.5.min.js"></script>
+		<script type="text/javascript" src="/js/ccpwgl/ccpwgl_int.js"></script>
+		<script type="text/javascript" src="/js/ccpwgl/ccpwgl.js"></script>
+		<script type="text/javascript" src="/js/ccpwgl/TestCamera2.js"></script>
+		<!-- modules -->
+		<script type="text/javascript" src="/js/modules/Helper.js"></script>
+		<script type="text/javascript" src="/js/modules/Module.js"></script>
+		<script type="text/javascript" src="/js/modules/Page.js"></script>
+		<script type="text/javascript" src="/js/modules/Input.js"></script>
+		<script type="text/javascript" src="/js/modules/TextInput.js"></script>
+		<script type="text/javascript" src="/js/modules/SearchBar.js"></script>
+		<script type="text/javascript" src="/js/modules/Clock.js"></script>
+		<script type="text/javascript" src="/js/modules/Link.js"></script>
+		<script type="text/javascript" src="/js/modules/SideBar.js"></script>
+		<script type="text/javascript" src="/js/modules/TopBar.js"></script>
+		<script type="text/javascript" src="/js/modules/PageController.js"></script>
+		<script type="text/javascript" src="/js/modules/NavigationController.js"></script>
+		<script type="text/javascript" src="/js/pages/WelcomePage.js"></script>
+		<script type="text/javascript" src="/js/pages/SearchPage.js"></script>
+		<script type="text/javascript" src="/js/pages/KillboardPage.js"></script>
+		<script type="text/javascript" src="/js/pages/KillmailPage.js"></script>
+		<script type="text/javascript" src="/js/modules/EASUI.js"></script>
+		<!-- routes -->
+		<script type="text/javascript" src="/js/routing.js"></script>
+		<script type="text/javascript" src="/js/routes.js"></script>
+		<!-- loader -->
+		<script type="text/javascript" src="/js/loader.js"></script>
+		<!-- style -->
+		<link rel="stylesheet" type="text/css" href="/css/bg.css">
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+	</head>
+	<body>
+		<div id="particles-background" class="vertical-centered-box"></div>
+		<div id="particles-foreground" class="vertical-centered-box"></div>
+		<svg width="0" height="0" viewBox="0 0 1 1">
+			<defs>
+				<clipPath id="pone" clipPathUnits="objectBoundingBox">
+					<polygon points="0 0, 1 0, 0.75 1, 0 1"></polygon>
+				</clipPath>
+				<clipPath id="ptwo" clipPathUnits="objectBoundingBox">
+					<polygon points="0.2 0, 1 0, 0.8 1, 0 1"></polygon>
+				</clipPath>
+				<clipPath id="pthree" clipPathUnits="objectBoundingBox">
+					<polygon points="0.25 0, 1 0, 1 1, 0 1"></polygon>
+				</clipPath>
+				<clipPath id="pfull" clipPathUnits="objectBoundingBox">
+					<polygon points="0 0, 1 0, 1 1, 0 1"></polygon>
+				</clipPath>
+			</defs>
+		</svg>
+		<div id="viewport"></div>
+		<script type="text/javascript">
+
+			"use strict";
+
+			Loader.initialize("#viewport", EASUI, routes);
+
+		</script>
+	</body>
+</html>
