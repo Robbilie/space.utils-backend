@@ -7,5 +7,5 @@
 				E(IndexRoute, { component: HomePage })
 			)
 		),
-		document.body
+		document.getElementById("viewport")
 	);
