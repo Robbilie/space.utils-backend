@@ -72,12 +72,18 @@
 					})
 				),
 				E("div", { className: "searchres" },
-					...this.state.results.map(([headline, results]) =>
+					...this.state.results.map(result =>
 					[
-						E("h3", { key: headline }, headline),
-						...results.map(({ id, name }) =>
+						E(
+							"h3",
+							{
+								key: result[0]
+							},
+							result[0]
+						),
+						...result[1].map(({ id, name }) =>
 							E("div", { key: id },
-								E("img", { src: this.resultToUrl(64, headline, id) }),
+								E("img", { src: this.resultToUrl(64, result[0], id) }),
 								E("span", null, name)
 							)
 						)
