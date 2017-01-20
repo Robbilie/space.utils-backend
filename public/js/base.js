@@ -9,7 +9,7 @@
 		url: "https://esi.tech.ccp.is/latest/swagger.json",
 		usePromise: true,
 		authorizations: {
-			someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", "https://utils.space/", "header")
+			someHeaderAuth: new SwaggerClient.ApiKeyAuthorization("User-Agent", "https://utils.space/", "header")
 		}
 	});
 	const EASClient = new SwaggerClient({
