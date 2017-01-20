@@ -7,15 +7,15 @@
 
 	const ESIClient = new SwaggerClient({
 		url: "https://esi.tech.ccp.is/latest/swagger.json",
-		usePromise: true,
+		usePromise: true/*,
 		authorizations: {
 			someHeaderAuth: new SwaggerClient.ApiKeyAuthorization("User-Agent", "https://utils.space/", "header")
-		}
+		}*/
 	});
 	const EASClient = new SwaggerClient({
 		url: "https://api.utils.space/api-docs",
-		usePromise: true,
+		usePromise: true/*,
 		authorizations: {
 			someHeaderAuth: new SwaggerClient.ApiKeyAuthorization("User-Agent", "https://utils.space/", "header")
-		}
+		}*/
 	});
