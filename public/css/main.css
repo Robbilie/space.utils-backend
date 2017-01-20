@@ -80,16 +80,16 @@ body {
     width: calc(40% - 20px);
 }
 
-#searchbarMaxer:checked ~ .topbar .searchbar {
+.ui.searching .topbar .searchbar {
     width: calc(100% - 40px);
 }
 
-#searchbarMaxer:checked ~ .topbar .searchbar input:focus {
+.ui.searching .topbar .searchbar input:focus {
     height: 150%;
     font-size: 150%;
 }
 
-#searchbarMaxer:checked ~ .topbar .searchbar ~ #clock {
+.ui.searching .topbar .searchbar ~ #clock {
     opacity: .3;
 }
 
@@ -119,11 +119,11 @@ body {
     height: 100%;
 }
 
-#searchbarMaxer:checked ~ .topbar .searchbar > .sbexpand {
+.ui.searching .topbar .searchbar > .sbexpand {
     width: 80% !important;
 }
 
-#searchbarMaxer:checked ~ .content .pages, #loadingState:checked ~ .content .pages .page:not(.intransition) {
+.ui.searching .content .pages, #loadingState:checked ~ .content .pages .page:not(.intransition) {
 	transform: translateZ(-200px);
 	opacity: .6;
 }
