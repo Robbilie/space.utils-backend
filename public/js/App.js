@@ -30,7 +30,7 @@
 				E("div", { className: "content" },
 					this.props.children
 				),
-				E(TopBar, { searchBarHandler: this.searchBarHandler }),
+				E(TopBar, { searchBarHandler: this.searchBarHandler.bind(this) }),
 				E(Loading, { isLoading: this.state.isLoading })
 			);
 		}
