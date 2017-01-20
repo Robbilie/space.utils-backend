@@ -5,7 +5,7 @@
 
 		constructor (props) {
 			super(props);
-			this.state = { results: [] };
+			this.state = { results: [["Start typing…", []]] };
 		}
 
 		search (search) {
@@ -64,7 +64,7 @@
 				E("div", { className: "sbexpand" },
 					E("input", {
 						type: "text",
-						onBlur: e => this.props.searchBarHandler(e) || this.setState({ results: [] }),
+						onBlur: e => this.props.searchBarHandler(e) || this.setState({ results: [["Start typing…", []]] }),
 						onKeyUp: e => this.props.searchBarHandler(e) || this.search(e.target.value),
 						onFocus: this.props.searchBarHandler
 					})
