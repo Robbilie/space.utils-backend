@@ -40,19 +40,19 @@
 			let extension;
 			switch (category) {
 				case "alliance":
-					type = "Alliances";
+					type = "Alliance";
 					extension = "png";
 					break;
 				case "corporation":
-					type = "Corporations";
+					type = "Corporation";
 					extension = "png";
 					break;
 				case "character":
-					type = "Characters";
+					type = "Character";
 					extension = "jpg";
 					break;
 				case "inventory_type":
-					type = "Types";
+					type = "Type";
 					extension = "png";
 					break;
 			}
@@ -72,9 +72,9 @@
 				E("div", { className: "searchres" },
 					...this.state.results.map(([headline, results]) =>
 					[
-						console.log(results) || E("h3", null, headline),
+						console.log(results) || E("h3", { key: headline }, headline),
 						...results.map(({ id, name }) =>
-							E("div", null,
+							E("div", { key: id },
 								E("img", { src: this.resultToUrl(64, headline, id) }),
 								E("span", null, name)
 							)
