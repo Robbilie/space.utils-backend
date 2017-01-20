@@ -9,8 +9,8 @@
 					.then(({ obj: { alliance = [], character = [], corporation = [], inventorytype = [], solarsystem = [] } }) =>
 						client.Universe.post_universe_names({ ids: { ids: [...alliance, ...character, ...corporation, ...inventorytype, ...solarsystem] } })
 					)
-					.then(entities => Object
-						.entries(entities
+					.then(({ obj }) => Object
+						.entries(obj
 							.reduce((p, { category, id, name }) => {
 								p[category] = { id, name }; return p;
 							}, {})
