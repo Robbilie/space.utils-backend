@@ -5,7 +5,7 @@
 
 		search (search) {
 			ESIClient
-				.then(client => client.Search.get_search({ search, categories: ["agent", "alliance", "character", "constellation", "corporation", "faction", "inventorytype", "region", "solarsystem", "station", "wormhole"] }))
+				.then(client => client.Search.get_search({ search, categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem"/*, "region"*/] }))
 				.then(({ obj }) => console.log(obj))
 				.catch(e => console.log("E", e));
 			/*
