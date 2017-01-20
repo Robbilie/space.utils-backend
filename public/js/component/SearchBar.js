@@ -24,8 +24,8 @@
 					)
 				)
 				.then(results => {
-					this.setState({ results });
 					console.log(results);
+					this.setState({ results });
 				})
 				.catch(e => console.log("E", e));
 		}
@@ -66,12 +66,15 @@
 					})
 				),
 				E("div", { className: "searchres" },
-					...this.state.results.map(([headline, results]) => [
-						E("h3", null, headline), ...results.map(({ id, name }) =>
-						E("div", null,
-							E("img", { src: this.resultToUrl(64, headline, id) }),
-							E("span", null, name)
-						))
+					...this.state.results.map(([headline, results]) =>
+					[
+						console.log(results) || E("h3", null, headline),
+						...results.map(({ id, name }) =>
+							E("div", null,
+								E("img", { src: this.resultToUrl(64, headline, id) }),
+								E("span", null, name)
+							)
+						)
 					])
 				)
 			);
