@@ -34,7 +34,9 @@
 				E(SideBarToggle, { sideBarToggleHandler: this.sideBarToggleHandler.bind(this) }),
 				E(SideBar, { isOpen: this.state.isOpen }),
 				E("div", { className: "content" },
-					this.props.children
+					E("div", { className: "pages" },
+						this.props.children
+					)
 				),
 				E(TopBar, { searchBarHandler: this.searchBarHandler.bind(this) }),
 				E(Loading, { isLoading: this.state.isLoading })
