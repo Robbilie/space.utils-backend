@@ -6,7 +6,7 @@
 		render () {
 			return E("div", { id: "sidebarButton", onClick: this.props.sideBarToggleHandler },
 				E("span", { className: "sidebarOpen" }, "≡"),
-				E("span", { className: "sidebarClose" }, "&times;")
+				E("span", { className: "sidebarClose" }, "×")
 			);
 		}
 

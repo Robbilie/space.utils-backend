@@ -6,7 +6,12 @@
 		render () {
 			return E("div", { className: "searchbar" },
 				E("div", { className: "sbexpand" },
-					E("input", { type: "text", onBlur: this.props.searchBarHandler, onKeyUp: this.props.searchBarHandler })
+					E("input", {
+						type: "text",
+						onBlur: this.props.searchBarHandler,
+						onKeyUp: this.props.searchBarHandler,
+						onFocus: this.props.searchBarHandler
+					})
 				)
 			);
 		}

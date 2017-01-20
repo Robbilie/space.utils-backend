@@ -18,6 +18,7 @@
 					this.setState({ isSearching: false });
 					break;
 				case "keyup":
+				case "focus":
 					if (e.target.value != "")
 						this.setState({ isSearching: true });
 					break;

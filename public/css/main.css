@@ -198,10 +198,6 @@ body {
     cursor: pointer;
 }
 
-#sidebarToggle, #searchbarMaxer, #loadingState {
-    display: none;
-}
-
 .sidebarOpen, .sidebarClose {
     position: absolute;
     width: 100%;
@@ -211,11 +207,11 @@ body {
     transition: .5s;
 }
 
-#sidebarToggle:checked ~ #sidebarButton > .sidebarOpen {
+.ui.open #sidebarButton > .sidebarOpen {
     opacity: 0;
 }
 
-#sidebarToggle:not(:checked) ~ #sidebarButton > .sidebarClose {
+.ui.close #sidebarButton > .sidebarClose {
     opacity: 0;
 }
 
@@ -251,21 +247,21 @@ body {
     background-image: linear-gradient(45deg, #3f3251 2%, #002025 100%);
 }
 
-#sidebarToggle:checked ~ .sidebar {
+.ui.open .sidebar {
     left: 0;
 }
 
-#sidebarToggle:checked ~ .content, #sidebarToggle:checked ~ .topbar {
+.ui.open .content, .ui.open .topbar {
     left: 290px;
     //-webkit-filter: blur(10px);
     //filter: blur(10px);
 }
 
-#sidebarToggle:checked ~ #sidebarButton {
+.ui.open #sidebarButton {
 	box-shadow: 0 0 10px 0px rgb(0, 0, 0);
 }
 
-#sidebarToggle:checked ~ .topbar #clock {
+.ui.open .topbar #clock {
     width: 200px;
 	box-shadow: 0 0 10px 0px rgb(0, 0, 0);
 }
