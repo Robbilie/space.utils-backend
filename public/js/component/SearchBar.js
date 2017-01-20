@@ -64,7 +64,7 @@
 				E("div", { className: "sbexpand" },
 					E("input", {
 						type: "text",
-						onBlur: this.props.searchBarHandler,
+						onBlur: e => this.props.searchBarHandler(e) || this.setState({ results: [] }),
 						onKeyUp: e => this.props.searchBarHandler(e) || this.search(e.target.value),
 						onFocus: this.props.searchBarHandler
 					})

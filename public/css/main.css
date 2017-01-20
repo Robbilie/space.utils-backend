@@ -661,12 +661,21 @@ body {
 }
 
 .searchres {
-	width: 80%;
-	margin: auto;
+	left: calc(20px + ((100% - 40px) * 0.1));
+	right: calc(20px + ((100% - 40px) * 0.1));
 	text-align: left;
-	margin-top: 40px;
 	background-color: rgba(255, 255, 255, 0.5);
 	padding: 10px;
+	position: fixed;
+	top: 100px;
+	height: calc(100% - 100px - 20px);
+	overflow: auto;
+	transition: .2s;
+}
+
+.ui:not(.searching) .searchres {
+	opacity: 0;
+	height: 0;
 }
 
 .searchres div {
