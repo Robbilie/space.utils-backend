@@ -17,7 +17,11 @@
 					.then(({ obj }) => Object
 						.entries(obj
 							.reduce((p, { category, id, name }) => {
-								p[category] = { id, name }; return p;
+								if (p[category])
+									p[category].push({ id, name });
+								else
+									p[category] = [{ id, name }];
+								return p;
 							}, {})
 						)
 						.sort(([a], [b]) => a > b ? 1 : -1)
