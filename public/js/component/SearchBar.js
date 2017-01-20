@@ -3,10 +3,15 @@
 
 	class SearchBar extends Component {
 
-		search (query) {
+		search (search) {
+			ESIClient
+				.then(client => client.get_search({ search, categories: ["agent", "alliance", "character", "constellation", "corporation", "faction", "inventorytype", "region", "solarsystem", "station", "wormhole"] }))
+				.then(({ obj }) => console.log(obj));
+			/*
 			fetch(`https://esi.tech.ccp.is/latest/search/?search=${query}&categories=agent%2Calliance%2Ccharacter%2Cconstellation%2Ccorporation%2Cfaction%2Cinventorytype%2Cregion%2Csolarsystem%2Cstation%2Cwormhole&language=en-us&strict=false&datasource=tranquility`)
 				.then(res => res.json())
 				.then(data => console.log(data));
+			*/
 		}
 
 		render () {
