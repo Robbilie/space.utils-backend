@@ -6,7 +6,7 @@
 		constructor (props) {
 			super(props);
 			this.state = {
-				status: "",
+				status: true,
 				online: 0
 			};
 		}
