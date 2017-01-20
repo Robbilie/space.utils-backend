@@ -5,7 +5,7 @@
 
 		render () {
 			return E("div", { className: "topbar" },
-				E(SearchBar),
+				E(SearchBar, { searchBarHandler: this.props.searchBarHandler }),
 				E(Clock)
 			);
 		}

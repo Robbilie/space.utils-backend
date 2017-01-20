@@ -4,7 +4,7 @@
 	class Clock extends Component {
 
 		render () {
-			return E("div", { className: "clock" });
+			return E("div", { id: "clock" });
 		}
 
 	}
