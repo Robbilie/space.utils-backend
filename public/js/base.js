@@ -14,5 +14,8 @@
 	});
 	const EASClient = new SwaggerClient({
 		url: "https://api.utils.space/api-docs",
-		usePromise: true
+		usePromise: true,
+		authorizations: {
+			someHeaderAuth: new SwaggerClient.ApiKeyAuthorization("User-Agent", "https://utils.space/", "header")
+		}
 	});
