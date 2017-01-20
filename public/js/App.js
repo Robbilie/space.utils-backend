@@ -12,6 +12,10 @@
 			};
 		}
 
+		componentDidUpdate () {
+			this.setState({ isOpen: false });
+		}
+
 		searchBarHandler (e) {
 			switch (e.type) {
 				case "blur":
