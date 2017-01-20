@@ -13,8 +13,8 @@
 				return this.setState({ results: [["Start typing…", []]] });
 			ESIClient
 				.then(client => client.Search.get_search({ search, categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem"/*, "region"*/] })
-					.then(({ obj: { alliance = [], character = [], corporation = [], inventorytype = [], solarsystem = [] } }) =>
-						client.Universe.post_universe_names({ ids: { ids: [...alliance, ...character, ...corporation, ...inventorytype, ...solarsystem] } })
+					.then(({ obj: { alliance, character, corporation, inventorytype, solarsystem } }) =>
+						client.Universe.post_universe_names({ ids: { ids: [...(alliance || []), ...(character || []), ...(corporation || []), ...(inventorytype || []), ...(solarsystem || [])] } })
 					)
 					.then(({ obj }) => Object
 						.entries(obj
