@@ -3,6 +3,11 @@
 
 	class SearchBar extends Component {
 
+		constructor (props) {
+			super(props);
+			this.state = { results: [] };
+		}
+
 		search (search) {
 			ESIClient
 				.then(client => client.Search.get_search({ search, categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem"/*, "region"*/] })
@@ -18,13 +23,36 @@
 						.sort(([a], [b]) => a > b ? 1 : -1)
 					)
 				)
-				.then(data => console.log(data))
+				.then(results => {
+					this.setState({ results });
+					console.log(results);
+				})
 				.catch(e => console.log("E", e));
-			/*
-			fetch(`https://esi.tech.ccp.is/latest/search/?search=${query}&categories=agent%2Calliance%2Ccharacter%2Cconstellation%2Ccorporation%2Cfaction%2Cinventorytype%2Cregion%2Csolarsystem%2Cstation%2Cwormhole&language=en-us&strict=false&datasource=tranquility`)
-				.then(res => res.json())
-				.then(data => console.log(data));
-			*/
+		}
+
+		resultToUrl (size, category, id) {
+			let url = "https://imageserver.eveonline.com";
+			let type;
+			let extension;
+			switch (category) {
+				case "alliance":
+					type = "Alliances";
+					extension = "png";
+					break;
+				case "corporation":
+					type = "Corporations";
+					extension = "png";
+					break;
+				case "character":
+					type = "Characters";
+					extension = "jpg";
+					break;
+				case "inventory_type":
+					type = "Types";
+					extension = "png";
+					break;
+			}
+			return `${url}/${type}/${id}_${size}.${extension}`;
 		}
 
 		render () {
@@ -36,6 +64,15 @@
 						onKeyUp: e => this.props.searchBarHandler(e) || this.search(e.target.value),
 						onFocus: this.props.searchBarHandler
 					})
+				),
+				E("div", { className: "searchres" },
+					this.state.results.map(([headline, results]) => [
+						E("h3", null, headline), ...results.map(({ id, name }) =>
+						E("div", null,
+							E("img", { src: this.resultToUrl(64, headline, id) }),
+							E("span", null, name)
+						))
+					])
 				)
 			);
 		}
