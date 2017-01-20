@@ -5,6 +5,9 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 		<title></title>
+		<!-- #stars -->
+		<script type="text/javascript" src="/js/libs.js"></script>
+		<script type="text/javascript" src="/js/bganim.js"></script>
 		<!-- #react -->
 		<script src="/node_modules/react/dist/react-with-addons.js"></script>
 		<script src="/node_modules/react-dom/dist/react-dom.js"></script>
@@ -26,6 +29,24 @@
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
 	</head>
 	<body>
+		<div id="particles-background" class="vertical-centered-box"></div>
+		<div id="particles-foreground" class="vertical-centered-box"></div>
+		<svg width="0" height="0" viewBox="0 0 1 1">
+			<defs>
+				<clipPath id="pone" clipPathUnits="objectBoundingBox">
+					<polygon points="0 0, 1 0, 0.75 1, 0 1"></polygon>
+				</clipPath>
+				<clipPath id="ptwo" clipPathUnits="objectBoundingBox">
+					<polygon points="0.2 0, 1 0, 0.8 1, 0 1"></polygon>
+				</clipPath>
+				<clipPath id="pthree" clipPathUnits="objectBoundingBox">
+					<polygon points="0.25 0, 1 0, 1 1, 0 1"></polygon>
+				</clipPath>
+				<clipPath id="pfull" clipPathUnits="objectBoundingBox">
+					<polygon points="0 0, 1 0, 1 1, 0 1"></polygon>
+				</clipPath>
+			</defs>
+		</svg>
 		<div id="viewport"></div>
 		<!-- #init -->
 		<script src="/js/init.js"></script>
