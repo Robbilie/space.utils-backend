@@ -24,8 +24,13 @@
 			}
 		}
 
+		sideBarToggleHandler () {
+			this.setState({ isOpen: !this.state.isOpen });
+		}
+
 		render () {
-			return E("div", { className: `ui ${this.state.isSearching ? "searching" : ""}` },
+			return E("div", { className: `ui ${this.state.isSearching ? "searching" : ""} ${this.state.isLoading ? "loading" : ""} ${this.state.isOpen ? "open" : "close"}` },
+				E(SideBarToggle, { sideBarToggleHandler: this.sideBarToggleHandler.bind(this) }),
 				E(SideBar, { isOpen: this.state.isOpen }),
 				E("div", { className: "content" },
 					this.props.children
