@@ -15,7 +15,7 @@
 					E("input", {
 						type: "text",
 						onBlur: this.props.searchBarHandler,
-						onKeyUp: e => this.search(e.target.value),//e => this.props.searchBarHandler(e) || this.search(e.target.value),
+						onKeyUp: e => this.props.searchBarHandler(e) || this.search(e.target.value),
 						onFocus: this.props.searchBarHandler
 					})
 				)
