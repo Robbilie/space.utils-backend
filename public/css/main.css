@@ -668,14 +668,14 @@ body {
 	padding: 10px;
 	position: fixed;
 	top: 100px;
-	height: calc(100% - 100px - 20px);
+	max-height: calc(100% - 100px - 20px);
 	overflow: auto;
 	transition: .2s;
 }
 
 .ui:not(.searching) .searchres {
 	opacity: 0;
-	height: 0;
+	max-height: 0;
 }
 
 .searchres div {
