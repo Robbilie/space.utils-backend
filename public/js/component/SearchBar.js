@@ -7,7 +7,7 @@
 			ESIClient
 				.then(client => client.Search.get_search({ search, categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem"/*, "region"*/] })
 					.then(({ obj: { alliance = [], character = [], corporation = [], inventorytype = [], solarsystem = [] } }) =>
-						client.Universe.post_universe_names({ ids: [...alliance, ...character, ...corporation, ...inventorytype, ...solarsystem] })
+						client.Universe.post_universe_names({ ids: { ids: [...alliance, ...character, ...corporation, ...inventorytype, ...solarsystem] } })
 					)
 					.then(entities => Object
 						.entries(entities
