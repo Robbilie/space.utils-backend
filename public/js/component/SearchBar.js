@@ -72,7 +72,7 @@
 				E("div", { className: "searchres" },
 					...this.state.results.map(([headline, results]) =>
 					[
-						console.log(results) || E("h3", { key: headline }, headline),
+						E("h3", { key: headline }, headline),
 						...results.map(({ id, name }) =>
 							E("div", { key: id },
 								E("img", { src: this.resultToUrl(64, headline, id) }),
