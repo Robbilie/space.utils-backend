@@ -660,6 +660,39 @@ body {
 	width: 45px;
 }
 
+.searchres {
+	width: 80%;
+	margin: auto;
+	text-align: left;
+	margin-top: 40px;
+	background-color: rgba(255, 255, 255, 0.5);
+	padding: 10px;
+}
+
+.searchres div {
+	height: 40px;
+}
+
+.searchres div img {
+	height: 100%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.searchres h3 {
+	margin: 10px;
+	text-transform: uppercase;
+	font-family: "Roboto";
+	color: white;
+	font-weight: 200;
+}
+
+.searchres div span {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 10px;
+}
+
 @media (min-width: 600px) {
 
 	.mobo {
