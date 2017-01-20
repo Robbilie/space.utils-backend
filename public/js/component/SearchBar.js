@@ -9,6 +9,8 @@
 		}
 
 		search (search) {
+			if (search.length < 3)
+				return;
 			ESIClient
 				.then(client => client.Search.get_search({ search, categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem"/*, "region"*/] })
 					.then(({ obj: { alliance = [], character = [], corporation = [], inventorytype = [], solarsystem = [] } }) =>
