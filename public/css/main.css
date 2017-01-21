@@ -128,6 +128,26 @@ body {
 	opacity: .6;
 }
 
+.page.example-enter {
+	transition: transform 10s;
+	transform: translateY(100%);
+}
+
+.page.example-enter-active {
+	transform: translateY(0%);
+}
+
+.page.example-leave {
+	transition: transform 10s;
+	transform: translateZ(0px);
+	opacity: 1;
+}
+
+.page.example-leave-active {
+	transform: translateZ(-500px);
+	opacity: 0;
+}
+
 .pages .page:not(.intransition) + .page {
     opacity: 0 !important;
     transform: translateZ(-500px) !important;
