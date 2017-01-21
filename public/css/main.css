@@ -678,14 +678,23 @@ body {
 	max-height: 0;
 }
 
-.searchres div {
+.searchres a {
 	height: 40px;
+	display: block;
+	text-decoration: none;
+	color: black;
 }
 
-.searchres div img {
+.searchres a img {
 	height: 100%;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.searchres a span {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 10px;
 }
 
 .searchres h3 {
@@ -694,12 +703,6 @@ body {
 	font-family: "Roboto";
 	color: white;
 	font-weight: 200;
-}
-
-.searchres div span {
-	display: inline-block;
-	vertical-align: middle;
-	padding: 10px;
 }
 
 @media (min-width: 600px) {
