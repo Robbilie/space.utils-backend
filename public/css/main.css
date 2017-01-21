@@ -129,7 +129,7 @@ body {
 }
 
 .page.example-enter {
-	transition: transform 10s;
+	transition: transform .3s;
 	transform: translateY(100%);
 }
 
@@ -138,7 +138,7 @@ body {
 }
 
 .page.example-leave {
-	transition: transform 10s, opacity 10s;
+	transition: transform .3s, opacity .3s;
 	transform: translateZ(0px);
 	opacity: 1;
 }

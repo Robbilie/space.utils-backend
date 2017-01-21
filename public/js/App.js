@@ -38,17 +38,15 @@
 				E(SideBarToggle, { sideBarToggleHandler: this.sideBarToggleHandler.bind(this) }),
 				E(SideBar, { isOpen: this.state.isOpen }),
 				E("div", { className: "content" },
-					//E("div", { className: "pages" },
-						E(React.addons.CSSTransitionGroup, {
-							component: "div",
-							className: "pages",
-							transitionName: "example",
-							transitionEnterTimeout: 10 * 1000,
-							transitionLeaveTimeout: 10 * 1000
-						}, cloneElement(this.props.children, {
-							key: this.props.location.pathname
-						}))
-					//)
+					E(React.addons.CSSTransitionGroup, {
+						component: "div",
+						className: "pages",
+						transitionName: "example",
+						transitionEnterTimeout: 300,
+						transitionLeaveTimeout: 300
+					}, cloneElement(this.props.children, {
+						key: this.props.location.pathname
+					}))
 				),
 				E(TopBar, { searchBarHandler: this.searchBarHandler.bind(this) }),
 				E(Loading, { isLoading: this.state.isLoading })
