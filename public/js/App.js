@@ -39,7 +39,14 @@
 				E(SideBar, { isOpen: this.state.isOpen }),
 				E("div", { className: "content" },
 					E("div", { className: "pages" },
-						this.props.children
+						E(React.addons.CSSTransitionGroup, {
+							component: "div",
+							transitionName: "example",
+							transitionEnterTimeout: 500,
+							transitionLeaveTimeout: 500
+						}, cloneElement(this.props.children, {
+							key: this.props.location.pathname
+						}))
 					)
 				),
 				E(TopBar, { searchBarHandler: this.searchBarHandler.bind(this) }),
