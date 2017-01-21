@@ -42,8 +42,8 @@
 						E(React.addons.CSSTransitionGroup, {
 							component: "div",
 							transitionName: "example",
-							transitionEnterTimeout: 500,
-							transitionLeaveTimeout: 500
+							transitionEnterTimeout: 10 * 1000,
+							transitionLeaveTimeout: 10 * 1000
 						}, cloneElement(this.props.children, {
 							key: this.props.location.pathname
 						}))
