@@ -4,7 +4,7 @@
 	class KillboardPage extends Component {
 
 		render () {
-			return E("div");
+			return E("div", { className: "page" });
 		}
 
 	}

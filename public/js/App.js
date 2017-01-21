@@ -40,7 +40,6 @@
 				E("div", { className: "content" },
 					E("div", { className: "pages" },
 						E(React.addons.CSSTransitionGroup, {
-							component: "div",
 							transitionName: "example",
 							transitionEnterTimeout: 10 * 1000,
 							transitionLeaveTimeout: 10 * 1000

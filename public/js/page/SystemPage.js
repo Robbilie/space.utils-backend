@@ -4,7 +4,7 @@
 	class SystemPage extends Component {
 
 		render () {
-			return E("div");
+			return E("div", { className: "page" });
 		}
 
 	}
