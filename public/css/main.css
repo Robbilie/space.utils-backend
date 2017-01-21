@@ -148,6 +148,10 @@ body {
 	opacity: 0;
 }
 
+.ui.open .vertical-centered-box {
+	left: calc(-51% + 290px) !important;
+}
+
 .vertmid {
 	display: inline-block;
 	vertical-align: middle;
