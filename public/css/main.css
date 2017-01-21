@@ -148,15 +148,6 @@ body {
 	opacity: 0;
 }
 
-.pages .page:not(.intransition) + .page {
-    opacity: 0 !important;
-    transform: translateZ(-500px) !important;
-}
-
-.intransition {
-    transform: translateY(100%);
-}
-
 .vertmid {
 	display: inline-block;
 	vertical-align: middle;
