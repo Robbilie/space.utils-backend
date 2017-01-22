@@ -50,28 +50,7 @@
 		}
 
 		resultToUrl (size, category, id) {
-			let url = "https://imageserver.eveonline.com";
-			let type;
-			let extension;
-			switch (category) {
-				case "alliance":
-					type = "Alliance";
-					extension = "png";
-					break;
-				case "corporation":
-					type = "Corporation";
-					extension = "png";
-					break;
-				case "character":
-					type = "Character";
-					extension = "jpg";
-					break;
-				case "inventory_type":
-					type = "Type";
-					extension = "png";
-					break;
-			}
-			return `${url}/${type}/${id}_${size}.${extension}`;
+			return `https://imageserver.eveonline.com/${category.split("_").slice(-1).capitalizeFirstLetter()}/${id}_${size}.${category == "character" ? "jpg" : "png"}`;
 		}
 
 		render () {
