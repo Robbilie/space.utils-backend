@@ -7,11 +7,13 @@
 			super(props);
 			this.state = {
 				results: [["Start typing…", []]],
-				limit: 20
+				limit: 20,
+				last_query: ""
 			};
 		}
 
 		search (search) {
+			this.setState({ last_query: search });
 			if (search.length < 3)
 				return this.setState({ results: [["Start typing…", []]] });
 			ESIClient
@@ -39,8 +41,10 @@
 					)
 				)
 				.then(results => {
-					console.log(results);
-					this.setState({ results });
+					if (this.state.last_query == search) {
+						console.log(results);
+						this.setState({ results });
+					}
 				})
 				.catch(e => console.log("E", e));
 		}
