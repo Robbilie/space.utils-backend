@@ -5,6 +5,15 @@
 
 		constructor (props) {
 			super(props);
+			this.state = {
+				id: 0,
+				name: "",
+				ticker: "",
+				executor_corporation: {
+					id: 0,
+					name: ""
+				}
+			};
 			this.load();
 		}
 
