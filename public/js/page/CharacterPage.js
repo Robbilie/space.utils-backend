@@ -42,7 +42,7 @@
 							E("span", null, "Alliance"),
 							E("br"),
 							E("b", null,
-								E(Link, { to: `/alliances/${this.state.alliance.id}/` }, this.state.corporation.alliance.name)
+								E(Link, { to: `/alliances/${this.state.corporation.alliance.id}/` }, this.state.corporation.alliance.name)
 							)
 						) : ""
 					)
