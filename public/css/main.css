@@ -691,6 +691,7 @@ body {
 .ui:not(.searching) .searchres {
 	opacity: 0;
 	max-height: 0;
+	top: -20px;
 }
 
 .searchres a {
