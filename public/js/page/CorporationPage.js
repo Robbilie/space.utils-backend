@@ -41,7 +41,7 @@
 							E("span", null, "CEO"),
 							E("br"),
 							E("b", null,
-								E(Link, { to: `/characters/${this.state.alliance.id}/` }, this.state.ceo.name)
+								E(Link, { to: `/characters/${this.state.ceo.id}/` }, this.state.ceo.name)
 							)
 						),
 						this.state.alliance ? E("div", { className: "" },
