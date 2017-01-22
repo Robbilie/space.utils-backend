@@ -50,7 +50,7 @@
 		}
 
 		resultToUrl (size, category, id) {
-			return `https://imageserver.eveonline.com/${category.split("_").slice(-1).capitalizeFirstLetter()}/${id}_${size}.${category == "character" ? "jpg" : "png"}`;
+			return `https://imageserver.eveonline.com/${category.split("_").slice(-1)[0].capitalizeFirstLetter()}/${id}_${size}.${category == "character" ? "jpg" : "png"}`;
 		}
 
 		render () {
