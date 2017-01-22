@@ -48,7 +48,7 @@
 							E("span", null, "Alliance"),
 							E("br"),
 							E("b", null,
-								E(Link, { to: `/alliances/${this.state.alliance.id}/` }, this.state.ceo.name)
+								E(Link, { to: `/alliances/${this.state.alliance.id}/` }, this.state.alliance.name)
 							)
 						) : ""
 					)
