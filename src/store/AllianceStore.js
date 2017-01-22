@@ -42,7 +42,7 @@
 		},
 		{
 			$unwind: {
-				path: 			"$executor",
+				path: 			"$executor_corporation",
 				preserveNullAndEmptyArrays: true
 			}
 		},

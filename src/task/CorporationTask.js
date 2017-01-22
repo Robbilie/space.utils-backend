@@ -22,7 +22,8 @@
 
 			times.push(Date.now() - start);
 
-			let { corporation_name, name = corporation_name, ticker, member_count, ceo_id, alliance_id } = corporation_response.obj;
+			let { corporation_name, name, ticker, member_count, ceo_id, alliance_id } = corporation_response.obj;
+				name = name || corporation_name;
 
 			await this.get_store().update(
 				{ id: this.get_data().corporation_id },

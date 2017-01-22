@@ -22,7 +22,9 @@
 
 			times.push(Date.now() - start);
 
-			let { alliance_name, name = alliance_name, ticker, date_founded, executor_corp, executor_corporation_id = executor_corp } = alliance_response.obj;
+			let { alliance_name, name, ticker, date_founded, executor_corp, executor_corporation_id } = alliance_response.obj;
+				name = name || alliance_name;
+				executor_corporation_id = executor_corporation_id || executor_corp;
 
 			await this.get_store().update(
 				{ id: this.get_data().alliance_id },
