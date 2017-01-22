@@ -19,8 +19,8 @@
 
 		load () {
 			EASClient
-				.then(client => client.alliances.AllianceHandler_get_by_id({ alliance_id: this.props.id }))
-				.then(({ obj }) => this.setState(obj));
+				.then(client => client.alliances.AllianceHandler_get_by_id({ alliance_id: this.props.params.id }))
+				.then(({ obj }) => console.log(obj) || this.setState(obj));
 		}
 
 		render () {
