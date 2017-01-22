@@ -779,3 +779,50 @@ body {
 	}
 
 }
+
+
+
+.two-col-page {
+	display: flex;
+}
+
+.two-col-page .left-col {
+	height: 100%;
+	padding: 20px;
+}
+
+.two-col-page .left-col img {
+	padding: 61px;
+	background-color: rgba(255,255,255,.5);
+	display: block;
+}
+
+.two-col-page .left-col .list {
+
+}
+
+.two-col-page .left-col .list span, .two-col-page .right-col h2 span {
+	font-size: smaller;
+}
+
+.two-col-page .left-col .list b {
+
+}
+
+.two-col-page .right-col {
+	height: 100%;
+	vertical-align: top;
+	width: 100%;
+	padding: 20px;
+	padding-left: 0;
+}
+
+.two-col-page .right-col h2 {
+	margin: 0;
+	padding: 10px;
+	background-color: rgba(255,255,255,.5);
+	color: white;
+	font-family: Roboto;
+	font-weight: 200;
+}
+

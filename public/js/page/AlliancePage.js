@@ -24,16 +24,28 @@
 		}
 
 		render () {
-			return E("div", { className: "page" },
+			return E("div", { className: "page two-col-page" },
 				E("div", { className: "left-col" },
 					E("img", { src: `https://imageserver.eveonline.com/Alliance/${this.state.id}_128.png` }),
-					E("div", {},
-						E("div", { className: "row" }, "Ticker", this.state.ticker),
-						E("div", { className: "row" }, "Executor", this.state.executor_corporation.name)
+					E("div", { className: "list" },
+						E("div", { className: "row" },
+							E("span", null, "Ticker"),
+							E("br"),
+							E("b", null, this.state.ticker)
+						),
+						E("div", { className: "row" },
+							E("span", null, "Executor"),
+							E("br"),
+							E("b", null, this.state.executor_corporation.name)
+						)
 					)
 				),
 				E("div", { className: "right-col" },
-					E("h2", {}, "Alliance", this.state.name)
+					E("h2", {},
+						E("span", null, "Alliance"),
+						E("br"),
+						E("b", null, this.state.name)
+					)
 				)
 			);
 		}
