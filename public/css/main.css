@@ -784,6 +784,7 @@ body {
 
 .two-col-page {
 	display: flex;
+	text-align: left;
 }
 
 .two-col-page .left-col {
@@ -797,15 +798,20 @@ body {
 	display: block;
 }
 
-.two-col-page .left-col .list {
-
+.two-col-page .left-col .info-list {
+	background-color: rgba(255,255,255,.5);
+	margin-top: 20px;
+	padding: 10px;
+	color: white;
+	font-family: Roboto;
+	font-weight: 200;
 }
 
-.two-col-page .left-col .list span, .two-col-page .right-col h2 span {
+.two-col-page .left-col .info-list span, .two-col-page .right-col h2 span {
 	font-size: smaller;
 }
 
-.two-col-page .left-col .list b {
+.two-col-page .left-col .info-list b {
 
 }
 

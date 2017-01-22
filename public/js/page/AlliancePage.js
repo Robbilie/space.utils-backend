@@ -27,13 +27,13 @@
 			return E("div", { className: "page two-col-page" },
 				E("div", { className: "left-col" },
 					E("img", { src: `https://imageserver.eveonline.com/Alliance/${this.state.id}_128.png` }),
-					E("div", { className: "list" },
-						E("div", { className: "row" },
+					E("div", { className: "info-list" },
+						E("div", { className: "" },
 							E("span", null, "Ticker"),
 							E("br"),
 							E("b", null, this.state.ticker)
 						),
-						E("div", { className: "row" },
+						E("div", { className: "" },
 							E("span", null, "Executor"),
 							E("br"),
 							E("b", null, this.state.executor_corporation.name)
