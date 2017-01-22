@@ -32,6 +32,8 @@
 
 		async serialize (depth = 2) {
 			const data = await this.get_future();
+			if (!data)
+				return data;
 			return (await Promise.all(Object.entries(this.constructor.types).map(async ([field_name, field_type]) => {
 
 				if(
