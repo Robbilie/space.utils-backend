@@ -79,9 +79,9 @@
 				E("div", { className: "sbexpand" },
 					E("input", {
 						type: "text",
-						onBlur: e => setTimeout(() => this.props.searchBarHandler(e), 200),
-						onKeyUp: e => this.props.searchBarHandler(e) || this.search(e.target.value),
-						onFocus: e => this.props.searchBarHandler(e) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
+						onBlur: e => setTimeout(() => this.props.searchBarHandler("blur", e.target.value), 200),
+						onKeyUp: e => this.props.searchBarHandler("keyup", e.target.value) || this.search(e.target.value),
+						onFocus: e => this.props.searchBarHandler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
 				),
 				E("div", { className: "searchres" },

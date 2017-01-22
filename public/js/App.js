@@ -57,14 +57,14 @@
 			}
 		}
 
-		searchBarHandler (e) {
-			switch (e.type) {
+		searchBarHandler (name, value) {
+			switch (name) {
 				case "blur":
 					this.setState({ isSearching: false });
 					break;
 				case "keyup":
 				case "focus":
-					if (e.target.value != "")
+					if (value != "")
 						this.setState({ isSearching: true });
 					break;
 			}
