@@ -34,12 +34,16 @@
 						E("div", { className: "" },
 							E("span", null, "Corporation"),
 							E("br"),
-							E("b", null, this.state.corporation.name)
+							E("b", null,
+								E(Link, { to: `/corporations/${this.state.corporation.id}/` }, this.state.corporation.name)
+							)
 						),
 						this.state.corporation.alliance ? E("div", { className: "" },
 							E("span", null, "Alliance"),
 							E("br"),
-							E("b", null, this.state.corporation.alliance.name)
+							E("b", null,
+								E(Link, { to: `/alliances/${this.state.alliance.id}/` }, this.state.corporation.alliance.name)
+							)
 						) : ""
 					)
 				),

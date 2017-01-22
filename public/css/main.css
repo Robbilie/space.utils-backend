@@ -811,8 +811,9 @@ body {
 	font-size: smaller;
 }
 
-.two-col-page .left-col .info-list b {
-
+.two-col-page .left-col .info-list b a {
+	color: white;
+	text-decoration: none;
 }
 
 .two-col-page .right-col {

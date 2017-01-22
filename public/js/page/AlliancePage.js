@@ -36,7 +36,9 @@
 						E("div", { className: "" },
 							E("span", null, "Executor"),
 							E("br"),
-							E("b", null, this.state.executor_corporation.name)
+							E("b", null,
+								E(Link, { to: `/corporations/${this.state.executor_corporation.id}/` }, this.state.executor_corporation.name)
+							)
 						)
 					)
 				),

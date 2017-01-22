@@ -75,7 +75,7 @@
 				E("div", { className: "sbexpand" },
 					E("input", {
 						type: "text",
-						onBlur: e => this.props.searchBarHandler(e),
+						onBlur: e => setTimeout(() => this.props.searchBarHandler(e), 200),
 						onKeyUp: e => this.props.searchBarHandler(e) || this.search(e.target.value),
 						onFocus: e => this.props.searchBarHandler(e) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})

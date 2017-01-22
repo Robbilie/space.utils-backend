@@ -40,8 +40,17 @@
 						E("div", { className: "" },
 							E("span", null, "CEO"),
 							E("br"),
-							E("b", null, this.state.ceo.name)
-						)
+							E("b", null,
+								E(Link, { to: `/characters/${this.state.alliance.id}/` }, this.state.ceo.name)
+							)
+						),
+						this.state.alliance ? E("div", { className: "" },
+							E("span", null, "Alliance"),
+							E("br"),
+							E("b", null,
+								E(Link, { to: `/alliances/${this.state.alliance.id}/` }, this.state.ceo.name)
+							)
+						) : ""
 					)
 				),
 				E("div", { className: "right-col" },
