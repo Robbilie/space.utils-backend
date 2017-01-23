@@ -82,9 +82,9 @@
 				case "blur":
 					this.search_timeout = setTimeout(() => (this.search_timeout = undefined) || this.setState({ isSearching: false }), 200);
 					break;
-				case "keyup":
 				case "focus":
 					this.setState({ prev_click: true });
+				case "keyup":
 					if (value != "")
 						this.setState({ isSearching: true });
 					break;
