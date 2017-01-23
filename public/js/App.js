@@ -10,6 +10,7 @@
 				isLoading: false,
 				isOpen: false
 			};
+			console.log("App", this);
 		}
 
 		componentDidMount () {
