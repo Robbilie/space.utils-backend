@@ -676,6 +676,19 @@ body {
 	width: 45px;
 }
 
+.searchbg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    transition: .2s;
+}
+
+.ui.searching .searchbg {
+    bottom: 0;
+}
+
 .searchres {
 	left: calc(20px + ((100% - 40px) * 0.1));
 	right: calc(20px + ((100% - 40px) * 0.1));
