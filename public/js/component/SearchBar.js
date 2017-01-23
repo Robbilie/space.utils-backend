@@ -15,6 +15,10 @@
 				this.search(this.props.query);
 		}
 
+		handleChange (e) {
+			this.setState({ query: e.target.value });
+		}
+
 		search (search) {
 			this.setState({ query: search });
 			if (search.length < 3)
@@ -62,12 +66,13 @@
 					E("input", {
 						type: "text",
 						value: this.state.query,
-						onBlur: e => (val => setTimeout(() => this.props.handler("blur", val), 200))(e.target.value),
+						onChange: e => this.handleChange(e),
+						onBlur: e => this.props.handler("blur", e.target.value),
 						onKeyUp: e => this.props.handler("keyup", e.target.value) || this.search(e.target.value),
 						onFocus: e => this.props.handler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
 				),
-				E("div", { className: "searchres" },
+				E("div", { className: "searchres", onClick: e => e.stopPropagation() || this.props.handler("click", true) },
 					...this.state.results.map(result =>
 					[
 						E(

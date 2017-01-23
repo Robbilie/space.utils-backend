@@ -59,8 +59,16 @@
 
 		searchBarHandler (name, value) {
 			switch (name) {
+				case "click":
+					if (this.search_timeout) {
+						if (value)
+							clearTimeout(this.search_timeout);
+					} else {
+						this.searchBarHandler("blur");
+					}
+					break;
 				case "blur":
-					this.setState({ isSearching: false });
+					this.search_timeout = setTimeout(() => this.setState({ isSearching: false }), 200);
 					break;
 				case "keyup":
 				case "focus":
@@ -75,7 +83,7 @@
 		}
 
 		render () {
-			return E("div", { className: `ui ${this.state.isSearching ? "searching" : ""} ${this.state.isLoading ? "loading" : ""} ${this.state.isOpen ? "open" : "close"}` },
+			return E("div", { onClick: e => this.searchBarHandler("click", false), className: `ui ${this.state.isSearching ? "searching" : ""} ${this.state.isLoading ? "loading" : ""} ${this.state.isOpen ? "open" : "close"}` },
 				E("div", { id: "particles-background", className: "vertical-centered-box"}),
 				E("div", { id: "particles-foreground", className: "vertical-centered-box"}),
 				E("div", { id: "sidebarButton", onClick: () => this.toggleSidebar() },
