@@ -8,7 +8,8 @@
 			this.state = {
 				isSearching: false,
 				isLoading: false,
-				isOpen: false
+				isOpen: false,
+				query: ""
 			};
 			console.log("App", this);
 		}
@@ -45,6 +46,13 @@
 			});
 			this.foreground.pause();
 			window.addEventListener("resize", this.resizeHandler.bind(this));
+		}
+
+		componentDidUpdate () {
+			console.log("update");
+			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
+				this.setState({ query: unescape(this.props.location.pathname.slice(8, -1)) });
+			}
 		}
 
 		resizeHandler (e) {
@@ -105,7 +113,7 @@
 					}))
 				),
 				E("div", { className: "topbar" },
-					E(SearchBar, { handler: (...args) => this.searchBarHandler(...args) }),
+					E(SearchBar, { query: this.state.query, handler: (...args) => this.searchBarHandler(...args) }),
 					E(Clock)
 				),
 				E(Loading, { isLoading: this.state.isLoading })
