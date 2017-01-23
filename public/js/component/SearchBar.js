@@ -12,15 +12,16 @@
 			};
 
 			if (this.props.query)
-				this.search(this.props.query);
+				this.search(this.props.query, true);
 		}
 
 		handleChange (e) {
 			this.setState({ query: e.target.value });
 		}
 
-		search (search) {
-			this.setState({ query: search });
+		search (search, init) {
+			if (!init)
+				this.setState({ query: search });
 			if (search.length < 3)
 				return this.setState({ results: [["Start typing…", []]] });
 			ESIClient
