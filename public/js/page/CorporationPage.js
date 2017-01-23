@@ -44,7 +44,7 @@
 								E(Link, { to: `/characters/${this.state.ceo.id}/` }, this.state.ceo.name)
 							)
 						),
-						this.state.alliance ? E("div", { className: "" },
+						this.state.alliance.id ? E("div", { className: "" },
 							E("span", null, "Alliance"),
 							E("br"),
 							E("b", null,
