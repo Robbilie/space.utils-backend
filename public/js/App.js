@@ -65,6 +65,18 @@
 		}
 
 		searchBarHandler (name, value) {
+			switch (name) {
+				case "click":
+					this.setState({ isSearching: false });
+					break;
+				case "focus":
+					this.setState({ isSearching: true });
+					break;
+				case "keyup":
+					this.setState({ isSearching: !!value });
+					break;
+			}
+			/*
 			console.log(name, value, this.search_timeout);
 			switch (name) {
 				case "click":
@@ -89,6 +101,7 @@
 						this.setState({ isSearching: true });
 					break;
 			}
+			*/
 		}
 
 		toggleSidebar () {
