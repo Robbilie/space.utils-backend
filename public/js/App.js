@@ -84,6 +84,7 @@
 					break;
 				case "keyup":
 				case "focus":
+					this.setState({ prev_click: true });
 					if (value != "")
 						this.setState({ isSearching: true });
 					break;
