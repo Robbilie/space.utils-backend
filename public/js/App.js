@@ -11,10 +11,11 @@
 				isOpen: false,
 				query: ""
 			};
-			console.log("App", this);
 			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
-				this.setState({ isSearching: true, query: decodeURI(this.props.location.pathname.slice(8, -1)) });
+				this.state.isSearching = true;
+				this.state.query = decodeURI(this.props.location.pathname.slice(8, -1));
 			}
+			console.log("App", this);
 		}
 
 		componentDidMount () {
