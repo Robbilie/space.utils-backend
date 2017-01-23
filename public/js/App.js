@@ -59,6 +59,7 @@
 		}
 
 		searchBarHandler (name, value) {
+			console.log(name, value, this.search_timeout);
 			switch (name) {
 				case "click":
 					if (this.search_timeout) {
