@@ -51,7 +51,7 @@
 		componentDidUpdate () {
 			console.log("update");
 			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
-				this.setState({ query: unescape(this.props.location.pathname.slice(8, -1)) });
+				this.setState({ query: decodeURI(this.props.location.pathname.slice(8, -1)) });
 			}
 		}
 
