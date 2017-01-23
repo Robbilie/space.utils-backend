@@ -12,6 +12,9 @@
 				query: ""
 			};
 			console.log("App", this);
+			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
+				this.setState({ isSearching: true, query: decodeURI(this.props.location.pathname.slice(8, -1)) });
+			}
 		}
 
 		componentDidMount () {
@@ -46,13 +49,6 @@
 			});
 			this.foreground.pause();
 			window.addEventListener("resize", this.resizeHandler.bind(this));
-		}
-
-		componentDidUpdate () {
-			console.log("update");
-			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
-				this.setState({ query: decodeURI(this.props.location.pathname.slice(8, -1)) });
-			}
 		}
 
 		resizeHandler (e) {
