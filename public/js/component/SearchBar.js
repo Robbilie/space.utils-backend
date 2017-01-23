@@ -8,12 +8,15 @@
 			this.state = {
 				results: [["Start typing…", []]],
 				limit: 20,
-				last_query: ""
+				query: this.props.query || ""
 			};
+
+			if (this.props.query)
+				this.search(this.props.query);
 		}
 
 		search (search) {
-			this.setState({ last_query: search });
+			this.setState({ query: search });
 			if (search.length < 3)
 				return this.setState({ results: [["Start typing…", []]] });
 			ESIClient
@@ -41,7 +44,7 @@
 					)
 				)
 				.then(results => {
-					if (this.state.last_query == search) {
+					if (this.state.query == search) {
 						console.log(results);
 						this.setState({ results });
 					}
@@ -58,6 +61,7 @@
 				E("div", { className: "sbexpand" },
 					E("input", {
 						type: "text",
+						value: this.state.query,
 						onBlur: e => (val => setTimeout(() => this.props.searchBarHandler("blur", val), 200))(e.target.value),
 						onKeyUp: e => this.props.searchBarHandler("keyup", e.target.value) || this.search(e.target.value),
 						onFocus: e => this.props.searchBarHandler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
