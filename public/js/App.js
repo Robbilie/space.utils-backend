@@ -9,7 +9,8 @@
 				isSearching: false,
 				isLoading: false,
 				isOpen: false,
-				query: ""
+				query: "",
+				prev_click: false
 			};
 			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
 				this.state.isSearching = true;
@@ -67,6 +68,10 @@
 			console.log(name, value, this.search_timeout);
 			switch (name) {
 				case "click":
+					let prev = this.state.prev_click;
+					this.setState({ prev_click: value });
+					if (prev)
+						return;
 					if (this.search_timeout) {
 						if (value)
 							clearTimeout(this.search_timeout);
