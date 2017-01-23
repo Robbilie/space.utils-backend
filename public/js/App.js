@@ -71,8 +71,6 @@
 					this.setState({ isSearching: false });
 					break;
 				case "focus":
-					this.setState({ isSearching: true });
-					break;
 				case "keyup":
 					this.setState({ isSearching: !!value });
 					break;
