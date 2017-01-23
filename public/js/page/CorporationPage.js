@@ -12,10 +12,6 @@
 				ceo: {
 					id: 0,
 					name: ""
-				},
-				alliance: {
-					id: 0,
-					name: ""
 				}
 			};
 			this.load();
@@ -44,7 +40,7 @@
 								E(Link, { to: `/characters/${this.state.ceo.id}/` }, this.state.ceo.name)
 							)
 						),
-						this.state.alliance.id ? E("div", { className: "" },
+						this.state.alliance ? E("div", { className: "" },
 							E("span", null, "Alliance"),
 							E("br"),
 							E("b", null,
