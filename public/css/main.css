@@ -84,9 +84,10 @@ body {
     width: calc(100% - 40px);
 }
 
-.ui.searching .topbar .searchbar input:focus {
+.ui.searching .topbar .searchbar input {
     height: 150%;
     font-size: 150%;
+    width: 100%;
 }
 
 .ui.searching .topbar .searchbar ~ #clock {
