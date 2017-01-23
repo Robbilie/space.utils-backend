@@ -6,7 +6,7 @@
 		constructor (props) {
 			super(props);
 			this.state = {
-				results: [["Start typing…", []]],
+				results: this.props.query ? [] : [["Start typing…", []]],
 				limit: 20,
 				query: this.props.query || ""
 			};
