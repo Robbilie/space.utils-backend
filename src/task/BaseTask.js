@@ -79,6 +79,8 @@
 				storage.tasks.set(_id.toString(), finish.cb);
 			}
 
+			console.log("exists", await BaseTask.get_tasks().findOne({ data, "info.name": name }));
+
 			let response = await BaseTask.get_tasks().update(
 				{ data, "info.name": name },
 				{
