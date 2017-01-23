@@ -95,7 +95,7 @@
 						}
 					}
 				},
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			// if fire and forget or not and its no new task, just resolve
