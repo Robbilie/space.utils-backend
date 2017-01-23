@@ -73,7 +73,7 @@
 						onFocus: e => this.props.handler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
 				),
-				E("div", { className: "searchres", onClick: e => e.stopPropagation() || this.props.handler("click", true) },
+				E("div", { className: "searchres", onClick: e => this.props.handler("click", true) },
 					...this.state.results.map(result =>
 					[
 						E(
