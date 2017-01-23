@@ -62,9 +62,9 @@
 					E("input", {
 						type: "text",
 						value: this.state.query,
-						onBlur: e => (val => setTimeout(() => this.props.searchBarHandler("blur", val), 200))(e.target.value),
-						onKeyUp: e => this.props.searchBarHandler("keyup", e.target.value) || this.search(e.target.value),
-						onFocus: e => this.props.searchBarHandler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
+						onBlur: e => (val => setTimeout(() => this.props.handler("blur", val), 200))(e.target.value),
+						onKeyUp: e => this.props.handler("keyup", e.target.value) || this.search(e.target.value),
+						onFocus: e => this.props.handler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
 				),
 				E("div", { className: "searchres" },
