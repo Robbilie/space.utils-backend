@@ -85,7 +85,7 @@
 							result[0]
 						),
 						...result[1].map(({ id, name }) =>
-							E(Link, { key: id, to: `/${result[0].split("_").slice(-1)}s/${id}/` },
+							E(Link, { key: id, to: `/${result[0].split("_").slice(-1)}s/${id}/`, onClick: e => this.props.handler("click", false) },
 								E("img", { src: this.resultToUrl(64, result[0], id) }),
 								E("span", null, name)
 							)
