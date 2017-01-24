@@ -25,7 +25,7 @@
 
 			do {
 
-				let { obj, headers  } = await client.Wars.get_wars({ max_war_id });
+				let { obj, headers } = await client.Wars.get_wars({ max_war_id });
 				max_war_id = Math.min(max_war_id, ...obj);
 				obj.forEach(id => WarStore.find_or_create(id));
 				global_expires = Math.max(global_expires, new Date(headers.expires).getTime());
@@ -43,25 +43,6 @@
 			times.push(Date.now() - start);
 
 			console.log("wars", ...times);
-
-
-			/*
-			const { expires, ids } = await ESIUtil.get_all_pages(client.Wars.get_wars);
-			console.log("wars", ids.length);
-
-			let chunks = ids.chunk(2000);
-			const process_chunk = chunk => new Promise(resolve => setImmediate(() => chunk.forEach(id => WarStore.find_or_create(id)) || resolve()));
-			for (let i = 0; i < chunks.length; i++)
-				await process_chunk(chunks[i]);
-
-			await this.update({
-				expires
-			});
-
-			times.push(Date.now() - start);
-
-			console.log("wars", ...times);
-			*/
 
 		}
 
