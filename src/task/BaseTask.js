@@ -79,7 +79,7 @@
 				storage.tasks.set(_id.toString(), finish.cb);
 			}
 
-			console.log("exists", await BaseTask.get_tasks().findOne({ data, "info.name": name }));
+			//console.log("exists", await BaseTask.get_tasks().findOne({ data, "info.name": name }));
 
 			let response = await BaseTask.get_tasks().update(
 				{ data, "info.name": name },
@@ -101,7 +101,7 @@
 			// if fire and forget or not and its no new task, just resolve
 			if(faf || (!faf && !response.upsertedCount)) {
 				if(!faf && !response.upsertedCount) {
-					console.log("task not upsert-ed", name, JSON.stringify(data), response);
+					//console.log("task not upsert-ed", name, JSON.stringify(data), response);
 				}
 				finish.cb();
 			}
