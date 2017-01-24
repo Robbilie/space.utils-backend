@@ -16,7 +16,12 @@
 
 			times.push(Date.now() - start);
 
-			let last_war_id = await WarStore.findOne({}, { sort: { id: -1 } }, true).get_id() || 1;
+			let war = WarStore.findOne({}, { sort: { id: -1 } }, true);
+			let last_war_id;
+			if(await war.is_null())
+				last_war_id = 1;
+			else
+				last_war_id = await war.get_id();
 
 			times.push(Date.now() - start);
 
