@@ -25,10 +25,10 @@
 
 			do {
 
-				let { obj, headers: { expires } } = await client.Wars.get_wars({ max_war_id });
+				let { obj, headers  } = await client.Wars.get_wars({ max_war_id });
 				max_war_id = Math.min(max_war_id, ...obj);
 				obj.forEach(id => WarStore.find_or_create(id));
-				global_expires = Math.max(global_expires, expires);
+				global_expires = Math.max(global_expires, new Date(headers.expires).getTime());
 
 				console.log("wars new max_war_id", max_war_id);
 
