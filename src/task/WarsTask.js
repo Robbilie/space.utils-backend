@@ -18,17 +18,16 @@
 
 			let war = WarStore.findOne({}, { sort: { id: -1 } }, true);
 			let last_war_id = 1 + (await war.is_null() ? 0 : await war.get_id());
-			let global_expires = 0;
+			let last_expires = 0;
 			let more_pages = false;
 
 			do {
 
 				let { obj, headers } = await client.Wars.get_wars({ max_war_id: last_war_id + 2000});
 
-				last_war_id = Math.max(... last_war_id, ...obj);
-				global_expires = Math.max(global_expires, new Date(headers.expires).getTime());
+				last_war_id = Math.max(last_war_id, ...obj);
+				last_expires = new Date(headers.expires).getTime();
 				obj.forEach(id => WarStore.find_or_create(id));
-
 				more_pages = obj.length == 2000;
 
 			} while (more_pages);
@@ -36,7 +35,7 @@
 			times.push(Date.now() - start);
 
 			await this.update({
-				expires: global_expires
+				expires: last_expires
 			});
 
 			times.push(Date.now() - start);
