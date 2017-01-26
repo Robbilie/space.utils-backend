@@ -25,10 +25,11 @@
 
 				let { obj, headers } = await client.Wars.get_wars({ max_war_id: last_war_id + 2000});
 
-				last_war_id = Math.max(last_war_id, ...obj);
+				let ids = obj.reverse();
+				last_war_id = Math.max(last_war_id, ...ids);
 				last_expires = new Date(headers.expires).getTime();
-				obj.forEach(id => WarStore.find_or_create(id));
-				more_pages = obj.length == 2000;
+				ids.reverse().forEach(id => WarStore.find_or_create(id));
+				more_pages = ids.length == 2000;
 
 			} while (more_pages);
 
@@ -41,41 +42,6 @@
 			times.push(Date.now() - start);
 
 			console.log("wars", ...times);
-
-			/*
-			let war = WarStore.findOne({}, { sort: { id: -1 } }, true);
-			let last_war_id;
-			if(await war.is_null())
-				last_war_id = 1;
-			else
-				last_war_id = await war.get_id();
-
-			times.push(Date.now() - start);
-
-			let max_war_id = undefined;
-			let global_expires = 0;
-
-			do {
-
-				let { obj, headers } = await client.Wars.get_wars({ max_war_id });
-				max_war_id = Math.min(max_war_id, ...obj);
-				obj.forEach(id => WarStore.find_or_create(id));
-				global_expires = Math.max(global_expires, new Date(headers.expires).getTime());
-
-				console.log("wars new max_war_id", max_war_id);
-
-			} while (last_war_id < max_war_id);
-
-			times.push(Date.now() - start);
-
-			await this.update({
-				expires: global_expires
-			});
-
-			times.push(Date.now() - start);
-
-			console.log("wars", ...times);
-			*/
 
 		}
 
