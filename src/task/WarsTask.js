@@ -12,8 +12,7 @@
 			let client = await ESIUtil.get_client();
 
 			let war = WarStore.findOne({}, { sort: { id: -1 } }, true);
-			let last_war_id = 1 + (await war.is_null() ? 0 : await war.get_id());
-
+			let last_war_id = 1 + (this.get_info().debug || await war.is_null() ? 0 : await war.get_id());
 
 			console.log("wars last_war_id", last_war_id);
 
