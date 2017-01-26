@@ -44,7 +44,7 @@
 			return DBUtil.get_store(this.get_name());
 		}
 
-		update ({ state = 0, expires, modified } = {}) {
+		update ({ state = 0, expires = this.get_info().expires, modified = this.get_info().modified } = {}) {
 			return BaseTask.get_tasks().update(
 				{
 					_id: this.get__id()

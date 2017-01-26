@@ -24,14 +24,16 @@
 
 				let { obj, headers } = await client.Wars.get_wars({ max_war_id: last_war_id + 2000});
 
+				expires = new Date(headers.expires).getTime();
+
 				more_pages = obj.length == 2000;
 
 				if (obj.length)
 					last_war_id = obj[0];
 
-				obj.reverse().forEach(id => process.nextTick(() => WarStore.find_or_create(id)));
+				await Promise.all(obj.reverse().map(id => WarStore.find_or_create(id)));
 
-				expires = new Date(headers.expires).getTime();
+				await this.update({ state: 1, modified: Date.now() });
 
 			} while (more_pages);
 
