@@ -28,20 +28,6 @@
 		});
 	}
 
-	/*(function () {
-		var oldCall = Function.prototype.call;
-		var newCall = function(self) {
-			Function.prototype.call = oldCall;
-			if(!["", "toString", "slice", "Readable"].some(x => x == this.name))
-				console.log('call:', this.name);
-			var args = Array.prototype.slice.call(arguments, 1);
-			var res = this.apply(self, args);
-			Function.prototype.call = newCall;
-			return res
-		}
-		Function.prototype.call = newCall;
-	})();*/
-
 	// dynamically load app and launch it
 	const { LoadUtil } = require("util/");
 	const app = new (LoadUtil.app(process.env.APP_NAME))();
