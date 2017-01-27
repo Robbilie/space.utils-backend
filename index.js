@@ -50,13 +50,14 @@
 	app.init().catch(e => console.log(e));
 
 	// start a repl, probably not that useful anymore
-	/*const repl = require("repl");
-	const r = repl.start({
-		prompt: 'Node.js via stdin> ',
-		input: process.stdin,
-		output: process.stdout,
-		useGlobal: true,
-		replMode: repl.REPL_MODE_SLOPPY
-	});
-	r.context.app = app;*/
-	
+	if (process.env.REPL == "true") {
+		const repl = require("repl");
+		const r = repl.start({
+			prompt: 'Node.js via stdin> ',
+			input: process.stdin,
+			output: process.stdout,
+			useGlobal: true,
+			replMode: repl.REPL_MODE_SLOPPY
+		});
+		r.context.app = app;
+	}
