@@ -45,19 +45,7 @@
 		}
 
 		update ({ state = 0, expires = this.get_info().expires, modified = this.get_info().modified } = {}) {
-			return BaseTask.get_tasks().update(
-				{
-					_id: this.get__id()
-				},
-				{
-					$set: { info: Object.assign({}, this.get_info(), { state, expires, modified }) }/*{
-						"info.state": 		state,
-						"info.expires": 	expires,
-						"info.modified": 	modified
-					}*/
-				},
-				{ w: 0 }
-			);
+			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: { info: Object.assign({}, this.get_info(), { state, expires, modified }) } });
 		}
 		
 		destroy () {
