@@ -5,8 +5,12 @@
 
 		render () {
 			return E("div", { id: "sidebarButton", onClick: this.props.handler },
-				E("span", { className: "sidebarOpen" }, "≡"),
-				E("span", { className: "sidebarClose" }, "×")
+				/*E("span", { className: "sidebarOpen" }, "≡"),
+				E("span", { className: "sidebarClose" }, "×")*/
+				E("span"),
+				E("span"),
+				E("span"),
+				E("span")
 			);
 		}
 
