@@ -75,31 +75,6 @@
 					this.setState({ isSearching: !!value });
 					break;
 			}
-			/*
-			switch (name) {
-				case "click":
-					let prev = this.state.prev_click;
-					this.setState({ prev_click: value });
-					if (prev)
-						return;
-					if (this.search_timeout) {
-						if (value)
-							clearTimeout(this.search_timeout);
-					} else {
-						this.searchBarHandler("blur");
-					}
-					break;
-				case "blur":
-					this.search_timeout = setTimeout(() => (this.search_timeout = undefined) || this.setState({ isSearching: false }), 200);
-					break;
-				case "focus":
-					this.setState({ prev_click: true });
-				case "keyup":
-					if (value != "")
-						this.setState({ isSearching: true });
-					break;
-			}
-			*/
 		}
 
 		toggleSidebar () {
@@ -120,8 +95,8 @@
 						component: "div",
 						className: "pages",
 						transitionName: "example",
-						transitionEnterTimeout: 300,
-						transitionLeaveTimeout: 300
+						transitionEnterTimeout: 500,
+						transitionLeaveTimeout: 500
 					}, cloneElement(this.props.children, {
 						key: this.props.location.pathname
 					}))
