@@ -27,10 +27,9 @@
 
 				expires = new Date(headers.expires).getTime();
 
-				more_pages = obj.length == 2000;
+				more_pages = last_war_id + 2000 - 1 == obj[0];
 
-				if (obj.length)
-					last_war_id = obj[0];
+				last_war_id = obj[0];
 
 				await Promise.all(obj.reverse().map(id => WarStore.find_or_create(id)));
 
