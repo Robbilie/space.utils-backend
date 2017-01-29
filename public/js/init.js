@@ -12,6 +12,7 @@
 				E(Route, { path: "alliances/:id/", component: AlliancePage }),
 				E(Route, { path: "types/:id/", component: TypePage }),
 				E(Route, { path: "systems/:id/", component: SystemPage }),
+				E(Route, { path: "about/", component: AboutPage }),
 				E(Route, { path: "*", component: NoMatch })
 			)
 		),

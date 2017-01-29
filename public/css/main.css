@@ -856,7 +856,7 @@ body {
 #sidebarButton span {
 	display: block;
 	position: absolute;
-	height: 6px;
+	height: 4px;
 	background: white;
 	opacity: 1;
 	left: 5px;
@@ -872,11 +872,11 @@ body {
 }
 
 #sidebarButton span:nth-child(1) {
-	top: 5px;
+	top: 7px;
 }
 
 #sidebarButton span:nth-child(2), #sidebarButton span:nth-child(3) {
-	top: 17px;
+	top: 18px;
 }
 
 #sidebarButton span:nth-child(4) {

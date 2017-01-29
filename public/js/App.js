@@ -85,9 +85,7 @@
 			return E("div", { className: `ui ${this.state.isSearching ? "searching" : ""} ${this.state.isLoading ? "loading" : ""} ${this.state.isOpen ? "open" : "close"}` },
 				E("div", { id: "particles-background", className: "vertical-centered-box"}),
 				E("div", { id: "particles-foreground", className: "vertical-centered-box"}),
-				E("div", { id: "sidebarButton", onClick: () => this.toggleSidebar() },/*
-					E("span", { className: "sidebarOpen" }, "≡"),
-					E("span", { className: "sidebarClose" }, "×")*/
+				E("div", { id: "sidebarButton", onClick: () => this.toggleSidebar() },
 					E("span"),
 					E("span"),
 					E("span"),
