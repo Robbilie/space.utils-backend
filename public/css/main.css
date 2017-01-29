@@ -60,6 +60,10 @@ body {
     transform-style: preserve-3d;
 }
 
+.page {
+	opacity: 1;
+}
+
 .pages {
     top: 70px;
 }
