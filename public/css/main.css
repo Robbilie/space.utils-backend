@@ -855,7 +855,7 @@ body {
 	background: white;
 	opacity: 1;
 	left: 5px;
-	right: 5px;
+	width: 75%;
 	-webkit-transform: rotate(0deg);
 	-moz-transform: rotate(0deg);
 	-o-transform: rotate(0deg);
