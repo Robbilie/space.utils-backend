@@ -99,8 +99,8 @@
 						component: "div",
 						className: "pages",
 						transitionName: "example",
-						transitionEnterTimeout: 500,
-						transitionLeaveTimeout: 500
+						transitionEnterTimeout: 10000,
+						transitionLeaveTimeout: 10000
 					}, cloneElement(this.props.children, {
 						key: this.props.location.pathname
 					}))
