@@ -22,17 +22,22 @@
 		updateUserCounter () {
 			let x = new XMLHttpRequest();
 			x.onload = e => {
-				let status = e.target.responseXML.getElementsByTagName("serverOpen")[0].innerHTML == "True";
-				let online = e.target.responseXML.getElementsByTagName("onlinePlayers")[0].innerHTML - 0;
-				let current = new Date(e.target.responseXML.getElementsByTagName("currentTime")[0].innerHTML + " GMT").getTime();
-				let cached = new Date(e.target.responseXML.getElementsByTagName("cachedUntil")[0].innerHTML + " GMT").getTime();
+				try {
+					let status = e.target.responseXML.getElementsByTagName("serverOpen")[0].innerHTML == "True";
+					let online = e.target.responseXML.getElementsByTagName("onlinePlayers")[0].innerHTML - 0;
+					let current = new Date(e.target.responseXML.getElementsByTagName("currentTime")[0].innerHTML + " GMT").getTime();
+					let cached = new Date(e.target.responseXML.getElementsByTagName("cachedUntil")[0].innerHTML + " GMT").getTime();
 
-				this.setState({
-					status,
-					online
-				});
+					this.setState({
+						status,
+						online
+					});
 
-				this.timeout = setTimeout(() => this.updateUserCounter(), cached - current);
+					this.timeout = setTimeout(() => this.updateUserCounter(), cached - current);
+				} catch (e) {
+					console.log("Server Status:", e);
+					setTimeout(() => this.updateUserCounter(), 1000);
+				}
 			};
 			x.onerror = e => setTimeout(() => this.updateUserCounter(), 1000);
 			x.open("GET", "https://api.eveonline.com/Server/ServerStatus.xml.aspx");
