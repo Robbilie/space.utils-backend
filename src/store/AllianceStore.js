@@ -3,25 +3,8 @@
 
 	const { DBUtil } = require("util/");
 	const { EntityStore } = require("store/");
-	const { AllianceTask } = require("task/");
 
 	class AllianceStore extends EntityStore {
-
-		static async find_or_create (alliance_id, {} = $(1, { alliance_id }, "Number")) {
-
-			let alliance = await this.find_by_id(alliance_id);
-
-			if(await alliance.is_null()) {
-				await AllianceTask.create({ alliance_id });
-				alliance = await this.find_by_id(alliance_id);
-			}
-
-			if(await alliance.is_null())
-				console.log("MISSING ALLI", alliance_id);
-
-			return alliance.get_future();
-
-		}
 
 		static async get_members (alliance, {} = $(1, { alliance }, "Alliance")) {
 			let charStore = await DBUtil.getStore("Character");
