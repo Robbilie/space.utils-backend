@@ -21,6 +21,8 @@
 
 			do {
 
+				console.log("war do start");
+
 				let { obj, headers } = await client.Wars.get_wars({ max_war_id: last_war_id + 2000});
 
 				expires = new Date(headers.expires).getTime();
@@ -34,7 +36,11 @@
 
 				await this.update({ state: 1, modified: Date.now() });
 
+				console.log("war do end");
+
 			} while (more_pages);
+
+			console.log("war after while");
 
 			await this.update({
 				expires
