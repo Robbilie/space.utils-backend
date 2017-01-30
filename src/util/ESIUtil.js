@@ -46,6 +46,7 @@
 				client: {
 					execute: function (obj) {
 						let { method, url, headers, body } = obj;
+						const start = process.hrtime();
 						request({ method, url, headers, body })
 							.then(response => {
 								try {
@@ -57,11 +58,14 @@
 							})
 							.catch(e => {
 								++storage.errors;
+								MetricsUtil.get("esi.errors").inc(1);
 								obj.on.error(e);
 							})
 							.then(() => {
+								let duration = process.hrtime(start);
 								++storage.completed;
-								MetricsUtil.get("esi.counter").inc(1);
+								MetricsUtil.get("esi.completed").inc(1);
+								MetricsUtil.get("esi.duration").update((duration[0] * 1e9 + duration[1]) / 1e6);
 							});
 					}
 				}

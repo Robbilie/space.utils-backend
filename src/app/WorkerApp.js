@@ -1,6 +1,10 @@
 	"use strict";
 
-	const { DBUtil, LoadUtil, RPSUtil } = require("util/");
+	const {
+		DBUtil,
+		LoadUtil,
+		RPSUtil,
+		MetricsUtil } = require("util/");
 	const { Task } 						= require("model/");
 	const { BaseTask } 					= require("task/");
 	const http 							= require("http");
@@ -181,6 +185,8 @@
 
 			this.heartbeat = Date.now();
 
+			let start = process.hrtime();
+
 			try {
 
 				let now = Date.now();
@@ -202,6 +208,7 @@
 
 					await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": Date.now() } });
 					this.errors++;
+					MetricsUtil.get("tasks.errors").inc(1);
 
 					// log error & slow down requests
 					let error = e.error;
@@ -218,6 +225,12 @@
 				console.log("shouldn't happen", e);
 				await this.process({ _id, info: { name, expires } });
 			}
+
+			MetricsUtil.get("tasks.completed").inc(1);
+
+			let duration = process.hrtime(start);
+
+			MetricsUtil.get("tasks.duration").update((duration[0] * 1e9 + duration[1]) / 1e6);
 
 			this.heartbeat = Date.now();
 

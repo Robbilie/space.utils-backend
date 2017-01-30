@@ -1,11 +1,16 @@
 
 	"use strict";
 
-	const { GraphiteReporter, Report, Counter } = require("metrics");
+	const { GraphiteReporter, Report, Counter, Histogram } = require("metrics");
 
 	const storage = {
 		metrics: new Map([
-			["esi.counter", new Counter()]
+			["esi.completed", new Counter()],
+			["esi.errors", new Counter()],
+			["esi.duration", new Histogram()],
+			["tasks.completed", new Counter()],
+			["tasks.errors", new Counter()],
+			["tasks.duration", new Histogram()]
 		]),
 		report: undefined,
 		reporter: undefined
