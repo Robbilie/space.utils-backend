@@ -16,6 +16,7 @@
     "js-yaml": "^3.7.0",
     "kerberos": "^0.0.22",
     "limiter": "^1.1.0",
+    "metrics": "^0.1.11",
     "mongodb": "^2.2.21",
     "node-uuid": "^1.4.7",
     "raven": "^1.1.1",

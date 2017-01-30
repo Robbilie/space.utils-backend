@@ -13,7 +13,7 @@
 		resolveWithFullResponse: true
 	});
 
-	const { RPSUtil } = require("util/");
+	const { RPSUtil, MetricsUtil } = require("util/");
 
 	const storage = {
 		client: 		undefined,
@@ -59,7 +59,10 @@
 								++storage.errors;
 								obj.on.error(e);
 							})
-							.then(() => ++storage.completed);
+							.then(() => {
+								++storage.completed;
+								MetricsUtil.get("esi.counter").inc(1);
+							});
 					}
 				}
 			}, options));

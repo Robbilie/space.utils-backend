@@ -42,6 +42,8 @@ spec:
           value: "mongodb://mongo-service:27017"
         - name: MONGO_DB
           value: "test"
+        - name: GRAPHITE_HOST
+          value: "graphite-service"
         - name: XML_URL
           value: "https://api.eveonline.com"
         - name: CREST_URL
