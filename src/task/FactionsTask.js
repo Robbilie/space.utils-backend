@@ -11,7 +11,7 @@
 
 			let client = await ESIUtil.get_client();
 
-			let { obj, headers } = await client.Universe.get_factions();
+			let { obj, headers } = await client.Universe.get_universe_factions();
 
 			await Promise.all(obj
 				.map(faction => Object.assign({}, faction, { id: faction.faction_id, faction_id: undefined }))
