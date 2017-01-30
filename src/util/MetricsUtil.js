@@ -19,6 +19,13 @@
 			storage.report = report;
 
 			let reporter = new GraphiteReporter(report, "eas-kubes", process.env.GRAPHITE_HOST);
+			reporter.on("log", (level, msg, exc) => {
+				if(exc) {
+					console.log(`${level} -- ${msg} (${exc})`);
+				} else {
+					console.log(`${level} -- ${msg}`);
+				}
+			});
 			reporter.start(10 * 1000);
 			storage.reporter = reporter;
 		}
