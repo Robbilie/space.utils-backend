@@ -8,7 +8,8 @@
 			this.state = {
 				results: this.props.query ? [] : [["Start typing…", []]],
 				limit: 20,
-				query: this.props.query || ""
+				query: this.props.query || "",
+				categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem", "faction"]
 			};
 
 			if (this.props.query)
@@ -24,37 +25,17 @@
 				this.setState({ query: search });
 			if (search.length < 3)
 				return this.setState({ results: [["Start typing…", []]] });
-			ESIClient
-				.then(client => client.Search.get_search({ search, categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem"/*, "region"*/] })
-					.then(({ obj: { alliance, character, corporation, inventorytype, solarsystem } }) =>
-						client.Universe.post_universe_names({ ids: [
-							...(alliance || []).slice(0, this.state.limit),
-							...(character || []).slice(0, this.state.limit),
-							...(corporation || []).slice(0, this.state.limit),
-							...(inventorytype || []).slice(0, this.state.limit),
-							...(solarsystem || []).slice(0, this.state.limit)
-						] })
-					)
-					.then(({ obj }) => Object
-						.entries(obj
-							.reduce((p, { category, id, name }) => {
-								if (p[category])
-									p[category].push({ id, name });
-								else
-									p[category] = [{ id, name }];
-								return p;
-							}, {})
-						)
-						.sort(([a], [b]) => a > b ? 1 : -1)
-					)
-				)
-				.then(results => {
+			ESIClient.then(client => client.Search.get_search({ search, strict: !!init, categories: this.state.categories }).then(res => {
+				const search_data = res.obj;
+				return client.Universe.post_universe_names({ ids: [].concat(...Object.values(search_data).map(val => val.slice(0, this.state.limit))) }).then(({ obj }) => {
+					const lookup = obj.reduce((p, { id, name }) => !(p[id] = name) || p, {});
+					let results = Object.entries(search_data).map(([name, ids]) => ([name, ids.slice(0, this.state.limit).map(id => ({ id, name: lookup[id] }))]));
 					if (this.state.query == search) {
 						console.log(results);
 						this.setState({ results });
 					}
-				})
-				.catch(e => console.log("E", e));
+				});
+			})).catch(e => console.log("E", e));
 		}
 
 		resultToUrl (size, category, id) {
