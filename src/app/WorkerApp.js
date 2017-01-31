@@ -136,7 +136,7 @@
 			this.tasks = await collection
 				.find({ "info.expires": { $lt: now }, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: WorkerApp.task_query(now) })
 				.sort({ "info.expires": 1 })
-				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5)
+				.limit(this.PARALLEL_TASK_LIMIT * 10 * 2)
 				.toArray();
 			this.heartbeat = Date.now();
 			console.log("pulled new tasks");

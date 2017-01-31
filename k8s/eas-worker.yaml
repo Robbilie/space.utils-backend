@@ -57,7 +57,7 @@ spec:
         - name: UV_THREADPOOL_SIZE
           value: "256"
         - name: PARALLEL_TASK_LIMIT
-          value: "50"
+          value: "100"
         readinessProbe:
           httpGet:
             path: /ping
