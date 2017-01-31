@@ -3,6 +3,7 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
+	const { CharacterStore } = require("store/");
 
 	class CorporationTask extends BaseTask {
 
@@ -49,7 +50,7 @@
 			} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
 				// is npc ceo
 			} else {
-				BaseTask.create_task("Character", { character_id: ceo_id }, true);
+				CharacterStore.find_or_create(ceo_id);
 			}
 
 			if(ceo_id == 1 || member_count == 0)
