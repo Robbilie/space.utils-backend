@@ -9,11 +9,6 @@
 
 		get_corporations () {}
 
-		// TODO move to store?
-		get_members () {
-			return this.getStore().get_members(this);
-		}
-
 	}
 
 	module.exports = Alliance;

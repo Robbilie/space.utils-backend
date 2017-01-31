@@ -4,7 +4,7 @@
 	const Swagger 	= require("swagger-client");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
-		//gzip: true, // actually slows down // esi is borked -.-
+		//gzip: true, // actually slows down
 		forever: true,
 		//timeout: 1000 * 15,
 		pool: {

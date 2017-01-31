@@ -32,7 +32,7 @@
 			);
 
 			if (aggressor.corporation_id)
-				CorporationStore.find_or_create(aggressor.corporations_id);
+				CorporationStore.find_or_create(aggressor.corporation_id);
 			if (aggressor.alliance_id)
 				AllianceStore.find_or_create(aggressor.alliance_id);
 

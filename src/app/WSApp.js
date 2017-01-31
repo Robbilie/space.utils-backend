@@ -14,7 +14,7 @@
 				const onData = data => socket.json(data);
 				const onError = error => socket.json(error);
 
-				var interval = setInterval(() => { try { socket.send("ping"); } catch (e) { return e; } }, 10 * 1000);
+				const interval = setInterval(() => { try { socket.send("ping"); } catch (e) { return e; } }, 10 * 1000);
 				socket.on("close", () => clearInterval(interval));
 
 				socket.on("message", message => {
@@ -23,7 +23,7 @@
 						switch (msg.type) {
 							case "stream":
 								DBUtil
-									.getOplogCursor({ ns: msg.data.name, op: "i" })
+									.get_oplog_cursor({ ns: msg.data.name, op: "i" })
 									.then(cursor => {
 										let stream = cursor.stream()
 											.on("data", onData)

@@ -9,14 +9,6 @@
 		get_id () {}
 
 		get_name () {}
-
-		get_settings () {
-			return DBUtil
-				.getStore("Settings")
-				.then(async (store) => store.findById(await this.getId()));
-		}
-
-		get_updated () {}
 		
 	}
 
@@ -26,8 +18,7 @@
 
 	Entity.types = {
 		id: 		Number,
-		name: 		String,
-		updated: 	Number
+		name: 		String
 	};
 
 	const { PatchUtil } = require("util/");

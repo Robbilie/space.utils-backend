@@ -49,15 +49,17 @@
 				const slt = property.split("_");
 				const params = slt.slice(["by","where"].map(f => slt.indexOf(f) + 1).find(f => f > 0));
 
-				var method;
+				let tmpmethod;
 				switch (slt[0]) {
 					case "find":
-						method = "find" + (slt[1] == "All" ? "" : "One");
+						tmpmethod = "find" + (slt[1] == "All" ? "" : "One");
 						break;
 					case "update":
-						method = "update";
+						tmpmethod = "update";
 						break;
 				}
+
+				const method = tmpmethod;
 
 				Object.defineProperty(store, property, {
 					value: function (...args) {
