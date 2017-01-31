@@ -48,7 +48,7 @@
 			} else if (ceo_id) {
 				CharacterStore.find_or_create(ceo_id);
 			} else {
-				console.log("no ceo", )
+				console.log("no ceo", this.get_data().corporation_id);
 			}
 
 			if(ceo_id == 1 || member_count == 0)
