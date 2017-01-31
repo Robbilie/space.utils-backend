@@ -3,6 +3,7 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
+	const { AllianceStore } = require("store/");
 
 	class AlliancesTask extends BaseTask {
 
@@ -12,7 +13,7 @@
 
 			let alliances_response = await client.Alliance.get_alliances();
 
-			alliances_response.obj.forEach(alliance_id => BaseTask.create_task("Alliance", { alliance_id }, true));
+			alliances_response.obj.forEach(alliance_id => AllianceStore.find_or_create(alliance_id));
 
 			await this.update({
 				expires: new Date(alliances_response.headers.expires).getTime()

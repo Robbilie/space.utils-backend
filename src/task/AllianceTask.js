@@ -38,9 +38,12 @@
 
 			corporations_response.obj.forEach(corporation_id => CorporationStore.find_or_create(corporation_id));
 
-			await this.update({
-				expires: new Date(alliance_response.headers.expires).getTime()
-			});
+			if (corporations_response.obj.length == 0)
+				await this.destroy();
+			else
+				await this.update({
+					expires: new Date(alliance_response.headers.expires).getTime()
+				});
 
 		}
 

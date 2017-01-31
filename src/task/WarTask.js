@@ -3,7 +3,7 @@
 
 	const { BaseTask } 		= require("task/");
 	const { ESIUtil } 		= require("util/");
-	const { KillmailStore, CorporationStore } = require("store/");
+	const { KillmailStore, CorporationStore, AllianceStore } = require("store/");
 
 	class WarTask extends BaseTask {
 
@@ -34,18 +34,18 @@
 			if (aggressor.corporation_id)
 				CorporationStore.find_or_create(aggressor.corporations_id);
 			if (aggressor.alliance_id)
-				BaseTask.create_task("Alliance", { alliance_id: aggressor.alliance_id }, true);
+				AllianceStore.find_or_create(aggressor.alliance_id);
 
 			if (defender.corporation_id)
 				CorporationStore.find_or_create(defender.corporation_id);
 			if (defender.alliance_id)
-				BaseTask.create_task("Alliance", { alliance_id: defender.alliance_id }, true);
+				AllianceStore.find_or_create(defender.alliance_id);
 
 			allies.forEach(({ corporation_id, alliance_id }) => {
 				if (corporation_id)
 					CorporationStore.find_or_create(corporation_id);
 				if (alliance_id)
-					BaseTask.create_task("Alliance", { alliance_id }, true);
+					AllianceStore.find_or_create(alliance_id);
 			});
 
 			for (let page of new Array(1000).keys()) {

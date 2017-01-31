@@ -3,7 +3,7 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
-	const { CharacterStore } = require("store/");
+	const { CharacterStore, AllianceStore } = require("store/");
 
 	class CorporationTask extends BaseTask {
 
@@ -39,10 +39,10 @@
 
 			// get alliance
 			if(alliance_id)
-				BaseTask.create_task("Alliance", { alliance_id }, true);
+				AllianceStore.find_or_create(alliance_id);
 
 			// get all alliances
-			history_response.obj.filter(({ alliance }) => !!alliance).forEach(({ alliance: { alliance_id } }) => BaseTask.create_task("Alliance", { alliance_id }, true));
+			history_response.obj.filter(({ alliance }) => !!alliance).forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id));
 
 			// get ceo
 			if(ceo_id == 1) {
