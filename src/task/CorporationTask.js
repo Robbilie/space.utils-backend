@@ -16,23 +16,19 @@
 				client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data())
 			]);
 
-			let { corporation_name, name, ticker, member_count, ceo_id, alliance_id } = corporation_response.obj;
-				name = name || corporation_name;
+			let corporation = corporation_response.obj;
+				corporation.id = this.get_data().corporation_id;
+				corporation.name = corporation.name || corporation.corporation_name;
+				delete corporation.corporation_name;
+				corporation.alliance_history = history_response.obj;
+
+			let { ceo_id, alliance_id, member_count } = corporation;
 
 			await this.get_store().update(
 				{ id: this.get_data().corporation_id },
 				{
-					$set: {
-						name,
-						ticker,
-						member_count,
-						ceo_id,
-						alliance_id,
-						alliance_history: history_response.obj
-					},
-					$unset: {
-						[alliance_id ? "unset" : "alliance_id"]: true
-					}
+					$set: corporation,
+					$unset: { [alliance_id ? "unset" : "alliance_id"]: true }
 				},
 				{ upsert: true, w: 0 }
 			);
@@ -51,6 +47,8 @@
 				// is npc ceo
 			} else if (ceo_id) {
 				CharacterStore.find_or_create(ceo_id);
+			} else {
+				console.log("no ceo", )
 			}
 
 			if(ceo_id == 1 || member_count == 0)

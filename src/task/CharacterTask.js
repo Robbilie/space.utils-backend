@@ -21,13 +21,13 @@
 				character.birthday = new Date(character.birthday).getTime();
 				character.corporation_history = history_response.obj.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
 
+			let { corporation_id } = character;
+
 			await this.get_store().update(
 				{ id: this.get_data().character_id },
 				{ $set: character },
 				{ upsert: true, w: 0 }
 			);
-
-			let { corporation_id } = character;
 
 			// get corp
 			CorporationStore.find_or_create(corporation_id);

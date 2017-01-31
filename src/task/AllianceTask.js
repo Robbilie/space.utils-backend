@@ -16,22 +16,21 @@
 				client.Alliance.get_alliances_alliance_id_corporations(this.get_data())
 			]);
 
-			let { alliance_name, name, ticker, date_founded, executor_corp, executor_corporation_id } = alliance_response.obj;
-				name = name || alliance_name;
-				executor_corporation_id = executor_corporation_id || executor_corp;
+			let alliance =  alliance_response.obj;
+				alliance.id = this.get_data().alliance_id;
+				alliance.name = alliance.name || alliance.alliance_name;
+				delete alliance.alliance_name;
+				alliance.date_founded = new Date(alliance.date_founded).getTime();
+				alliance.executor_corporation_id = alliance.executor_corporation_id || alliance.executor_corp;
+
+			let { executor_corporation_id } = alliance;
+
 
 			await this.get_store().update(
 				{ id: this.get_data().alliance_id },
 				{
-					$set: {
-						name,
-						ticker,
-						executor_corporation_id,
-						date_founded: new Date(date_founded).getTime()
-					},
-					$unset: {
-						[executor_corporation_id ? "unset" : "executor_corporation_id"]: true
-					}
+					$set: alliance,
+					$unset: { [executor_corporation_id ? "unset" : "executor_corporation_id"]: true }
 				},
 				{ upsert: true, w: 0 }
 			);
