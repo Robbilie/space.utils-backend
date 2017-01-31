@@ -48,7 +48,7 @@
 					BaseTask.create_task("Alliance", { alliance_id }, true);
 			});
 
-			const { expires, ids } = await ESIUtil.get_all_pages(({ page }) => client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page }));
+			const { ids } = await ESIUtil.get_all_pages(({ page }) => client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page }));
 
 			let chunks = ids.chunk(2000);
 			const process_chunk = chunk => new Promise(resolve => setImmediate(() => chunk.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash)) || resolve()));
