@@ -49,7 +49,7 @@
 				// dead corp
 			} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
 				// is npc ceo
-			} else {
+			} else if (ceo_id) {
 				CharacterStore.find_or_create(ceo_id);
 			}
 
