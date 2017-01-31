@@ -31,9 +31,10 @@
 
 				last_war_id = obj[0];
 
-				await Promise.all(obj.reverse().map(id => WarStore.find_or_create(id)));
-
-				await this.update({ state: 1, modified: Date.now() });
+				for (let chunk of obj.reverse().chunk(100)) {
+					await Promise.all(chunk.map(id => WarStore.find_or_create(id)));
+					await this.update({ state: 1, modified: Date.now() });
+				}
 
 				console.log("war do end");
 
