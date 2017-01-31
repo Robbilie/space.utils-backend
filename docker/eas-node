@@ -13,4 +13,4 @@ RUN npm update
 COPY . /usr/src/app
 
 EXPOSE 4001 4002 4003
-CMD [ "npm", "start" ]
+CMD [ "npm", "start", "&&", "cat", "/usr/src/app/npm-debug.log" ]
