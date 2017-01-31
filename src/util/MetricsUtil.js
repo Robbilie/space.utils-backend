@@ -19,20 +19,18 @@
 	class MetricsUtil {
 
 		static init () {
-			let report = new Report();
-			storage.metrics.forEach((value, key) => report.addMetric(key, value));
-			storage.report = report;
+			storage.report = new Report();
+			storage.metrics.forEach((value, key) => storage.report.addMetric(key, value));
 
-			let reporter = new GraphiteReporter(report, "eas-kubes.pods." + os.hostname(), process.env.GRAPHITE_HOST);
-			reporter.on("log", (level, msg, exc) => {
+			storage.reporter = new GraphiteReporter(storage.report, "eas-kubes.pods." + os.hostname(), process.env.GRAPHITE_HOST);
+			storage.reporter.on("log", (level, msg, exc) => {
 				if(exc) {
 					console.log(`${level} -- ${msg} (${exc})`);
 				} else {
 					console.log(`${level} -- ${msg}`);
 				}
 			});
-			reporter.start(10 * 1000);
-			storage.reporter = reporter;
+			storage.reporter.start(10 * 1000);
 		}
 
 		static get (key) {
