@@ -3,24 +3,18 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
+	const { CorporationStore } = require("store/");
 
 	class AllianceTask extends BaseTask {
 
 		async start () {
 
-			let start = Date.now();
-			let times = [];
-
 			let client = await ESIUtil.get_client();
-
-			times.push(Date.now() - start);
 
 			let [alliance_response, corporations_response] = await Promise.all([
 				client.Alliance.get_alliances_alliance_id(this.get_data()),
 				client.Alliance.get_alliances_alliance_id_corporations(this.get_data())
 			]);
-
-			times.push(Date.now() - start);
 
 			let { alliance_name, name, ticker, date_founded, executor_corp, executor_corporation_id } = alliance_response.obj;
 				name = name || alliance_name;
@@ -42,19 +36,11 @@
 				{ upsert: true, w: 0 }
 			);
 
-			times.push(Date.now() - start);
-
-			corporations_response.obj.forEach(corporation_id => BaseTask.create_task("Corporation", { corporation_id }, true));
-
-			times.push(Date.now() - start);
+			corporations_response.obj.forEach(corporation_id => CorporationStore.find_or_create(corporation_id));
 
 			await this.update({
 				expires: new Date(alliance_response.headers.expires).getTime()
 			});
-
-			times.push(Date.now() - start);
-
-			//console.log("alliance", ...times);
 
 		}
 

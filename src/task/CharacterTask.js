@@ -3,6 +3,7 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
+	const { CorporationStore } = require("store/");
 
 	class CharacterTask extends BaseTask {
 
@@ -39,12 +40,12 @@
 			times.push(Date.now() - start);
 
 			// get corp
-			BaseTask.create_task("Corporation", { corporation_id }, true);
+			CorporationStore.find_or_create(corporation_id);
 
 			times.push(Date.now() - start);
 
 			// get all corps from history
-			history_response.obj.forEach(({ corporation_id }) => BaseTask.create_task("Corporation", { corporation_id }, true));
+			history_response.obj.forEach(({ corporation_id }) => CorporationStore.find_or_create(corporation_id));
 
 			times.push(Date.now() - start);
 
