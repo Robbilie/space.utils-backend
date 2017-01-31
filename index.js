@@ -5,8 +5,6 @@
 	process.env.NODE_PATH = `${__dirname}/src`;
 	require("module").Module._initPaths();
 
-	process.env.HOSTNAME = os.hostname();
-
 	// preload some basic modifications
 	require("lib/extendings")();
 
