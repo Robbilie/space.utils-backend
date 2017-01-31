@@ -23,7 +23,7 @@
 			storage.metrics.forEach((value, key) => report.addMetric(key, value));
 			storage.report = report;
 
-			let reporter = new GraphiteReporter(report, `eas-kubes.${os.hostname()}`, process.env.GRAPHITE_HOST);
+			let reporter = new GraphiteReporter(report, "eas-kubes.pods." + os.hostname(), process.env.GRAPHITE_HOST);
 			reporter.on("log", (level, msg, exc) => {
 				if(exc) {
 					console.log(`${level} -- ${msg} (${exc})`);
