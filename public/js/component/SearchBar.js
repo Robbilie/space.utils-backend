@@ -27,13 +27,13 @@
 			ESIClient
 				.then(client => client.Search.get_search({ search, categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem"/*, "region"*/] })
 					.then(({ obj: { alliance, character, corporation, inventorytype, solarsystem } }) =>
-						client.Universe.post_universe_names({ ids: { ids: [
+						client.Universe.post_universe_names({ ids: [
 							...(alliance || []).slice(0, this.state.limit),
 							...(character || []).slice(0, this.state.limit),
 							...(corporation || []).slice(0, this.state.limit),
 							...(inventorytype || []).slice(0, this.state.limit),
 							...(solarsystem || []).slice(0, this.state.limit)
-						] } })
+						] })
 					)
 					.then(({ obj }) => Object
 						.entries(obj
