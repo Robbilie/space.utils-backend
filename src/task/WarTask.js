@@ -9,7 +9,7 @@
 
 		async start () {
 
-			const client = await ESIUtil.get_client();
+			let client = await ESIUtil.get_client();
 
 			let { obj, headers } = await client.Wars.get_wars_war_id(this.get_data());
 
@@ -48,12 +48,12 @@
 					BaseTask.create_task("Alliance", { alliance_id }, true);
 			});
 
-			const { ids } = await ESIUtil.get_all_pages(({ page }) => client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page }));
-
-			let chunks = ids.chunk(2000);
-			const process_chunk = chunk => new Promise(resolve => setImmediate(() => chunk.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash)) || resolve()));
-			for (let i = 0; i < chunks.length; i++)
-				await process_chunk(chunks[i]);
+			for (let page of new Array(1000).keys()) {
+				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
+				obj.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash));
+				if (obj.length < 2000)
+					break;
+			}
 
 			if (finished && finished < Date.now())
 				await this.destroy();
