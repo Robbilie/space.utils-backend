@@ -16,8 +16,10 @@
 			await Promise.all(obj
 				.map(faction => Object.assign({}, faction, { id: faction.faction_id, faction_id: undefined }))
 				.map(faction => {
-					CorporationStore.find_or_create(faction.corporation_id);
-					SystemStore.find_or_create(faction.solar_system_id);
+					if (faction.corporation_id)
+						CorporationStore.find_or_create(faction.corporation_id);
+					if (faction.solar_system_id)
+						SystemStore.find_or_create(faction.solar_system_id);
 					return FactionStore.update({ id: faction.id }, { $set: faction } );
 				})
 			);
