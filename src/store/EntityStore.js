@@ -6,12 +6,12 @@
 
 	class EntityStore extends Store {
 
-		static async find_or_create (id, {} = $(1, { [`${this.get_name()}_id`]: id }, "Number")) {
+		static async find_or_create (id, {} = $(1, { [`${this.get_name().toLowerCase()}_id`]: id }, "Number")) {
 
 			let entity = await this.find_by_id(id);
 
 			if(await entity.is_null()) {
-				await BaseTask.create_task(this.get_name(), { [`${this.get_name()}_id`]: id });
+				await BaseTask.create_task(this.get_name(), { [`${this.get_name().toLowerCase()}_id`]: id });
 				entity = await this.find_by_id(id);
 			}
 
