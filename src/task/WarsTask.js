@@ -40,6 +40,7 @@
 					console.log("wars start id", war_id);
 				}*/
 
+				/*
 				for (let chunk of obj.reverse().chunk(50)) {
 					console.log("wars chunk start");
 					await Promise.all(chunk.map(id => new Promise(resolve => setImmediate(() => WarStore.find_or_create(id).then(resolve)))));
@@ -47,6 +48,11 @@
 					await this.update({ state: 1, modified: Date.now() });
 					console.log("wars chunk end");
 				}
+				*/
+
+				await Promise.all(obj.reverse().map(id => WarStore.find_or_create(id)));
+
+				await this.update({ state: 1, modified: Date.now() });
 
 				console.log("wars do end");
 
