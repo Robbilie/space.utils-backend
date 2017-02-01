@@ -48,12 +48,16 @@
 					AllianceStore.find_or_create(alliance_id);
 			});
 
+			console.log("war task before kills");
+
 			for (let ind of new Array(1000).keys()) {
 				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page: ind + 1 });
 				obj.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash));
 				if (obj.length < 2000)
 					break;
 			}
+
+			console.log("war task after kills");
 
 			if (finished && finished < Date.now())
 				await this.destroy();
