@@ -58,7 +58,7 @@
 
 			for (let ind of new Array(1000).keys()) {
 				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page: ind + 1 });
-				for (let chunk of obj)
+				for (let chunk of obj.chunk(50))
 					await Promise.all(chunk.map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash)))
 				if (obj.length < 2000)
 					break;
