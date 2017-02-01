@@ -28,7 +28,7 @@
 			ESIClient.then(client => client.Search.get_search({ search, strict: !!init, categories: this.state.categories }).then(res => {
 				const search_data = res.obj;
 				if ([].concat(...Object.values(search_data)).length == 0)
-					return setState({
+					return this.setState({
 						results: [["No results", []]]
 					});
 				return client.Universe.post_universe_names({ ids: [].concat(...Object.values(search_data).map(val => val.slice(0, this.state.limit))) }).then(({ obj }) => {
