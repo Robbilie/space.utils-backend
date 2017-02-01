@@ -828,8 +828,8 @@ body {
     }
 
     .two-col-page .right-col {
-        padding-left: 20px;
-        padding-top: 0;
+        padding-left: 20px !important;
+        padding-top: 0 !important;
     }
 
     .two-col-page .left-col img {
