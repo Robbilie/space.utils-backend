@@ -8,11 +8,18 @@
 
 		static async find_or_create (war_id, {} = $(1, { war_id }, "Number")) {
 
+			console.log("store war find");
+
 			let war = await this.find_by_id(war_id);
 
+			console.log("store war nullcheck");
+
 			if(await war.is_null()) {
+				console.log("store war isnull");
 				await WarTask.create({ war_id });
+				console.log("store war post");
 				war = await this.find_by_id(war_id);
+				console.log("store war found");
 			}
 
 			return war.get_future();
