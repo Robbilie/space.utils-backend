@@ -25,11 +25,15 @@
 
 			let { finished, aggressor, defender, allies = [] } = obj;
 
+			console.log("war task before db");
+
 			await this.get_store().update(
 				{ id: this.get_data().war_id },
 				{ $set: obj },
 				{ upsert: true, w: 0 }
 			);
+
+			console.log("war task before agg/def");
 
 			if (aggressor.corporation_id)
 				CorporationStore.find_or_create(aggressor.corporation_id);
@@ -40,6 +44,8 @@
 				CorporationStore.find_or_create(defender.corporation_id);
 			if (defender.alliance_id)
 				AllianceStore.find_or_create(defender.alliance_id);
+
+			console.log("war task before allies");
 
 			allies.forEach(({ corporation_id, alliance_id }) => {
 				if (corporation_id)
