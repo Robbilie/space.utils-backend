@@ -22,6 +22,7 @@
 				delete alliance.alliance_name;
 				alliance.date_founded = new Date(alliance.date_founded).getTime();
 				alliance.executor_corporation_id = alliance.executor_corporation_id || alliance.executor_corp;
+				delete alliance.executor_corp;
 
 			let { executor_corporation_id } = alliance;
 
