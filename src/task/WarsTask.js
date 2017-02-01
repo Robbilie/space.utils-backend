@@ -41,7 +41,7 @@
 				}*/
 
 
-				for (let chunk of obj.reverse().chunk(50)) {
+				for (let chunk of obj.reverse().chunk(20)) {
 					console.log("wars chunk start");
 					await Promise.all(chunk.map(id => WarStore.find_or_create(id)));
 					console.log("wars chunk mid");
