@@ -44,6 +44,7 @@
 
 		render () {
 			return E("div", { className: "searchbar" },
+				E("div", { className: "searchbg", onClick: e => this.props.handler("click", false) }),
 				E("div", { className: "sbexpand" },
 					E("input", {
 						type: "text",
@@ -54,7 +55,6 @@
 						onFocus: e => this.props.handler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
 				),
-				E("div", { className: "searchbg", onClick: e => this.props.handler("click", false) }),
 				E("div", { className: "searchres" },
 					...this.state.results.map(result =>
 					[
