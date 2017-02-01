@@ -56,7 +56,8 @@
 
 			for (let ind of new Array(1000).keys()) {
 				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page: ind + 1 });
-				obj.forEach(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash));
+				for (let { killmail_id, killmail_hash } of obj)
+					await KillmailStore.find_or_create(killmail_id, killmail_hash);
 				if (obj.length < 2000)
 					break;
 			}
