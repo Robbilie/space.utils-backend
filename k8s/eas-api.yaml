@@ -71,12 +71,18 @@ spec:
         #  value: "128"
         - name: PARALLEL_TASK_LIMIT
           value: "20"
-        livenessProbe:
+        readinessProbe:
           httpGet:
-            path: /
+            path: /api-docs
             port: 4001
           initialDelaySeconds: 60
-          timeoutSeconds: 30
+          timeoutSeconds: 60
+        livenessProbe:
+          httpGet:
+            path: /api-docs
+            port: 4001
+          initialDelaySeconds: 60
+          timeoutSeconds: 60
       volumes:
       - name: config
         secret:
