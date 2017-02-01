@@ -31,7 +31,7 @@
 
 				last_war_id = obj[0];
 
-				for (let chunk of obj.reverse().chunk(100)) {
+				for (let chunk of obj.reverse().chunk(50)) {
 					console.log("wars chunk start");
 					await Promise.all(chunk.map(id => new Promise(resolve => process.nextTick(() => WarStore.find_or_create(id).then(resolve)))));
 					console.log("wars chunk mid");
