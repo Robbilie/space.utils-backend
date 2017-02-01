@@ -27,6 +27,10 @@
 				return this.setState({ results: [["Start typing…", []]] });
 			ESIClient.then(client => client.Search.get_search({ search, strict: !!init, categories: this.state.categories }).then(res => {
 				const search_data = res.obj;
+				if ([].concat(...Object.values(search_data)).length == 0)
+					return setState({
+						results: [["No results", []]]
+					});
 				return client.Universe.post_universe_names({ ids: [].concat(...Object.values(search_data).map(val => val.slice(0, this.state.limit))) }).then(({ obj }) => {
 					const lookup = obj.reduce((p, { id, name }) => !(p[id] = name) || p, {});
 					let results = Object.entries(search_data).map(([name, ids]) => ([name, ids.slice(0, this.state.limit).map(id => ({ id, name: lookup[id] }))]));
