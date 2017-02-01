@@ -21,7 +21,7 @@
 
 			do {
 
-				console.log("war do start");
+				console.log("wars do start");
 
 				let { obj, headers } = await client.Wars.get_wars({ max_war_id: last_war_id + 2000});
 
@@ -33,17 +33,17 @@
 
 				for (let chunk of obj.reverse().chunk(50)) {
 					console.log("wars chunk start");
-					await Promise.all(chunk.map(id => new Promise(resolve => process.nextTick(() => WarStore.find_or_create(id).then(resolve)))));
+					await Promise.all(chunk.map(id => new Promise(resolve => setImmediate(() => WarStore.find_or_create(id).then(resolve)))));
 					console.log("wars chunk mid");
 					await this.update({ state: 1, modified: Date.now() });
 					console.log("wars chunk end");
 				}
 
-				console.log("war do end");
+				console.log("wars do end");
 
 			} while (more_pages);
 
-			console.log("war after while");
+			console.log("wars after while");
 
 			await this.update({
 				expires
