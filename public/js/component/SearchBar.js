@@ -67,7 +67,7 @@
 								)
 							)
 						])
-					),
+					)
 				),
 				E("div", { className: "sbexpand" },
 					E("input", {
