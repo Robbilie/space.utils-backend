@@ -25,7 +25,7 @@
 		render () {
 			return E("div", { className: "page two-col-page" },
 				E("div", { className: "left-col" },
-					E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.id}_128.jpg` }),
+					E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.id}_256.jpg` }),
 					E("h2", { className: "mobile" },
 						E("span", null, "Character"),
 						E("br"),

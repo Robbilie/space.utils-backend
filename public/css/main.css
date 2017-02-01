@@ -859,7 +859,7 @@ body {
 }
 
 .two-col-page .left-col img {
-	padding: 61px;
+	//padding: 61px;
 	background-color: rgba(255,255,255,.5);
 	display: block;
     margin-bottom: 20px;
