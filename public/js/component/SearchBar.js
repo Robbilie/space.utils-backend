@@ -49,6 +49,26 @@
 		render () {
 			return E("div", { className: "searchbar" },
 				E("div", { className: "searchbg", onClick: e => this.props.handler("click", false) }),
+				E("div", { className: "searchres-wrapper" },
+					E("div", { className: "searchres" },
+						...this.state.results.map(result =>
+						[
+							E(
+								"h3",
+								{
+									key: result[0]
+								},
+								result[0]
+							),
+							...result[1].map(({ id, name }) =>
+								E(Link, { key: id, to: `/${result[0].split("_").slice(-1)}s/${id}/`, onClick: e => this.props.handler("click", false) },
+									E("img", { src: this.resultToUrl(64, result[0], id) }),
+									E("span", null, name)
+								)
+							)
+						])
+					),
+				),
 				E("div", { className: "sbexpand" },
 					E("input", {
 						type: "text",
@@ -58,24 +78,6 @@
 						onKeyUp: e => this.props.handler("keyup", e.target.value) || this.search(e.target.value),
 						onFocus: e => this.props.handler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
-				),
-				E("div", { className: "searchres" },
-					...this.state.results.map(result =>
-					[
-						E(
-							"h3",
-							{
-								key: result[0]
-							},
-							result[0]
-						),
-						...result[1].map(({ id, name }) =>
-							E(Link, { key: id, to: `/${result[0].split("_").slice(-1)}s/${id}/`, onClick: e => this.props.handler("click", false) },
-								E("img", { src: this.resultToUrl(64, result[0], id) }),
-								E("span", null, name)
-							)
-						)
-					])
 				)
 			);
 		}

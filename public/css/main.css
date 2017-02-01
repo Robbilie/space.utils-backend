@@ -97,6 +97,10 @@ body {
     opacity: .3;
 }
 
+.ui.searching #sidebarButton {
+    opacity: .3;
+}
+
 .searchbar input {
     margin: auto;
     width: 250px;
@@ -121,10 +125,13 @@ body {
     margin: auto;
     position: relative;
     height: 100%;
+    transition: .2s;
+    max-width: 1000px;
 }
 
 .ui.searching .topbar .searchbar > .sbexpand {
-    width: 80% !important;
+    /* width: 90% !important; */
+    /* max-width: 1000px; */
 }
 
 .ui.searching .content .pages, #loadingState:checked ~ .content .pages .page:not(.intransition) {
@@ -693,23 +700,34 @@ body {
     bottom: 0;
 }
 
+.searchres-wrapper {
+    position: fixed;
+    left: 20px;
+    top: 100px;
+    right: 20px;
+    bottom: 20px;
+    pointer-events: none;
+}
+
 .searchres {
-	left: calc(20px + ((100% - 40px) * 0.1));
-	right: calc(20px + ((100% - 40px) * 0.1));
-	text-align: left;
-	background-color: rgba(255, 255, 255, 0.5);
-	padding: 10px;
-	position: fixed;
-	top: 100px;
-	max-height: calc(100% - 100px - 20px);
-	overflow: auto;
-	transition: .2s;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    overflow: auto;
+    transition: .2s;
+    width: 100%;
+    margin: auto;
+    max-width: 1000px;
+    max-height: 100%;
+    pointer-events: all;
+    transition: .2s;
+    margin-top: 0;
 }
 
 .ui:not(.searching) .searchres {
-	opacity: 0;
-	max-height: 0;
-	top: -20px;
+    opacity: 0;
+    max-height: 0;
+    margin-top: -120px;
 }
 
 .searchres a {
