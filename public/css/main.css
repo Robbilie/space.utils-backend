@@ -767,6 +767,10 @@ body {
 
 @media (min-width: 600px) {
 
+    .mobile {
+        display: none;
+    }
+
 	.mobo {
 		display: none !important;
 	}
@@ -786,6 +790,10 @@ body {
 }
 
 @media (max-width: 600px) {
+
+    .desktop {
+        display: none;
+    }
 
 	.list > .row > .column {
 		width: 25%;
@@ -854,18 +862,18 @@ body {
 	padding: 61px;
 	background-color: rgba(255,255,255,.5);
 	display: block;
+    margin-bottom: 20px;
 }
 
 .two-col-page .left-col .info-list {
 	background-color: rgba(255,255,255,.5);
-	margin-top: 20px;
 	padding: 10px;
 	color: white;
 	font-family: Roboto;
 	font-weight: 200;
 }
 
-.two-col-page .left-col .info-list span, .two-col-page .right-col h2 span {
+.two-col-page .left-col .info-list span, .two-col-page h2 span {
 	font-size: smaller;
 }
 
@@ -882,13 +890,14 @@ body {
 	padding-left: 0;
 }
 
-.two-col-page .right-col h2 {
+.two-col-page h2 {
 	margin: 0;
 	padding: 10px;
 	background-color: rgba(255,255,255,.5);
 	color: white;
 	font-family: Roboto;
 	font-weight: 200;
+    margin-bottom: 20px;
 }
 
 #sidebarButton span {

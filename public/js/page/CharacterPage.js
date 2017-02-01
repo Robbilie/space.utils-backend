@@ -26,6 +26,11 @@
 			return E("div", { className: "page two-col-page" },
 				E("div", { className: "left-col" },
 					E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.id}_128.jpg` }),
+					E("h2", { className: "mobile" },
+						E("span", null, "Character"),
+						E("br"),
+						E("b", null, this.state.name)
+					),
 					E("div", { className: "info-list" },
 						E("div", { className: "" },
 							E("span", null, "Corporation"),
@@ -44,7 +49,7 @@
 					)
 				),
 				E("div", { className: "right-col" },
-					E("h2", {},
+					E("h2", { className: "desktop" },
 						E("span", null, "Character"),
 						E("br"),
 						E("b", null, this.state.name)
