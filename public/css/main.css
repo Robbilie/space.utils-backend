@@ -51,7 +51,7 @@ body {
 	font-family: "Roboto", sans-serif;
 }
 
-.content, .pages, .page {
+.content, .pages {
     position: absolute;
     top: 0;
     left: 0;
@@ -61,10 +61,14 @@ body {
 
 .page {
 	opacity: 1;
+    min-height: 100%;
+    position: relative;
 }
 
 .pages {
     top: 70px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .topbar {
@@ -328,6 +332,10 @@ body {
 .homebtn::after {content: "";position: absolute;transform: rotate(45deg);width: 14px;height: 14px;background-color: white;top: 10px;left: 13px;}
 
 /* WelcomePage */
+
+.welcome {
+    height: 100%;
+}
 
 .welcome::after {
     content: '';
@@ -817,11 +825,11 @@ body {
 
 }
 
-
-
 .two-col-page {
 	display: flex;
 	text-align: left;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .two-col-page .left-col {
