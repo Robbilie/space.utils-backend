@@ -41,9 +41,9 @@
 				}*/
 
 
-				for (let chunk of obj.reverse().chunk(200)) {
+				for (let chunk of obj.reverse().chunk(50)) {
 					console.log("wars chunk start");
-					await Promise.all(chunk.map(id => new Promise(resolve => setImmediate(() => WarStore.find_or_create(id).then(resolve)))));
+					await Promise.all(chunk.map(id => WarStore.find_or_create(id)));
 					console.log("wars chunk mid");
 					await this.update({ state: 1, modified: Date.now() });
 					console.log("wars chunk end");
