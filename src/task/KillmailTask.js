@@ -18,6 +18,7 @@
 				killmail.hash 				= this.get_data().killmail_hash;
 				killmail.attacker_count 	= killmail.attackers.length;
 				killmail.time 				= new Date(killmail.killmail_time).getTime();
+				delete killmail.killmail_time;
 
 			await this.get_store().insert(killmail, { w: 0 });
 
