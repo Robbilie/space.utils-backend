@@ -23,18 +23,21 @@
 
 				console.log("wars do start");
 
-				let { obj, headers } = await client.Wars.get_wars({ max_war_id: last_war_id + 2000});
+				let { obj, headers } = await client.Wars.get_wars({ max_war_id: last_war_id + 2000 });
+
+				console.log("wars get page");
 
 				expires = new Date(headers.expires).getTime();
 
-				more_pages = last_war_id + 2000 - 1 == obj[0];
+				more_pages = (last_war_id + 2000 - 1) == obj[0];
 
 				last_war_id = obj[0];
 
 				let i = 0;
 				for (let war_id of obj.reverse()) {
+					console.log("wars start id", war_id);
 					await WarStore.find_or_create(war_id);
-					console.log("wars id", war_id);
+					console.log("wars start id", war_id);
 				}
 
 				/*
