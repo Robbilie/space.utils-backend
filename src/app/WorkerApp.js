@@ -202,9 +202,9 @@
 
 				// do special processing stuff or error out
 				try {
-					console.log("start", JSON.stringify(value));
+					//console.log("start", JSON.stringify(value));
 					await new (LoadUtil.task(name))(value).start();
-					console.log("end", JSON.stringify(value));
+					//console.log("end", JSON.stringify(value));
 					this.completed++;
 				} catch (e) {
 
