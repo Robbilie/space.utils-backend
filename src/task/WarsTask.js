@@ -34,8 +34,7 @@
 				let i = 0;
 				for (let war_id of obj.reverse()) {
 					await WarStore.find_or_create(war_id);
-					if(++i % 50 == 0)
-						await this.update({ state: 1, modified: Date.now() });
+					console.log("wars id", war_id);
 				}
 
 				/*
