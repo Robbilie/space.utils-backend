@@ -55,9 +55,9 @@ spec:
         - name: ESI_URL
           value: "https://esi.tech.ccp.is/latest/swagger.json"
         - name: UV_THREADPOOL_SIZE
-          value: "256"
+          value: "512"
         - name: PARALLEL_TASK_LIMIT
-          value: "100"
+          value: "75"
         readinessProbe:
           httpGet:
             path: /ping
