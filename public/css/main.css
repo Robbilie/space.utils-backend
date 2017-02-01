@@ -823,6 +823,19 @@ body {
 		//display: block;
 	}
 
+    .two-col-page {
+        flex-flow: column;
+    }
+
+    .two-col-page .right-col {
+        padding-left: 20px;
+        padding-top: 0;
+    }
+
+    .two-col-page .left-col img {
+        width: 100%;
+    }
+
 }
 
 .two-col-page {
