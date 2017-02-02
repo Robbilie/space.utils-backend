@@ -337,6 +337,7 @@ body {
 
 .welcome {
     height: 100%;
+    overflow: hidden;
 }
 
 .welcome::after {
