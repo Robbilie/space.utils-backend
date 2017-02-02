@@ -84,11 +84,13 @@ body {
     top: 20px;
     bottom: 20px;
     right: 20px;
-    width: calc(40% - 20px);
+    width: calc(100% - 180px);
+    max-width: 500px;
 }
 
 .ui.searching .topbar .searchbar {
     width: calc(100% - 40px);
+    max-width: 100%;
 }
 
 .ui.searching .topbar .searchbar input {
@@ -107,7 +109,7 @@ body {
 
 .searchbar input {
     margin: auto;
-    width: 250px;
+    width: 300px;
     display: block;
     float: right;
     height: 100%;
