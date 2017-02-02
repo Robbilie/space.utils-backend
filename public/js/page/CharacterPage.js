@@ -33,17 +33,27 @@
 					),
 					E("div", { className: "info-list" },
 						E("div", { className: "" },
-							E("span", null, "Corporation"),
-							E("br"),
-							E("b", null,
-								E(Link, { to: `/corporations/${this.state.corporation.id}/` }, this.state.corporation.name)
+							E("div", { className: "" },
+								E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.corporation.id}_32.png` })
+							),
+							E("div", { className: "" },
+								E("span", null, "Corporation"),
+								E("br"),
+								E("b", null,
+									E(Link, { to: `/corporations/${this.state.corporation.id}/` }, this.state.corporation.name)
+								)
 							)
 						),
 						this.state.corporation.alliance ? E("div", { className: "" },
-							E("span", null, "Alliance"),
-							E("br"),
-							E("b", null,
-								E(Link, { to: `/alliances/${this.state.corporation.alliance.id}/` }, this.state.corporation.alliance.name)
+							E("div", { className: "" },
+								E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.corporation.alliance.id}_32.png` })
+							),
+							E("div", { className: "" },
+								E("span", null, "Alliance"),
+								E("br"),
+								E("b", null,
+									E(Link, { to: `/alliances/${this.state.corporation.alliance.id}/` }, this.state.corporation.alliance.name)
+								)
 							)
 						) : ""
 					)
