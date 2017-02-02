@@ -19,6 +19,7 @@
 
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
+			this.TASK_TIMEOUT_SECONDS = parseInt(process.env.TASK_TIMEOUT_SECONDS);
 			this.running_tasks = 0;
 			this.queued_tasks = [];
 			this.tasks = [];
@@ -158,6 +159,9 @@
 					}
 				}
 
+				if (this.queued_tasks.length > this.PARALLEL_TASK_LIMIT * 10)
+					await Promise.resolve().wait(1000 * 2);
+
 				let task = this.tasks.shift();
 
 				if(task)
@@ -178,7 +182,7 @@
 		}
 
 		static task_query (now = Date.now()) {
-			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: now - (1000 * 60) } }];
+			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: now - (1000 * this.TASK_TIMEOUT_SECONDS) } }];
 		}
 
 		async process ({ _id, info: { name, expires } }) {
