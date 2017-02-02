@@ -974,6 +974,7 @@ body {
 
 .info-list > div > div:first-child {
     padding: 5px;
+    width: 42px;
 }
 
 .info-list img {
