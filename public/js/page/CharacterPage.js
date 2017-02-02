@@ -34,7 +34,7 @@
 					E("div", { className: "info-list" },
 						E("div", { className: "" },
 							E("div", { className: "" },
-								E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.corporation.id}_32.png` })
+								E("img", { src: `https://imageserver.eveonline.com/Corporation/${this.state.corporation.id}_32.png` })
 							),
 							E("div", { className: "" },
 								E("span", null, "Corporation"),
@@ -46,7 +46,7 @@
 						),
 						this.state.corporation.alliance ? E("div", { className: "" },
 							E("div", { className: "" },
-								E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.corporation.alliance.id}_32.png` })
+								E("img", { src: `https://imageserver.eveonline.com/Alliance/${this.state.corporation.alliance.id}_32.png` })
 							),
 							E("div", { className: "" },
 								E("span", null, "Alliance"),
