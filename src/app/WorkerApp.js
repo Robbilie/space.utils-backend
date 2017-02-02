@@ -20,9 +20,11 @@
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
 			this.TASK_TIMEOUT_SECONDS = parseInt(process.env.TASK_TIMEOUT_SECONDS);
+			this.POLL_THRESHOLD = this.PARALLEL_TASK_LIMIT * 10;
 			this.running_tasks = 0;
 			this.queued_tasks = [];
 			this.tasks = [];
+			this.poll_treshold_promise = null;
 
 			this.start_heartbeat();
 			this.start_logging();
@@ -132,6 +134,10 @@
 			});
 		}
 
+		poll_treshold () {
+			return new Promise(resolve => this.poll_treshold_promise = resolve);
+		}
+
 		async pull_new_tasks (now = Date.now()) {
 			let collection = await WorkerApp.get_tasks().get_collection();
 			this.tasks = await collection
@@ -159,7 +165,7 @@
 					}
 				}
 
-				if (this.queued_tasks.length > this.PARALLEL_TASK_LIMIT * 10)
+				if (this.queued_tasks.length > this.POLL_THRESHOLD)
 					await Promise.resolve().wait(1000 * 2);
 
 				let task = this.tasks.shift();
