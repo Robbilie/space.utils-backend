@@ -846,7 +846,7 @@ body {
     }
 
     .two-col-page .left-col > img {
-        width: 100%;
+        width: 100% !important;
     }
 
 }
