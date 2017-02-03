@@ -43,7 +43,7 @@
 				authorizations: {
 					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
 				},
-				client: {
+				/*client: {
 					execute: function (obj) {
 						let { method, url, headers, body } = obj;
 						const start = process.hrtime();
@@ -68,7 +68,28 @@
 								MetricsUtil.get("esi.duration").update((duration[0] * 1e9 + duration[1]) / 1e6);
 							});
 					}
-				}
+				},*/
+				client: { execute: async (obj) => {
+					let { method, url, headers, body } = obj;
+					let start = process.hrtime();
+					try {
+						let response = await request({ method, url, headers, body });
+						try {
+							response.obj = JSON.parse(response.body);
+							obj.on.response(response);
+						} catch (e) {
+							throw ({ e, response });
+						}
+					} catch (e) {
+						++storage.errors;
+						obj.on.error(e);
+						MetricsUtil.get("esi.errors").inc(1);
+					}
+					++storage.completed;
+					let duration = process.hrtime(start);
+					MetricsUtil.get("esi.completed").inc(1);
+					MetricsUtil.get("esi.duration").update((duration[0] * 1e9 + duration[1]) / 1e6);
+				} }
 			}, options));
 		}
 
