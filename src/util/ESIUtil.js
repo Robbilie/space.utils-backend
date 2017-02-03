@@ -73,6 +73,7 @@
 					let { method, url, headers, body } = obj;
 					let start = process.hrtime();
 					try {
+						MetricsUtil.get("esi.started").inc(1);
 						let response = await request({ method, url, headers, body });
 						try {
 							response.obj = JSON.parse(response.body);
