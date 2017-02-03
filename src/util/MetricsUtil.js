@@ -9,6 +9,7 @@
 			["esi.completed", new Counter()],
 			["esi.errors", new Counter()],
 			["esi.duration", new Histogram()],
+			["esi.rpstest", new Histogram()],
 			["tasks.completed", new Counter()],
 			["tasks.errors", new Counter()],
 			["tasks.duration", new Histogram()]

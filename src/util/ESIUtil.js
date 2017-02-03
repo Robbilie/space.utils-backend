@@ -89,6 +89,7 @@
 					let duration = process.hrtime(start);
 					MetricsUtil.get("esi.completed").inc(1);
 					MetricsUtil.get("esi.duration").update((duration[0] * 1e9 + duration[1]) / 1e6);
+					MetricsUtil.get("esi.rpstest").update(1, Date.now());
 				} }
 			}, options));
 		}
