@@ -58,7 +58,7 @@
 		}
 
 		async get_killmail_pages (client, page = 1) {
-			let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
+			const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 
 			const ids = await KillmailStore
 				.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }))
