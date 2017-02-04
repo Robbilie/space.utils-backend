@@ -44,7 +44,9 @@
 			CorporationStore.find_or_create(character.corporation_id, true);
 
 			// get all corps from history
-			corporation_history.forEach(({ corporation_id }) => CorporationStore.find_or_create(corporation_id, true));
+			if (corporation_history)
+				corporation_history
+					.forEach(({ corporation_id }) => CorporationStore.find_or_create(corporation_id, true));
 
 			if (character.corporation_id == 1000001)
 				await this.destroy();

@@ -51,9 +51,10 @@
 				AllianceStore.find_or_create(alliance_id, true);
 
 			// get all alliances
-			alliance_history
-				.filter(({ alliance }) => !!alliance)
-				.forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true));
+			if (alliance_history)
+				alliance_history
+					.filter(({ alliance }) => !!alliance)
+					.forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true));
 
 			// get ceo
 			if(ceo_id == 1) {
