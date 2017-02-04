@@ -218,7 +218,7 @@
 					let duration = process.hrtime(start);
 						duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 					MetricsUtil.update("tasks.duration", duration);
-					MetricsUtil.update(`tasks.type.${name}`);
+					MetricsUtil.update(`tasks.type.${name}`, duration);
 				} catch (e) {
 
 					await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": Date.now() } });
