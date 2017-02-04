@@ -19,7 +19,7 @@
 				.from_cursor(c => c.find({ id: { $in: obj } }))
 				.map(type => type.get_id());
 
-			for (let type_od of obj.filter(id => !ids.includes(id))) {
+			for (let type_id of obj.filter(id => !ids.includes(id))) {
 				await TypeStore.find_or_create(type_id, true);
 				await this.tick();
 			}
