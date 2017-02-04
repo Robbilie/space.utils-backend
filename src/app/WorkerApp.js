@@ -165,11 +165,12 @@
 					}
 				}
 
-				if (this.queued_tasks.length > this.POLL_THRESHOLD)
-					await Promise.resolve().wait(1000 * 2);
+				//if (this.queued_tasks.length > this.POLL_THRESHOLD)
+				//	await Promise.resolve().wait(1000 * 2);
 
 				let task = this.tasks.shift();
 
+				console.log("enqueueing");
 				if(task)
 					await this.enqueue(task);
 
