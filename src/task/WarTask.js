@@ -11,9 +11,8 @@
 
 			let client = await ESIUtil.get_client();
 
-			let { obj, headers } = await client.Wars.get_wars_war_id(this.get_data());
+			let { obj: war, headers } = await client.Wars.get_wars_war_id(this.get_data());
 
-			let war = obj;
 				if(war.declared)
 					war.declared = new Date(war.declared).getTime();
 				if(war.started)
@@ -23,13 +22,13 @@
 				if(war.retracted)
 					war.retracted = new Date(war.retracted).getTime();
 
-			let { finished, aggressor, defender, allies = [] } = obj;
+			let { finished, aggressor, defender, allies = [] } = war;
 
 			console.log("war task before db");
 
 			await this.get_store().update(
 				{ id: this.get_data().war_id },
-				{ $set: obj },
+				{ $set: war },
 				{ upsert: true, w: 0 }
 			);
 

@@ -10,15 +10,16 @@
 
 			let client = await ESIUtil.get_client();
 
-			let killmail_response = await client.Killmails.get_killmails_killmail_id_killmail_hash(this.get_data());
+			let { obj: killmail } = await client.Killmails.get_killmails_killmail_id_killmail_hash(this.get_data());
 
-			let killmail = killmail_response.obj;
-				delete killmail.killmail_id;
-				killmail.id 				= this.get_data().killmail_id;
-				killmail.hash 				= this.get_data().killmail_hash;
-				killmail.attacker_count 	= killmail.attackers.length;
-				killmail.time 				= new Date(killmail.killmail_time).getTime();
-				delete killmail.killmail_time;
+			killmail = Object.assign(killmail, {
+				id: 				this.get_data().killmail_id,
+				hash: 				this.get_data().killmail_hash,
+				attacker_count: 	killmail.attackers.length,
+				time: 				new Date(killmail.killmail_time).getTime(),
+				killmail_id: 		undefined,
+				killmail_time: 		undefined
+			});
 
 			await this.get_store().insert(killmail, { w: 0 });
 

@@ -10,10 +10,12 @@
 
 			let client = await ESIUtil.get_client();
 
-			let type_response = await client.Universe.get_universe_types_type_id(this.get_data());
-			let type = type_response.obj;
-				type.id = type.type_id;
-				delete type.type_id;
+			let { obj: type } = await client.Universe.get_universe_types_type_id(this.get_data());
+
+			type = Object.assign(type, {
+				id: 		type.type_id,
+				type_id: 	undefined
+			});
 
 			await this.get_store().insert(type, { w: 0 });
 

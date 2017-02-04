@@ -10,11 +10,13 @@
 
 			let client = await ESIUtil.get_client();
 
-			let system_response = await client.Universe.get_universe_systems_system_id(this.get_data());
-			let system = system_response.obj;
-				system.id = this.get_data().system_id;
-				system.name = system.solar_system_name;
-				delete system.solar_system_name;
+			let { obj: system } = await client.Universe.get_universe_systems_system_id(this.get_data());
+
+			system = Object.assign(system, {
+				id: 				this.get_data().system_id,
+				name: 				system.solar_system_name,
+				solar_system_name: 	undefined
+			});
 
 			await this.get_store().insert(system, { w: 0 });
 
