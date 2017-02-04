@@ -11,6 +11,7 @@
 			["esi.duration", new Histogram()],
 			["esi.rpstest", new Histogram()],
 			["esi.started", new Counter()],
+			["tasks.started", new Counter()],
 			["tasks.completed", new Counter()],
 			["tasks.errors", new Counter()],
 			["tasks.duration", new Histogram()]

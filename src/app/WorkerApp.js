@@ -208,6 +208,8 @@
 				if(!value)
 					return null;
 
+				MetricsUtil.inc("tasks.started");
+
 				// do special processing stuff or error out
 				try {
 					let start = process.hrtime();
