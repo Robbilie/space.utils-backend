@@ -6,7 +6,7 @@ metadata:
     app: eas-worker
   name: eas-worker-dep
 spec:
-  replicas: 5
+  replicas: 7
   selector:
     matchLabels:
       app: eas-worker
@@ -23,7 +23,7 @@ spec:
         - containerPort: 4001
         resources:
           limits:
-            memory: "512Mi"
+            memory: "300Mi"
             cpu: "100m"
         volumeMounts:
         - name: config
