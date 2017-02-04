@@ -22,7 +22,7 @@
 				if(war.retracted)
 					war.retracted = new Date(war.retracted).getTime();
 
-			let { finished, aggressor, defender, allies = [] } = war;
+			let { finished, aggressor, defender, allies } = war;
 
 			await this.get_store().update(
 				{ id: this.get_data().war_id },
@@ -40,21 +40,20 @@
 			if (defender.alliance_id)
 				AllianceStore.find_or_create(defender.alliance_id, true);
 
-			allies.forEach(({ corporation_id, alliance_id }) => {
-				if (corporation_id)
-					CorporationStore.find_or_create(corporation_id, true);
-				if (alliance_id)
-					AllianceStore.find_or_create(alliance_id, true);
-			});
+			if (allies)
+				allies.forEach(({ corporation_id, alliance_id }) => {
+					if (corporation_id)
+						CorporationStore.find_or_create(corporation_id, true);
+					if (alliance_id)
+						AllianceStore.find_or_create(alliance_id, true);
+				});
 
 			await this.get_killmail_pages(client, this.get_info().page);
 
 			if (finished && finished < Date.now())
 				await this.destroy();
 			else
-				await this.update({
-					expires: new Date(headers.expires).getTime()
-				});
+				await this.update({ expires: new Date(headers.expires).getTime() });
 
 		}
 
