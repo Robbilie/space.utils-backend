@@ -21,6 +21,8 @@
 		}
 
 		static from_promise (prom, model = this.get_model()) {
+			if (!prom || prom.constructor.name != "Promise")
+				throw new Error("method misuse");
 			return new model(prom);
 		}
 
