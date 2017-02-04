@@ -45,6 +45,8 @@
 
 	class Killmail extends Base {
 
+		get_id () {}
+
 	}
 
 	module.exports = Killmail;
