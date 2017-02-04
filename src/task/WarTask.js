@@ -72,15 +72,13 @@
 		async get_killmail_pages (client, page = 1) {
 			let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 
-			let ids = await KillmailStore
+			const ids = await KillmailStore
 				.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }))
 				.map(killmail => killmail.get_id());
 
-			for (let { killmail_id, killmail_hash } of obj) {
-				if (!ids.includes(killmail_id)) {
-					await KillmailStore.find_or_create(killmail_id, killmail_hash);
-					await this.tick();
-				}
+			for (let { killmail_id, killmail_hash } of obj.filter(id => !ids.includes(id))) {
+				await KillmailStore.find_or_create(killmail_id, killmail_hash);
+				await this.tick();
 			}
 
 			/*
