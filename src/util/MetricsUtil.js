@@ -40,7 +40,7 @@
 			if (!storage.metrics.get(key)) {
 				let t = new type();
 				storage.report.addMetric(key, t);
-				storage.metrics.set(key, new type());
+				storage.metrics.set(key, t);
 			}
 			return storage.metrics.get(key);
 		}
