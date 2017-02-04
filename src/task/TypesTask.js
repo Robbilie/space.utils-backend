@@ -8,30 +8,20 @@
 	class TypesTask extends BaseTask {
 
 		async start () {
+			await this.get_pages(await ESIUtil.get_client());
+			await this.update({ expires: Date.now() + (60 * 60 * 1000) });
+		}
 
-			let start = Date.now();
-			let times = [];
-
-			let client = await ESIUtil.get_client();
-
-			times.push(Date.now() - start);
-
-			const { expires, ids } = await ESIUtil.get_all_pages(client.Universe.get_universe_types);
-			console.log("types", ids.length);
-
-			let chunks = ids.chunk(2000);
-			const process_chunk = chunk => new Promise(resolve => setImmediate(() => chunk.forEach(id => TypeStore.find_or_create(id)) || resolve()));
-			for (let i = 0; i < chunks.length; i++)
-				await process_chunk(chunks[i]);
-
-			await this.update({
-				expires
-			});
-
-			times.push(Date.now() - start);
-
-			console.log("types", ...times);
-
+		async get_pages (client, page = 1) {
+			let { obj } = await client.Universe.get_universe_type({ page });
+			for (let type_id of obj) {
+				await TypeStore.find_or_create(type_id);
+				await this.tick();
+			}
+			if (obj.length == 2000)
+				return await this.get_pages(client, page + 1);
+			else
+				return true;
 		}
 
 	}
