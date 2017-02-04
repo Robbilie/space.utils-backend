@@ -56,7 +56,7 @@
 
 			console.log("war task before kills");
 
-			await this.get_killmail_pages(client);
+			await this.get_killmail_pages(client, this.get_info().page);
 
 			console.log("war task after kills");
 
