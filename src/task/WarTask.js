@@ -56,13 +56,7 @@
 
 			console.log("war task before kills");
 
-			for (let ind of new Array(1000).keys()) {
-				let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page: ind + 1 });
-				for (let chunk of obj.chunk(50))
-					await Promise.all(chunk.map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash)))
-				if (obj.length < 2000)
-					break;
-			}
+			await this.get_killmail_pages(client);
 
 			console.log("war task after kills");
 
@@ -73,6 +67,18 @@
 					expires: new Date(headers.expires).getTime()
 				});
 
+		}
+
+		async get_killmail_pages (client, page = 1) {
+			let { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
+			for (let { killmail_id, killmail_hash } of obj) {
+				await KillmailStore.find_or_create(killmail_id, killmail_hash);
+				await this.tick();
+			}
+			if (obj.length == 2000)
+				return await this.get_killmail_pages(client, page + 1);
+			else
+				return true;
 		}
 
 	}

@@ -38,7 +38,9 @@
 				AllianceStore.find_or_create(alliance_id);
 
 			// get all alliances
-			history_response.obj.filter(({ alliance }) => !!alliance).forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id));
+			history_response.obj
+				.filter(({ alliance }) => !!alliance)
+				.forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id));
 
 			// get ceo
 			if(ceo_id == 1) {

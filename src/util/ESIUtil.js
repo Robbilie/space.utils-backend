@@ -75,6 +75,8 @@
 					try {
 						MetricsUtil.inc("esi.started");
 						let response = await request({ method, url, headers, body });
+						let duration = process.hrtime(start);
+						MetricsUtil.update("esi.reqduration", (duration[0] * 1e9 + duration[1]) / 1e6);
 						try {
 							response.obj = JSON.parse(response.body);
 							obj.on.response(response);
