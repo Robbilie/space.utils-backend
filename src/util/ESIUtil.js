@@ -4,9 +4,9 @@
 	const Swagger 	= require("swagger-client");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
-		//gzip: true, // actually slows down
+		gzip: true, // actually slows down
 		forever: true,
-		//timeout: 1000 * 15,
+		timeout: 1000 * 11,
 		pool: {
 			maxSockets: Infinity
 		},
