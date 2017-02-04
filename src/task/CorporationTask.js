@@ -3,7 +3,7 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
-	const { CharacterStore, AllianceStore } = require("store/");
+	const { CharacterStore, CorporationStore, AllianceStore } = require("store/");
 
 	class CorporationTask extends BaseTask {
 
@@ -11,17 +11,29 @@
 
 			let client = await ESIUtil.get_client();
 
-			let [{ obj: corporation, headers }, { obj: alliance_history }] = await Promise.all([
+			/*let [{ obj: corporation, headers }, { obj: alliance_history }] = await Promise.all([
 				client.Corporation.get_corporations_corporation_id(this.get_data()),
 				client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data())
+			]);*/
+
+			let [{ obj: corporation, headers }, old_corp] = await Promise.all([
+				client.Corporation.get_corporations_corporation_id(this.get_data()),
+				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
 			]);
+
+			let alliance_history = null;
+			if (!old_corp || (old_corp && old_corp.alliance_id != corporation.alliance_id)) {
+				let { obj } = client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
+				alliance_history = obj;
+			}
 
 			corporation = Object.assign(corporation, {
 				id: 				this.get_data().corporation_id,
 				name: 				corporation.name || corporation.corporation_name,
-				alliance_history:	alliance_history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() })),
 				corporation_name: 	undefined
-			});
+			}, alliance_history ? {
+				alliance_history:	alliance_history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }))
+			} : {});
 
 			let { ceo_id, alliance_id, member_count } = corporation;
 

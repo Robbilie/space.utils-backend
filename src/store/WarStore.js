@@ -8,12 +8,12 @@
 
 		static async find_or_create (war_id, faf, {} = $(1, { war_id }, "Number")) {
 
-			let war = await this.find_by_id(war_id);
+			let war = this.find_by_id(war_id);
 
 			if(await war.is_null()) {
 				await WarTask.create({ war_id });
 				if (!faf)
-					war = await this.find_by_id(war_id);
+					war = this.find_by_id(war_id);
 			}
 
 			return war.get_future();
