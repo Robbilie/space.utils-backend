@@ -173,7 +173,7 @@
 				if(task)
 					await this.enqueue(task);
 
-				//console.log("enqueued,", this.tasks.length, "left while", this.running_tasks, "are running");
+				console.log("enqueued,", this.tasks.length, "left while", this.running_tasks, "are running");
 
 			} catch (e) {
 				console.log("worker error", e);
