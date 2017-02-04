@@ -34,11 +34,11 @@
 				{ upsert: true, w: 0 }
 			);
 
-			//const alliance_id = alliance.id;
-			//const corporation_ids = await CorporationStore.from_cursor(c => c.find({ alliance_id })).map(corporation => corporation.get_id());
+			const alliance_id = alliance.id;
+			const corporation_ids = await CorporationStore.from_cursor(c => c.find({ alliance_id })).map(corporation => corporation.get_id());
 
 			corporations
-				//.filter(corporation_id => corporation_ids.includes(corporation_id))
+				.filter(corporation_id => !corporation_ids.includes(corporation_id))
 				.forEach(corporation_id => CorporationStore.find_or_create(corporation_id, true));
 
 			if (corporations.length == 0)
