@@ -20,7 +20,7 @@
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
 			this.TASK_TIMEOUT_SECONDS = parseInt(process.env.TASK_TIMEOUT_SECONDS);
-			this.POLL_THRESHOLD = this.PARALLEL_TASK_LIMIT * 25;
+			this.POLL_THRESHOLD = this.PARALLEL_TASK_LIMIT * 50;
 			this.running_tasks = 0;
 			this.queued_tasks = [];
 			this.tasks = [];
@@ -143,7 +143,7 @@
 			this.tasks = await collection
 				.find({ "info.expires": { $lt: now }, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: this.task_query(now) })
 				.sort({ "info.expires": 1 })
-				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5)
+				.limit(this.PARALLEL_TASK_LIMIT * 10 * 10)
 				.toArray();
 			this.heartbeat = Date.now();
 			console.log("pulled new tasks");
@@ -154,7 +154,7 @@
 
 			try {
 
-				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 50) {
+				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 25) {
 					if (!this.pulling_tasks)
 						this.pulling_tasks = this.pull_new_tasks();
 					if (this.tasks.length == 0)
