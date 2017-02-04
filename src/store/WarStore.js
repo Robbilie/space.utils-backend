@@ -6,20 +6,14 @@
 
 	class WarStore extends Store {
 
-		static async find_or_create (war_id, {} = $(1, { war_id }, "Number")) {
-
-			console.log("store war find");
+		static async find_or_create (war_id, faf, {} = $(1, { war_id }, "Number")) {
 
 			let war = await this.find_by_id(war_id);
 
-			console.log("store war nullcheck");
-
 			if(await war.is_null()) {
-				console.log("store war isnull");
 				await WarTask.create({ war_id });
-				console.log("store war post");
-				war = await this.find_by_id(war_id);
-				console.log("store war found");
+				if (!faf)
+					war = await this.find_by_id(war_id);
 			}
 
 			return war.get_future();

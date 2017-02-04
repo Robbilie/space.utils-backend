@@ -11,13 +11,11 @@
 
 			let client = await ESIUtil.get_client();
 
-			let alliances_response = await client.Alliance.get_alliances();
+			let { obj: alliances, headers } = await client.Alliance.get_alliances();
 
-			alliances_response.obj.forEach(alliance_id => AllianceStore.find_or_create(alliance_id));
+			alliances.forEach(alliance_id => AllianceStore.find_or_create(alliance_id, true));
 
-			await this.update({
-				expires: new Date(alliances_response.headers.expires).getTime()
-			});
+			await this.update({ expires: new Date(headers.expires).getTime() });
 
 		}
 

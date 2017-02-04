@@ -15,7 +15,7 @@
 		async get_pages (client, page = 1) {
 			let { obj } = await client.Universe.get_universe_type({ page });
 			for (let type_id of obj) {
-				await TypeStore.find_or_create(type_id);
+				await TypeStore.find_or_create(type_id, true);
 				await this.tick();
 			}
 			if (obj.length == 2000)

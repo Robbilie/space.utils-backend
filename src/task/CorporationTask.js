@@ -36,12 +36,12 @@
 
 			// get alliance
 			if(alliance_id)
-				AllianceStore.find_or_create(alliance_id);
+				AllianceStore.find_or_create(alliance_id, true);
 
 			// get all alliances
 			alliance_history
 				.filter(({ alliance }) => !!alliance)
-				.forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id));
+				.forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true));
 
 			// get ceo
 			if(ceo_id == 1) {
@@ -49,7 +49,7 @@
 			} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
 				// is npc ceo
 			} else if (ceo_id) {
-				CharacterStore.find_or_create(ceo_id);
+				CharacterStore.find_or_create(ceo_id, true);
 			} else {
 				console.log("no ceo", this.get_data().corporation_id);
 			}

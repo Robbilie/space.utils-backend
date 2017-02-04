@@ -24,40 +24,30 @@
 
 			let { finished, aggressor, defender, allies = [] } = war;
 
-			console.log("war task before db");
-
 			await this.get_store().update(
 				{ id: this.get_data().war_id },
 				{ $set: war },
 				{ upsert: true, w: 0 }
 			);
 
-			console.log("war task before agg/def");
-
 			if (aggressor.corporation_id)
-				CorporationStore.find_or_create(aggressor.corporation_id);
+				CorporationStore.find_or_create(aggressor.corporation_id, true);
 			if (aggressor.alliance_id)
-				AllianceStore.find_or_create(aggressor.alliance_id);
+				AllianceStore.find_or_create(aggressor.alliance_id, true);
 
 			if (defender.corporation_id)
-				CorporationStore.find_or_create(defender.corporation_id);
+				CorporationStore.find_or_create(defender.corporation_id, true);
 			if (defender.alliance_id)
-				AllianceStore.find_or_create(defender.alliance_id);
-
-			console.log("war task before allies");
+				AllianceStore.find_or_create(defender.alliance_id, true);
 
 			allies.forEach(({ corporation_id, alliance_id }) => {
 				if (corporation_id)
-					CorporationStore.find_or_create(corporation_id);
+					CorporationStore.find_or_create(corporation_id, true);
 				if (alliance_id)
-					AllianceStore.find_or_create(alliance_id);
+					AllianceStore.find_or_create(alliance_id, true);
 			});
 
-			console.log("war task before kills");
-
 			await this.get_killmail_pages(client, this.get_info().page);
-
-			console.log("war task after kills");
 
 			if (finished && finished < Date.now())
 				await this.destroy();
@@ -76,7 +66,7 @@
 				.map(killmail => killmail.get_id());
 
 			for (let { killmail_id, killmail_hash } of obj.filter(id => !ids.includes(id))) {
-				await KillmailStore.find_or_create(killmail_id, killmail_hash);
+				await KillmailStore.find_or_create(killmail_id, killmail_hash, true);
 				await this.tick();
 			}
 
