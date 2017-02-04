@@ -29,7 +29,6 @@
 				} else {
 					Object.defineProperty(model.prototype, property, {
 						value: function () {
-							console.log(this.get_future(), this.get_future().then, model.name);
 							return this.get_future().then(data => data[field] || data[`${field}_id`]);
 						}
 					});

@@ -7,7 +7,7 @@
 	class List extends Base {
 
 		constructor (type, future_data) {
-			super(future_data.then(data => data.map(doc => Store.from_promise(doc, type))));
+			super(future_data.then(data => data.map(doc => Store.from_data(doc, type))));
 			this.type = type;
 		}
 
