@@ -141,7 +141,7 @@
 		async pull_new_tasks (now = Date.now()) {
 			let collection = await WorkerApp.get_tasks().get_collection();
 			this.tasks = await collection
-				.find({ "info.expires": { $lt: now }, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: WorkerApp.task_query(now) })
+				.find({ "info.expires": { $lt: now }, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: this.task_query(now) })
 				.sort({ "info.expires": 1 })
 				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5)
 				.toArray();
@@ -187,7 +187,7 @@
 			return DBUtil.get_store("Task");
 		}
 
-		static task_query (now = Date.now()) {
+		task_query (now = Date.now()) {
 			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: now - (1000 * this.TASK_TIMEOUT_SECONDS) } }];
 		}
 
@@ -200,7 +200,7 @@
 				let now = Date.now();
 
 				let { value } = await WorkerApp.get_tasks().modify(
-					{ _id, "info.expires": expires, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: WorkerApp.task_query(now) },
+					{ _id, "info.expires": expires, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: this.task_query(now) },
 					{ $set: { "info.state": 1, "info.modified": now } },
 					{ returnOriginal: false }
 				);
