@@ -24,8 +24,7 @@
 		}
 
 		map (fn) {
-			if (typeof(this.get_future().then) != "function")
-				console.log(this.get_future());
+			console.log(this.get_future());
 			return this.get_future().then(data => Promise.all(data.map(fn)));
 		}
 
