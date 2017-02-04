@@ -34,14 +34,17 @@
 				{ upsert: true, w: 0 }
 			);
 
-			corporations.forEach(corporation_id => CorporationStore.find_or_create(corporation_id, true));
+			const alliance_id = alliance.id;
+			const corporation_ids = await CorporationStore.from_cursor(c => c.find({ alliance_id })).map(corporation => corporation.get_id());
+
+			corporations
+				.filter(corporation_id => corporation_ids.includes(corporation_id))
+				.forEach(corporation_id => CorporationStore.find_or_create(corporation_id, true));
 
 			if (corporations.length == 0)
 				await this.destroy();
 			else
-				await this.update({
-					expires: new Date(headers.expires).getTime()
-				});
+				await this.update({ expires: new Date(headers.expires).getTime() });
 
 		}
 
