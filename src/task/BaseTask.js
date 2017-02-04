@@ -44,12 +44,12 @@
 			return DBUtil.get_store(this.get_name());
 		}
 
-		update ({ state = 0, expires = this.get_info().expires, modified = this.get_info().modified } = {}) {
-			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: { info: Object.assign({}, this.get_info(), { state, expires, modified }) } });
+		update ({ state = 0, expires = this.get_info().expires, modified = this.get_info().modified, page } = {}) {
+			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: { info: Object.assign({}, this.get_info(), { state, expires, modified, page }) } });
 		}
 
-		tick () {
-			return this.update({ state: 1, modified: Date.now() });
+		tick (options = {}) {
+			return this.update(Object.assign({ state: 1, modified: Date.now() }, options));
 		}
 		
 		destroy () {

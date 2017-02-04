@@ -90,7 +90,7 @@
 			if (obj.length == 2000)
 				return await this.get_killmail_pages(client, page + 1);
 			else
-				return true;
+				return await this.tick({ page });
 		}
 
 	}
