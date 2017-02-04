@@ -77,7 +77,7 @@
 				.map(killmail => killmail.get_id());
 
 			for (let { killmail_id, killmail_hash } of obj) {
-				if (!ids.some(killmail_id)) {
+				if (!ids.includes(killmail_id)) {
 					await KillmailStore.find_or_create(killmail_id, killmail_hash);
 					await this.tick();
 				}
