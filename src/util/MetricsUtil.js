@@ -36,10 +36,21 @@
 			storage.reporter.start(2 * 1000);
 		}
 
-		static get (key) {
-			if (!storage.reporter)
-				MetricsUtil.init();
+		static get (key, type) {
+			if (!storage.metrics.get(key)) {
+				let t = new type();
+				storage.report.addMetric(key, t);
+				storage.metrics.set(key, new type());
+			}
 			return storage.metrics.get(key);
+		}
+
+		static inc (key, value = 1) {
+			return this.get(key, Counter).inc(value);
+		}
+
+		static update (key, value) {
+			return this.get(key, Histogram).update(value);
 		}
 
 	}

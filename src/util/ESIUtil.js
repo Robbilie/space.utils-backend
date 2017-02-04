@@ -73,7 +73,7 @@
 					let { method, url, headers, body } = obj;
 					let start = process.hrtime();
 					try {
-						MetricsUtil.get("esi.started").inc(1);
+						MetricsUtil.inc("esi.started");
 						let response = await request({ method, url, headers, body });
 						try {
 							response.obj = JSON.parse(response.body);
@@ -84,13 +84,13 @@
 					} catch (e) {
 						++storage.errors;
 						obj.on.error(e);
-						MetricsUtil.get("esi.errors").inc(1);
+						MetricsUtil.inc("esi.errors");
 					}
 					++storage.completed;
 					let duration = process.hrtime(start);
-					MetricsUtil.get("esi.completed").inc(1);
-					MetricsUtil.get("esi.duration").update((duration[0] * 1e9 + duration[1]) / 1e6);
-					MetricsUtil.get("esi.rpstest").update(1, Date.now());
+					MetricsUtil.inc("esi.completed");
+					MetricsUtil.update("esi.duration", (duration[0] * 1e9 + duration[1]) / 1e6);
+					MetricsUtil.update("esi.rpstest", 1);
 				} }
 			}, options));
 		}
