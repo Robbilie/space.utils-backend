@@ -55,7 +55,7 @@ spec:
         - name: ESI_URL
           value: "https://esi.tech.ccp.is/latest/swagger.json"
         - name: UV_THREADPOOL_SIZE
-          value: "512"
+          value: "128"
         - name: PARALLEL_TASK_LIMIT
           value: "25"
         - name: TASK_TIMEOUT_SECONDS
