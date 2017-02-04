@@ -37,6 +37,8 @@
 		}
 
 		static get (key, type) {
+			if (!storage.reporter)
+				this.init();
 			if (!storage.metrics.get(key)) {
 				let t = new type();
 				storage.report.addMetric(key, t);
