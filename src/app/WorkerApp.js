@@ -231,7 +231,12 @@
 					// log error & slow down requests
 					let error = e.error;
 					try { error = JSON.parse(error); } catch (e) {}
-					console.log(name, e.name, e.name != "StatusCodeError" ? e : JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
+					if (e.name == "StatusCodeError")
+						console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
+					else if (e.message == "Error: ESOCKETTIMEDOUT")
+						console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
+					else
+						console.log(name, e);
 					// increases wait time to up to 5m
 					// ++this.running_tasks;
 					// setTimeout(() => --this.running_tasks, 5 * 60 * 1000 / this.PARALLEL_TASK_LIMIT * this.errors);
