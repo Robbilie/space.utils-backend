@@ -4,7 +4,7 @@
 	class DummyTransitionComponent extends Component {
 
 		render () {
-			return E("div", { className: "pages" });
+			return E("div", { className: "pages" }, this.props.children);
 		}
 
 	}
