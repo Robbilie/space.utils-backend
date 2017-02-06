@@ -12,16 +12,19 @@
 				constructor (...args) {
 					super(...args);
 
+					const _componentWillAppear = this.componentWillAppear;
 					this.componentWillAppear = function (...args) {
-						super.componentWillAppear(...(console.log("will appear") || args));
+						_componentWillAppear(...(console.log("will appear") || args));
 					};
 
+					const _componentWillEnter = this.componentWillEnter;
 					this.componentWillEnter = function (...args) {
-						super.componentWillEnter(...(console.log("will enter") || args));
+						_componentWillEnter(...(console.log("will enter") || args));
 					};
 
+					const _componentWillLeave = this.componentWillLeave;
 					this.componentWillLeave = function (...args) {
-						super.componentWillLeave(...(console.log("will leave") || args));
+						_componentWillLeave(...(console.log("will leave") || args));
 					};
 
 				}
