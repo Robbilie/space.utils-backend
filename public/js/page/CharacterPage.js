@@ -14,6 +14,7 @@
 				}
 			};
 			window.charpage = this;
+			this.props.setLoading(true);
 			this.load();
 		}
 
@@ -22,7 +23,7 @@
 				.then(client => client.characters.CharacterHandler_get_by_id({ character_id: this.props.params.id }))
 				.then(({ obj }) => {
 					console.log(obj);
-					this.setState(obj);
+					this.setState(obj, () => this.props.setLoading(false));
 					console.log("set state");
 				});
 		}
