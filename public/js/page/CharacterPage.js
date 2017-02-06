@@ -16,8 +16,12 @@
 			this.load();
 		}
 
+		componentWillAppear (cb) {
+			this.done = () => console.log("called") || cb();
+		}
+
 		componentWillEnter (cb) {
-			this.done = cb;
+			this.done = () => console.log("called") || cb();
 		}
 
 		load () {
@@ -26,6 +30,7 @@
 				.then(({ obj }) => {
 					console.log(obj);
 					this.setState(obj, this.done);
+					console.log("set state");
 				});
 		}
 
