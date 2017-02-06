@@ -98,7 +98,7 @@
 				),
 				E(SideBar, { isOpen: this.state.isOpen }),
 				E("div", { className: "content" },
-					E(React.addons.CSSTransitionGroup, {
+					E(PageTransition, {
 						component: "div",
 						className: "pages",
 						transitionName: "example",
