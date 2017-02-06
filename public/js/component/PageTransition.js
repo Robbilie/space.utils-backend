@@ -9,6 +9,23 @@
 
 			class PageTransitionChild extends this._wrapChild(null).type.prototype.constructor {
 
+				constructor (...args) {
+					super(...args);
+
+					this.componentWillAppear = function (...args) {
+						super.componentWillAppear(...(console.log("will appear") || args));
+					};
+
+					this.componentWillEnter = function (...args) {
+						super.componentWillEnter(...(console.log("will enter") || args));
+					};
+
+					this.componentWillLeave = function (...args) {
+						super.componentWillLeave(...(console.log("will leave") || args));
+					};
+
+				}
+
 				componentWillAppear (...args) {
 					super.componentWillAppear(...(console.log("will appear") || args));
 				}
