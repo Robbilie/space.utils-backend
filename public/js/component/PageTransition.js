@@ -1,6 +1,14 @@
 
 	"use strict";
 
+	class DummyTransitionComponent extends Component {
+
+		render () {
+			return E("div", { className: "pages" });
+		}
+
+	}
+
 	class PageTransition extends React.addons.CSSTransitionGroup {
 
 		constructor (props) {
