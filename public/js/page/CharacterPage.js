@@ -17,10 +17,12 @@
 		}
 
 		componentWillAppear (cb) {
+			console.log("will appear");
 			this.done = () => console.log("called") || cb();
 		}
 
 		componentWillEnter (cb) {
+			console.log("will enter");
 			this.done = () => console.log("called") || cb();
 		}
 
