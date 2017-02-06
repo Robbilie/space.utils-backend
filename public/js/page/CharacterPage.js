@@ -13,18 +13,8 @@
 					name: ""
 				}
 			};
-			this.done = function characterPageDoneNoOp () { console.log("noop"); };
+			window.charpage = this;
 			this.load();
-		}
-
-		componentWillAppear (cb) {
-			console.log("will appear");
-			this.done = function characterPageDone () { setTimeout(() => console.log("called") || cb(), 1); };
-		}
-
-		componentWillEnter (cb) {
-			console.log("will enter");
-			this.done = function characterPageDone () { setTimeout(() => console.log("called") || cb(), 1); };
 		}
 
 		load () {
@@ -32,7 +22,7 @@
 				.then(client => client.characters.CharacterHandler_get_by_id({ character_id: this.props.params.id }))
 				.then(({ obj }) => {
 					console.log(obj);
-					this.setState(obj, this.done);
+					this.setState(obj);
 					console.log("set state");
 				});
 		}
