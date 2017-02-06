@@ -124,7 +124,12 @@
 					E(SearchBar, { query: this.state.query, handler: (...args) => this.searchBarHandler(...args) }),
 					E(Clock)
 				),
-				E(Loading, { isLoading: this.state.isLoading })
+				this.state.isLoading ? E("div", { className: "loader" },
+					E("div", { className: "loader-circle" }),
+					E("div", { className: "loader-line-mask" },
+						E("div", { className: "loader-line" })
+					)
+				) : null
 			);
 		}
 
