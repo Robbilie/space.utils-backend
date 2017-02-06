@@ -17,6 +17,7 @@
 				this.state.query = decodeURI(this.props.location.pathname.slice(8, -1));
 			}
 			console.log("App", this);
+			window.app = this;
 		}
 
 		componentDidMount () {
