@@ -70,6 +70,9 @@ body {
     top: 0;
     overflow-x: hidden;
     overflow-y: auto;
+	transform-style: preserve-3d;
+	perspective: 500;
+	-webkit-perspective: 500;
 }
 
 .topbar {
@@ -159,6 +162,8 @@ body {
     transition: transform 10s, opacity 10s;
     transform: translateZ(0px);
     opacity: 1;
+	position: absolute;
+	top: 0;
 }
 
 .page.example-leave-active {
@@ -340,6 +345,7 @@ body {
 
 .welcome {
     height: 100%;
+	width: 100%;
     overflow: hidden;
 }
 

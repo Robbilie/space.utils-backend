@@ -29,17 +29,6 @@
 
 				}
 
-				componentWillAppear (...args) {
-					super.componentWillAppear(...(console.log("will appear") || args));
-				}
-
-				componentWillEnter (...args) {
-					super.componentWillEnter(...(console.log("will enter") || args));
-				}
-
-				componentWillLeave (...args) {
-					super.componentWillLeave(...(console.log("will leave") || args));
-				}
 			}
 
 			this.childClass = PageTransitionChild;
