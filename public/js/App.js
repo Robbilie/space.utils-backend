@@ -91,6 +91,10 @@
 			this.setState({ isOpen: !this.state.isOpen });
 		}
 
+		loadingHandler (isLoading) {
+			this.setState({ isLoading });
+		}
+
 		render () {
 			return E("div", { className: `ui ${this.state.isSearching ? "searching" : ""} ${this.state.isLoading ? "loading" : ""} ${this.state.isOpen ? "open" : "close"}` },
 				E("div", { id: "particles-background", className: "vertical-centered-box"}),
@@ -110,7 +114,8 @@
 						transitionEnterTimeout: 500,
 						transitionLeaveTimeout: 500
 					}, cloneElement(this.props.children, {
-						key: this.props.location.pathname
+						key: this.props.location.pathname,
+						loadingHandler: (isLoading) => this.loadingHandler(isLoading)
 					}))
 				),
 				E("div", { className: "topbar" },
