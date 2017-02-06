@@ -7,13 +7,22 @@
 			super(props);
 			window.transition = this;
 
-			this.childClass = this._wrapChild(null).type.prototype.constructor;
-			const willAppear = this.childClass.prototype.componentWillAppear;
-			this.childClass.prototype.componentWillAppear = (...args) => console.log("will appear") || willAppear(...args);
-			const willEnter = this.childClass.prototype.componentWillEnter;
-			this.childClass.prototype.componentWillEnter = (...args) => console.log("will enter") || willEnter(...args);
-			const willLeave = this.childClass.prototype.componentWillLeave;
-			this.childClass.prototype.componentWillLeave = (...args) => console.log("will leave") || willLeave(...args);
+			class PageTransitionChild extends this._wrapChild(null).type.prototype.constructor {
+
+				componentWillAppear (...args) {
+					super.componentWillAppear(...(console.log("will appear") || args));
+				}
+
+				componentWillEnter (...args) {
+					super.componentWillEnter(...(console.log("will enter") || args));
+				}
+
+				componentWillLeave (...args) {
+					super.componentWillLeave(...(console.log("will leave") || args));
+				}
+			}
+
+			this.childClass = PageTransitionChild;
 
 		}
 
@@ -21,7 +30,7 @@
 			// We need to provide this childFactory so that
 			// ReactCSSTransitionGroupChild can receive updates to name, enter, and
 			// leave while it is leaving.
-			return React.createElement(
+			let el = React.createElement(
 				this.childClass,
 				{
 					name: this.props.transitionName,
