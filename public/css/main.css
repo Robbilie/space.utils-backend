@@ -63,10 +63,11 @@ body {
     opacity: 1;
     min-height: 100%;
     position: relative;
+    padding-top: 60px;
 }
 
 .pages {
-    top: 60px;
+    top: 0;
     overflow-x: hidden;
     overflow-y: auto;
 }
