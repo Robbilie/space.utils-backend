@@ -13,17 +13,18 @@
 					name: ""
 				}
 			};
+			this.done = function characterPageDoneNoOp () { console.log("noop"); };
 			this.load();
 		}
 
 		componentWillAppear (cb) {
 			console.log("will appear");
-			this.done = () => setTimeout(() => console.log("called") || cb(), 1);
+			this.done = function characterPageDone () { setTimeout(() => console.log("called") || cb(), 1); };
 		}
 
 		componentWillEnter (cb) {
 			console.log("will enter");
-			this.done = () => setTimeout(() => console.log("called") || cb(), 1);
+			this.done = function characterPageDone () { setTimeout(() => console.log("called") || cb(), 1); };
 		}
 
 		load () {
