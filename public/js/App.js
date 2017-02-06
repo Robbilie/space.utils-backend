@@ -98,14 +98,12 @@
 				),
 				E(SideBar, { isOpen: this.state.isOpen }),
 				E("div", { className: "content" },
-					E(React.addons.CSSTransitionGroup, {
+					E(PageTransition, {
 						component: "div",
 						className: "pages",
 						transitionName: "example",
 						transitionEnterTimeout: 500,
-						transitionLeaveTimeout: 500,
-						componentWillAppear: (cb) => console.log("r will appear") || cb(),
-						componentWillEnter: (cb) => console.log("r will enter") || cb()
+						transitionLeaveTimeout: 500
 					}, cloneElement(this.props.children, {
 						key: this.props.location.pathname,
 						loadingHandler: (isLoading) => this.loadingHandler(isLoading)
