@@ -18,12 +18,12 @@
 
 		componentWillAppear (cb) {
 			console.log("will appear");
-			this.done = () => console.log("called") || cb();
+			this.done = () => setTimeout(() => console.log("called") || cb(), 1);
 		}
 
 		componentWillEnter (cb) {
 			console.log("will enter");
-			this.done = () => console.log("called") || cb();
+			this.done = () => setTimeout(() => console.log("called") || cb(), 1);
 		}
 
 		load () {
