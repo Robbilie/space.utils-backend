@@ -6,8 +6,7 @@
 		constructor (props) {
 			super(props);
 			window.transition = this;
-			this.awaitLoading = this.props.awaitLoading;
-			delete this.props.awaitLoading;
+			const awaitLoading = this.props.awaitLoading;
 
 			class PageTransitionChild extends this._wrapChild(null).type.prototype.constructor {
 
@@ -16,12 +15,12 @@
 
 					const _componentWillAppear = this.componentWillAppear;
 					this.componentWillAppear = function (...args) {
-						props.awaitLoading(() => _componentWillAppear(...(console.log("will appear") || args)));
+						awaitLoading(() => _componentWillAppear(...(console.log("will appear") || args)));
 					};
 
 					const _componentWillEnter = this.componentWillEnter;
 					this.componentWillEnter = function (...args) {
-						props.awaitLoading(() => _componentWillEnter(...(console.log("will enter") || args)));
+						awaitLoading(() => _componentWillEnter(...(console.log("will enter") || args)));
 					};
 
 					const _componentWillLeave = this.componentWillLeave;
