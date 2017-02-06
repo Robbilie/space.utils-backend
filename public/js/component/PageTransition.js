@@ -14,12 +14,12 @@
 
 					const _componentWillAppear = this.componentWillAppear;
 					this.componentWillAppear = function (...args) {
-						_componentWillAppear(...(console.log("will appear") || args));
+						props.awaitLoading(() => _componentWillAppear(...(console.log("will appear") || args)));
 					};
 
 					const _componentWillEnter = this.componentWillEnter;
 					this.componentWillEnter = function (...args) {
-						_componentWillEnter(...(console.log("will enter") || args));
+						props.awaitLoading(() => _componentWillEnter(...(console.log("will enter") || args)));
 					};
 
 					const _componentWillLeave = this.componentWillLeave;

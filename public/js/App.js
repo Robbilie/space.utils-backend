@@ -10,7 +10,8 @@
 				isLoading: false,
 				isOpen: false,
 				query: "",
-				prev_click: false
+				prev_click: false,
+				load_cb: null
 			};
 			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
 				this.state.isSearching = true;
@@ -82,8 +83,18 @@
 			this.setState({ isOpen: !this.state.isOpen });
 		}
 
-		loadingHandler (isLoading) {
-			this.setState({ isLoading });
+		setLoading (isLoading) {
+			if (!isLoading && this.state.load_cb) {
+				this.state.load_cb();
+			}
+			this.setState(Object.assign({ isLoading }, !isLoading ? { load_cb: null } : {}));
+		}
+
+		awaitLoading (load_cb) {
+			if (this.state.isLoading)
+				this.setState({ load_cb });
+			else
+				load_cb();
 		}
 
 		render () {
@@ -103,10 +114,11 @@
 						className: "pages",
 						transitionName: "example",
 						transitionEnterTimeout: 10000,
-						transitionLeaveTimeout: 10000
+						transitionLeaveTimeout: 10000,
+						awaitLoading: (cb) => this.awaitLoading(cb)
 					}, cloneElement(this.props.children, {
 						key: this.props.location.pathname,
-						loadingHandler: (isLoading) => this.loadingHandler(isLoading)
+						setLoading: (isLoading) => this.setLoading(isLoading)
 					}))
 				),
 				E("div", { className: "topbar" },
