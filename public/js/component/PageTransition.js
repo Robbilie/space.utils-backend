@@ -1,6 +1,6 @@
 
 	"use strict";
 
-	class PageTransition extends React.addons.TransitionGroup {
+	class PageTransition extends React.addons.CSSTransitionGroup {
 
 	}
