@@ -19,16 +19,6 @@
 			console.log("App", this);
 		}
 
-		componentWillAppear (cb) {
-			console.log("will appear");
-			cb();
-		}
-
-		componentWillEnter (cb) {
-			console.log("will enter");
-			cb();
-		}
-
 		componentDidMount () {
 			this.background = particleground(document.getElementById('particles-background'), {
 				dotColor: 'rgba(255, 255, 255, 0.5)',
