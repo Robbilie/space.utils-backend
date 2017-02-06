@@ -14,6 +14,9 @@
 				}
 			};
 			window.charpage = this;
+		}
+
+		componentWillMount () {
 			this.props.setLoading(true);
 			this.load();
 		}
