@@ -30,7 +30,7 @@
 			// We need to provide this childFactory so that
 			// ReactCSSTransitionGroupChild can receive updates to name, enter, and
 			// leave while it is leaving.
-			let el = React.createElement(
+			return React.createElement(
 				this.childClass,
 				{
 					name: this.props.transitionName,
