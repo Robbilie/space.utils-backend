@@ -6,6 +6,8 @@
 		constructor (props) {
 			super(props);
 			window.transition = this;
+			this.awaitLoading = this.props.awaitLoading;
+			delete this.props.awaitLoading;
 
 			class PageTransitionChild extends this._wrapChild(null).type.prototype.constructor {
 
