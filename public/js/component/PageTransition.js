@@ -22,7 +22,7 @@
 
 		render() {
 			return E(
-				React.addons.ReactTransitionGroup,
+				React.addons.TransitionGroup,
 				Object.assign({}, this.props, { childFactory: this._customWrapChild })
 			);
 		}
