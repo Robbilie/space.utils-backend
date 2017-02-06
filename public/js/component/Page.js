@@ -5,15 +5,14 @@
 
 		constructor (props) {
 			super(props);
-			this.done = () => {};
 		}
 
-		componentWillAppear (cb) {
-			this.done = cb;
+		componentWillMount () {
+			this.props.setLoading(false);
 		}
 
-		componentWillEnter (cb) {
-			this.done = cb;
+		setLoading (isLoading) {
+			return this.props.setLoading(isLoading);
 		}
 
 	}

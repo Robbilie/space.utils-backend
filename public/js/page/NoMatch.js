@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class NoMatch extends Component {
+	class NoMatch extends Page {
 
 		render () {
 			return E("div", { className: "page" },

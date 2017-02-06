@@ -91,10 +91,7 @@
 		}
 
 		awaitLoading (load_cb) {
-			if (this.state.isLoading)
-				this.setState({ load_cb });
-			else
-				load_cb();
+			this.setState({ load_cb });
 		}
 
 		render () {

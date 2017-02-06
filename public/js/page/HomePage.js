@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class HomePage extends Component {
+	class HomePage extends Page {
 
 		render () {
 			return E("div", { className: "welcome page" },

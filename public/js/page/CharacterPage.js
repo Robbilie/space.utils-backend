@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class CharacterPage extends Component {
+	class CharacterPage extends Page {
 
 		constructor (props) {
 			super(props);
@@ -17,16 +17,12 @@
 		}
 
 		componentWillMount () {
-			this.props.setLoading(true);
-			this.load();
-		}
-
-		load () {
+			this.setLoading(true);
 			EASClient
 				.then(client => client.characters.CharacterHandler_get_by_id({ character_id: this.props.params.id }))
 				.then(({ obj }) => {
 					console.log(obj);
-					this.setState(obj, () => this.props.setLoading(false));
+					this.setState(obj, () => this.setLoading(false));
 					console.log("set state");
 				});
 		}
