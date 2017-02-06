@@ -3,7 +3,7 @@
 
 	class PageTransition extends React.addons.CSSTransitionGroup {
 
-		_wrapChild (child) {
+		_customWrapChild (child) {
 			console.log("hello wrap child");
 			return React.createElement(
 				ReactCSSTransitionGroupChild,
@@ -17,6 +17,13 @@
 					leaveTimeout: this.props.transitionLeaveTimeout,
 				},
 				child
+			);
+		}
+
+		render() {
+			return E(
+				React.addons.ReactTransitionGroup,
+				Object.assign({}, this.props, { childFactory: this._customWrapChild })
 			);
 		}
 
