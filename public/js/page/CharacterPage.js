@@ -25,9 +25,7 @@
 				.then(client => client.characters.CharacterHandler_get_by_id({ character_id: this.props.params.id }))
 				.then(({ obj }) => {
 					console.log(obj);
-					this.setState(obj);
-					if (this.done)
-						this.done();
+					this.setState(obj, this.done);
 				});
 		}
 
