@@ -109,8 +109,10 @@
 					E(PageTransition, {
 						component: DummyTransitionComponent,
 						transitionName: "example",
-						transitionEnterTimeout: 500,
-						transitionLeaveTimeout: 500,
+						appear: true,
+						transitionAppearTimeout: 5000,
+						transitionEnterTimeout: 5000,
+						transitionLeaveTimeout: 5000,
 						awaitLoading: (cb) => this.awaitLoading(cb)
 					}, cloneElement(this.props.children, {
 						key: this.props.location.pathname,
