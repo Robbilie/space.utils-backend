@@ -85,15 +85,17 @@
 
 		setLoading (isLoading) {
 			console.log("set loading", isLoading);
-			if (!isLoading) {
+			if (!isLoading)
 				this.state.load_cbs.forEach(cb => cb());
-			}
 			this.setState(Object.assign({ isLoading }, !isLoading ? { load_cbs: [] } : {}));
 		}
 
 		awaitLoading (load_cb) {
 			console.log("await loading");
-			this.setState({ load_cbs: [...this.state.load_cbs, load_cb] });
+			if (this.state.isLoading)
+				this.setState({ load_cbs: [...this.state.load_cbs, load_cb] });
+			else
+				load_cb();
 		}
 
 		render () {
