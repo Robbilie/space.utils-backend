@@ -2,19 +2,19 @@
 	"use strict";
 
 	const os = require("os");
-	const { GraphiteReporter, Report, Counter, Histogram } = require("metrics");
+	const { GraphiteReporter, Report, Counter, Histogram, Timer } = require("metrics");
 
 	const storage = {
 		metrics: new Map([
 			["esi.completed", new Counter()],
 			["esi.errors", new Counter()],
-			["esi.duration", new Histogram()],
-			["esi.rpstest", new Histogram()],
+			["esi.duration", new Timer()],
+			["esi.rpstest", new Timer()],
 			["esi.started", new Counter()],
 			["tasks.started", new Counter()],
 			["tasks.completed", new Counter()],
 			["tasks.errors", new Counter()],
-			["tasks.duration", new Histogram()]
+			["tasks.duration", new Timer()]
 		]),
 		report: undefined,
 		reporter: undefined
@@ -53,7 +53,7 @@
 		}
 
 		static update (key, value) {
-			return this.get(key, Histogram).update(value);
+			return this.get(key, Timer).update(value);
 		}
 
 	}
