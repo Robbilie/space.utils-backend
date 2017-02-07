@@ -29,7 +29,7 @@
 		}
 
 		render () {
-			return E("div", { className: "page two-col-page" },
+			return E("div", { className: "page two-col-page example-enter" },
 				E("div", { className: "left-col" },
 					E("img", { src: `https://imageserver.eveonline.com/Character/${this.state.id}_256.jpg` }),
 					E("h2", { className: "mobile" },
