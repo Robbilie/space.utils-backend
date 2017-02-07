@@ -108,7 +108,8 @@
 				E(SideBar, { isOpen: this.state.isOpen }),
 				E("div", { className: "content" },
 					E(PageTransition, {
-						component: DummyTransitionComponent,
+						component: "div",
+						className: "pages",
 						transitionName: "example",
 						transitionEnterTimeout: 500,
 						transitionLeaveTimeout: 500,
