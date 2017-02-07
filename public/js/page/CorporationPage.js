@@ -29,7 +29,7 @@
 		}
 
 		render () {
-			return E("div", { className: "page corporation-page two-col-page " + (this.state.id ? "" : "example-enter") },
+			return E("div", { className: "page corporation-page two-col-page" },
 				E("div", { className: "left-col" },
 					E("img", { src: `https://imageserver.eveonline.com/Corporation/${this.state.id}_256.png` }),
 					E("h2", { className: "mobile" },
