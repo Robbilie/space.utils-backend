@@ -23,7 +23,7 @@
 				.then(client => client.corporations.CorporationHandler_get_by_id({ corporation_id: this.props.params.id }))
 				.then(({ obj }) => {
 					console.log(obj);
-					this.setState(obj, () => this.setLoading(false));
+					this.setState(obj, () => setTimeout(() => this.setLoading(false)));
 					console.log("set state");
 				});
 		}
