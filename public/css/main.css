@@ -64,6 +64,7 @@ body {
     min-height: 100%;
     position: relative;
     padding-top: 60px;
+    width: 100%;
 }
 
 .pages {
