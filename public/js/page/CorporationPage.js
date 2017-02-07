@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class CorporationPage extends Component {
+	class CorporationPage extends Page {
 
 		constructor (props) {
 			super(props);
@@ -14,13 +14,17 @@
 					name: ""
 				}
 			};
-			this.load();
 		}
 
-		load () {
+		componentWillMount () {
+			this.setLoading(true);
 			EASClient
 				.then(client => client.corporations.CorporationHandler_get_by_id({ corporation_id: this.props.params.id }))
-				.then(({ obj }) => console.log(obj) || this.setState(obj));
+				.then(({ obj }) => {
+					console.log(obj);
+					this.setState(obj, () => this.setLoading(false));
+					console.log("set state");
+				});
 		}
 
 		render () {

@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class AlliancePage extends Component {
+	class AlliancePage extends Page {
 
 		constructor (props) {
 			super(props);
@@ -14,13 +14,17 @@
 					name: ""
 				}
 			};
-			this.load();
 		}
 
-		load () {
+		componentWillMount () {
+			this.setLoading(true);
 			EASClient
 				.then(client => client.alliances.AllianceHandler_get_by_id({ alliance_id: this.props.params.id }))
-				.then(({ obj }) => console.log(obj) || this.setState(obj));
+				.then(({ obj }) => {
+					console.log(obj);
+					this.setState(obj, () => this.setLoading(false));
+					console.log("set state");
+				});
 		}
 
 		render () {

@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class SystemPage extends Component {
+	class SystemPage extends Page {
 
 		render () {
 			return E("div", { className: "page" });

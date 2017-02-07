@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class KillboardPage extends Component {
+	class KillboardPage extends Page {
 
 		render () {
 			return E("div", { className: "page" });

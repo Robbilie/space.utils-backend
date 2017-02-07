@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class SearchPage extends Component {
+	class SearchPage extends Page {
 
 		render () {
 			return E("div", { className: "page" });

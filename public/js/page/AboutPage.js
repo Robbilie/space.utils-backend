@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	class AboutPage extends Component {
+	class AboutPage extends Page {
 
 		render () {
 			return E("div", { className: "page" },
