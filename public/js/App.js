@@ -84,6 +84,7 @@
 		}
 
 		setLoading (isLoading) {
+			console.log("set loading", isLoading);
 			if (!isLoading) {
 				this.state.load_cbs.forEach(cb => cb());
 			}
@@ -91,6 +92,7 @@
 		}
 
 		awaitLoading (load_cb) {
+			console.log("await loading");
 			this.setState({ load_cbs: [...this.state.load_cbs, load_cb] });
 		}
 

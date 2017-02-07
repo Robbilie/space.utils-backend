@@ -17,6 +17,7 @@
 		}
 
 		componentWillMount () {
+			console.log("will mount");
 			this.setLoading(true);
 			EASClient
 				.then(client => client.corporations.CorporationHandler_get_by_id({ corporation_id: this.props.params.id }))

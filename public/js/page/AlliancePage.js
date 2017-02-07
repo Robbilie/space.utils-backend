@@ -17,6 +17,7 @@
 		}
 
 		componentWillMount () {
+			console.log("will mount");
 			this.setLoading(true);
 			EASClient
 				.then(client => client.alliances.AllianceHandler_get_by_id({ alliance_id: this.props.params.id }))

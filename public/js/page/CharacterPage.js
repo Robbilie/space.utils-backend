@@ -17,6 +17,7 @@
 		}
 
 		componentWillMount () {
+			console.log("will mount");
 			this.setLoading(true);
 			EASClient
 				.then(client => client.characters.CharacterHandler_get_by_id({ character_id: this.props.params.id }))

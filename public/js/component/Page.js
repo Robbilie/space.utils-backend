@@ -8,6 +8,7 @@
 		}
 
 		componentWillMount () {
+			console.log("will mount");
 			this.props.setLoading(false);
 		}
 
