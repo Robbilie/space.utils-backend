@@ -90,6 +90,7 @@ body {
     right: 20px;
     width: calc(100% - 180px);
     max-width: 500px;
+	z-index: 6;
 }
 
 .ui.searching .topbar .searchbar {
