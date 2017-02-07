@@ -91,7 +91,7 @@
 		}
 
 		awaitLoading (load_cb) {
-			console.log("await loading");
+			console.log("await loading", this.state.isLoading);
 			if (this.state.isLoading)
 				this.setState({ load_cbs: [...this.state.load_cbs, load_cb] });
 			else
