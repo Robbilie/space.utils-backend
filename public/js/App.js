@@ -11,7 +11,7 @@
 				isOpen: false,
 				query: "",
 				prev_click: false,
-				load_cb: null
+				load_cbs: []
 			};
 			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
 				this.state.isSearching = true;
@@ -84,15 +84,14 @@
 		}
 
 		setLoading (isLoading) {
-			if (!isLoading && this.state.load_cb) {
-				const cb = this.state.load_cb;
-				setTimeout(() => cb(), 1);
+			if (!isLoading) {
+				this.state.load_cbs.forEach(cb => cb());
 			}
-			this.setState(Object.assign({ isLoading }, !isLoading ? { load_cb: null } : {}));
+			this.setState(Object.assign({ isLoading }, !isLoading ? { load_cbs: [] } : {}));
 		}
 
 		awaitLoading (load_cb) {
-			this.setState({ load_cb });
+			this.setState({ load_cbs: [...this.state.load_cbs, load_cb] });
 		}
 
 		render () {

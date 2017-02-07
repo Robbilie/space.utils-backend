@@ -33,7 +33,7 @@
 
 					const _componentWillLeave = this.componentWillLeave;
 					this.componentWillLeave = function (...args) {
-						_componentWillLeave(...(console.log("will leave") || args));
+						awaitLoading(() => _componentWillLeave(...(console.log("will leave") || args)));
 					};
 
 				}
