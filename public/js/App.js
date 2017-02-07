@@ -114,9 +114,9 @@
 						component: DummyTransitionComponent,
 						transitionName: "example",
 						appear: true,
-						transitionAppearTimeout: 5000,
-						transitionEnterTimeout: 5000,
-						transitionLeaveTimeout: 5000,
+						transitionAppearTimeout: 500,
+						transitionEnterTimeout: 500,
+						transitionLeaveTimeout: 500,
 						awaitLoading: (cb) => this.awaitLoading(cb)
 					}, cloneElement(this.props.children, {
 						key: this.props.location.pathname,
