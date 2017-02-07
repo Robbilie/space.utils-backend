@@ -29,7 +29,7 @@
 		}
 
 		render () {
-			return E("div", { className: "page two-col-page example-enter" },
+			return E("div", { className: "page alliance-page two-col-page example-enter" },
 				E("div", { className: "left-col" },
 					E("img", { style: { width: "256px" }, src: `https://imageserver.eveonline.com/Alliance/${this.state.id}_128.png` }),
 					E("h2", { className: "mobile" },
