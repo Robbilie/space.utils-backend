@@ -85,7 +85,8 @@
 
 		setLoading (isLoading) {
 			if (!isLoading && this.state.load_cb) {
-				this.state.load_cb();
+				const cb = this.state.load_cb;
+				setTimeout(() => cb(), 1);
 			}
 			this.setState(Object.assign({ isLoading }, !isLoading ? { load_cb: null } : {}));
 		}
