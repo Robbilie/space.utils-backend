@@ -38,6 +38,7 @@
 
 					const _componentWillLeave = this.componentWillLeave;
 					this.componentWillLeave = function (...args) {
+						ReactDOM.findDOMNode(this).classList.add(this.props.name + "-leave");
 						awaitLoading(() => _componentWillLeave(...(console.log("will leave") || args)));
 					};
 
