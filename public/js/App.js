@@ -10,9 +10,10 @@
 				isLoading: false,
 				isOpen: false,
 				query: "",
-				prev_click: false,
-				load_cbs: []
+				prev_click: false
 			};
+			this.load_cbs = [];
+			this.isLoading = false;
 			if (this.props.location.pathname.indexOf("/search/") + 1 && this.props.location.pathname != "/search/") {
 				this.state.isSearching = true;
 				this.state.query = decodeURI(this.props.location.pathname.slice(8, -1));
@@ -85,15 +86,18 @@
 
 		setLoading (isLoading) {
 			console.log("set loading", isLoading);
-			if (!isLoading)
-				this.state.load_cbs.forEach(cb => cb());
-			this.setState(Object.assign({ isLoading }, !isLoading ? { load_cbs: [] } : {}));
+			if (!isLoading) {
+				this.load_cbs.forEach(cb => cb());
+				this.load_cbs = [];
+			}
+			this.isLoading = isLoading;
+			this.setState({ isLoading });
 		}
 
 		awaitLoading (load_cb) {
-			console.log("await loading", this.state.isLoading);
-			if (this.state.isLoading)
-				this.setState({ load_cbs: [...this.state.load_cbs, load_cb] });
+			console.log("await loading", this.isLoading);
+			if (this.isLoading)
+				this.load_cbs.push(load_cb);
 			else
 				load_cb();
 		}
