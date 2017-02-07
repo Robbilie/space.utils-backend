@@ -62,10 +62,10 @@
 						obj.on.error(e);
 						MetricsUtil.inc("esi.errors");
 					}
-					++storage.completed;
 					let duration = process.hrtime(start);
-					MetricsUtil.inc("esi.completed");
 					MetricsUtil.update("esi.duration", (duration[0] * 1e9 + duration[1]) / 1e6);
+					++storage.completed;
+					MetricsUtil.inc("esi.completed");
 					MetricsUtil.update("esi.rpstest", 1);
 				} }
 			}, options));
