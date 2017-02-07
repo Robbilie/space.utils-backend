@@ -23,7 +23,10 @@
 
 					const _componentWillAppear = this.componentWillAppear;
 					this.componentWillAppear = function (...args) {
-						awaitLoading(() => _componentWillAppear(...(console.log("will appear") || args)));
+						awaitLoading(() => {
+							ReactDOM.findDOMNode(this).classList.remove(this.props.name + "-enter");
+							_componentWillAppear(...(console.log("will appear") || args))
+						});
 					};
 
 					const _componentWillEnter = this.componentWillEnter;
