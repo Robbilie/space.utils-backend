@@ -35,7 +35,8 @@
 
 			// start polling for old tasks that have to be fetched
 			this.pulling_tasks = null;
-			this.poll_for_tasks();
+			//this.poll_for_tasks();
+			this.work_tasks();
 
 		}
 
@@ -89,7 +90,7 @@
 
 			// start listener for brand new tasks
 			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info.expires": 0 }, undefined,
-				({ o }) => this.enqueue(o)/*this.process(o)*/);
+				({ o }) => this.process(o));
 
 			// start listener for just taken tasks
 			WorkerApp.get_tasks().get_continuous_updates({ op: "u" }, undefined,
@@ -115,7 +116,7 @@
 			return new Promise(resolve => {
 
 				const run = (runnable, done) => {
-					this.process(runnable).then(() => {
+					this.process_next(runnable).then(() => {
 						if(this.queued_tasks.length)
 							this.queued_tasks.shift()();
 						else
@@ -148,6 +149,18 @@
 			this.heartbeat = Date.now();
 			console.log("pulled new tasks");
 			return null;
+		}
+
+		async work_tasks () {
+
+			try {
+				await this.enqueue();
+			} catch (e) {
+				console.log("worker error", e);
+			}
+
+			process.nextTick(() => this.work_tasks());
+
 		}
 
 		async poll_for_tasks () {
@@ -190,6 +203,63 @@
 
 		task_query (now = Date.now()) {
 			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: now - (1000 * this.TASK_TIMEOUT_SECONDS) } }];
+		}
+
+		async process_next () {
+
+			try {
+
+				let now = Date.now();
+
+				let { value } = await WorkerApp.get_tasks().modify(
+					{ "info.expires": { $lt: now }, $or: this.task_query(now) },
+					{ $set: { "info.state": 1, "info.modified": now } },
+					{ returnOriginal: false, sort: { "info.expires": 1 } }
+				);
+
+				if (!value)
+					return null;
+
+				let { _id, info: { name } } = value;
+
+				MetricsUtil.inc("tasks.started");
+
+				try {
+
+					let start = process.hrtime();
+					await new (LoadUtil.task(name))(value).start();
+
+					this.completed++;
+					let duration = process.hrtime(start);
+					duration = (duration[0] * 1e9 + duration[1]) / 1e6;
+					MetricsUtil.update("tasks.duration", duration);
+					MetricsUtil.update(`tasks.type.${name}`, duration);
+
+				} catch (e) {
+
+					await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": Date.now() } });
+
+					this.errors++;
+					MetricsUtil.inc("tasks.errors");
+					let error = e.error;
+					try { error = JSON.parse(error); } catch (e) {}
+					if (e.name == "StatusCodeError")
+						console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
+					else if (e.message == "Error: ESOCKETTIMEDOUT")
+						console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
+					else
+						console.log(name, e);
+
+				}
+
+			} catch (e) {
+				console.log("shouldn't happen", e);
+			}
+
+			MetricsUtil.inc("tasks.completed");
+
+			this.heartbeat = Date.now();
+
 		}
 
 		async process ({ _id, info: { name, expires } }) {
