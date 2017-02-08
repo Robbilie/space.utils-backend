@@ -6,7 +6,7 @@ metadata:
     app: eas-worker
   name: eas-worker-dep
 spec:
-  replicas: 7
+  replicas: 1
   selector:
     matchLabels:
       app: eas-worker
@@ -23,8 +23,8 @@ spec:
         - containerPort: 4001
         resources:
           limits:
-            memory: "200Mi"
-            cpu: "70m"
+            memory: "500Mi"
+            cpu: "200m"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"
@@ -57,7 +57,7 @@ spec:
         - name: UV_THREADPOOL_SIZE
           value: "128"
         - name: PARALLEL_TASK_LIMIT
-          value: "50"
+          value: "128"
         - name: TASK_TIMEOUT_SECONDS
           value: "300"
         readinessProbe:
