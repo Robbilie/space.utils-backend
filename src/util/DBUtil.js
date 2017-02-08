@@ -16,12 +16,12 @@
 			//bufferMaxEntries: 0
 		},
 		server: {
-			poolSize: 50
+			//poolSize: 50
 		},
-		replSet: {
-			poolSize: 50,
+		/*replSet: {
+			//poolSize: 50,
 			replicaSet: "rs0"
-		}
+		}*/
 	};
 
 	class DBUtil {
