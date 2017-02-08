@@ -6,7 +6,7 @@ metadata:
     app: eas-worker
   name: eas-worker-dep
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: eas-worker
@@ -24,7 +24,7 @@ spec:
         resources:
           limits:
             memory: "300Mi"
-            cpu: "150m"
+            cpu: "100m"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"
