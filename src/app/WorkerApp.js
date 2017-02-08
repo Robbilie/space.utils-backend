@@ -212,7 +212,10 @@
 				let now = Date.now();
 
 				let { value } = await WorkerApp.get_tasks().modify(
-					{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } },
+					{ $or: [
+						{ "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
+						{ "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
+					] },
 					{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
 					{ returnOriginal: false, sort: { "info.expires": 1 } }
 				);
