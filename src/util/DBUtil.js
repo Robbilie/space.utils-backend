@@ -16,26 +16,11 @@
 			//bufferMaxEntries: 0
 		},
 		server: {
-			poolSize: 50,
-			/*socketOptions: {
-				//autoReconnect: false,
-				keepAlive: 1,
-				socketTimeoutMS: 10 * 1000,
-				connectTimeoutMS: 10 * 1000
-			},
-			reconnectTries: Number.MAX_VALUE,
-			reconnectInterval: 500*/
+			poolSize: 20
 		},
 		replSet: {
-			poolSize: 50,
-			replicaSet: "rs0",
-			/*socketOptions: {
-				keepAlive: 1,
-				socketTimeoutMS: 10 * 1000,
-				connectTimeoutMS: 10 * 1000
-			},
-			reconnectTries: Number.MAX_VALUE,
-			reconnectInterval: 500*/
+			poolSize: 20,
+			replicaSet: "rs0"
 		}
 	};
 
