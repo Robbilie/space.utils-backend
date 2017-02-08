@@ -6,7 +6,7 @@ metadata:
     app: eas-worker
   name: eas-worker-dep
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: eas-worker
@@ -23,8 +23,8 @@ spec:
         - containerPort: 4001
         resources:
           limits:
-            memory: "500Mi"
-            cpu: "200m"
+            memory: "300Mi"
+            cpu: "150m"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"
