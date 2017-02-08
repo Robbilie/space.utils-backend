@@ -49,9 +49,9 @@
 		}
 
 		update ({ state = 0, expires = this.get_info().expires, modified = this.get_info().modified, page = this.get_info().page } = {}) {
-			let info = Object.assign({}, this.get_info(), { state, expires, modified, page });
+			let info = { state, expires, modified, page };
 			this.set_info(info);
-			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: { info } });
+			return BaseTask.get_tasks().update({ _id: this.get__id() }, { $set: Object.entries(info).filter(([name, value]) => !!value).reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) });
 		}
 
 		tick (options = {}) {
