@@ -16,10 +16,10 @@
 			//bufferMaxEntries: 0
 		},
 		server: {
-			poolSize: 20
+			poolSize: 50
 		},
 		replSet: {
-			poolSize: 20,
+			poolSize: 50,
 			replicaSet: "rs0"
 		}
 	};
