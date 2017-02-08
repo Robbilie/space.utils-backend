@@ -1,37 +1,22 @@
 
 	"use strict";
 
-	const { BaseTask } 		= require("task/");
-	const { ESIUtil } 		= require("util/");
-	const { SystemStore } 	= require("store/");
+	const { BaseTask } 	= require("task/");
+	const { ESIUtil } 	= require("util/");
+	const { SystemStore } = require("store/");
 
 	class SystemsTask extends BaseTask {
 
 		async start () {
-
-			let start = Date.now();
-			let times = [];
-
 			let client = await ESIUtil.get_client();
+			let { obj } = await client.Universe.get_universe_systems();
 
-			times.push(Date.now() - start);
+			for (let system_id of obj) {
+				await SystemStore.find_or_create(system_id, true);
+				await this.tick();
+			}
 
-			const { expires, ids } = await ESIUtil.get_all_pages(client.Universe.get_universe_systems);
-			console.log("systems", ids.length);
-
-			let chunks = ids.chunk(2000);
-			const process_chunk = chunk => new Promise(resolve => setImmediate(() => chunk.forEach(id => SystemStore.find_or_create(id)) || resolve()));
-			for (let i = 0; i < chunks.length; i++)
-				await process_chunk(chunks[i]);
-
-			await this.update({
-				expires
-			});
-
-			times.push(Date.now() - start);
-
-			console.log("systems", ...times);
-
+			await this.update({ expires: Date.now() + (60 * 60 * 1000) });
 		}
 
 	}
