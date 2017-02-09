@@ -201,7 +201,7 @@
 				.then(value => {
 					if (value)
 						return this.process_next_try(value)
-							.catch(e => this.process_next_catch(value));
+							.catch(e => this.process_next_catch(e, value));
 				});
 		}
 
@@ -245,7 +245,7 @@
 
 		}
 
-		async process_next_catch ({ _id, info: { name } }) {
+		async process_next_catch (e, { _id, info: { name } }) {
 
 			await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": (Date.now() / 1000)|0 } });
 
