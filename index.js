@@ -14,18 +14,18 @@
 	global.config = require("js-yaml").safeLoad(new Buffer(require("fs").readFileSync("/etc/secrets/config.yaml"), "base64"));
 
 	// setup sentry if dsn is set
-	global.err = {};
 	if(config.sentry.dsn && config.sentry.dsn != "") {
-		const { Client } = require("raven");
-		let client = new Client(config.sentry.dsn);
-		client.patchGlobal();
-		client.setUserContext({
+
+		const Raven = require("raven");
+		Raven.config(config.sentry.dsn).install();
+		Raven.setContext({
 			app: process.env.APP_NAME
 		});
-		err.raven = client;
+
 		process.on("unhandledRejection", function (reason) {
-			err.raven.captureException(reason);
+			Raven.captureException(reason);
 		});
+
 	}
 
 	// dynamically load app and launch it
