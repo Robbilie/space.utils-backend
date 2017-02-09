@@ -213,10 +213,11 @@
 
 				let atomic_start = process.hrtime();
 				let { value } = await WorkerApp.get_tasks().modify(
-					{ $or: [
+					{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
+					/*{ $or: [
 						{ "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
 						{ "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
-					] },
+					] }*/,
 					{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
 					{ sort: { "info.expires": 1 } }
 				);
