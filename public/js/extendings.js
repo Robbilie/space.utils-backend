@@ -22,9 +22,9 @@
 				local_storage.timeout = null;
 				if (!immediate) func.apply(context, args);
 			};
-			let callNow = immediate && !timeout;
-			clearTimeout(timeout);
-			timeout = setTimeout(later, wait);
+			let callNow = immediate && !local_storage.timeout;
+			clearTimeout(local_storage.timeout);
+			local_storage.timeout = setTimeout(later, wait);
 			if (callNow) func.apply(context, args);
 		};
 	};
