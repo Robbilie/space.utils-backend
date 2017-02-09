@@ -15,7 +15,7 @@
 			if (this.props.query)
 				this.search(this.props.query, true);
 
-			this.debounce_search = debounce((search, init) => this.request_search(search, init), 100);
+			this.debounce_search = debounce((search, init) => this.request_search(search, init), 200);
 		}
 
 		handleChange (e) {
