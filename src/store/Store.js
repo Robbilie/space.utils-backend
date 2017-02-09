@@ -105,13 +105,13 @@
 			return this.find();
 		}
 
-		static aggregate (collection, $match, options = []) {
+		static aggregate (collection, $match, options = [], allowDiskUse = true) {
 			return collection
 				.aggregate([
 					{ $match },
 					...options,
 					...(this.aggregations || [])
-				], { allowDiskUse: true }); // possibly slower?
+				], { allowDiskUse }); // possibly slower?
 		}
 
 		static update_model (model, data, options, ignore) {
