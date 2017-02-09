@@ -14,6 +14,8 @@
 
 			if (this.props.query)
 				this.search(this.props.query, true);
+
+			this.debounce_search = debounce((search, init) => this.search(search, init), 100);
 		}
 
 		handleChange (e) {
@@ -75,7 +77,7 @@
 						value: this.state.query,
 						onChange: e => this.handleChange(e),
 						onBlur: e => this.props.handler("blur", e.target.value),
-						onKeyUp: e => this.props.handler("keyup", e.target.value) || this.search(e.target.value),
+						onKeyUp: e => this.props.handler("keyup", e.target.value) || this.debounce_search(e.target.value),
 						onFocus: e => this.props.handler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
 				)

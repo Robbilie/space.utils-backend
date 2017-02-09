@@ -53,7 +53,7 @@
 				parallax: false,
 			});
 			this.foreground.pause();
-			window.addEventListener("resize", this.resizeHandler.bind(this));
+			window.addEventListener("resize", debounce(this.resizeHandler.bind(this), 250));
 		}
 
 		resizeHandler (e) {
