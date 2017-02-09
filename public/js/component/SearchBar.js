@@ -15,7 +15,7 @@
 			if (this.props.query)
 				this.search(this.props.query, true);
 
-			this.debounce_search = debounce((search, init) => this.search(search, init), 100);
+			this.debounce_search = debounce((search, init) => this.request_search(search, init), 100);
 		}
 
 		handleChange (e) {
@@ -27,6 +27,10 @@
 				this.setState({ query: search });
 			if (search.length < 3)
 				return this.setState({ results: [["Start typing…", []]] });
+			this.debounce_request_search(search, init);
+		}
+
+		request_search (search, init) {
 			ESIClient.then(client => client.Search.get_search({ search, strict: !!init, categories: this.state.categories }).then(res => {
 				const search_data = res.obj;
 				if ([].concat(...Object.values(search_data)).length == 0)
@@ -77,7 +81,7 @@
 						value: this.state.query,
 						onChange: e => this.handleChange(e),
 						onBlur: e => this.props.handler("blur", e.target.value),
-						onKeyUp: e => this.props.handler("keyup", e.target.value) || this.debounce_search(e.target.value),
+						onKeyUp: e => this.props.handler("keyup", e.target.value) || this.search(e.target.value),
 						onFocus: e => this.props.handler("focus", e.target.value) || e.target.value == "" ? this.setState({ results: [["Start typing…", []]] }) : false
 					})
 				)
