@@ -34,7 +34,7 @@
 					console.log(`${level} -- ${msg}`);
 				}
 			});
-			storage.reporter.start(2 * 1000);
+			storage.reporter.start(10 * 1000);
 		}
 
 		static get (key, type) {
