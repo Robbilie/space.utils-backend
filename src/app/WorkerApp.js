@@ -218,13 +218,16 @@
 						{ "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
 					] },
 					{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
-					{ returnOriginal: false, sort: { "info.expires": 1 } }
+					{ sort: { "info.expires": 1 } }
 				);
 				let atomic_duration = process.hrtime(atomic_start);
 				MetricsUtil.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
 				if (!value)
 					return null;
+
+				value.info.state = 1;
+				value.info.modified = (now / 1000)|0;
 
 				let { _id, info: { name } } = value;
 
