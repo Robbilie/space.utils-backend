@@ -43,32 +43,37 @@
 				authorizations: {
 					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
 				},
-				client: { execute: async (obj) => {
-					let { method, url, headers, body } = obj;
-					let start = process.hrtime();
-					try {
-						MetricsUtil.inc("esi.started");
-						let response = await request({ method, url, headers, body });
-						let duration = process.hrtime(start);
-						MetricsUtil.update("esi.reqduration", (duration[0] * 1e9 + duration[1]) / 1e6);
-						try {
-							response.obj = JSON.parse(response.body);
-							obj.on.response(response);
-						} catch (e) {
-							throw ({ e, response });
-						}
-					} catch (e) {
-						++storage.errors;
-						obj.on.error(e);
-						MetricsUtil.inc("esi.errors");
-					}
-					let duration = process.hrtime(start);
-					MetricsUtil.update("esi.duration", (duration[0] * 1e9 + duration[1]) / 1e6);
-					++storage.completed;
-					MetricsUtil.inc("esi.completed");
-					MetricsUtil.update("esi.rpstest", 1);
+				client: { execute: (obj) => {
+					const start = process.hrtime();
+					ESIUtil.request(start, obj)
+						.catch(e => ESIUtil.request_error(obj, e))
+						.then(() => ESIUtil.post_request(start));
 				} }
 			}, options));
+		}
+
+		static async request (start, obj) {
+			let { method, url, headers, body } = obj;
+			MetricsUtil.inc("esi.started");
+			let response = await request({ method, url, headers, body });
+			let duration = process.hrtime(start);
+			MetricsUtil.update("esi.reqduration", (duration[0] * 1e9 + duration[1]) / 1e6);
+			response.obj = JSON.parse(response.body);
+			obj.on.response(response);
+		}
+
+		static post_request (start) {
+			let duration = process.hrtime(start);
+			MetricsUtil.update("esi.duration", (duration[0] * 1e9 + duration[1]) / 1e6);
+			++storage.completed;
+			MetricsUtil.inc("esi.completed");
+			MetricsUtil.update("esi.rpstest", 1);
+		}
+
+		static request_error (obj, e) {
+			++storage.errors;
+			obj.on.error(e);
+			MetricsUtil.inc("esi.errors");
 		}
 
 		static get_all_pages (fn, params = {}, parallel = 10) {

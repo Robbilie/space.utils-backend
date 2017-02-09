@@ -44,28 +44,23 @@
 			// liveness probe from k8s
 			this.heartbeat = Date.now();
 			http.createServer((req, res) => {
-				try {
-					//console.log("SERVER:", req);
-					switch (req.url) {
-						case "/healthcheck":
-							res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
-							res.end("healthcheck");
-							console.log("HEALTHCHECK", this.heartbeat > Date.now() - (2 * 60 * 1000));
-							break;
-						case "/ping":
-							res.writeHead(200, { "Content-Type": "text/plain" });
-							res.end("ping");
-							console.log("PING");
-							break;
-						default:
-							res.writeHead(200, { "Content-Type": "text/plain" });
-							res.end("ok");
-							console.log("WTF HEARTBEAT DEFAULT");
-							console.log(req);
-							break;
-					}
-				} catch (e) {
-					console.log("REQ ERR", e);
+				switch (req.url) {
+					case "/healthcheck":
+						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
+						res.end("healthcheck");
+						console.log("HEALTHCHECK", this.heartbeat > Date.now() - (2 * 60 * 1000));
+						break;
+					case "/ping":
+						res.writeHead(200, { "Content-Type": "text/plain" });
+						res.end("ping");
+						console.log("PING");
+						break;
+					default:
+						res.writeHead(200, { "Content-Type": "text/plain" });
+						res.end("ok");
+						console.log("WTF HEARTBEAT DEFAULT");
+						console.log(req);
+						break;
 				}
 			}).listen(parseInt(process.env.APP_PORT));
 		}
@@ -116,12 +111,14 @@
 			return new Promise(resolve => {
 
 				const run = (runnable, done) => {
-					this.process_next(runnable).then(() => {
-						if(this.queued_tasks.length)
-							this.queued_tasks.shift()();
-						else
-							this.running_tasks--;
-					});
+					this.process_next(runnable)
+						.catch(e => console.log("shouldn't happen", e))
+						.then(() => {
+							if(this.queued_tasks.length)
+								this.queued_tasks.shift()();
+							else
+								this.running_tasks--;
+						});
 					done();
 				};
 
@@ -151,16 +148,10 @@
 			return null;
 		}
 
-		async work_tasks () {
-
-			try {
-				await this.enqueue();
-			} catch (e) {
-				console.log("worker error", e);
-			}
-
-			process.nextTick(() => this.work_tasks());
-
+		work_tasks () {
+			this.enqueue()
+				.catch(e => console.log("worker error", e))
+				.then(() => process.nextTick(() => this.work_tasks()));
 		}
 
 		async poll_for_tasks () {
@@ -205,71 +196,72 @@
 			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }];
 		}
 
-		async process_next () {
+		process_next () {
+			return this.process_next_own()
+				.then(value => {
+					if (value)
+						return this.process_next_try(value)
+							.catch(e => this.process_next_catch(value));
+				});
+		}
 
-			try {
+		async process_next_own () {
+			let now = Date.now();
 
-				let now = Date.now();
+			let atomic_start = process.hrtime();
+			let { value } = await WorkerApp.get_tasks().modify(
+				{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
+				/*{ $or: [
+				 { "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
+				 { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
+				 ] }*/,
+				{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
+				{ sort: { "info.expires": 1, "info.modified": 1 } }
+			);
+			let atomic_duration = process.hrtime(atomic_start);
+			MetricsUtil.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
-				let atomic_start = process.hrtime();
-				let { value } = await WorkerApp.get_tasks().modify(
-					{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
-					/*{ $or: [
-						{ "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
-						{ "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
-					] }*/,
-					{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
-					{ sort: { "info.expires": 1, "info.modified": 1 } }
-				);
-				let atomic_duration = process.hrtime(atomic_start);
-				MetricsUtil.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
+			if (!value)
+				return null;
 
-				if (!value)
-					return null;
+			value.info.state = 1;
+			value.info.modified = (now / 1000)|0;
 
-				value.info.state = 1;
-				value.info.modified = (now / 1000)|0;
+			MetricsUtil.inc("tasks.started");
 
-				let { _id, info: { name } } = value;
+			return value;
+		}
 
-				MetricsUtil.inc("tasks.started");
+		async process_next_try (value) {
 
-				try {
+			let start = process.hrtime();
+			await new (LoadUtil.task(value.info.name))(value).start();
 
-					let start = process.hrtime();
-					await new (LoadUtil.task(name))(value).start();
+			this.completed++;
+			let duration = process.hrtime(start);
+			duration = (duration[0] * 1e9 + duration[1]) / 1e6;
+			MetricsUtil.update("tasks.duration", duration);
+			MetricsUtil.update(`tasks.type.${value.info.name}`, duration);
 
-					this.completed++;
-					let duration = process.hrtime(start);
-					duration = (duration[0] * 1e9 + duration[1]) / 1e6;
-					MetricsUtil.update("tasks.duration", duration);
-					MetricsUtil.update(`tasks.type.${name}`, duration);
+		}
 
-				} catch (e) {
+		async process_next_catch ({ _id, info: { name } }) {
 
-					await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": (Date.now() / 1000)|0 } });
+			await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": (Date.now() / 1000)|0 } });
 
-					this.errors++;
-					MetricsUtil.inc("tasks.errors");
-					let error = e.error;
-					try { error = JSON.parse(error); } catch (e) {}
-					if (e.name == "StatusCodeError")
-						console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
-					else if (e.message == "Error: ESOCKETTIMEDOUT")
-						console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
-					else
-						console.log(name, e);
-
-				}
-
-			} catch (e) {
-				console.log("shouldn't happen", e);
-			}
+			this.errors++;
+			MetricsUtil.inc("tasks.errors");
+			let error = e.error;
+			if (e.name == "StatusCodeError")
+				console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
+			else if (e.message == "Error: ESOCKETTIMEDOUT")
+				console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
+			else
+				console.log(name, e);
 
 			MetricsUtil.inc("tasks.completed");
 
 			this.heartbeat = Date.now();
-
 		}
 
 		async process ({ _id, info: { name, expires } }) {
