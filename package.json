@@ -11,20 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.7.1",
-    "ejs": "^2.5.5",
     "express": "^4.14.0",
     "js-yaml": "^3.7.0",
-    "kerberos": "^0.0.22",
-    "limiter": "^1.1.0",
     "metrics": "^0.1.11",
-    "mongodb": "^2.2.21",
-    "node-uuid": "^1.4.7",
+    "mongodb": "^2.2.22",
     "raven": "^1.1.1",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
     "swagger-client": "~2.1.32",
     "swagger-tools": "^0.10.1",
-    "ws": "^1.1.1",
-    "xml2js": "^0.4.17"
+    "ws": "^1.1.1"
   }
 }
