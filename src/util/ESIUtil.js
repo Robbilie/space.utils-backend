@@ -42,13 +42,13 @@
 				usePromise: true,
 				authorizations: {
 					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
-				},
+				}/*,
 				client: { execute: (obj) => {
 					const start = process.hrtime();
 					ESIUtil.request(start, obj)
 						.catch(e => ESIUtil.request_error(obj, e))
 						.then(() => ESIUtil.post_request(start));
-				} }
+				} }*/
 			}, options));
 		}
 
