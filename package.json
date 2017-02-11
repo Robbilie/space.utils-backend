@@ -20,6 +20,8 @@
     "request-promise-native": "^1.0.3",
     "swagger-client": "~2.1.32",
     "swagger-tools": "^0.10.1",
-    "ws": "^1.1.1"
+    "ws": "^1.1.1",
+    "spdy": "https://github.com/spdy-http2/node-spdy.git",
+    "spdy-transport": "https://github.com/spdy-http2/spdy-transport.git"
   }
 }

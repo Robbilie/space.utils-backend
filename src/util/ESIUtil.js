@@ -2,6 +2,7 @@
 	"use strict";
 
 	const Swagger 	= require("swagger-client");
+	const spdy 		= require("spdy");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
 		//gzip: true, // actually slows down
@@ -11,7 +12,15 @@
 			maxSockets: Infinity
 		},
 		resolveWithFullResponse: true,
-		time: true
+		time: true,
+		agentClass: spdy.Agent,
+		agentOptions: {
+			host: "esi.tech.ccp.is",
+			port: 443,
+			spdy: {
+				ssl: true
+			}
+		}
 	});
 
 	const { RPSUtil, MetricsUtil } = require("util/");
