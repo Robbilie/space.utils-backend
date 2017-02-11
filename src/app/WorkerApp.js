@@ -201,7 +201,8 @@
 				.then(value => {
 					if (value)
 						return this.process_next_try(value)
-							.catch(e => this.process_next_catch(e, value));
+							.catch(e => this.process_next_catch(e, value))
+							.then(() => { this.heartbeat = Date.now(); });
 				});
 		}
 
@@ -261,7 +262,6 @@
 
 			MetricsUtil.inc("tasks.completed");
 
-			this.heartbeat = Date.now();
 		}
 
 		async process ({ _id, info: { name, expires } }) {
