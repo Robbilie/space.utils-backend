@@ -105,7 +105,7 @@
 			return this.find();
 		}
 
-		static aggregate (collection, $match, options = [], allowDiskUse = true) {
+		static aggregate (collection, $match, options = [], allowDiskUse = false) {
 			return collection
 				.aggregate([
 					{ $match },
