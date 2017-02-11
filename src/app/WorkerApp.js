@@ -196,20 +196,12 @@
 			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }];
 		}
 
-		process_next () {
-			return this.process_next_own()
-				.then(value => {
-					if (value)
-						return this.process_next_try(value)
-							.catch(e => this.process_next_catch(e, value))
-							.then(() => { this.heartbeat = Date.now(); });
-				});
-		}
+		async process_next () {
 
-		async process_next_own () {
 			let now = Date.now();
 
 			let atomic_start = process.hrtime();
+
 			let { value } = await WorkerApp.get_tasks().modify(
 				{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
 				/*{ $or: [
@@ -217,50 +209,46 @@
 				 { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
 				 ] }*/,
 				{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
-				{ sort: { "info.expires": 1, "info.modified": 1 } }
+				{ returnOriginal: false, sort: { "info.expires": 1, "info.modified": 1 } }
 			);
+
 			let atomic_duration = process.hrtime(atomic_start);
 			MetricsUtil.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
 			if (!value)
 				return null;
 
-			value.info.state = 1;
-			value.info.modified = (now / 1000)|0;
-
 			MetricsUtil.inc("tasks.started");
 
-			return value;
-		}
+			try {
 
-		async process_next_try (value) {
+				let start = process.hrtime();
+				await new (LoadUtil.task(value.info.name))(value).start();
 
-			let start = process.hrtime();
-			await new (LoadUtil.task(value.info.name))(value).start();
+				this.completed++;
+				let duration = process.hrtime(start);
+				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
+				MetricsUtil.update("tasks.duration", duration);
+				MetricsUtil.update(`tasks.type.${value.info.name}`, duration);
 
-			this.completed++;
-			let duration = process.hrtime(start);
-			duration = (duration[0] * 1e9 + duration[1]) / 1e6;
-			MetricsUtil.update("tasks.duration", duration);
-			MetricsUtil.update(`tasks.type.${value.info.name}`, duration);
+			} catch (e) {
 
-		}
+				await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": (Date.now() / 1000)|0 } });
 
-		async process_next_catch (e, { _id, info: { name } }) {
+				this.errors++;
+				MetricsUtil.inc("tasks.errors");
+				let error = e.error;
+				if (e.name == "StatusCodeError")
+					console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
+				else if (e.message == "Error: ESOCKETTIMEDOUT")
+					console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
+				else
+					console.log(name, e);
 
-			await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": (Date.now() / 1000)|0 } });
-
-			this.errors++;
-			MetricsUtil.inc("tasks.errors");
-			let error = e.error;
-			if (e.name == "StatusCodeError")
-				console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
-			else if (e.message == "Error: ESOCKETTIMEDOUT")
-				console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
-			else
-				console.log(name, e);
+			}
 
 			MetricsUtil.inc("tasks.completed");
+			this.heartbeat = Date.now();
 
 		}
 
