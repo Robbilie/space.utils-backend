@@ -218,18 +218,20 @@
 			if (!value)
 				return null;
 
+			let { _id, info: { name } } = value;
+
 			MetricsUtil.inc("tasks.started");
 
 			try {
 
 				let start = process.hrtime();
-				await new (LoadUtil.task(value.info.name))(value).start();
+				await new (LoadUtil.task(name))(value).start();
 
 				this.completed++;
 				let duration = process.hrtime(start);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 				MetricsUtil.update("tasks.duration", duration);
-				MetricsUtil.update(`tasks.type.${value.info.name}`, duration);
+				MetricsUtil.update(`tasks.type.${name}`, duration);
 
 			} catch (e) {
 
