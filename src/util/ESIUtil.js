@@ -10,7 +10,8 @@
 		pool: {
 			maxSockets: Infinity
 		},
-		resolveWithFullResponse: true
+		resolveWithFullResponse: true,
+		time: true
 	});
 
 	const { RPSUtil, MetricsUtil } = require("util/");
@@ -57,6 +58,7 @@
 			MetricsUtil.inc("esi.started");
 			let response = await request({ method, url, headers, body });
 			let duration = process.hrtime(start);
+			MetricsUtil.update("esi.elapsedTime", response.elapsedTime);
 			MetricsUtil.update("esi.reqduration", (duration[0] * 1e9 + duration[1]) / 1e6);
 			response.obj = JSON.parse(response.body);
 			obj.on.response(response);
