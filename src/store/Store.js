@@ -119,8 +119,8 @@
 				.then(_id => this.update({ _id }, data, options, ignore));
 		}
 
-		static update (where, data, options, ignore, oplog = false) {
-			if (!ignore && !this.check_data(data)) {
+		static update (where, data, options, oplog = false) {
+			if (!this.check_data(data)) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
 				if (oplog)
@@ -136,8 +136,8 @@
 			})());
 		}
 
-		static modify (where, data, options, ignore, oplog = false) {
-			if (!ignore && !this.check_data(data)) {
+		static modify (where, data, options, oplog = false) {
+			if (!this.check_data(data)) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
 				if (oplog)

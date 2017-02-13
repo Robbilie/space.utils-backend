@@ -55,7 +55,6 @@
 				{ _id: this.get__id() },
 				{ $set: Object.entries(info).filter(([name, value]) => !!value).reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) },
 				{},
-				true,
 				oplog
 			);
 		}
