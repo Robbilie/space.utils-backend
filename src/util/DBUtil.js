@@ -35,6 +35,7 @@
 		}
 
 		static get_oplog () {
+			//return DBUtil.get_connection("oplog", "local");
 			return DBUtil.get_connection("oplog", process.env.MONGO_DB);
 		}
 
@@ -55,10 +56,12 @@
 		static get_oplog_cursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
 			const query = properties;
 
+			/*
 			if(properties.ns)
 				query.ns = process.env.MONGO_DB + "." + properties.ns;
 			else
 				query.ns = { $regex: new RegExp("^" + process.env.MONGO_DB, "i") };
+			*/
 
 			if(properties.op)
 				query.op = properties.op.constructor.name == "String" ? properties.op : { $in: properties.op };
@@ -73,6 +76,7 @@
 					let oplog = await DBUtil.get_oplog();
 					let cursor = oplog
 						.collection("oplog")
+						//.collection("oplog.rs")
 						.find(query)
 						.batchSize(10000)
 						.addCursorFlag('tailable', true)
