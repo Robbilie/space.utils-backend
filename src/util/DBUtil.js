@@ -96,7 +96,7 @@
 
 		static oplog ({ op, ns, ts = Timestamp(0, Date.now() / 1000 | 0), o, o2 } = {}) {
 			DBUtil.get_oplog().then(oplog => {
-				oplog.collection("oplog").insertOne({ op, ns, ts, o, o2 }, { w: 0 });
+				oplog.collection("oplog").insertOne({ op, ns, ts, o, o2 });
 			});
 		}
 
