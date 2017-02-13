@@ -11,7 +11,11 @@
 			let client = await ESIUtil.get_client();
 			let { obj } = await client.Universe.get_universe_systems();
 
-			for (let system_id of obj) {
+			const ids = await SystemStore
+				.from_cursor(c => c.find({ id: { $in: obj } }))
+				.map(system => system.get_id());
+
+			for (let system_id of obj.filter(id => !ids.includes(id))) {
 				await SystemStore.find_or_create(system_id, true);
 				await this.tick();
 			}
