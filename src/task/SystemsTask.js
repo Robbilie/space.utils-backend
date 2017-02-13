@@ -9,7 +9,7 @@
 
 		async start () {
 			let client = await ESIUtil.get_client();
-			let { obj } = await client.Universe.get_universe_systems();
+			const { obj } = await client.Universe.get_universe_systems();
 
 			const ids = await SystemStore
 				.from_cursor(c => c.find({ id: { $in: obj } }))
