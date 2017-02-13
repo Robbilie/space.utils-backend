@@ -119,11 +119,14 @@
 				.then(_id => this.update({ _id }, data, options, ignore));
 		}
 
-		static update (where, data, options, ignore) {
-			if(!ignore && !this.check_data(data))
+		static update (where, data, options, ignore, oplog = false) {
+			if (!ignore && !this.check_data(data)) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
-			else
+			} else {
+				if (oplog)
+					DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: where, o2: data });
 				return this.get_collection().then(collection => collection.updateOne(where, data, options));
+			}
 		}
 
 		static modify_model (model, data, options, ignore) {
@@ -133,11 +136,14 @@
 			})());
 		}
 
-		static modify (where, data, options, ignore) {
-			if(!ignore && !this.check_data(data))
+		static modify (where, data, options, ignore, oplog = false) {
+			if (!ignore && !this.check_data(data)) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
-			else
+			} else {
+				if (oplog)
+					DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: where, o2: data });
 				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
+			}
 		}
 
 		static insert_model (model, options, ignore) {
@@ -145,7 +151,9 @@
 				.then(data => this.insert(data, options, ignore));
 		}
 
-		static insert (data, options) {
+		static insert (data, options, oplog = false) {
+			if (oplog)
+				DBUtil.oplog({ op: "i", ns: this.get_name().toLowerCase().pluralize(), o: data });
 			return this.get_collection().then(collection => collection.insertOne(data, options));
 		}
 
@@ -153,7 +161,9 @@
 			return model.get__id().then(_id => this.destroy({ _id }));
 		}
 
-		static destroy (where) {
+		static destroy (where, oplog = false) {
+			if (oplog)
+				DBUtil.oplog({ op: "d", ns: this.get_name().toLowerCase().pluralize(), o: where });
 			return this.get_collection().then(collection => collection.remove(where));
 		}
 
