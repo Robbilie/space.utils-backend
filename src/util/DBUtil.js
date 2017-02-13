@@ -17,11 +17,7 @@
 		},
 		server: {
 			//poolSize: 50
-		},
-		/*replSet: {
-			//poolSize: 50,
-			replicaSet: "rs0"
-		}*/
+		}
 	};
 
 	class DBUtil {
@@ -39,7 +35,7 @@
 		}
 
 		static get_oplog () {
-			return DBUtil.get_connection("oplog", "local");
+			return DBUtil.get_connection("oplog", process.env.MONGO_DB);
 		}
 
 		static get_collection (name) {
@@ -76,12 +72,12 @@
 				oplogs.set(index, (async () => {
 					let oplog = await DBUtil.get_oplog();
 					let cursor = oplog
-						.collection("oplog.rs")
+						.collection("oplog")
 						.find(query)
 						.batchSize(10000)
 						.addCursorFlag('tailable', true)
-						.addCursorFlag('awaitData', true)
-						.addCursorFlag('oplogReplay', true);
+						.addCursorFlag('awaitData', true);
+						//.addCursorFlag('oplogReplay', true);
 						//.addCursorFlag('noCursorTimeout', true)
 						//.setCursorOption('numberOfRetries', Number.MAX_VALUE);
 					cursor.forEach(() => {}, error => oplogs.delete(index));
@@ -92,6 +88,12 @@
 
 		static to_id (id) {
 			return id.constructor.name == "String" ? new ObjectID(id) : id;
+		}
+
+		static oplog ({ op, ns, ts = Timestamp(0, Date.now() / 1000 | 0), o, o2 } = {}) {
+			DBUtil.get_oplog().then(oplog => {
+				oplog.collection("oplog").insertOne({ op, ns, ts, o, o2 });
+			});
 		}
 
 	}
