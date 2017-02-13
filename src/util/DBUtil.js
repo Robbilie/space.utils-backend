@@ -106,7 +106,7 @@
 				case "Object":
 					let res = {};
 					for (let i in obj) {
-						res[i[0] == "$" ? i.slice(1) : i] = DBUtil.strip(obj[i]);
+						res[(i[0] == "$" ? i.slice(1) : i).replace(/\./g, "-")] = DBUtil.strip(obj[i]);
 					}
 					return res;
 				case "Array":
