@@ -16,6 +16,7 @@
 
 		async get_pages (client, max_war_id) {
 			let { obj } = await client.Wars.get_wars({ max_war_id });
+			console.log("war_ids", max_war_id, JSON.stringify(obj));
 			for (let war_id of obj.reverse()) {
 				console.log("pre war_id", war_id);
 				await WarStore.find_or_create(war_id, true);
