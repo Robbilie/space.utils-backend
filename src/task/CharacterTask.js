@@ -37,7 +37,7 @@
 			await this.get_store().update(
 				{ id: character.id },
 				{ $set: character },
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			// get corp

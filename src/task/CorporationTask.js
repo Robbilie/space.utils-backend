@@ -43,7 +43,7 @@
 					$set: corporation,
 					$unset: { [alliance_id ? "unset" : "alliance_id"]: true }
 				},
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			// get alliance

@@ -31,7 +31,7 @@
 					$set: alliance,
 					$unset: { [alliance.executor_corporation_id ? "unset" : "executor_corporation_id"]: true }
 				},
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			const alliance_id = alliance.id;

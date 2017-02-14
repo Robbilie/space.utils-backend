@@ -18,7 +18,7 @@
 				solar_system_name: 	undefined
 			});
 
-			await this.get_store().insert(system, { w: 0 });
+			await this.get_store().insert(system);
 
 			await this.destroy();
 

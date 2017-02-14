@@ -21,7 +21,7 @@
 				killmail_time: 		undefined
 			});
 
-			await this.get_store().insert(killmail, { w: 0 });
+			await this.get_store().insert(killmail);
 
 			await this.destroy();
 

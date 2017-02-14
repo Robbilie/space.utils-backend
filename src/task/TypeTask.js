@@ -17,7 +17,7 @@
 				type_id: 	undefined
 			});
 
-			await this.get_store().insert(type, { w: 0 });
+			await this.get_store().insert(type);
 
 			await this.destroy();
 

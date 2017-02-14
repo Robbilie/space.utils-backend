@@ -27,7 +27,7 @@
 			await this.get_store().update(
 				{ id: this.get_data().war_id },
 				{ $set: war },
-				{ upsert: true, w: 0 }
+				{ upsert: true }
 			);
 
 			if (aggressor.corporation_id)
