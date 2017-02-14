@@ -124,7 +124,7 @@
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
 				if (oplog)
-					DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: data, o2: where });
+					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: data, o2: where }));
 				return this.get_collection().then(collection => collection.updateOne(where, data, options));
 			}
 		}
@@ -141,7 +141,7 @@
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
 				if (oplog)
-					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: where, o2: data }));
+					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: data, o2: where }));
 				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
 			}
 		}
