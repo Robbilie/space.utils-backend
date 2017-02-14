@@ -133,7 +133,7 @@
 						}
 						break;
 				}
-				if(storage.tasks.get(tid)) {
+				if(tid && storage.tasks.get(tid)) {
 					storage.tasks.get(tid)();
 					storage.tasks.delete(tid);
 				}
