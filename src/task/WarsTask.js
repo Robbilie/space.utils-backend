@@ -33,7 +33,7 @@
 				await this.tick();
 			}*/
 
-			if (obj.length == 2000 && obj[0] == max_war_id - 1)
+			if (obj.length == 2000 && obj[1999] == max_war_id - 1)
 				return await this.get_pages(client, max_war_id + 2000);
 			else
 				return true;
