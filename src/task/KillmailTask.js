@@ -3,6 +3,7 @@
 
 	const { BaseTask } 				= require("task/");
 	const { ESIUtil } 				= require("util/");
+	const { CharacterStore, CorporationStore, AllianceStore} = require("store/");
 
 	class KillmailTask extends BaseTask {
 
@@ -26,21 +27,21 @@
 			if (killmail.victim) {
 				let { character_id, corporation_id, alliance_id } = killmail.victim;
 				if (character_id)
-					BaseTask.create_task("Character", { character_id }, true);
+					CharacterStore.find_or_create(character_id, true);
 				if (corporation_id)
-					BaseTask.create_task("Corporation", { corporation_id }, true);
+					CorporationStore.find_or_create(corporation_id, true);
 				if (alliance_id)
-					BaseTask.create_task("Alliance", { alliance_id }, true)
+					AllianceStore.find_or_create(alliance_id, true);
 			}
 
 			if (killmail.attackers)
 				killmail.attackers.forEach(({ character_id, corporation_id, alliance_id }) => {
 					if (character_id)
-						BaseTask.create_task("Character", { character_id }, true);
+						CharacterStore.find_or_create(character_id, true);
 					if (corporation_id)
-						BaseTask.create_task("Corporation", { corporation_id }, true);
+						CorporationStore.find_or_create(corporation_id, true);
 					if (alliance_id)
-						BaseTask.create_task("Alliance", { alliance_id }, true)
+						AllianceStore.find_or_create(alliance_id, true);
 				});
 
 			await this.destroy();
