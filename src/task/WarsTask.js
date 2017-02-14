@@ -17,7 +17,9 @@
 		async get_pages (client, max_war_id) {
 			let { obj } = await client.Wars.get_wars({ max_war_id });
 			for (let war_id of obj.reverse()) {
+				console.log("pre war_id", war_id);
 				await WarStore.find_or_create(war_id, true);
+				console.log("post war_id", war_id);
 				await this.tick();
 			}
 			if (obj.length == 2000 && obj[0] == max_war_id - 1)
