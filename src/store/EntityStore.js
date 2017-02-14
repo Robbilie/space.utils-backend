@@ -11,9 +11,9 @@
 			let entity = this.find_by_id(id);
 
 			if(await entity.is_null()) {
-				await BaseTask.create_task(this.get_name(), { [`${this.get_name().toLowerCase()}_id`]: id });
-				if (!faf)
-					entity = this.find_by_id(id);
+				await BaseTask.create_task(this.get_name(), { [`${this.get_name().toLowerCase()}_id`]: id }, faf);
+				if (faf) return null;
+				entity = this.find_by_id(id);
 			}
 
 			if(await entity.is_null())
