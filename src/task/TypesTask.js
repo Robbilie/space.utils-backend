@@ -19,15 +19,9 @@
 				.from_cursor(c => c.find({ id: { $in: obj } }))
 				.map(type => type.get_id());
 
-			for (let type_id of obj.filter(id => !ids.includes(id))) {
-				await TypeStore.find_or_create(type_id, true);
-				await this.tick();
-			}
+			await Promise.all(obj.filter(id => !ids.includes(id)).map(type_id => TypeStore.find_or_create(type_id, true)));
+			await this.tick();
 
-			/*for (let type_id of obj) {
-				await TypeStore.find_or_create(type_id, true);
-				await this.tick();
-			}*/
 			if (obj.length == 2000)
 				return await this.get_pages(client, page + 1);
 			else

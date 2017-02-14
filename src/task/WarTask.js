@@ -64,17 +64,9 @@
 				.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }))
 				.map(killmail => killmail.get_id());
 
-			for (let { killmail_id, killmail_hash } of obj.filter(id => !ids.includes(id))) {
-				await KillmailStore.find_or_create(killmail_id, killmail_hash, true);
-				await this.tick();
-			}
+			await Promise.all(obj.filter(id => !ids.includes(id)).map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
+			await this.tick();
 
-			/*
-			for (let { killmail_id, killmail_hash } of obj) {
-				await KillmailStore.find_or_create(killmail_id, killmail_hash);
-				await this.tick();
-			}
-			*/
 			if (obj.length == 2000)
 				return await this.get_killmail_pages(client, page + 1);
 			else

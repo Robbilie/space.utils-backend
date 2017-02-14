@@ -10,28 +10,15 @@
 		async start () {
 			let war = WarStore.findOne({}, { sort: { id: -1 } }, true);
 			let last_war_id = 1 + (this.get_info().debug || await war.is_null() ? 0 : await war.get_id());
-			console.log("war_ids get pages", last_war_id);
 			await this.get_pages(await ESIUtil.get_client(), last_war_id + 2000);
-			console.log("war_ids post pages");
 			await this.update({ expires: Date.now() + (60 * 60 * 1000) });
 		}
 
 		async get_pages (client, max_war_id) {
-			console.log("war_ids page", max_war_id);
 			let { obj } = await client.Wars.get_wars({ max_war_id });
-			console.log("war_ids", max_war_id, JSON.stringify(obj));
 
 			await Promise.all(obj.reverse().map(war_id => WarStore.find_or_create(war_id, true)));
-			console.log("war_ids post all", max_war_id);
 			await this.tick();
-			console.log("war_ids post tick", max_war_id, (obj.length == 2000 && obj[0] == max_war_id - 1), obj.length == 2000, obj.length, obj[0] == max_war_id - 1, obj[0], max_war_id - 1);
-
-			/*for (let war_id of obj.reverse()) {
-				console.log("pre war_id", war_id);
-				await WarStore.find_or_create(war_id, true);
-				console.log("post war_id", war_id);
-				await this.tick();
-			}*/
 
 			if (obj.length == 2000 && obj[1999] == max_war_id - 1)
 				return await this.get_pages(client, max_war_id + 2000);
