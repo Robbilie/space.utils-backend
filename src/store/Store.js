@@ -141,7 +141,7 @@
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
 				if (oplog)
-					DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: where, o2: data });
+					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: where, o2: data }));
 				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
 			}
 		}
@@ -153,7 +153,7 @@
 
 		static insert (data, options, oplog = false) {
 			if (oplog)
-				DBUtil.oplog({ op: "i", ns: this.get_name().toLowerCase().pluralize(), o: data });
+				setImmediate(() => DBUtil.oplog({ op: "i", ns: this.get_name().toLowerCase().pluralize(), o: data }));
 			return this.get_collection().then(collection => collection.insertOne(data, options));
 		}
 
@@ -163,7 +163,7 @@
 
 		static destroy (where, oplog = false) {
 			if (oplog)
-				DBUtil.oplog({ op: "d", ns: this.get_name().toLowerCase().pluralize(), o: where });
+				setImmediate(() => DBUtil.oplog({ op: "d", ns: this.get_name().toLowerCase().pluralize(), o: where }));
 			return this.get_collection().then(collection => collection.remove(where));
 		}
 
