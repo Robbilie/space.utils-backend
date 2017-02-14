@@ -13,12 +13,13 @@
 
 	/* TYPE DEFINITION */
 
-	const { Corporation } = require("model/");
+	const { Corporation, Alliance } = require("model/");
 
 	Character.types = {
 		id: 			Number,
 		name: 			String,
-		corporation: 	Corporation
+		corporation: 	Corporation,
+		alliance: 		Alliance
 	};
 
 	const { PatchUtil } = require("util/");

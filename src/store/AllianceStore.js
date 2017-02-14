@@ -1,7 +1,6 @@
 
 	"use strict";
 
-	const { DBUtil } = require("util/");
 	const { EntityStore } = require("store/");
 
 	class AllianceStore extends EntityStore {

@@ -25,14 +25,14 @@
 		{
 			$lookup: {
 				from: 			"alliances",
-				localField: 	"corporation.alliance_id",
+				localField: 	"alliance_id",
 				foreignField: 	"id",
-				as: 			"corporation.alliance"
+				as: 			"alliance"
 			}
 		},
 		{
 			$unwind: {
-				path: 			"$corporation.alliance",
+				path: 			"$alliance",
 				preserveNullAndEmptyArrays: true
 			}
 		}
