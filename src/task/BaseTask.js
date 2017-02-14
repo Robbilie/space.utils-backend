@@ -49,7 +49,7 @@
 		}
 
 		update ({ state = 0, expires = this.get_info().expires * 1000, modified = this.get_info().modified * 1000, page = this.get_info().page } = {}, oplog = true) {
-			let info = { state, expires: expires / 1000, modified: modified / 1000, page };
+			let info = { state, expires: (expires / 1000)|0, modified: (modified / 1000)|0, page };
 			this.set_info(info);
 			return BaseTask.get_tasks().update(
 				{ _id: this.get__id() },
