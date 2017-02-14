@@ -24,7 +24,7 @@
 			await Promise.all(obj.reverse().map(war_id => WarStore.find_or_create(war_id, true)));
 			console.log("war_ids post all", max_war_id);
 			await this.tick();
-			console.log("war_ids post tick", max_war_id, (obj.length == 2000 && obj[0] == max_war_id - 1));
+			console.log("war_ids post tick", max_war_id, (obj.length == 2000 && obj[0] == max_war_id - 1), obj.length == 2000, obj.length, obj[0] == max_war_id - 1, obj[0], max_war_id - 1);
 
 			/*for (let war_id of obj.reverse()) {
 				console.log("pre war_id", war_id);
