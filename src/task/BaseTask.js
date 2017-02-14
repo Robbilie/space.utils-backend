@@ -53,7 +53,7 @@
 			this.set_info(info);
 			return BaseTask.get_tasks().update(
 				{ _id: this.get__id() },
-				{ $set: Object.entries(info).filter(([name, value]) => !!value).reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) },
+				{ $set: Object.entries(info).filter(([name, value]) => value != undefined && value != null).reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) },
 				{},
 				oplog
 			);
