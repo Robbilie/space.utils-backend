@@ -122,7 +122,8 @@
 						tid = o._id.toString();
 						break;
 					case "u":
-						if(o && o.$set && o.$set.info && o.$set.info.state && o.$set.info.state != 1) {
+						//if(o && o.$set && o.$set.info && o.$set.info.state && o.$set.info.state != 1) {
+						if(o && o.set && o.set["info-state"] && o.set["info-state"] != 1) {
 							tid = o2._id.toString();
 						} else {
 							let task = await this.get_tasks().find_by__id(o2._id);
