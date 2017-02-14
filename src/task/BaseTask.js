@@ -71,46 +71,40 @@
 			return this.create_task(this.name.slice(0, -4), data, faf);
 		}
 
-		static async create_task (name = this.name.slice(0, -4), data = {}, faf = false) {
+		static create_task (name = this.name.slice(0, -4), data = {}, faf = false) {
+			return new Promise(async (resolve) => {
 
-			let _id = new ObjectID();
+				let _id = new ObjectID();
 
-			const finish = {};
-			let p = new Promise((res) => finish.cb = res);
+				if (!faf)
+					storage.tasks.set(_id.toString(), resolve);
 
-			if(!faf) {
-				storage.tasks.set(_id.toString(), finish.cb);
-			}
-
-			//console.log("exists", await BaseTask.get_tasks().findOne({ data, "info.name": name }));
-
-			let response = await BaseTask.get_tasks().update(
-				{ data, "info.name": name },
-				{
-					$setOnInsert: {
-						_id,
-						data,
-						info: {
-							name,
-							state: 0,
-							expires: 0,
-							modified: 0
+				let response = await BaseTask.get_tasks().update(
+					{ data, "info.name": name },
+					{
+						$setOnInsert: {
+							_id,
+							data,
+							info: {
+								name,
+								state: 0,
+								expires: 0,
+								modified: 0
+							}
 						}
+					},
+					{ upsert: true }
+				);
+
+				// if fire and forget or not and its no new task, just resolve
+				if(faf || (!faf && !response.upsertedCount)) {
+					if(!faf && !response.upsertedCount) {
+						//console.log("task not upsert-ed", name, JSON.stringify(data), response);
 					}
-				},
-				{ upsert: true }
-			);
-
-			// if fire and forget or not and its no new task, just resolve
-			if(faf || (!faf && !response.upsertedCount)) {
-				if(!faf && !response.upsertedCount) {
-					//console.log("task not upsert-ed", name, JSON.stringify(data), response);
+					resolve();
 				}
-				finish.cb();
-			}
 
-			return p;
-
+			});
 		}
 
 		static watch () {
