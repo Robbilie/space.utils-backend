@@ -96,8 +96,8 @@
 
 		static oplog ({ op, ns, ts = Timestamp(0, Date.now() / 1000 | 0), o, o2 } = {}) {
 			DBUtil.get_oplog().then(oplog => {
-				console.log(JSON.stringify({ op, ns, ts, o, o2 }));
-				console.log(JSON.stringify(DBUtil.strip(o)));
+				//console.log(JSON.stringify({ op, ns, ts, o, o2 }));
+				//console.log(JSON.stringify(DBUtil.strip(o)));
 				oplog.collection("oplog").insertOne({ op, ns, ts, o: op == "u" ? DBUtil.strip(o) : o, o2: op == "u" ? DBUtil.strip(o2) : o2 });
 			});
 		}
