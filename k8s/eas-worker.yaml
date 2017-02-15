@@ -57,7 +57,7 @@ spec:
         - name: UV_THREADPOOL_SIZE
           value: "128"
         - name: PARALLEL_TASK_LIMIT
-          value: "36"
+          value: "75"
         - name: TASK_TIMEOUT_SECONDS
           value: "300"
         readinessProbe:
