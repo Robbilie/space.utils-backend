@@ -121,9 +121,13 @@
 						if(o && o.set && o.set["info-state"] && o.set["info-state"] != 1) {
 							tid = o2._id.toString();
 						} else {
-							let task = await this.get_tasks().find_by__id(o2._id);
-							if(!await task.is_null() && (await task.get_info()).state != 1)
-								tid = (await task.get__id()).toString();
+							let collection = await this.get_tasks().get_collection();
+							let task = await collection.findOne({ _id: o2._id });
+							if (task && task.info.state != 1)
+								tid = o2._id.toString();
+							//let task = await this.get_tasks().find_by__id(o2._id);
+							//if(!await task.is_null() && (await task.get_info()).state != 1)
+							//	tid = (await task.get__id()).toString();
 						}
 						break;
 				}
