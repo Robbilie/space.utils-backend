@@ -113,7 +113,7 @@
 				const run = (runnable, done) => {
 					this.process_next(runnable)
 						.catch(e => console.log("shouldn't happen", e) || true)
-						.then(should_wait => should_wait ? Promise.resolve().wait(200) : Promise.resolve())
+						.then(should_wait => should_wait ? (console.log("back off") || Promise.resolve().wait(500)) : Promise.resolve())
 						.then(() => {
 							if(this.queued_tasks.length)
 								this.queued_tasks.shift()();
