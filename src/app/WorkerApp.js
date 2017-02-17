@@ -112,7 +112,8 @@
 
 				const run = (runnable, done) => {
 					this.process_next(runnable)
-						.catch(e => console.log("shouldn't happen", e))
+						.catch(e => console.log("shouldn't happen", e) || true)
+						.then(should_wait => should_wait ? Promise.resolve().wait(200) : Promise.resolve())
 						.then(() => {
 							if(this.queued_tasks.length)
 								this.queued_tasks.shift()();
@@ -198,6 +199,8 @@
 
 		async process_next () {
 
+			let should_wait = false;
+
 			let now = Date.now();
 
 			let atomic_start = process.hrtime();
@@ -247,10 +250,14 @@
 				else
 					console.log(name, e);
 
+				should_wait = true;
+
 			}
 
 			MetricsUtil.inc("tasks.completed");
 			this.heartbeat = Date.now();
+
+			return should_wait;
 
 		}
 
