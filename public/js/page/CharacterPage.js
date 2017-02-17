@@ -50,15 +50,15 @@
 								)
 							)
 						),
-						this.state.corporation.alliance ? E("div", { className: "" },
+						this.state.alliance ? E("div", { className: "" },
 							E("div", { className: "" },
-								E("img", { src: `https://imageserver.eveonline.com/Alliance/${this.state.corporation.alliance.id}_32.png` })
+								E("img", { src: `https://imageserver.eveonline.com/Alliance/${this.state.alliance.id}_32.png` })
 							),
 							E("div", { className: "" },
 								E("span", null, "Alliance"),
 								E("br"),
 								E("b", null,
-									E(Link, { to: `/alliances/${this.state.corporation.alliance.id}/` }, this.state.corporation.alliance.name)
+									E(Link, { to: `/alliances/${this.state.alliance.id}/` }, this.state.alliance.name)
 								)
 							)
 						) : ""
