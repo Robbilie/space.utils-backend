@@ -30,7 +30,7 @@
 			return this.get_future().then(data => data._id);
 		}
 
-		async serialize (depth = 2) {
+		async serialize (depth = 1) {
 			const data = await this.get_future();
 			if (!data)
 				return data;
