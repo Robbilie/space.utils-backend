@@ -22,7 +22,7 @@
 			await Promise.all(obj.filter(id => !ids.includes(id)).map(type_id => TypeStore.find_or_create(type_id, true)));
 			await this.tick();
 
-			if (obj.length == 2000)
+			if (obj.length == 1000)
 				return await this.get_pages(client, page + 1);
 			else
 				return true;
