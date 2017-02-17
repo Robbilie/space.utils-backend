@@ -35,7 +35,7 @@
 			);
 
 			const alliance_id = alliance.id;
-			const corporation_ids = await CorporationStore.from_cursor(c => c.find({ alliance_id })).map(corporation => corporation.get_id());
+			const corporation_ids = await CorporationStore.from_cursor(c => c.find({ alliance_id }).project({ id: 1 })).map(corporation => corporation.get_id());
 
 			corporations
 				.filter(corporation_id => !corporation_ids.includes(corporation_id))

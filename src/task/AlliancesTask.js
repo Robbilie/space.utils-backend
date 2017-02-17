@@ -13,7 +13,7 @@
 
 			const { obj: alliances, headers } = await client.Alliance.get_alliances();
 
-			const alliance_ids = await AllianceStore.from_cursor(c => c.find({ id: { $in: alliances } })).map(alliance => alliance.get_id());
+			const alliance_ids = await AllianceStore.from_cursor(c => c.find({ id: { $in: alliances } }).project({ id: 1 })).map(alliance => alliance.get_id());
 
 			alliances
 				.filter(alliance_id => !alliance_ids.includes(alliance_id))

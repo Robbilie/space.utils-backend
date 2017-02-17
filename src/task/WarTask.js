@@ -61,7 +61,7 @@
 			const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 
 			const ids = await KillmailStore
-				.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }))
+				.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
 				.map(killmail => killmail.get_id());
 
 			await Promise.all(obj.filter(id => !ids.includes(id)).map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
