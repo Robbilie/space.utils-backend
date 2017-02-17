@@ -12,10 +12,10 @@
 				categories: ["alliance", "character", "corporation", "inventorytype", "solarsystem", "faction"]
 			};
 
+			this.debounce_request_search = debounce((search, init) => this.request_search(search, init), 300);
+
 			if (this.props.query)
 				this.search(this.props.query, true);
-
-			this.debounce_request_search = debounce((search, init) => this.request_search(search, init), 300);
 		}
 
 		handleChange (e) {
