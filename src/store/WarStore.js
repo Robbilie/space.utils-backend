@@ -10,11 +10,14 @@
 
 			let war = this.find_by_id(war_id);
 
-			if(await war.is_null()) {
+			if (await war.is_null())
 				await WarTask.create({ war_id }, faf);
-				if (faf) return null;
+
+			if (faf)
+				return null;
+
+			if (await war.is_null())
 				war = this.find_by_id(war_id);
-			}
 
 			return war.get_future();
 

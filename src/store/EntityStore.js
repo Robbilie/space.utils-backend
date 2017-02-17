@@ -10,13 +10,16 @@
 
 			let entity = this.find_by_id(id);
 
-			if(await entity.is_null()) {
+			if (await entity.is_null())
 				await BaseTask.create_task(this.get_name(), { [`${this.get_name().toLowerCase()}_id`]: id }, faf);
-				if (faf) return null;
-				entity = this.find_by_id(id);
-			}
+
+			if (faf)
+				return null;
 
 			if(await entity.is_null())
+				entity = this.find_by_id(id);
+
+			if (await entity.is_null())
 				console.log("MISSING", this.get_name().toUpperCase(), id);
 
 			return entity.get_future();
