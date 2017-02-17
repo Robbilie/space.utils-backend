@@ -585,6 +585,8 @@ definitions:
         type: string
       corporation:
         $ref: '#/definitions/Corporation'
+      alliance:
+        $ref: '#/definitions/Alliance'
   CharacterList:
     type: object
     properties:
