@@ -17,13 +17,9 @@
 	if(config.sentry.dsn && config.sentry.dsn != "") {
 
 		const Raven = require("raven");
-		Raven.config(config.sentry.dsn).install();
+		Raven.config(config.sentry.dsn, { captureUnhandledRejections: true }).install();
 		Raven.setContext({
 			app: process.env.APP_NAME
-		});
-
-		process.on("unhandledRejection", function (reason) {
-			Raven.captureException(reason);
 		});
 
 	}
