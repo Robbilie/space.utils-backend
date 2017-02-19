@@ -40,8 +40,8 @@
 
 			// get all corps from history
 			if (corporation_history)
-				await Promise.all(corporation_history
-					.map(({ corporation_id }) => CorporationStore.find_or_create(corporation_id, true)));
+				corporation_history
+					.map(({ corporation_id }) => CorporationStore.find_or_create(corporation_id, true));
 
 			if (character.corporation_id == 1000001)
 				await this.destroy();

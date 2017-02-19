@@ -47,9 +47,9 @@
 
 			// get all alliances
 			if (alliance_history)
-				await Promise.all(alliance_history
+				alliance_history
 					.filter(({ alliance }) => !!alliance)
-					.map(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true)));
+					.map(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true));
 
 			// get ceo
 			if(ceo_id == 1) {
