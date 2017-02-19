@@ -11,11 +11,6 @@
 
 			let client = await ESIUtil.get_client();
 
-			/*let [{ obj: corporation, headers }, { obj: alliance_history }] = await Promise.all([
-				client.Corporation.get_corporations_corporation_id(this.get_data()),
-				client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data())
-			]);*/
-
 			let [{ obj: corporation, headers }, old_corp] = await Promise.all([
 				client.Corporation.get_corporations_corporation_id(this.get_data()),
 				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
@@ -23,7 +18,7 @@
 
 			let alliance_history = null;
 			if (!old_corp || (old_corp && old_corp.alliance_id != corporation.alliance_id)) {
-				let { obj } = client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
+				let { obj } = await client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
 				alliance_history = obj;
 			}
 
@@ -52,9 +47,9 @@
 
 			// get all alliances
 			if (alliance_history)
-				alliance_history
+				await Promise.all(alliance_history
 					.filter(({ alliance }) => !!alliance)
-					.forEach(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true));
+					.map(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true)));
 
 			// get ceo
 			if(ceo_id == 1) {
@@ -70,9 +65,7 @@
 			if(ceo_id == 1 || member_count == 0)
 				await this.destroy();
 			else
-				await this.update({
-					expires: new Date(headers.expires).getTime()
-				});
+				await this.update({ expires: new Date(headers.expires).getTime() });
 
 		}
 

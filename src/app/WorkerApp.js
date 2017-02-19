@@ -84,8 +84,8 @@
 		start_task_watch () {
 
 			// start listener for brand new tasks
-			WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info-expires": 0 }, undefined,
-				({ o }) => this.process(o));
+			//WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info-expires": 0 }, undefined,
+			//	({ o }) => this.process(o));
 
 			// start listener for just taken tasks
 			/*WorkerApp.get_tasks().get_continuous_updates({ op: "u" }, undefined,
