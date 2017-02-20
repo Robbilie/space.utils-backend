@@ -15,7 +15,13 @@
 
 			// gc frequently
 			if (typeof(gc) != "undefined")
-				setInterval(() => gc(), 1000 * 10);
+				setInterval(() => {
+					let { rss, heapTotal, heapUsed } = process.memoryUsage();
+					MetricsUtil.update("process.rss", rss);
+					MetricsUtil.update("process.heapTotal", heapTotal);
+					MetricsUtil.update("process.heapUsed", heapUsed);
+					gc();
+				}, 1000 * 10);
 
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
