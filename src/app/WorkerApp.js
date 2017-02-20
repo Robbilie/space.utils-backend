@@ -21,6 +21,8 @@
 					MetricsUtil.update("process.heapTotal", heapTotal);
 					MetricsUtil.update("process.heapUsed", heapUsed);
 					gc();
+					if (rss > 190000000)
+						console.log("possible memory leak, these are running:", Object.entries(this.running_task_ids));
 				}, 1000 * 10);
 
 			// task queue
@@ -28,6 +30,7 @@
 			this.TASK_TIMEOUT_SECONDS = parseInt(process.env.TASK_TIMEOUT_SECONDS);
 			this.POLL_THRESHOLD = this.PARALLEL_TASK_LIMIT * 50;
 			this.running_tasks = 0;
+			this.running_task_ids = {};
 			this.queued_tasks = [];
 			this.tasks = [];
 			this.poll_treshold_promise = null;
@@ -232,6 +235,8 @@
 
 			MetricsUtil.inc("tasks.started");
 
+			this.running_task_ids[_id.toString()] = Date.now();
+
 			try {
 
 				let start = process.hrtime();
@@ -262,6 +267,9 @@
 			}
 
 			MetricsUtil.inc("tasks.completed");
+
+			delete this.running_task_ids[_id.toString()];
+
 			this.heartbeat = Date.now();
 
 			return should_wait;
