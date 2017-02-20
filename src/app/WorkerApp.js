@@ -332,3 +332,6 @@
 	}
 
 	module.exports = WorkerApp;
+
+	process.on("exit", () => console.log("got exit"));
+	process.on("SIGINT", () => console.log("got SIGINT"));
