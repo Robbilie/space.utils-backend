@@ -69,7 +69,7 @@
 			await Promise.all(obj
 				.filter(({ killmail_id }) => !ids.includes(killmail_id))
 				.map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
-			await this.tick();
+			await this.tick({ page: page + 1 });
 
 			if (obj.length == 2000)
 				return await this.get_killmail_pages(client, page + 1);
