@@ -23,8 +23,8 @@ spec:
         - containerPort: 4001
         resources:
           limits:
-            memory: "200Mi"
-            cpu: "70m"
+            memory: "250Mi"
+            cpu: "60m"
         volumeMounts:
         - name: config
           mountPath: "/etc/secrets"
