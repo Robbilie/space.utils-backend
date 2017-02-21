@@ -25,7 +25,7 @@
 			if (obj.length == 1000)
 				return await this.get_pages(client, page + 1);
 			else
-				return await this.tick({ page });
+				return true;
 		}
 
 	}
