@@ -58,18 +58,21 @@
 		}
 
 		async get_killmail_pages (client, page = 1) {
-			const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 
-			const ids = await KillmailStore
-				.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
-				.map(killmail => killmail.get_id());
+			{
+				const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 
-			//const ids = await KillmailStore.check_list(obj.map(({ killmail_id }) => killmail_id));
+				const ids = await KillmailStore
+					.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
+					.map(killmail => killmail.get_id());
 
-			await Promise.all(obj
-				.filter(({ killmail_id }) => !ids.includes(killmail_id))
-				.map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
-			await this.tick({ page: page + 1 });
+				//const ids = await KillmailStore.check_list(obj.map(({ killmail_id }) => killmail_id));
+
+				await Promise.all(obj
+					.filter(({ killmail_id }) => !ids.includes(killmail_id))
+					.map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
+				await this.tick({ page: page + 1 });
+			}
 
 			if (obj.length == 2000)
 				return await this.get_killmail_pages(client, page + 1);

@@ -13,14 +13,17 @@
 		}
 
 		async get_pages (client, page = 1) {
-			const { obj } = await client.Universe.get_universe_types({ page });
 
-			const ids = await TypeStore
-				.from_cursor(c => c.find({ id: { $in: obj } }).project({ id: 1 }))
-				.map(type => type.get_id());
+			{
+				const { obj } = await client.Universe.get_universe_types({ page });
 
-			await Promise.all(obj.filter(id => !ids.includes(id)).map(type_id => TypeStore.find_or_create(type_id, true)));
-			await this.tick();
+				const ids = await TypeStore
+					.from_cursor(c => c.find({ id: { $in: obj } }).project({ id: 1 }))
+					.map(type => type.get_id());
+
+				await Promise.all(obj.filter(id => !ids.includes(id)).map(type_id => TypeStore.find_or_create(type_id, true)));
+				await this.tick();
+			}
 
 			if (obj.length == 1000)
 				return await this.get_pages(client, page + 1);

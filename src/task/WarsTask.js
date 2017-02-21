@@ -15,10 +15,12 @@
 		}
 
 		async get_pages (client, max_war_id) {
-			let { obj } = await client.Wars.get_wars({ max_war_id });
 
-			await Promise.all(obj.reverse().map(war_id => WarStore.find_or_create(war_id, true)));
-			await this.tick();
+			{
+				let { obj } = await client.Wars.get_wars({ max_war_id });
+				await Promise.all(obj.reverse().map(war_id => WarStore.find_or_create(war_id, true)));
+				await this.tick();
+			}
 
 			if (obj.length == 2000 && obj[1999] == max_war_id - 1)
 				return await this.get_pages(client, max_war_id + 2000);
