@@ -16,12 +16,12 @@
 			// gc frequently
 			if (typeof(gc) != "undefined")
 				setInterval(() => {
+					gc();
 					let { rss, heapTotal, heapUsed } = process.memoryUsage();
 					MetricsUtil.update("process.rss", rss);
 					MetricsUtil.update("process.heapTotal", heapTotal);
 					MetricsUtil.update("process.heapUsed", heapUsed);
-					gc();
-					if (rss > 190000000)
+					if (rss > (127 * 1000000))
 						console.log("possible memory leak, these are running:", Object.entries(this.running_task_ids));
 				}, 1000 * 10);
 
