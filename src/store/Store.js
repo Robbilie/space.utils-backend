@@ -101,6 +101,18 @@
 			);
 		}
 
+		static check_list ($in, field = "id") {
+			return this.get_collection()
+				.then(collection => collection
+					.aggregate([
+						{ $match: { [field]: { $in } } },
+						{ $group: { _id: "ids", ids: { $push: "$" + field } } }
+					])
+					.toArray()
+				)
+				.then(({ ids }) => ids);
+		}
+
 		static all () {
 			return this.find();
 		}

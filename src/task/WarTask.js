@@ -64,7 +64,11 @@
 				.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
 				.map(killmail => killmail.get_id());
 
-			await Promise.all(obj.filter(id => !ids.includes(id)).map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
+			//const ids = await KillmailStore.check_list(obj.map(({ killmail_id }) => killmail_id));
+
+			await Promise.all(obj
+				.filter(({ killmail_id }) => !ids.includes(killmail_id))
+				.map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
 			await this.tick();
 
 			if (obj.length == 2000)
