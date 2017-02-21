@@ -58,9 +58,11 @@
 		}
 
 		async get_killmail_pages (client, page = 1) {
+			const s = { length: 0 };
 
 			{
 				const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
+				s.length = obj.length;
 
 				const ids = await KillmailStore
 					.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
@@ -74,7 +76,7 @@
 				await this.tick({ page: page + 1 });
 			}
 
-			if (obj.length == 2000)
+			if (s.length == 2000)
 				return await this.get_killmail_pages(client, page + 1);
 			else
 				return true;
