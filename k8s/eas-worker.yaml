@@ -39,7 +39,7 @@ spec:
         - name: UA
           value: "utils.space-eas-node.js-kubernetes-worker (Robert Schuh/Vincent Eneticum)"
         - name: MONGO_URL
-          value: "mongodb://mongo-service:27017"
+          value: "mongodb://mongoadmin:wsjmwFgPCHxPYK2@88.99.175.32:27017"
         - name: MONGO_DB
           value: "test"
         - name: GRAPHITE_HOST
