@@ -20,7 +20,7 @@
 						CorporationStore.find_or_create(faction.corporation_id, true);
 					if (faction.solar_system_id)
 						SystemStore.find_or_create(faction.solar_system_id, true);
-					return FactionStore.update({ id: faction.id }, { $set: faction } );
+					return FactionStore.update({ id: faction.id }, { $set: faction }, { upsert: true });
 				})
 			);
 
