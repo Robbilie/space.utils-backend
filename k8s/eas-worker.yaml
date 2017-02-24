@@ -59,7 +59,7 @@ spec:
         - name: PARALLEL_TASK_LIMIT
           value: "50"
         - name: TASK_TIMEOUT_SECONDS
-          value: "300"
+          value: "180"
         readinessProbe:
           httpGet:
             path: /ping
