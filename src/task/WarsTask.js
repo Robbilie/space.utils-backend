@@ -15,16 +15,17 @@
 		}
 
 		async get_pages (client, max_war_id) {
-			const s = { length: 0 };
+			const s = { length: 0, max_war_id: undefined };
 
 			{
 				let { obj } = await client.Wars.get_wars({ max_war_id });
 				s.length = obj.length;
+				s.max_war_id = obj[1999];
 				await Promise.all(obj.reverse().map(war_id => WarStore.find_or_create(war_id, true)));
 				await this.tick();
 			}
 
-			if (s.length == 2000 && obj[1999] == max_war_id - 1)
+			if (s.length == 2000 && s.max_war_id == max_war_id - 1)
 				return await this.get_pages(client, max_war_id + 2000);
 			else
 				return true;
