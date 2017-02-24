@@ -1,10 +1,10 @@
 
 	"use strict";
 
-	const { Store } = require("store/");
+	const { IDStore } = require("store/");
 	const { KillmailTask } = require("task/");
 
-	class KillmailStore extends Store {
+	class KillmailStore extends IDStore {
 
 		static async find_or_create (killmail_id, killmail_hash, faf, {} = $(1, { killmail_id }, "Number")) {
 
@@ -20,18 +20,7 @@
 				killmail = this.find_by_id(killmail_id);
 
 			return killmail.get_future();
-		}
 
-		static find_by_id (id, options = {}, bare, {} = $(1, { id }, "Number")) {
-			return this.findOne({ id }, options, bare);
-		}
-
-		static get_pk () {
-			return "id";
-		}
-
-		static find_by_pk (...keys) {
-			return this.from_promise(this.find_or_create(...keys));
 		}
 
 	}
