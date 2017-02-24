@@ -8,7 +8,7 @@
 
 		static async find_or_create (id, faf, {} = $(1, { [`${this.get_name().toLowerCase()}_id`]: id }, "Number")) {
 
-			let entity = this.find_by_id(id);
+			let entity = this.find_by_id(id, {}, faf);
 
 			if (await entity.is_null())
 				await BaseTask.create_task(this.get_name(), { [`${this.get_name().toLowerCase()}_id`]: id }, faf);
@@ -34,8 +34,8 @@
 			return this.from_promise(this.find_or_create(...keys));
 		}
 
-		static find_by_id (id, {} = $(1, { id }, "Number")) {
-			return this.findOne({ id });
+		static find_by_id (id, options = {}, bare, {} = $(1, { id }, "Number")) {
+			return this.findOne({ id }, options, bare);
 		}
 
 		static find_by_name (name, {} = $(1, { name }, "String")) {

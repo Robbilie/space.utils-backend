@@ -8,7 +8,7 @@
 
 		static async find_or_create (killmail_id, killmail_hash, faf, {} = $(1, { killmail_id }, "Number")) {
 
-			let killmail = this.find_by_id(killmail_id);
+			let killmail = this.find_by_id(killmail_id, {}, faf);
 
 			if(await killmail.is_null() && killmail_hash)
 				await KillmailTask.create({ killmail_id, killmail_hash }, faf);
@@ -22,8 +22,8 @@
 			return killmail.get_future();
 		}
 
-		static find_by_id (id, {} = $(1, { id }, "Number")) {
-			return this.findOne({ id });
+		static find_by_id (id, options = {}, bare, {} = $(1, { id }, "Number")) {
+			return this.findOne({ id }, options, bare);
 		}
 
 		static get_pk () {

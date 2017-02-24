@@ -8,7 +8,7 @@
 
 		static async find_or_create (war_id, faf, {} = $(1, { war_id }, "Number")) {
 
-			let war = this.find_by_id(war_id);
+			let war = this.find_by_id(war_id, {}, faf);
 
 			if (await war.is_null())
 				await WarTask.create({ war_id }, faf);
@@ -23,8 +23,8 @@
 
 		}
 
-		static find_by_id (id, {} = $(1, { id }, "Number")) {
-			return this.findOne({ id });
+		static find_by_id (id, options = {}, bare, {} = $(1, { id }, "Number")) {
+			return this.findOne({ id }, options, bare);
 		}
 
 		static get_pk () {
