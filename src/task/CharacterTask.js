@@ -38,6 +38,9 @@
 			// get corp
 			this.enqueue_reference("Corporation", character.corporation_id);
 
+			if (character.alliance_id)
+				this.enqueue_reference("Alliance", character.alliance_id);
+
 			// get all corps from history
 			if (corporation_history)
 				corporation_history
