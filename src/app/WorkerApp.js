@@ -340,11 +340,14 @@
 		}
 
 		enqueue_reference (name, ...args) {
-			this.reference_queue.push([name, args]);
-			if (this.reference_queue.length >= this.reference_queue_max) {
-				this.reference_queue.forEach(([name, args]) => DBUtil.get_store(name).find_or_create(...args, true));
-				this.reference_queue = [];
-			}
+			setImmediate(() => {
+				this.reference_queue.push([name, args]);
+				if (this.reference_queue.length >= this.reference_queue_max) {
+					let queue = this.reference_queue;
+					this.reference_queue = [];
+					queue.forEach(([name, args]) => DBUtil.get_store(name).find_or_create(...args, true));
+				}
+			});
 		}
 
 	}
