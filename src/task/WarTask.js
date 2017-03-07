@@ -31,21 +31,21 @@
 			);
 
 			if (aggressor.corporation_id)
-				CorporationStore.find_or_create(aggressor.corporation_id, true);
+				this.enqueue_reference("Corporation", aggressor.corporation_id);
 			if (aggressor.alliance_id)
-				AllianceStore.find_or_create(aggressor.alliance_id, true);
+				this.enqueue_reference("Alliance", aggressor.alliance_id);
 
 			if (defender.corporation_id)
-				CorporationStore.find_or_create(defender.corporation_id, true);
+				this.enqueue_reference("Corporation", defender.corporation_id);
 			if (defender.alliance_id)
-				AllianceStore.find_or_create(defender.alliance_id, true);
+				this.enqueue_reference("Alliance", defender.alliance_id);
 
 			if (allies)
 				allies.forEach(({ corporation_id, alliance_id }) => {
 					if (corporation_id)
-						CorporationStore.find_or_create(corporation_id, true);
+						this.enqueue_reference("Corporation", corporation_id);
 					if (alliance_id)
-						AllianceStore.find_or_create(alliance_id, true);
+						this.enqueue_reference("Alliance", alliance_id);
 				});
 
 			await this.get_killmail_pages(client, this.get_info().page);
@@ -68,11 +68,10 @@
 					.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
 					.map(killmail => killmail.get_id());
 
-				//const ids = await KillmailStore.check_list(obj.map(({ killmail_id }) => killmail_id));
-
-				await Promise.all(obj
+				obj
 					.filter(({ killmail_id }) => !ids.includes(killmail_id))
-					.map(({ killmail_id, killmail_hash }) => KillmailStore.find_or_create(killmail_id, killmail_hash, true)));
+					.forEach(({ killmail_id, killmail_hash }) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
+
 				await this.tick({ page: page + 1 });
 			}
 

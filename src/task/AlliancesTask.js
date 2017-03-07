@@ -17,7 +17,7 @@
 
 			alliances
 				.filter(alliance_id => !alliance_ids.includes(alliance_id))
-				.forEach(alliance_id => AllianceStore.find_or_create(alliance_id, true));
+				.forEach(alliance_id => this.enqueue_reference("Alliance", alliance_id));
 
 			await this.update({ expires: new Date(headers.expires).getTime() });
 

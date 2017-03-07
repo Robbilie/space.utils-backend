@@ -36,12 +36,12 @@
 			);
 
 			// get corp
-			CorporationStore.find_or_create(character.corporation_id, true);
+			this.enqueue_reference("Corporation", character.corporation_id);
 
 			// get all corps from history
 			if (corporation_history)
 				corporation_history
-					.map(({ corporation_id }) => CorporationStore.find_or_create(corporation_id, true));
+					.map(({ corporation_id }) => this.enqueue_reference("Corporation", corporation_id));
 
 			if (character.corporation_id == 1000001)
 				await this.destroy();

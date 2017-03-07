@@ -21,7 +21,9 @@
 				let { obj } = await client.Wars.get_wars({ max_war_id });
 				s.length = obj.length;
 				s.max_war_id = obj[0];
-				await Promise.all(obj.reverse().map(war_id => WarStore.find_or_create(war_id, true)));
+				obj
+					.reverse()
+					.forEach(war_id => this.enqueue_reference("War", war_id));
 				await this.tick();
 			}
 

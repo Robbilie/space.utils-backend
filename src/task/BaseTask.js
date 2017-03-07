@@ -10,10 +10,19 @@
 
 	class BaseTask {
 
-		constructor ({ _id, info, data }) {
+		constructor (worker, { _id, info, data }) {
+			this.worker = worker;
 			this._id = _id;
 			this.info = info;
 			this.data = data;
+		}
+
+		get_worker () {
+			return this.worker;
+		}
+
+		enqueue_reference (...args) {
+			this.get_worker().enqueue_reference(...args);
 		}
 
 		get__id () {

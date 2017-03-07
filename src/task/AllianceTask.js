@@ -39,7 +39,7 @@
 
 			corporations
 				.filter(corporation_id => !corporation_ids.includes(corporation_id))
-				.forEach(corporation_id => CorporationStore.find_or_create(corporation_id, true));
+				.forEach(corporation_id => this.enqueue_reference("Corporation", corporation_id));
 
 			if (corporations.length == 0)
 				await this.destroy();

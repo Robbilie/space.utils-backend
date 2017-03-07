@@ -60,6 +60,8 @@ spec:
           value: "50"
         - name: TASK_TIMEOUT_SECONDS
           value: "300"
+        - name: this.enqueue_reference("
+          value: "1000"
         readinessProbe:
           httpGet:
             path: /ping

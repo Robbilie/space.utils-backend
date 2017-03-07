@@ -43,13 +43,13 @@
 
 			// get alliance
 			if(alliance_id)
-				AllianceStore.find_or_create(alliance_id, true);
+				this.enqueue_reference("Alliance", alliance_id);
 
 			// get all alliances
 			if (alliance_history)
 				alliance_history
 					.filter(({ alliance }) => !!alliance)
-					.map(({ alliance: { alliance_id } }) => AllianceStore.find_or_create(alliance_id, true));
+					.map(({ alliance: { alliance_id } }) => this.enqueue_reference("Alliance", alliance_id));
 
 			// get ceo
 			if(ceo_id == 1) {
@@ -57,7 +57,7 @@
 			} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
 				// is npc ceo
 			} else if (ceo_id) {
-				CharacterStore.find_or_create(ceo_id, true);
+				this.enqueue_reference("Character", ceo_id);
 			} else {
 				console.log("no ceo", this.get_data().corporation_id);
 			}

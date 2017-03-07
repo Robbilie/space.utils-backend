@@ -15,7 +15,9 @@
 				.from_cursor(c => c.find({ id: { $in: obj } }).project({ id: 1 }))
 				.map(system => system.get_id());
 
-			await Promise.all(obj.filter(id => !ids.includes(id)).map(system_id => SystemStore.find_or_create(system_id, true)));
+			obj
+				.filter(id => !ids.includes(id))
+				.forEach(system_id => this.enqueue_reference("System", system_id));
 
 			await this.update({ expires: Date.now() + (60 * 60 * 1000) });
 		}

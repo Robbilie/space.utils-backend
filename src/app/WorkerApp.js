@@ -34,6 +34,8 @@
 			this.queued_tasks = [];
 			this.tasks = [];
 			this.poll_treshold_promise = null;
+			this.reference_queue = [];
+			this.reference_queue_max = parseInt(process.env.REFERENCE_QUEUE_MAX);
 
 			this.start_heartbeat();
 			this.start_logging();
@@ -299,7 +301,7 @@
 				try {
 					let start = process.hrtime();
 					//console.log("start", JSON.stringify(value));
-					await new (LoadUtil.task(name))(value).start();
+					await new (LoadUtil.task(name))(this, value).start();
 					//console.log("end", JSON.stringify(value));
 					this.completed++;
 					let duration = process.hrtime(start);
@@ -335,6 +337,14 @@
 
 			this.heartbeat = Date.now();
 
+		}
+
+		enqueue_reference (name, ...args) {
+			this.reference_queue.push([name, args]);
+			if (this.reference_queue.length >= this.reference_queue_max) {
+				this.reference_queue.forEach(([name, args]) => DBUtil.get_store(name).find_or_create(...args, true));
+				this.reference_queue = [];
+			}
 		}
 
 	}

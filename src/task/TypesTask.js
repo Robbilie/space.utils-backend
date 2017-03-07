@@ -23,7 +23,10 @@
 					.from_cursor(c => c.find({ id: { $in: obj } }).project({ id: 1 }))
 					.map(type => type.get_id());
 
-				await Promise.all(obj.filter(id => !ids.includes(id)).map(type_id => TypeStore.find_or_create(type_id, true)));
+				obj
+					.filter(id => !ids.includes(id))
+					.forEach(type_id => this.enqueue_reference("Type", type_id));
+
 				await this.tick();
 			}
 
