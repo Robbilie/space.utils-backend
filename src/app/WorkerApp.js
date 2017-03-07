@@ -242,7 +242,7 @@
 			try {
 
 				let start = process.hrtime();
-				await new (LoadUtil.task(name))(value).start();
+				await new (LoadUtil.task(name))(this, value).start();
 
 				this.completed++;
 				let duration = process.hrtime(start);
