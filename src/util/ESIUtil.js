@@ -12,7 +12,7 @@
 			maxSockets: Infinity
 		},
 		resolveWithFullResponse: true,
-		time: true,
+		time: true/*,
 		agentClass: spdy.Agent,
 		agentOptions: {
 			host: "esi.tech.ccp.is",
@@ -21,7 +21,7 @@
 				plain: false,
 				ssl: true
 			}
-		}
+		}*/
 	});
 
 	const { RPSUtil, MetricsUtil } = require("util/");
