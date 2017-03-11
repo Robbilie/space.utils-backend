@@ -5,7 +5,7 @@
 	const spdy 		= require("spdy");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
-		gzip: true, // actually slows down
+		//gzip: true, // actually slows down
 		forever: true,
 		//timeout: 1000 * 12,
 		pool: {
