@@ -37,7 +37,6 @@
 
 			this.start_heartbeat();
 			this.start_logging();
-			this.start_task_watch();
 
 			// start some basic tasks
 			WorkerApp.create_base_tasks();
