@@ -13,7 +13,7 @@
 	const settings = {
 		db: {
 			ignoreUndefined: true,
-			//bufferMaxEntries: 0
+			bufferMaxEntries: 0
 		},
 		server: {
 			poolSize: 50
