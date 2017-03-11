@@ -152,11 +152,11 @@
 
 			let tasks = await DBUtil.get_collection("tasks");
 			let { value } = await tasks.findOneAndUpdate(
-				/*{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }*/
-				{ $or: [
+				{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
+				/*{ $or: [
 				 { "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
 				 { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
-				 ] },
+				 ] }*/,
 				{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
 				{ returnOriginal: false, sort: { "info.expires": 1, "info.modified": 1 } }
 			);
