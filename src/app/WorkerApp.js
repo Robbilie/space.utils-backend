@@ -156,7 +156,7 @@
 			MetricsUtil.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
 			if (!value)
-				return null;
+				return true;
 
 			let { _id, info: { name } } = value;
 
