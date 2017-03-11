@@ -16,7 +16,7 @@
 			//bufferMaxEntries: 0
 		},
 		server: {
-			//poolSize: 50
+			poolSize: 50
 		}
 	};
 
@@ -24,7 +24,7 @@
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`, settings)
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?maxPoolSize=50`, settings)
 					.then(db => db.on("error", e => console.log("DB Error:", e)))
 					.catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
