@@ -77,7 +77,7 @@
 			return this.findOne({ _id }, ...args);
 		}
 
-		static findOne (data = {}, options = {}, bare) {
+		static findOne (data = {}, options = {}, bare = true) {
 			return this.from_promise((async () => {
 				let collection = await this.get_collection();
 				if(bare) {
