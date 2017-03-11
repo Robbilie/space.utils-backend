@@ -150,8 +150,7 @@
 
 			let atomic_start = process.hrtime();
 
-			let tasks = await DBUtil.get_collection("tasks");
-			let { value } = await tasks.findOneAndUpdate(
+			let { value } = await WorkerApp.get_tasks().modify(
 				{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
 				/*{ $or: [
 				 { "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
