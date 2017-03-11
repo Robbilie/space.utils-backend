@@ -24,7 +24,7 @@
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`/*?replicaSet=rs0&socketTimeoutMS=${10 * 1000}&connectTimeoutMS=${10 * 1000}`*/, settings)
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`, settings)
 					.then(db => db.on("error", e => console.log("DB Error:", e)))
 					.catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
@@ -96,8 +96,6 @@
 
 		static oplog ({ op, ns, ts = Timestamp(0, Date.now() / 1000 | 0), o, o2 } = {}) {
 			DBUtil.get_oplog().then(oplog => {
-				//console.log(JSON.stringify({ op, ns, ts, o, o2 }));
-				//console.log(JSON.stringify(DBUtil.strip(o)));
 				oplog.collection("oplog").insertOne({ op, ns, ts, o: op == "u" ? DBUtil.strip(o) : o, o2: op == "u" ? DBUtil.strip(o2) : o2 });
 			});
 		}

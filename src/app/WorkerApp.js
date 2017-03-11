@@ -28,12 +28,10 @@
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
 			this.TASK_TIMEOUT_SECONDS = parseInt(process.env.TASK_TIMEOUT_SECONDS);
-			this.POLL_THRESHOLD = this.PARALLEL_TASK_LIMIT * 50;
 			this.running_tasks = 0;
 			this.running_task_ids = {};
 			this.queued_tasks = [];
 			this.tasks = [];
-			this.poll_treshold_promise = null;
 			this.reference_queue = [];
 			this.reference_queue_max = parseInt(process.env.REFERENCE_QUEUE_MAX);
 
@@ -46,7 +44,6 @@
 
 			// start polling for old tasks that have to be fetched
 			this.pulling_tasks = null;
-			//this.poll_for_tasks();
 			this.work_tasks();
 
 		}
@@ -93,24 +90,6 @@
 
 		}
 
-		start_task_watch () {
-
-			// start listener for brand new tasks
-			//WorkerApp.get_tasks().get_continuous_updates({ op: "i", "o.info-expires": 0 }, undefined,
-			//	({ o }) => this.process(o));
-
-			// start listener for just taken tasks
-			/*WorkerApp.get_tasks().get_continuous_updates({ op: "u" }, undefined,
-				({ o2: { _id }, o }) => {
-					if(o && o.$set && o.$set.info && o.$set.info.state == 1) {
-						let ind = this.tasks.findIndex(x => x._id == _id);
-						if(ind >= 0)
-							this.tasks[ind] = null;
-					}
-				});*/
-
-		}
-
 		static create_base_tasks () {
 			BaseTask.create_task("Alliances", {}, true);
 			BaseTask.create_task("Factions", {}, true);
@@ -145,68 +124,14 @@
 			});
 		}
 
-		poll_treshold () {
-			return new Promise(resolve => this.poll_treshold_promise = resolve);
-		}
-
-		async pull_new_tasks (now = Date.now()) {
-			let collection = await WorkerApp.get_tasks().get_collection();
-			this.tasks = await collection
-				.find({ "info.expires": { $lt: (now / 1000)|0 }, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: this.task_query(now) })
-				.sort({ "info.expires": 1 })
-				.limit(this.PARALLEL_TASK_LIMIT * 10 * 5)
-				.toArray();
-			this.heartbeat = Date.now();
-			console.log("pulled new tasks");
-			return null;
-		}
-
 		work_tasks () {
 			this.enqueue()
 				.catch(e => console.log("worker error", e))
 				.then(() => process.nextTick(() => this.work_tasks()));
 		}
 
-		async poll_for_tasks () {
-
-			try {
-
-				if (this.tasks.length < this.PARALLEL_TASK_LIMIT * 15) {
-					if (!this.pulling_tasks)
-						this.pulling_tasks = this.pull_new_tasks();
-					if (this.tasks.length == 0)
-						this.pulling_tasks = await this.pulling_tasks;
-					if (this.tasks.length == 0) {
-						console.log("no tasks, waiting for 2s");
-						await Promise.resolve().wait(1000 * 2);
-					}
-				}
-
-				//if (this.queued_tasks.length > this.POLL_THRESHOLD)
-				//	await Promise.resolve().wait(1000 * 2);
-
-				let task = this.tasks.shift();
-
-				//console.log("enqueueing");
-				if(task)
-					await this.enqueue(task);
-
-				//console.log("enqueued,", this.tasks.length, "left while", this.running_tasks, "are running");
-
-			} catch (e) {
-				console.log("worker error", e);
-			}
-
-			process.nextTick(() => this.poll_for_tasks());
-
-		}
-
 		static get_tasks () {
 			return DBUtil.get_store("Task");
-		}
-
-		task_query (now = Date.now()) {
-			return [{ "info.state": 0 }, { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }];
 		}
 
 		async process_next () {
@@ -217,12 +142,13 @@
 
 			let atomic_start = process.hrtime();
 
-			let { value } = await WorkerApp.get_tasks().modify(
-				{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
-				/*{ $or: [
+			let tasks = await DBUtil.get_collection("tasks");
+			let { value } = await tasks.findOneAndUpdate(
+				/*{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }*/
+				{ $or: [
 				 { "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
 				 { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
-				 ] }*/,
+				 ] },
 				{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
 				{ returnOriginal: false, sort: { "info.expires": 1, "info.modified": 1 } }
 			);
@@ -275,67 +201,6 @@
 			this.heartbeat = Date.now();
 
 			return should_wait;
-
-		}
-
-		async process ({ _id, info: { name, expires } }) {
-
-			this.heartbeat = Date.now();
-
-			try {
-
-				let now = Date.now();
-
-				let { value } = await WorkerApp.get_tasks().modify(
-					{ _id, "info.expires": expires, /*"info.modified": { $lt: now - (1000 * 60) }*/ $or: this.task_query(now) },
-					{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
-					{ returnOriginal: false }
-				);
-
-				if(!value)
-					return null;
-
-				MetricsUtil.inc("tasks.started");
-
-				// do special processing stuff or error out
-				try {
-					let start = process.hrtime();
-					//console.log("start", JSON.stringify(value));
-					await new (LoadUtil.task(name))(this, value).start();
-					//console.log("end", JSON.stringify(value));
-					this.completed++;
-					let duration = process.hrtime(start);
-						duration = (duration[0] * 1e9 + duration[1]) / 1e6;
-					MetricsUtil.update("tasks.duration", duration);
-					MetricsUtil.update(`tasks.type.${name}`, duration);
-				} catch (e) {
-
-					await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": (Date.now() / 1000)|0 } });
-					this.errors++;
-					MetricsUtil.inc("tasks.errors");
-
-					// log error & slow down requests
-					let error = e.error;
-					try { error = JSON.parse(error); } catch (e) {}
-					if (e.name == "StatusCodeError")
-						console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
-					else if (e.message == "Error: ESOCKETTIMEDOUT")
-						console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
-					else
-						console.log(name, e);
-					// increases wait time to up to 5m
-					// ++this.running_tasks;
-					// setTimeout(() => --this.running_tasks, 5 * 60 * 1000 / this.PARALLEL_TASK_LIMIT * this.errors);
-				}
-
-			} catch (e) {
-				console.log("shouldn't happen", e);
-				await this.process({ _id, info: { name, expires } });
-			}
-
-			MetricsUtil.inc("tasks.completed");
-
-			this.heartbeat = Date.now();
 
 		}
 
