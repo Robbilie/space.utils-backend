@@ -124,9 +124,18 @@
 		}
 
 		work_tasks () {
-			this.enqueue()
+			/*this.enqueue()
 				.catch(e => console.log("worker error", e))
-				.then(() => process.nextTick(() => this.work_tasks()));
+				.then(() => process.nextTick(() => this.work_tasks()));*/
+			for (let i = 0; i < this.PARALLEL_TASK_LIMIT; i++)
+				this.next();
+		}
+
+		next () {
+			this.process_next()
+				.catch(e => console.log("shouldn't happen", e) || true)
+				.then(should_wait => should_wait ? (console.log("back off") || Promise.resolve().wait(5 * 1000)) : Promise.resolve())
+				.then(() => process.nextTick(() => this.next()));
 		}
 
 		static get_tasks () {
