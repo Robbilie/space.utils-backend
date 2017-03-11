@@ -16,7 +16,7 @@
 			//bufferMaxEntries: 0
 		},
 		server: {
-			poolSize: 10
+			poolSize: 1
 		}
 	};
 
