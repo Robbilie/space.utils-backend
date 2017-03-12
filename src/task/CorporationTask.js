@@ -9,18 +9,26 @@
 
 		async start () {
 
+			let tss = [Date.now()];
+
 			let client = await ESIUtil.get_client();
+
+			tss.push(Date.now());
 
 			let [{ obj: corporation, headers }, old_corp] = await Promise.all([
 				client.Corporation.get_corporations_corporation_id(this.get_data()),
 				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
 			]);
 
+			tss.push(Date.now());
+
 			let alliance_history = null;
 			if (!old_corp || (old_corp && old_corp.alliance_id != corporation.alliance_id)) {
 				let { obj } = await client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
 				alliance_history = obj;
 			}
+
+			tss.push(Date.now());
 
 			corporation = Object.assign(corporation, {
 				id: 				this.get_data().corporation_id,
@@ -29,6 +37,8 @@
 			}, alliance_history ? {
 				alliance_history:	alliance_history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }))
 			} : {});
+
+			tss.push(Date.now());
 
 			let { ceo_id, alliance_id, member_count } = corporation;
 
@@ -41,15 +51,21 @@
 				{ upsert: true }
 			);
 
+			tss.push(Date.now());
+
 			// get alliance
 			if(alliance_id)
 				this.enqueue_reference("Alliance", alliance_id);
+
+			tss.push(Date.now());
 
 			// get all alliances
 			if (alliance_history)
 				alliance_history
 					.filter(({ alliance }) => !!alliance)
 					.map(({ alliance: { alliance_id } }) => this.enqueue_reference("Alliance", alliance_id));
+
+			tss.push(Date.now());
 
 			// get ceo
 			if(ceo_id == 1) {
@@ -62,10 +78,16 @@
 				console.log("no ceo", this.get_data().corporation_id);
 			}
 
+			tss.push(Date.now());
+
 			if(ceo_id == 1 || member_count == 0)
 				await this.destroy();
 			else
 				await this.update({ expires: new Date(headers.expires).getTime() });
+
+			tss.push(Date.now());
+
+			console.log("corporation", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
 
 		}
 

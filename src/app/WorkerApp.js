@@ -144,11 +144,15 @@
 
 		async process_next () {
 
+			let tss = [Date.now()];
+
 			let should_wait = false;
 
 			let now = Date.now();
 
 			let atomic_start = process.hrtime();
+
+			tss.push(Date.now());
 
 			let { value } = await WorkerApp.get_tasks().modify(
 				{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
@@ -160,28 +164,44 @@
 				{ returnOriginal: false, sort: { "info.expires": 1, "info.modified": 1 } }
 			);
 
+			tss.push(Date.now());
+
 			let atomic_duration = process.hrtime(atomic_start);
 			MetricsUtil.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
+
+			tss.push(Date.now());
 
 			if (!value)
 				return true;
 
 			let { _id, info: { name } } = value;
 
+			tss.push(Date.now());
+
 			MetricsUtil.inc("tasks.started");
 
 			this.running_task_ids[_id.toString()] = Date.now();
 
+			tss.push(Date.now());
+
 			try {
 
 				let start = process.hrtime();
-				await new (LoadUtil.task(name))(this, value).start();
+				let t = new (LoadUtil.task(name))(this, value);
+
+				tss.push(Date.now());
+
+				await t.start();
+
+				tss.push(Date.now());
 
 				this.completed++;
 				let duration = process.hrtime(start);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 				MetricsUtil.update("tasks.duration", duration);
 				MetricsUtil.update(`tasks.type.${name}`, duration);
+
+				tss.push(Date.now());
 
 			} catch (e) {
 
@@ -206,6 +226,10 @@
 			delete this.running_task_ids[_id.toString()];
 
 			this.heartbeat = Date.now();
+
+			tss.push(Date.now());
+
+			console.log("worker", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
 
 			return should_wait;
 
