@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "docker build -f docker/eas-node -t robbilie/eas:eas-node . && docker push robbilie/eas:eas-node && docker build -f docker/eas-nginx -t robbilie/eas:eas-nginx . && docker push robbilie/eas:eas-nginx",
-    "start": "node --expose-gc --trace-warnings index.js"
+    "start": "node --trace-warnings index.js"
   },
   "author": "",
   "license": "ISC",
