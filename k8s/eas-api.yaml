@@ -54,7 +54,7 @@ spec:
         - name: UA
           value: "utils.space-eas-node.js-kubernetes-api (Robert Schuh/Vincent Eneticum)"
         - name: MONGO_URL
-          value: "mongodb://mongoadmin:wsjmwFgPCHxPYK2@46.4.55.84:27017"
+          value: "mongodb://mongo-service:27017"
         - name: MONGO_DB
           value: "test"
         - name: XML_URL
