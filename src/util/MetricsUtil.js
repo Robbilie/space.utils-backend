@@ -5,17 +5,7 @@
 	const { GraphiteReporter, Report, Counter, Histogram, Timer } = require("metrics");
 
 	const storage = {
-		metrics: new Map([
-			["esi.completed", new Counter()],
-			["esi.errors", new Counter()],
-			["esi.duration", new Timer()],
-			["esi.rpstest", new Timer()],
-			["esi.started", new Counter()],
-			["tasks.started", new Counter()],
-			["tasks.completed", new Counter()],
-			["tasks.errors", new Counter()],
-			["tasks.duration", new Timer()]
-		]),
+		metrics: new Map(),
 		report: undefined,
 		reporter: undefined
 	};

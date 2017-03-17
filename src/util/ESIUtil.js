@@ -32,6 +32,8 @@
 		errors: 		0,
 		completed: 		0
 	};
+
+	const EXTENDED_METRICS = process.env.EXTENDED_METRICS == "true";
 	
 	class ESIUtil {
 		
@@ -55,16 +57,14 @@
 					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
 				},
 				client: { execute: async (obj) => {
-					const start = process.hrtime();
 
 					try {
 
 						let { method, url, headers, body } = obj;
-						MetricsUtil.inc("esi.started");
+						if (EXTENDED_METRICS)
+							MetricsUtil.inc("esi.started");
 						let response = await request({ method, url, headers, body });
-						let duration = process.hrtime(start);
 						MetricsUtil.update("esi.elapsedTime", response.elapsedTime);
-						MetricsUtil.update("esi.reqduration", (duration[0] * 1e9 + duration[1]) / 1e6);
 						response.obj = JSON.parse(response.body);
 						obj.on.response(response);
 
@@ -76,11 +76,8 @@
 
 					}
 
-					let duration = process.hrtime(start);
-					MetricsUtil.update("esi.duration", (duration[0] * 1e9 + duration[1]) / 1e6);
 					++storage.completed;
 					MetricsUtil.inc("esi.completed");
-					MetricsUtil.update("esi.rpstest", 1);
 
 				} }
 			}, options));

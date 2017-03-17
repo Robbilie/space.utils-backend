@@ -28,6 +28,7 @@
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
 			this.TASK_TIMEOUT_SECONDS = parseInt(process.env.TASK_TIMEOUT_SECONDS);
+			this.EXTENDED_METRICS = process.env.EXTENDED_METRICS == "true";
 			this.running_tasks = 0;
 			this.running_task_ids = {};
 			this.queued_tasks = [];
@@ -178,7 +179,8 @@
 
 			tss.push(Date.now());
 
-			MetricsUtil.inc("tasks.started");
+			if (this.EXTENDED_METRICS)
+				MetricsUtil.inc("tasks.started");
 
 			this.running_task_ids[_id.toString()] = Date.now();
 
@@ -199,7 +201,8 @@
 				let duration = process.hrtime(start);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 				MetricsUtil.update("tasks.duration", duration);
-				MetricsUtil.update(`tasks.type.${name}`, duration);
+				if (this.EXTENDED_METRICS)
+					MetricsUtil.update(`tasks.type.${name}`, duration);
 
 				tss.push(Date.now());
 
