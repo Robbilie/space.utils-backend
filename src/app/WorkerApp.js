@@ -172,6 +172,8 @@
 
 			tss.push(Date.now());
 
+			this.heartbeat = Date.now();
+
 			if (!value)
 				return true;
 
