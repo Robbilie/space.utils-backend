@@ -3,7 +3,7 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
-	const { CharacterStore, CorporationStore } = require("store/");
+	const { CharacterStore } = require("store/");
 
 	class CharacterTask extends BaseTask {
 
@@ -47,6 +47,11 @@
 
 			tss.push(Date.now());
 
+			if (!old_char)
+				await CharacterAffiliationTask.queue_id(character.id);
+
+			tss.push(Date.now());
+
 			// get corp
 			this.enqueue_reference("Corporation", character.corporation_id);
 
@@ -67,7 +72,7 @@
 			if (character.corporation_id == 1000001)
 				await this.destroy();
 			else
-				await this.update({ expires: new Date(headers.expires).getTime() });
+				await this.update({ expires: Date.now() + (1000 * 60 * 60 * 24) /*new Date(headers.expires).getTime()*/ });
 
 			tss.push(Date.now());
 

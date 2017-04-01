@@ -20,7 +20,7 @@
 		}
 
 		toArray () {
-			return this.get_future().then(arr => arr.map(el => new (this.get_type())(el)));
+			return this.get_future();//.then(arr => arr.map(el => new (this.get_type())(el)));
 		}
 
 		map (fn) {
