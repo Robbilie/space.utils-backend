@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { BaseTask } = require("task/");
+	const { BaseTask, CharacterAffiliationTask } = require("task/");
 	const { ESIUtil } = require("util/");
 	const { CharacterStore } = require("store/");
 
