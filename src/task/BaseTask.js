@@ -89,7 +89,11 @@
 					storage.tasks.set(_id.toString(), resolve);
 
 				let response = await BaseTask.get_tasks().update(
-					{ data, "info.name": name },
+					Object.assign(
+						{ "info.name": name },
+						Object.entries(data).reduce((p, [name, value]) => { p[`data.${name}`] = value; return p; }, {})
+					),
+					//{ data, "info.name": name },
 					{
 						$setOnInsert: {
 							_id,
