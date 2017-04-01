@@ -39,12 +39,10 @@
 				{ "info.name": "CharacterAffiliation", "info.count": { $lt: 251 - ids.length } },
 				{
 					$setOnInsert: {
-						info: {
-							name: "CharacterAffiliation",
-							state: 0,
-							expires: 0,
-							modified: 0
-						}
+						"info.name": "CharacterAffiliation",
+						"info.state": 0,
+						"info.expires": 0,
+						"info.modified": 0
 					},
 					$addToSet: {
 						"data.characters": {
