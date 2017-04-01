@@ -36,7 +36,7 @@
 
 		static queue_ids (ids) {
 			return BaseTask.get_tasks().update(
-				{ "info.name": name, "info.count": { $lt: 251 - ids.length } },
+				{ "info.name": "CharacterAffiliation", "info.count": { $lt: 251 - ids.length } },
 				{
 					$setOnInsert: {
 						data: {
