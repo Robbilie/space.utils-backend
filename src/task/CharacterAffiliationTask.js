@@ -34,20 +34,16 @@
 			return CharacterAffiliationTask.queue_ids([id]);
 		}
 
-		static queue_ids (ids) {
+		static queue_ids (ids = []) {
 			return BaseTask.get_tasks().update(
 				{ "info.name": "CharacterAffiliation", "info.count": { $lt: 251 - ids.length } },
 				{
 					$setOnInsert: {
-						data: {
-							characters: []
-						},
 						info: {
 							name: "CharacterAffiliation",
 							state: 0,
 							expires: 0,
-							modified: 0,
-							count: 0
+							modified: 0
 						}
 					},
 					$addToSet: {
