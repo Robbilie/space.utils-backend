@@ -11,20 +11,15 @@
 	const collections 	= new Map();
 
 	const settings = {
-		db: {
-			ignoreUndefined: true,
-			//bufferMaxEntries: 0
-		},
-		server: {
-			poolSize: 1
-		}
+		ignoreUndefined: true,
+		poolSize: 1
 	};
 
 	class DBUtil {
 
 		static get_connection (field, db) {
 			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?maxPoolSize=${settings.server.poolSize}`, settings)
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?maxPoolSize=${settings.poolSize}`, settings)
 					.then(db => db.on("error", e => console.log("DB Error:", e)))
 					.catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
