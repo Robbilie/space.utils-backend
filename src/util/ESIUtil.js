@@ -63,7 +63,7 @@
 						let { method, url, headers, body } = obj;
 						if (EXTENDED_METRICS)
 							MetricsUtil.inc("esi.started");
-						let response = await request({ method, url, headers, body });
+						let response = await request({ method, url, headers, body: JSON.stringify(body) });
 						MetricsUtil.update("esi.elapsedTime", response.elapsedTime);
 						response.obj = JSON.parse(response.body);
 						obj.on.response(response);
