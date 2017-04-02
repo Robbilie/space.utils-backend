@@ -3,6 +3,7 @@
 
 	const { BaseTask } = require("task/");
 	const { ESIUtil } = require("util/");
+	const { CharacterStore, TaskStore } = require("store/");
 
 	class CharacterAffiliationTask extends BaseTask {
 
