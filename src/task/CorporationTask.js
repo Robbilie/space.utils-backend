@@ -87,7 +87,7 @@
 
 			tss.push(Date.now());
 
-			console.log("corporation", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
+			//console.log("corporation", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
 
 		}
 

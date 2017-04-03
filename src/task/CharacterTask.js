@@ -76,7 +76,7 @@
 
 			tss.push(Date.now());
 
-			console.log("character", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
+			//console.log("character", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
 
 		}
 

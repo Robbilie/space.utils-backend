@@ -234,7 +234,7 @@
 
 			tss.push(Date.now());
 
-			console.log("worker", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
+			//console.log("worker", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
 
 			return should_wait;
 
