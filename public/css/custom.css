@@ -160,7 +160,7 @@ a {
 }
 .half:nth-child(odd) {
 	margin-right: 2%;
-	margin-left: 0%;
+	margin-left: 0;
 }
 .center {
 	text-align: center;
@@ -194,7 +194,7 @@ fieldset {
 }
 ul {
 	text-align: left;
-	padding: 0px 40px;
+	padding: 0 40px;
 }
 #character > li {
 	display: block;

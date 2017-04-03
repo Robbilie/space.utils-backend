@@ -42,7 +42,7 @@ body {
     right: 0;
     bottom: 0;
     perspective: 500px;
-    -webkit-perspective: 500;
+    -webkit-perspective: 500px;
     transform-style: preserve-3d;
 }
 
@@ -71,8 +71,8 @@ body {
     top: 0;
     overflow: hidden;
 	transform-style: preserve-3d;
-	perspective: 500;
-	-webkit-perspective: 500;
+	perspective: 500px;
+	-webkit-perspective: 500px;
 }
 
 .topbar {
@@ -299,12 +299,12 @@ body {
 }
 
 .ui.open #sidebarButton {
-    box-shadow: 0 0 10px 0px rgb(0, 0, 0);
+    box-shadow: 0 0 10px 0 rgb(0, 0, 0);
 }
 
 .ui.open .topbar #clock {
     width: 200px;
-    box-shadow: 0 0 10px 0px rgb(0, 0, 0);
+    box-shadow: 0 0 10px 0 rgb(0, 0, 0);
 }
 
 .usercount {
@@ -317,7 +317,7 @@ body {
     color: white;
     background-color: var(--primary-color);
     padding: 5px;
-    box-shadow: 0 0 10px 0px rgb(0, 0, 0);
+    box-shadow: 0 0 10px 0 rgb(0, 0, 0);
 }
 
 .usercount > span {
@@ -335,7 +335,7 @@ body {
     width: 40px;
     height: 40px;
     background-color: var(--primary-color);
-    box-shadow: 0 0 10px 0px rgb(0, 0, 0);
+    box-shadow: 0 0 10px 0 rgb(0, 0, 0);
 }
 
 .homebtn::before {content: "";width: 20px;height: 15px;background-color: white;position: absolute;bottom: 8px;left: 10px;}
@@ -944,7 +944,7 @@ body {
 
 .ui.open #sidebarButton span:nth-child(1) {
     top: 18px;
-    width: 0%;
+    width: 0;
     left: 50%;
 }
 
@@ -964,7 +964,7 @@ body {
 
 .ui.open #sidebarButton span:nth-child(4) {
     top: 18px;
-    width: 0%;
+    width: 0;
     left: 50%;
 }
 
