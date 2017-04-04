@@ -72,7 +72,7 @@
 					.filter(({ killmail_id }) => !ids.includes(killmail_id))
 					.forEach(({ killmail_id, killmail_hash }) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
 
-				await this.tick({ page: page + 1 });
+				await this.tick({ page });
 			}
 
 			if (s.length == 2000)
