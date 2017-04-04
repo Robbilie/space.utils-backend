@@ -156,12 +156,12 @@
 			tss.push(Date.now());
 
 			let { value } = await WorkerApp.get_tasks().modify(
-				{ "info.expires": { $lt: (now / 1000)|0 }, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
+				{ "info.expires": { $lt: now }, "info.modified": { $lt: now - (this.TASK_TIMEOUT_SECONDS * 1000) } }
 				/*{ $or: [
 				 { "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
 				 { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
 				 ] }*/,
-				{ $set: { "info.state": 1, "info.modified": (now / 1000)|0 } },
+				{ $set: { "info.state": 1, "info.modified": now } },
 				{ returnOriginal: false, sort: { "info.expires": 1, "info.modified": 1 } }
 			);
 
@@ -210,7 +210,7 @@
 
 			} catch (e) {
 
-				await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": (Date.now() / 1000)|0 } });
+				await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": Date.now() } });
 
 				this.errors++;
 				MetricsUtil.inc("tasks.errors");
