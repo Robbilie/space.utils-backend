@@ -3,7 +3,6 @@
 
 	const { BaseTask } 				= require("task/");
 	const { ESIUtil } 				= require("util/");
-	const { CharacterStore, CorporationStore, AllianceStore} = require("store/");
 
 	class KillmailTask extends BaseTask {
 
