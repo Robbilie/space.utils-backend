@@ -9,25 +9,11 @@ metadata:
 spec:
   tls:
   - hosts:
-    - api.utils.space
-    - ws.utils.space
     - utils.space
+    - api.utils.space
+    #- ws.utils.space
     secretName: eas-ingress-tls
   rules:
-  - host: api.utils.space
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: eas-api-service
-          servicePort: 80
-  - host: ws.utils.space
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: eas-ws-service
-          servicePort: 80
   - host: utils.space
     http:
       paths:
@@ -35,3 +21,17 @@ spec:
         backend:
           serviceName: eas-static-service
           servicePort: 80
+  - host: api.utils.space
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: eas-api-service
+          servicePort: 80
+  #- host: ws.utils.space
+  #  http:
+  #    paths:
+  #    - path: /
+  #      backend:
+  #        serviceName: eas-ws-service
+  #        servicePort: 80
