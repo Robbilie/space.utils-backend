@@ -7,3 +7,4 @@ eas-repl
 .idea/
 public/testing/
 public/node_modules/
+public/build/

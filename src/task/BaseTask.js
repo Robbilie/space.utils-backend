@@ -58,7 +58,7 @@
 		}
 
 		update ({ state = 0, expires, modified, page } = {}, oplog = true) {
-			let info = Object.assign({ state, page }, expires ? { expires: (expires / 1000)|0 } : {}, modified ? { modified: (modified / 1000)|0 } : {});
+			let info = Object.assign({ state, page }, expires ? { expires } : {}, modified ? { modified } : {});
 			this.set_info(info);
 			return BaseTask.get_tasks().update(
 				{ _id: this.get__id() },

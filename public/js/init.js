@@ -1,7 +1,12 @@
 
 	"use strict";
 
-	ReactDOM.render(
+	import { render } from 'react-dom'
+
+	import App from './App.js'
+	import { HomePage, KillboardPage, SearchPage, CharacterPage, CorporationPage, AlliancePage, TypePage, SystemPage, AboutPage, NoMatch } from './page'
+
+	render(
 		E(Router, { history: browserHistory },
 			E(Route, { path: "/", component: App },
 				E(IndexRoute, { component: HomePage }),

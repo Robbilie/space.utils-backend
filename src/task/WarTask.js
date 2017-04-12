@@ -61,6 +61,8 @@
 			const s = { length: 0 };
 
 			{
+				await this.tick({ page });
+
 				const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 				s.length = obj.length;
 
@@ -71,8 +73,6 @@
 				obj
 					.filter(({ killmail_id }) => !ids.includes(killmail_id))
 					.forEach(({ killmail_id, killmail_hash }) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
-
-				await this.tick({ page: page + 1 });
 			}
 
 			if (s.length == 2000)
