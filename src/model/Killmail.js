@@ -97,7 +97,7 @@
 		id: 				Number,
 		hash: 				String,
 		solar_system: 		System,
-		killmail_time: 			Number,
+		time: 				Number,
 		attackers: 			KillmailAttackerList,
 		attacker_count: 	Number,
 		victim: 			KillmailVictim
