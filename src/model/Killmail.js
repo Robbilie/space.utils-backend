@@ -54,7 +54,7 @@
 	/* TYPE DEFINITION */
 
 	const { ObjectID } = require("mongodb");
-	const { System, Type, Character, Corporation, Alliance, Faction } = require("model/");
+	const { System, Type, Character, Corporation, Alliance, Faction, War } = require("model/");
 
 	KillmailItem.types = {
 		singleton: 				Number,
@@ -97,6 +97,7 @@
 		id: 				Number,
 		hash: 				String,
 		solar_system: 		System,
+		war: 				War,
 		time: 				Number,
 		attackers: 			KillmailAttackerList,
 		attacker_count: 	Number,
