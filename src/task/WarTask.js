@@ -24,6 +24,8 @@
 
 			let { finished, aggressor, defender, allies } = war;
 
+			console.log("updateing war", this.get_data().war_id);
+
 			await this.get_store().update(
 				{ id: this.get_data().war_id },
 				{ $set: war },
@@ -48,6 +50,9 @@
 						this.enqueue_reference("Alliance", alliance_id);
 				});
 
+
+			console.log("getting killmails for war", this.get_data().war_id);
+
 			await this.get_killmail_pages(client, this.get_info().page);
 
 			if (finished && finished < Date.now())
@@ -60,15 +65,26 @@
 		async get_killmail_pages (client, page = 1) {
 			const s = { length: 0 };
 
+			console.log("killmail page war", this.get_data().war_id, page);
+
+
 			{
 				await this.tick({ page });
 
 				const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 				s.length = obj.length;
 
+				console.log("war", this.get_data().war_id, obj);
+
 				const ids = await KillmailStore
 					.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
 					.map(killmail => killmail.get_id());
+
+				console.log("war", this.get_data().war_id, ids);
+
+				console.log("war", this.get_data().war_id, obj
+					.filter(({ killmail_id }) => !ids.includes(killmail_id)));
+
 
 				obj
 					.filter(({ killmail_id }) => !ids.includes(killmail_id))
