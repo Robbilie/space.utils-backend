@@ -8,6 +8,8 @@
 
 		static async find_or_create (killmail_id, killmail_hash, faf, {} = $(1, { killmail_id }, "Number")) {
 
+			console.log("foc killmail", killmail_id, killmail_hash);
+
 			let killmail = this.find_by_id(killmail_id, {}, faf);
 
 			if(await killmail.is_null() && killmail_hash)

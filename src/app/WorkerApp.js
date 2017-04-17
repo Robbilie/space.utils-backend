@@ -244,6 +244,7 @@
 			setImmediate(() => {
 				this.reference_queue.push([name, args]);
 				if (this.reference_queue.length >= this.reference_queue_max) {
+					console.log("queue full, dereferencing");
 					let queue = this.reference_queue;
 					this.reference_queue = [];
 					queue.forEach(([name, args]) => DBUtil.get_store(name).find_or_create(...args, true));
