@@ -3,7 +3,7 @@
 
 	const { BaseTask } 		= require("task/");
 	const { ESIUtil } 		= require("util/");
-	const { FactionStore, CorporationStore, SystemStore } 	= require("store/");
+	const { FactionStore } 	= require("store/");
 
 	class FactionsTask extends BaseTask {
 
