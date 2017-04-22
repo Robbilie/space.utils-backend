@@ -21,7 +21,13 @@
 				killmail_time: 		undefined
 			});
 
-			await this.get_store().insert(killmail);
+			//await this.get_store().insert(killmail);
+
+			await this.get_store().update(
+				{ id: this.get_data().killmail_id },
+				{ $set: killmail },
+				{ upsert: true }
+			);
 
 			if (killmail.victim) {
 				let { character_id, corporation_id, alliance_id } = killmail.victim;

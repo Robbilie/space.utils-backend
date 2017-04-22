@@ -3,7 +3,7 @@
 
 	const { BaseTask } 		= require("task/");
 	const { ESIUtil } 		= require("util/");
-	const { FactionStore, CorporationStore, SystemStore } 	= require("store/");
+	const { FactionStore } 	= require("store/");
 
 	class FactionsTask extends BaseTask {
 
@@ -18,6 +18,8 @@
 				.map(faction => {
 					if (faction.corporation_id)
 						this.enqueue_reference("Corporation", faction.corporation_id);
+					if (faction.militia_corporation_id)
+						this.enqueue_reference("Corporation", faction.militia_corporation_id);
 					if (faction.solar_system_id)
 						this.enqueue_reference("System", faction.solar_system_id);
 					return FactionStore.update({ id: faction.id }, { $set: faction }, { upsert: true });

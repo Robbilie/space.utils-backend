@@ -242,13 +242,20 @@
 
 		enqueue_reference (name, ...args) {
 			setImmediate(() => {
+				clearTimeout(this.reference_queue_timeout);
+				this.reference_queue_timeout = setTimeout(() => this.work_reference_queue(), 10 * 1000);
 				this.reference_queue.push([name, args]);
 				if (this.reference_queue.length >= this.reference_queue_max) {
-					let queue = this.reference_queue;
-					this.reference_queue = [];
-					queue.forEach(([name, args]) => DBUtil.get_store(name).find_or_create(...args, true));
+					console.log("queue full, dereferencing");
+					this.work_reference_queue();
 				}
 			});
+		}
+
+		work_reference_queue () {
+			let queue = this.reference_queue;
+			this.reference_queue = [];
+			queue.forEach(([name, args]) => DBUtil.get_store(name).find_or_create(...args, true));
 		}
 
 	}
