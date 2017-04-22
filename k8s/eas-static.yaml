@@ -30,7 +30,10 @@ spec:
     spec:
       containers:
       - name: eas-static-pod
-        image: index.docker.io/robbilie/eas:eas-nginx
+        image: index.docker.io/robbilie/eas:space.utils
+        env:
+        - name: "PORT"
+          value: "80"
         ports:
         - containerPort: 80
         livenessProbe:
