@@ -28,10 +28,10 @@
 		}
 
 		async serialize (depth = 2) {
-			if (this.name == "KillmailList")
+			if (this.constructor.name == "KillmailList")
 				console.log("start serializing list");
 			let data = await this.get_future();
-			return Promise.all(data.map(element => element.serialize(depth - 1))).then(list => (this.name == "KillmailList" ? console.log("done serializing list") : null) || list);
+			return Promise.all(data.map(element => element.serialize(depth - 1))).then(list => (this.constructor.name == "KillmailList" ? console.log("done serializing list") : null) || list);
 		}
 
 	}
