@@ -50,6 +50,11 @@
 			}
 		},
 		{
+			$project: {
+				"attackers.character.corporation_history": 0
+			}
+		},
+		{
 			$lookup: {
 				from: 			"corporations",
 				localField: 	"attackers.corporation_id",
@@ -61,6 +66,11 @@
 			$unwind: {
 				path: 			"$attackers.corporation",
 				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$project: {
+				"attackers.corporation.alliance_history": 0
 			}
 		},
 		{
@@ -106,6 +116,12 @@
 			}
 		},
 		{
+			$project: {
+				"attackers.ship_type.dogma_attributes": 0,
+				"attackers.ship_type.dogma_effects": 0
+			}
+		},
+		{
 			$lookup: {
 				from: 			"types",
 				localField: 	"attackers.weapon_type_id",
@@ -117,6 +133,12 @@
 			$unwind: {
 				path: 			"$attackers.weapon_type",
 				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$project: {
+				"attackers.weapon_type.dogma_attributes": 0,
+				"attackers.weapon_type.dogma_effects": 0
 			}
 		},
 		{
@@ -151,6 +173,12 @@
 			$unwind: {
 				path: 			"$victim.items.item_type",
 				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$project: {
+				"victim.items.item_type.dogma_attributes": 0,
+				"victim.items.item_type.dogma_effects": 0
 			}
 		},
 		{
@@ -203,6 +231,12 @@
 				preserveNullAndEmptyArrays: true
 			}
 		},
+		{
+			$project: {
+				"solar_system.planets": 0,
+				"solar_system.stargates": 0
+			}
+		},
 		// war
 		{
 			$lookup: {
@@ -234,6 +268,11 @@
 			}
 		},
 		{
+			$project: {
+				"victim.character.corporation_history": 0
+			}
+		},
+		{
 			$lookup: {
 				from: 			"corporations",
 				localField: 	"victim.corporation_id",
@@ -245,6 +284,11 @@
 			$unwind: {
 				path: 			"$victim.corporation",
 				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$project: {
+				"victim.corporation.alliance_history": 0
 			}
 		},
 		{
@@ -289,23 +333,10 @@
 				preserveNullAndEmptyArrays: true
 			}
 		},
-		// hide
 		{
 			$project: {
-				"solar_system.planets": 0,
-				"solar_system.stargates": 0,
-				"victim.items.item_type.dogma_attributes": 0,
-				"victim.items.item_type.dogma_effects": 0,
-				"attackers.weapon_type.dogma_attributes": 0,
-				"attackers.weapon_type.dogma_effects": 0,
-				"attackers.ship_type.dogma_attributes": 0,
-				"attackers.ship_type.dogma_effects": 0,
 				"victim.ship_type.dogma_attributes": 0,
-				"victim.ship_type.dogma_effects": 0,
-				"attackers.corporation.alliance_history": 0,
-				"attackers.character.corporation_history": 0,
-				"victim.corporation.alliance_history": 0,
-				"victim.character.corporation_history": 0
+				"victim.ship_type.dogma_effects": 0
 			}
 		}
 	];
