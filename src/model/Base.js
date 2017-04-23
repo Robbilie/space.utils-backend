@@ -8,10 +8,15 @@
 
 		constructor (future_data) {
 			this.future_data = future_data;
+			this.raw = future_data;
 		}
 
 		get_future () {
 			return this.future_data;
+		}
+
+		get_raw () {
+			return this.raw;
 		}
 
 		static get_store () {

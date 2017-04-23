@@ -13,7 +13,7 @@
 				//.from_cursor(c => c
 					.find(InputUtil.sanitize(filter), InputUtil.limit(options))
 				//)
-				.serialize() });
+				.get_raw() });
 		}
 
 		static async get_by_id ({ swagger: { params } }, res) {
