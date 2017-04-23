@@ -124,7 +124,7 @@
 				_id: "$_id",
 				id: { $first: "$id" },
 				hash: { $first: "$hash" },
-				kill_time: { $first: "$kill_time"},
+				time: { $first: "$time"},
 				attacker_count: { $first: "$attacker_count" },
 				victim: { $first: "$victim" },
 				solar_system_id: { $first: "$solar_system_id" },
@@ -158,7 +158,7 @@
 				_id: "$_id",
 				id: { $first: "$id" },
 				hash: { $first: "$hash" },
-				kill_time: { $first: "$kill_time" },
+				time: { $first: "$time" },
 				attacker_count: { $first: "$attacker_count" },
 				victim: { $first: "$victim" },
 				solar_system_id: { $first: "$solar_system_id" },
@@ -171,7 +171,7 @@
 			$project: {
 				id: 1,
 				hash: 1,
-				kill_time: 1,
+				time: 1,
 				attacker_count: 1,
 				solar_system_id: 1,
 				war_id: 1,
@@ -200,6 +200,21 @@
 		{
 			$unwind: {
 				path: 			"$solar_system",
+				preserveNullAndEmptyArrays: true
+			}
+		},
+		// war
+		{
+			$lookup: {
+				from: 			"wars",
+				localField: 	"war_id",
+				foreignField: 	"id",
+				as: 			"war"
+			}
+		},
+		{
+			$unwind: {
+				path: 			"$war",
 				preserveNullAndEmptyArrays: true
 			}
 		},
