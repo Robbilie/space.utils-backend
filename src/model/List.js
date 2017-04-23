@@ -9,7 +9,7 @@
 		constructor (type, future_data) {
 			super(future_data.then(data => data.map(doc => Store.from_data(doc, type))));
 			if (this.constructor.name == "KillmailList")
-				console.log("kml", future_data);
+				future_data.then(d => console.log("kml", d));
 			this.type = type;
 		}
 
