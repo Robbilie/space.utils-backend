@@ -288,6 +288,25 @@
 				path: 			"$victim.ship_type",
 				preserveNullAndEmptyArrays: true
 			}
+		},
+		// hide
+		{
+			$project: {
+				"solar_system.planets": 0,
+				"solar_system.stargates": 0,
+				"victim.items.item_type.dogma_attributes": 0,
+				"victim.items.item_type.dogma_effects": 0,
+				"attackers.weapon_type.dogma_attributes": 0,
+				"attackers.weapon_type.dogma_effects": 0,
+				"attackers.ship_type.dogma_attributes": 0,
+				"attackers.ship_type.dogma_effects": 0,
+				"victim.ship_type.dogma_attributes": 0,
+				"victim.ship_type.dogma_effects": 0,
+				"attackers.corporation.alliance_history": 0,
+				"attackers.character.corporation_history": 0,
+				"victim.corporation.alliance_history": 0,
+				"victim.character.corporation_history": 0
+			}
 		}
 	];
 
