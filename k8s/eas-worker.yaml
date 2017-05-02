@@ -53,7 +53,7 @@ spec:
         - name: LOGIN_URL
           value: "https://login.eveonline.com"
         - name: ESI_URL
-          value: "https://esi.tech.ccp.is/latest/swagger.json"
+          value: "https://esi.tech.ccp.is/_latest/swagger.json"
         - name: UV_THREADPOOL_SIZE
           value: "128"
         - name: PARALLEL_TASK_LIMIT
