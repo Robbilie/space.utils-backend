@@ -18,9 +18,7 @@
     "raven": "^1.2.0",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.3",
-    "spdy": "git+https://github.com/spdy-http2/node-spdy.git",
-    "spdy-transport": "git+https://github.com/spdy-http2/spdy-transport.git",
-    "swagger-client": "^2.1.32",
+    "swagger-client": "^3.0.8"
     "swagger-tools": "^0.10.1",
     "ws": "^1.1.4"
   }
