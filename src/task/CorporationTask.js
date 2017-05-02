@@ -15,8 +15,8 @@
 
 			tss.push(Date.now());
 
-			let [{ obj: corporation, headers }, old_corp] = await Promise.all([
-				client.Corporation.get_corporations_corporation_id(this.get_data()),
+			let [{ body: corporation, headers }, old_corp] = await Promise.all([
+				client.apis.Corporation.get_corporations_corporation_id(this.get_data()),
 				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
 			]);
 
@@ -24,8 +24,8 @@
 
 			let alliance_history = null;
 			if (!old_corp || (old_corp && old_corp.alliance_id != corporation.alliance_id)) {
-				let { obj } = await client.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
-				alliance_history = obj;
+				let { body: history } = await client.apis.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
+				alliance_history = history;
 			}
 
 			tss.push(Date.now());

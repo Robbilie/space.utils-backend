@@ -10,7 +10,7 @@
 
 			let client = await ESIUtil.get_client();
 
-			let { obj: killmail } = await client.Killmails.get_killmails_killmail_id_killmail_hash(this.get_data());
+			let { body: killmail } = await client.apis.Killmails.get_killmails_killmail_id_killmail_hash(this.get_data());
 
 			killmail = Object.assign(killmail, {
 				id: 				this.get_data().killmail_id,

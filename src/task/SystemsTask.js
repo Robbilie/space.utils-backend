@@ -9,13 +9,13 @@
 
 		async start () {
 			let client = await ESIUtil.get_client();
-			const { obj } = await client.Universe.get_universe_systems();
+			const { body: systems } = await client.apis.Universe.get_universe_systems();
 
 			const ids = await SystemStore
-				.from_cursor(c => c.find({ id: { $in: obj } }).project({ id: 1 }))
+				.from_cursor(c => c.find({ id: { $in: systems } }).project({ id: 1 }))
 				.map(system => system.get_id());
 
-			obj
+			systems
 				.filter(id => !ids.includes(id))
 				.forEach(system_id => this.enqueue_reference("System", system_id));
 

@@ -11,9 +11,9 @@
 
 			let client = await ESIUtil.get_client();
 
-			let [{ obj: alliance, headers }, { obj: corporations }] = await Promise.all([
-				client.Alliance.get_alliances_alliance_id(this.get_data()),
-				client.Alliance.get_alliances_alliance_id_corporations(this.get_data())
+			let [{ body: alliance, headers }, { body: corporations }] = await Promise.all([
+				client.apis.Alliance.get_alliances_alliance_id(this.get_data()),
+				client.apis.Alliance.get_alliances_alliance_id_corporations(this.get_data())
 			]);
 
 			alliance = Object.assign(alliance, {

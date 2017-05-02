@@ -15,8 +15,8 @@
 
 			tss.push(Date.now());
 
-			let [{ obj: character, headers }, old_char] = await Promise.all([
-				client.Character.get_characters_character_id(this.get_data()),
+			let [{ body: character, headers }, old_char] = await Promise.all([
+				client.apis.Character.get_characters_character_id(this.get_data()),
 				CharacterStore.find_by_id(this.get_data().character_id).get_future()
 			]);
 
@@ -24,8 +24,8 @@
 
 			let corporation_history = null;
 			if (!old_char || (old_char && old_char.corporation_id != character.corporation_id)) {
-				let { obj } = await client.Character.get_characters_character_id_corporationhistory(this.get_data());
-				corporation_history = obj;
+				let { body: history } = await client.apis.Character.get_characters_character_id_corporationhistory(this.get_data());
+				corporation_history = history;
 			}
 
 			tss.push(Date.now());

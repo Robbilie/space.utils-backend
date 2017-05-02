@@ -10,7 +10,7 @@
 
 			let client = await ESIUtil.get_client();
 
-			let { obj: type } = await client.Universe.get_universe_types_type_id(this.get_data());
+			let { body: type } = await client.apis.Universe.get_universe_types_type_id(this.get_data());
 
 			type = Object.assign(type, {
 				id: 		type.type_id,

@@ -10,7 +10,7 @@
 
 			let client = await ESIUtil.get_client();
 
-			let { obj: system } = await client.Universe.get_universe_systems_system_id(this.get_data());
+			let { body: system } = await client.apis.Universe.get_universe_systems_system_id(this.get_data());
 
 			system = Object.assign(system, {
 				id: 			system.system_id,

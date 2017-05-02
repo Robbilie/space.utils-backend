@@ -11,8 +11,8 @@
 
 			let client = await ESIUtil.get_client();
 
-			const [{ obj: character_affiliations, headers }, characters] = await Promise.all([
-				client.Character.post_characters_affiliation(this.get_data()),
+			const [{ body: character_affiliations, headers }, characters] = await Promise.all([
+				client.apis.Character.post_characters_affiliation(this.get_data()),
 				CharacterStore
 					.from_cursor(c => c
 						.find({ id: { $in: this.get_data().characters } })

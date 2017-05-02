@@ -3,7 +3,7 @@
 
 	const { BaseTask } 		= require("task/");
 	const { ESIUtil } 		= require("util/");
-	const { KillmailStore, CorporationStore, AllianceStore } = require("store/");
+	const { KillmailStore } = require("store/");
 
 	class WarTask extends BaseTask {
 
@@ -11,7 +11,7 @@
 
 			let client = await ESIUtil.get_client();
 
-			let { obj: war, headers } = await client.Wars.get_wars_war_id(this.get_data());
+			let { body: war, headers } = await client.apis.Wars.get_wars_war_id(this.get_data());
 
 				if(war.declared)
 					war.declared = new Date(war.declared).getTime();
@@ -71,27 +71,27 @@
 			{
 				await this.tick({ page });
 
-				const { obj } = await client.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
-				s.length = obj.length;
+				const { body: killmails } = await client.apis.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
+				s.length = killmails.length;
 
-				console.log("war", this.get_data().war_id, obj);
+				console.log("war", this.get_data().war_id, killmails);
 
 				const ids = await KillmailStore
-					.from_cursor(c => c.find({ id: { $in: obj.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
+					.from_cursor(c => c.find({ id: { $in: killmails.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
 					.map(killmail => killmail.get_id());
 
 				console.log("war", this.get_data().war_id, ids);
 
-				console.log("war", this.get_data().war_id, obj
+				console.log("war", this.get_data().war_id, killmails
 					.filter(({ killmail_id }) => !ids.includes(killmail_id)));
 
 
-				obj
+				killmails
 					.filter(({ killmail_id }) => !ids.includes(killmail_id))
 					.forEach(({ killmail_id, killmail_hash }) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
 			}
 
-			if (s.length == 2000)
+			if (s.length === 2000)
 				return await this.get_killmail_pages(client, page + 1);
 			else
 				return true;

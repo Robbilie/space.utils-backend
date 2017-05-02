@@ -11,7 +11,7 @@
 
 			let client = await ESIUtil.get_client();
 
-			const { obj: alliances, headers } = await client.Alliance.get_alliances();
+			const { body: alliances, headers } = await client.apis.Alliance.get_alliances();
 
 			const alliance_ids = await AllianceStore.from_cursor(c => c.find({ id: { $in: alliances } }).project({ id: 1 })).map(alliance => alliance.get_id());
 

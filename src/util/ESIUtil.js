@@ -50,7 +50,40 @@
 					storage.errors 		= 0;
 					storage.completed 	= 0;
 				});
-			return new Swagger(Object.assign({
+			return new Swagger({
+				url: process.env.ESI_URL,
+				requestInterceptor: (req) => {
+					req.headers["User-Agent"] = process.env.UA;
+					if (req.method === "POST")
+						req.body = JSON.stringify(req.body);
+					return req;
+				},
+				http: async (obj) => {
+					let req = obj;
+					if (obj.requestInterceptor)
+						req = obj.requestInterceptor(obj);
+					try {
+						let { method, url, headers, body } = req;
+						if (EXTENDED_METRICS)
+							MetricsUtil.inc("esi.started");
+						let res = await request({ method, url, headers, body });
+						MetricsUtil.update("esi.elapsedTime", res.elapsedTime);
+						res.body = JSON.parse(res.body);
+
+						++storage.completed;
+						MetricsUtil.inc("esi.completed");
+
+						return res;
+					} catch (e) {
+						++storage.errors;
+						MetricsUtil.inc("esi.errors");
+
+						++storage.completed;
+						MetricsUtil.inc("esi.completed");
+					}
+				}
+			})
+			/*return new Swagger(Object.assign({
 				url: process.env.ESI_URL,
 				usePromise: true,
 				authorizations: {
@@ -80,7 +113,7 @@
 					MetricsUtil.inc("esi.completed");
 
 				} }
-			}, options));
+			}, options));*/
 		}
 
 		static get_all_pages (fn, params = {}, parallel = 10) {
@@ -95,7 +128,7 @@
 				).then(pages => {
 					console.log(fn.name, "pages", skip * parallel + 1, "to", (skip + 1) * parallel);
 					const expires = Math.max(...pages.map(({ headers: { expires } }) => new Date(expires).getTime()));
-					const ids = [].concat(...pages.map(({ obj }) => obj));
+					const ids = [].concat(...pages.map(({ body }) => obj));
 					if (ids.length % 2000 == 0)
 						return ESIUtil.get_pages(fn, params, parallel, skip + 1)
 							.then(obj => ({ expires: Math.max(expires, obj.expires), ids: ids.concat(obj.ids) }));
