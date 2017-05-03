@@ -6,7 +6,7 @@
 
 	class EntityHandler extends BaseHandler {
 
-		static async filter ({ body: { filter, options } }, res) {
+		static async post_filter ({ body: { filter, options } }, res) {
 			console.log("get filter", this.name);
 			res.json({ items: await LoadUtil
 				.store(`${this.name.slice(0, -7)}`)

@@ -5,7 +5,7 @@
 
 	class RootHandler extends BaseHandler {
 
-		static async home (_, res) {
+		static async get_home (_, res) {
 			res.json({});
 		}
 

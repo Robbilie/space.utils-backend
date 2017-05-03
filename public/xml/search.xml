@@ -1,8 +1,0 @@
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-    <ShortName>Space Utils</ShortName>
-    <Description>
-        Space Utils Search
-    </Description>
-    <Image height="16" width="16" type="image/x-icon">https://utils.space/favicon.ico</Image>
-    <Url type="text/html" method="get" template="https://utils.space/search/{searchTerms}/"/>
-</OpenSearchDescription>

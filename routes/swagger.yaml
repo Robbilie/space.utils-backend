@@ -57,7 +57,7 @@ parameters:
 paths:
   '/':
     get:
-      operationId: RootHandler_home
+      operationId: get_home
       responses:
         '200':
           description: Root
@@ -65,9 +65,9 @@ paths:
             $ref: '#/definitions/Root'
   '/characters/':
     post:
-      operationId: CharacterHandler_filter
+      operationId: post_characters_filter
       tags:
-        - characters
+        - Character
       summary: Filter Characters
       description: |
         Filter Characters and apply Options
@@ -93,9 +93,9 @@ paths:
     parameters:
       - $ref: '#/parameters/character_id'
     get:
-      operationId: CharacterHandler_get_by_id
+      operationId: get_characters_character_id
       tags:
-        - characters
+        - Character
       summary: ""
       description: |
         Get a Character by ID
@@ -112,9 +112,9 @@ paths:
     parameters:
       - $ref: '#/parameters/character_id'
     get:
-      operationId: CharacterHandler_get_corporation
+      operationId: get_characters_character_id_corporation
       tags:
-        - characters
+        - Character
       summary: ""
       description: |
         Get a Character's Corporation
@@ -130,9 +130,9 @@ paths:
             $ref: '#/definitions/Error'
   '/corporations/':
     post:
-      operationId: CorporationHandler_filter
+      operationId: post_corporations_filter
       tags:
-        - corporations
+        - Corporation
       summary: Filter Corporations
       description: |
         Filter Corporations and apply Options
@@ -158,9 +158,9 @@ paths:
     parameters:
       - $ref: '#/parameters/corporation_id'
     get:
-      operationId: CorporationHandler_get_by_id
+      operationId: get_corporations_corporation_id
       tags:
-        - corporations
+        - Corporation
       summary: ""
       description: |
         Get a Corporation by ID
@@ -178,9 +178,9 @@ paths:
     parameters:
       - $ref: '#/parameters/corporation_id'
     get:
-      operationId: CorporationHandler_get_alliance
+      operationId: get_corporations_corporation_id_alliance
       tags:
-        - corporations
+        - Corporation
       summary: ""
       description: |
         Get a Corporation's Alliance
@@ -198,9 +198,9 @@ paths:
     parameters:
       - $ref: '#/parameters/corporation_id'
     get:
-      operationId: CorporationHandler_get_ceo
+      operationId: get_corporations_corporation_id_ceo
       tags:
-        - corporations
+        - Corporation
       summary: ""
       description: |
         Get a Corporation's CEO
@@ -216,9 +216,9 @@ paths:
             $ref: '#/definitions/Error'
   '/alliances/':
     post:
-      operationId: AllianceHandler_filter
+      operationId: post_alliances_filter
       tags:
-        - alliances
+        - Alliance
       summary: Filter Alliances
       description: |
         Filter Alliances and apply Options
@@ -244,9 +244,9 @@ paths:
     parameters:
       - $ref: '#/parameters/alliance_id'
     get:
-      operationId: AllianceHandler_get_by_id
+      operationId: get_alliances_alliance_id
       tags:
-        - alliances
+        - Alliance
       summary: ""
       description: |
         Get a Alliance by ID
@@ -264,9 +264,9 @@ paths:
     parameters:
       - $ref: '#/parameters/alliance_id'
     get:
-      operationId: AllianceHandler_get_executor_corporation
+      operationId: get_alliances_alliance_id_executor_corporation
       tags:
-        - alliances
+        - Alliance
       summary: ""
       description: |
         Get an Alliance's Executor
@@ -284,9 +284,9 @@ paths:
     parameters:
       - $ref: '#/parameters/alliance_id'
     get:
-      operationId: AllianceHandler_get_corporations
+      operationId: get_alliances_alliance_id_corporations
       tags:
-        - alliances
+        - Alliance
       summary: ""
       description: |
         Get an Alliance's Corporations
@@ -302,9 +302,9 @@ paths:
             $ref: '#/definitions/Error'
   '/factions/':
     post:
-      operationId: FactionHandler_filter
+      operationId: post_factions_filter
       tags:
-        - factions
+        - Faction
       summary: Filter Factions
       description: |
         Filter Factions and apply Options
@@ -330,9 +330,9 @@ paths:
     parameters:
       - $ref: '#/parameters/faction_id'
     get:
-      operationId: FactionHandler_get_by_id
+      operationId: get_factions_faction_id
       tags:
-        - factions
+        - Faction
       summary: ""
       description: |
         Get a Faction by ID
@@ -348,9 +348,9 @@ paths:
             $ref: '#/definitions/Error'
   '/killmails/':
     post:
-      operationId: KillmailHandler_filter
+      operationId: post_killmails_filter
       tags:
-        - killmails
+        - Killmail
       summary: Filter Killmails
       description: |
         Filter Killmails and apply Options
@@ -376,9 +376,9 @@ paths:
     parameters:
       - $ref: '#/parameters/killmail_id'
     get:
-      operationId: KillmailHandler_get_by_id
+      operationId: get_killmails_killmail_id
       tags:
-        - killmails
+        - Killmail
       summary: ""
       description: |
         Get a Killmail by ID
@@ -392,18 +392,18 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/killmails/{killmail_id}/{hash}/':
+  '/killmails/{killmail_id}/{killmail_hash}/':
     parameters:
       - $ref: '#/parameters/killmail_id'
-      - name: hash
+      - name: killmail_hash
         in: path
         description: The Killmail Hash
         type: string
         required: true
     get:
-      operationId: KillmailHandler_get_by_id_and_hash
+      operationId: get_killmails_killmail_id_killmail_hash
       tags:
-        - killmails
+        - Killmail
       summary: ""
       description: |
         Get a Killmail by ID and hash
@@ -419,9 +419,9 @@ paths:
             $ref: '#/definitions/Error'
   '/systems/':
     post:
-      operationId: SystemHandler_filter
+      operationId: post_systems_filter
       tags:
-        - systems
+        - System
       summary: Filter Systems
       description: |
         Filter Systems and apply Options
@@ -447,9 +447,9 @@ paths:
     parameters:
       - $ref: '#/parameters/system_id'
     get:
-      operationId: SystemHandler_get_by_id
+      operationId: get_systems_system_id
       tags:
-        - systems
+        - System
       summary: ""
       description: |
         Get a System by ID
@@ -465,9 +465,9 @@ paths:
             $ref: '#/definitions/Error'
   '/types/':
     post:
-      operationId: TypeHandler_filter
+      operationId: post_types_filter
       tags:
-        - types
+        - Type
       summary: Filter Types
       description: |
         Filter Types and apply Options
@@ -493,9 +493,9 @@ paths:
     parameters:
       - $ref: '#/parameters/type_id'
     get:
-      operationId: TypeHandler_get_by_id
+      operationId: get_types_type_id
       tags:
-        - types
+        - Type
       summary: ""
       description: |
         Get a Type by ID

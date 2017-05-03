@@ -19,7 +19,7 @@
 				.map(file => require(`handler/${file}`))
 				.map(Class => Class
 					.getMethods()
-					.map(MethodName => [`${Class.name}_${MethodName}`, Class, MethodName])
+					.map(MethodName => [/*`${Class.name}_*/`${MethodName}`, Class, MethodName])
 					.map(([key, cls, fn]) => [key, function (...args) { return cls[fn](...args).catch(e => console.log(e)); }])
 				)
 			)).reduce((p, c) => !(p[c[0]] = c[1]) || p, {});
