@@ -70,6 +70,8 @@
 
 						++storage.completed;
 						MetricsUtil.inc("esi.completed");
+
+						throw e;
 					}
 				}
 			})
