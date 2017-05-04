@@ -16,27 +16,23 @@
 				client.apis.Alliance.get_alliances_alliance_id_corporations(this.get_data())
 			]);
 
-			let doc = Object.assign(
-				{},
-				alliance,
-				{
-					id: 						this.get_data().alliance_id,
-					name:						alliance.name || alliance.alliance_name,
-					date_founded: 				new Date(alliance.date_founded).getTime()
-				}
-			);
+			alliance = Object.assign(alliance, {
+				id: 						this.get_data().alliance_id,
+				name:						alliance.name || alliance.alliance_name,
+				date_founded: 				new Date(alliance.date_founded).getTime()
+			});
 
 			// manage optional convert
-			if (doc.executor_corporation_id || doc.executor_corp)
-				doc.executor_corporation_id = doc.executor_corporation_id || doc.executor_corp;
+			if (alliance.executor_corporation_id || alliance.executor_corp)
+				alliance.executor_corporation_id = alliance.executor_corporation_id || alliance.executor_corp;
 
 			// TODO : ESI should fix this
-			delete doc.executor_corp;
-			delete doc.alliance_name;
+			delete alliance.executor_corp;
+			delete alliance.alliance_name;
 
 			await this.get_store().replace(
-				{ id: doc.id },
-				doc,
+				{ id: alliance.id },
+				alliance,
 				{ upsert: true }
 			);
 

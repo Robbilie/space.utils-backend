@@ -24,23 +24,19 @@
 				corporation_history = old_char.corporation_history;
 			}
 
-			let doc = Object.assign(
-				{},
-				character,
-				{
-					id: 				this.get_data().character_id,
-					birthday: 			new Date(character.birthday).getTime(),
-					corporation_history
-				}
-			);
+			character = Object.assign(character, {
+				id: 				this.get_data().character_id,
+				birthday: 			new Date(character.birthday).getTime(),
+				corporation_history
+			});
 
 			await this.get_store().replace(
-				{ id: doc.id },
-				doc,
+				{ id: character.id },
+				character,
 				{ upsert: true }
 			);
 
-			let { id, corporation_id, alliance_id } = doc;
+			let { id, corporation_id, alliance_id } = character;
 
 			if (!old_char)
 				await CharacterAffiliationTask.queue_id(id);
@@ -48,7 +44,7 @@
 			// get corp
 			this.enqueue_reference("Corporation", corporation_id);
 
-			if (character.alliance_id)
+			if (alliance_id)
 				this.enqueue_reference("Alliance", alliance_id);
 
 			// get all corps from history

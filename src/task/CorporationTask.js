@@ -24,30 +24,26 @@
 				alliance_history = old_corp.alliance_history;
 			}
 
-			let doc = Object.assign(
-				{},
-				corporation,
-				{
-					id: 				this.get_data().corporation_id,
-					name: 				corporation.name || corporation.corporation_name,
-					alliance_history
-				}
-			);
+			corporation = Object.assign(corporation, {
+				id: 				this.get_data().corporation_id,
+				name: 				corporation.name || corporation.corporation_name,
+				alliance_history
+			});
 
 			// manage optional convert
-			if (doc.creation_date)
-				doc.creation_date = new Date(corporation.creation_date).getTime();
+			if (corporation.creation_date)
+				corporation.creation_date = new Date(corporation.creation_date).getTime();
 
 			// TODO : ESI should fix this
 			delete doc.corporation_name;
 
 			await this.get_store().replace(
-				{ id: doc.id },
-				doc,
+				{ id: corporation.id },
+				corporation,
 				{ upsert: true }
 			);
 
-			let { ceo_id, alliance_id, member_count } = doc;
+			let { ceo_id, alliance_id, member_count } = corporation;
 
 			// get alliance
 			if(alliance_id)
