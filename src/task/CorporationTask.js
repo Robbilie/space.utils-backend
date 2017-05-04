@@ -35,7 +35,7 @@
 				corporation.creation_date = new Date(corporation.creation_date).getTime();
 
 			// TODO : ESI should fix this
-			delete doc.corporation_name;
+			delete corporation.corporation_name;
 
 			await this.get_store().replace(
 				{ id: corporation.id },
