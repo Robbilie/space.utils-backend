@@ -141,6 +141,10 @@
 			}
 		}
 
+		static replace (...args) {
+			return this.get_collection().then(collection => collection.replaceOne(...args));
+		}
+
 		static modify_model (model, data, options, ignore) {
 			return this.from_promise((async () => {
 				let _id = await model.get__id();
