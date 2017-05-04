@@ -30,20 +30,24 @@
 				{
 					id: 				this.get_data().corporation_id,
 					name: 				corporation.name || corporation.corporation_name,
-					creation_date: 		new Date(corporation.creation_date).getTime(),
 					alliance_history
 				}
 			);
+
+			// manage optional convert
+			if (doc.creation_date)
+				doc.creation_date = new Date(corporation.creation_date).getTime();
+
 			// TODO : ESI should fix this
 			delete doc.corporation_name;
-
-			let { ceo_id, alliance_id, member_count } = corporation;
 
 			await this.get_store().replace(
 				{ id: doc.id },
 				doc,
 				{ upsert: true }
 			);
+
+			let { ceo_id, alliance_id, member_count } = doc;
 
 			// get alliance
 			if(alliance_id)

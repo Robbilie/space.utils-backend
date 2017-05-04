@@ -9,28 +9,34 @@
 
 		async start () {
 
-			let client = await ESIUtil.get_client();
+			const client = await ESIUtil.get_client();
 
 			let [{ body: alliance, headers }, { body: corporations }] = await Promise.all([
 				client.apis.Alliance.get_alliances_alliance_id(this.get_data()),
 				client.apis.Alliance.get_alliances_alliance_id_corporations(this.get_data())
 			]);
 
-			alliance = Object.assign(alliance, {
-				id: 						this.get_data().alliance_id,
-				name:						alliance.name || alliance.alliance_name,
-				date_founded: 				new Date(alliance.date_founded).getTime(),
-				executor_corporation_id: 	alliance.executor_corporation_id || alliance.executor_corp,
-				executor_corp: 				undefined,
-				alliance_name: 				undefined
-			});
-
-			await this.get_store().update(
-				{ id: alliance.id },
+			let doc = Object.assign(
+				{},
+				alliance,
 				{
-					$set: alliance,
-					$unset: { [alliance.executor_corporation_id ? "unset" : "executor_corporation_id"]: true }
-				},
+					id: 						this.get_data().alliance_id,
+					name:						alliance.name || alliance.alliance_name,
+					date_founded: 				new Date(alliance.date_founded).getTime()
+				}
+			);
+
+			// manage optional convert
+			if (doc.executor_corporation_id || doc.executor_corp)
+				doc.executor_corporation_id = doc.executor_corporation_id || doc.executor_corp;
+
+			// TODO : ESI should fix this
+			delete doc.executor_corp;
+			delete doc.alliance_name;
+
+			await this.get_store().replace(
+				{ id: doc.id },
+				doc,
 				{ upsert: true }
 			);
 
@@ -41,7 +47,7 @@
 				.filter(corporation_id => !corporation_ids.includes(corporation_id))
 				.forEach(corporation_id => this.enqueue_reference("Corporation", corporation_id));
 
-			if (corporations.length == 0)
+			if (corporations.length === 0)
 				await this.destroy();
 			else
 				await this.update({ expires: new Date(headers.expires).getTime() });

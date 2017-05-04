@@ -9,74 +9,57 @@
 
 		async start () {
 
-			let tss = [Date.now()];
+			const client = await ESIUtil.get_client();
 
-			let client = await ESIUtil.get_client();
-
-			tss.push(Date.now());
-
-			let [{ body: character, headers }, old_char] = await Promise.all([
+			let [{ body: character }, old_char] = await Promise.all([
 				client.apis.Character.get_characters_character_id(this.get_data()),
 				CharacterStore.find_by_id(this.get_data().character_id).get_future()
 			]);
 
-			tss.push(Date.now());
-
 			let corporation_history = null;
-			if (!old_char || (old_char && old_char.corporation_id != character.corporation_id)) {
+			if (!old_char || (old_char && old_char.corporation_id !== character.corporation_id)) {
 				let { body: history } = await client.apis.Character.get_characters_character_id_corporationhistory(this.get_data());
-				corporation_history = history;
+				corporation_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
+			} else {
+				corporation_history = old_char.corporation_history;
 			}
 
-			tss.push(Date.now());
+			let doc = Object.assign(
+				{},
+				character,
+				{
+					id: 				this.get_data().character_id,
+					birthday: 			new Date(character.birthday).getTime(),
+					corporation_history
+				}
+			);
 
-			character = Object.assign(character, {
-				id: 					this.get_data().character_id,
-				birthday: 				new Date(character.birthday).getTime()
-			}, corporation_history ? {
-				corporation_history: 	corporation_history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }))
-			} : {});
-
-			tss.push(Date.now());
-
-			await this.get_store().update(
-				{ id: character.id },
-				{ $set: character },
+			await this.get_store().replace(
+				{ id: doc.id },
+				doc,
 				{ upsert: true }
 			);
 
-			tss.push(Date.now());
+			let { id, corporation_id, alliance_id } = doc;
 
 			if (!old_char)
-				await CharacterAffiliationTask.queue_id(character.id);
-
-			tss.push(Date.now());
+				await CharacterAffiliationTask.queue_id(id);
 
 			// get corp
-			this.enqueue_reference("Corporation", character.corporation_id);
-
-			tss.push(Date.now());
+			this.enqueue_reference("Corporation", corporation_id);
 
 			if (character.alliance_id)
-				this.enqueue_reference("Alliance", character.alliance_id);
-
-			tss.push(Date.now());
+				this.enqueue_reference("Alliance", alliance_id);
 
 			// get all corps from history
 			if (corporation_history)
 				corporation_history
 					.forEach(({ corporation_id }) => this.enqueue_reference("Corporation", corporation_id));
 
-			tss.push(Date.now());
-
-			if (character.corporation_id == 1000001)
+			if (corporation_id === 1000001)
 				await this.destroy();
 			else
 				await this.update({ expires: Date.now() + (1000 * 60 * 60 * 24) /*new Date(headers.expires).getTime()*/ });
-
-			tss.push(Date.now());
-
-			//console.log("character", ...tss.map((t, i, a) => t - (a[i - 1] || t)));
 
 		}
 
