@@ -135,7 +135,7 @@
 		next () {
 			this.process_next()
 				.catch(e => console.log("shouldn't happen", e) || true)
-				.then(should_wait => should_wait ? (console.log("back off") || Promise.resolve().wait(5 * 1000)) : Promise.resolve())
+				.then(should_wait => should_wait ? Promise.resolve().wait(5 * 1000) : Promise.resolve())
 				.then(() => process.nextTick(() => this.next()));
 		}
 
