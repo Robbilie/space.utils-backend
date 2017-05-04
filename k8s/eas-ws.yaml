@@ -32,7 +32,7 @@
 #    spec:
 #      containers:
 #      - name: eas-ws-pod
-#        image: index.docker.io/robbilie/eas:eas-node
+#        image: index.docker.io/robbilie/eas:Dockerfile
 #        imagePullPolicy: Always
 #        ports:
 #        - containerPort: 4002
@@ -52,7 +52,7 @@
 #        - name: HOST
 #          value: "utils.space"
 #        - name: UA
-#          value: "utils.space-eas-node.js-kubernetes-ws (Robert Schuh/Vincent Eneticum)"
+#          value: "utils.space-Dockerfile.js-kubernetes-ws (Robert Schuh/Vincent Eneticum)"
 #        - name: MONGO_URL
 #          value: "mongodb://mongo-service:27017"
 #        - name: MONGO_DB

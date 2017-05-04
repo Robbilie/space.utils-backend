@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: eas-worker-pod
-        image: index.docker.io/robbilie/eas:eas-node
+        image: index.docker.io/robbilie/eas:Dockerfile
         imagePullPolicy: Always
         ports:
         - containerPort: 4001
@@ -37,7 +37,7 @@ spec:
         - name: HOST
           value: "utils.space"
         - name: UA
-          value: "utils.space-eas-node.js-kubernetes-worker (Robert Schuh/Vincent Eneticum)"
+          value: "utils.space-Dockerfile.js-kubernetes-worker (Robert Schuh/Vincent Eneticum)"
         - name: MONGO_URL
           value: "mongodb://mongo-service:27017"
         - name: MONGO_DB

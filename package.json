@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "docker build -f docker/eas-node -t robbilie/eas:eas-node . && docker push robbilie/eas:eas-node",
+    "test": "docker build -t robbilie/eas:eas-node . && docker push robbilie/eas:eas-node",
     "start": "node --trace-warnings index.js"
   },
   "author": "",
