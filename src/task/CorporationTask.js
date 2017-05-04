@@ -16,12 +16,12 @@
 				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
 			]);
 
-			let alliance_history = null;
-			if (!old_corp || (old_corp && old_corp.alliance_id !== corporation.alliance_id)) {
+			let alliance_history = undefined;
+			if (old_corp && old_corp.alliance_history && old_corp.alliance_id === corporation.alliance_id) {
+				alliance_history = old_corp.alliance_history;
+			} else {
 				let { body: history } = await client.apis.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
 				alliance_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
-			} else {
-				alliance_history = old_corp.alliance_history;
 			}
 
 			corporation = Object.assign(corporation, {
