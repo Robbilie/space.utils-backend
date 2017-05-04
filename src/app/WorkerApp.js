@@ -162,7 +162,11 @@
 				 { "info.state": 1, "info.modified": { $lt: ((now / 1000)|0) - this.TASK_TIMEOUT_SECONDS } }
 				 ] }*/,
 				{ $set: { "info.state": 1, "info.modified": now } },
-				{ returnOriginal: false, sort: { "info.expires": 1, "info.modified": 1 } }
+				{
+					sort: { "info.expires": 1, "info.modified": 1 },
+					returnOriginal: false,
+					maxTimeMS: 100
+				}
 			);
 
 			tss.push(Date.now());
