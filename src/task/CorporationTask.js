@@ -27,6 +27,7 @@
 			corporation = Object.assign(corporation, {
 				id: 				this.get_data().corporation_id,
 				name: 				corporation.name || corporation.corporation_name,
+				description: 		corporation.description || corporation.corporation_description,
 				alliance_history
 			});
 
@@ -36,6 +37,7 @@
 
 			// TODO : ESI should fix this
 			delete corporation.corporation_name;
+			delete corporation.corporation_description;
 
 			await this.get_store().replace(
 				{ id: corporation.id },
