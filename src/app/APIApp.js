@@ -24,7 +24,7 @@
 				)
 			)).reduce((p, c) => !(p[c[0]] = c[1]) || p, {});
 
-			swaggerTools.initializeMiddleware(require("js-yaml").safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../routes/swagger.yaml")), middleware => {
+			swaggerTools.initializeMiddleware(require("js-yaml").safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../specs/eas.yaml")), middleware => {
 
 				const web = express();
 

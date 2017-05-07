@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY ./package.json /usr/src/app/
 RUN npm install && npm cache clean
 COPY ./src/ /usr/src/app/src
-COPY ./routes/ /usr/src/app/routes
+COPY ./specs/ /usr/src/app/specs
 COPY ./index.js /usr/src/app/
 
 CMD [ "npm", "start" ]
