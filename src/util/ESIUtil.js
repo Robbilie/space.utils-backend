@@ -20,10 +20,17 @@
 		client: 		undefined,
 		interval: 		undefined,
 		errors: 		0,
-		completed: 		0
+		completed: 		0,
+		spec: 			undefined
 	};
 
-	const EXTENDED_METRICS = process.env.EXTENDED_METRICS == "true";
+	const EXTENDED_METRICS = process.env.EXTENDED_METRICS === "true";
+
+	if (!process.env.ESI_URL) {
+		try {
+			storage.spec = require(process.env.NODE_PATH + "/../specs/_latest.json");
+		} catch (e) {}
+	}
 	
 	class ESIUtil {
 		
@@ -41,6 +48,7 @@
 					storage.completed 	= 0;
 				});
 			return new Swagger({
+				spec: storage.spec,
 				url: process.env.ESI_URL,
 				requestInterceptor: (req) => {
 					req.headers["User-Agent"] = process.env.UA;
