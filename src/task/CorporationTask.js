@@ -16,34 +16,34 @@
 				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
 			]);
 
+			let alliance_history = undefined;
+			if (old_corp && old_corp.alliance_history && old_corp.alliance_id === corporation.alliance_id) {
+				alliance_history = old_corp.alliance_history;
+			} else {
+				let { body: history } = await client.apis.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
+				alliance_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
+			}
+
+			corporation = Object.assign(corporation, {
+				id: 				this.get_data().corporation_id,
+				name: 				corporation.name || corporation.corporation_name,
+				description: 		corporation.description || corporation.corporation_description,
+				alliance_history
+			});
+
+			// manage optional convert
+			if (corporation.creation_date)
+				corporation.creation_date = new Date(corporation.creation_date).getTime();
+
+			// TODO : ESI should fix this
+			delete corporation.corporation_name;
+			delete corporation.corporation_description;
+
 			let { ceo_id, alliance_id, member_count } = corporation;
 
 			let hash = ESIUtil.hash(corporation);
 
 			if (hash !== this.get_info().hash) {
-
-				let alliance_history = undefined;
-				if (old_corp && old_corp.alliance_history && old_corp.alliance_id === corporation.alliance_id) {
-					alliance_history = old_corp.alliance_history;
-				} else {
-					let { body: history } = await client.apis.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
-					alliance_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
-				}
-
-				corporation = Object.assign(corporation, {
-					id: 				this.get_data().corporation_id,
-					name: 				corporation.name || corporation.corporation_name,
-					description: 		corporation.description || corporation.corporation_description,
-					alliance_history
-				});
-
-				// manage optional convert
-				if (corporation.creation_date)
-					corporation.creation_date = new Date(corporation.creation_date).getTime();
-
-				// TODO : ESI should fix this
-				delete corporation.corporation_name;
-				delete corporation.corporation_description;
 
 				await this.get_store().replace(
 					{ id: corporation.id },
