@@ -14,7 +14,7 @@
 		async init () {
 
 			// gc frequently
-			if (typeof(gc) != "undefined")
+			if (typeof(gc) !== "undefined")
 				setInterval(() => {
 					gc();
 					let { rss, heapTotal, heapUsed } = process.memoryUsage();
@@ -28,10 +28,9 @@
 			// task queue
 			this.PARALLEL_TASK_LIMIT = parseInt(process.env.PARALLEL_TASK_LIMIT);
 			this.TASK_TIMEOUT_SECONDS = parseInt(process.env.TASK_TIMEOUT_SECONDS);
-			this.EXTENDED_METRICS = process.env.EXTENDED_METRICS == "true";
+			this.EXTENDED_METRICS = process.env.EXTENDED_METRICS === "true";
 			this.running_tasks = 0;
 			this.running_task_ids = {};
-			this.queued_tasks = [];
 			this.tasks = [];
 			this.reference_queue = [];
 			this.reference_queue_max = parseInt(process.env.REFERENCE_QUEUE_MAX);
@@ -43,7 +42,6 @@
 			WorkerApp.create_base_tasks();
 
 			// start polling for old tasks that have to be fetched
-			this.pulling_tasks = null;
 			this.work_tasks();
 
 		}
@@ -98,36 +96,7 @@
 			BaseTask.create_task("Systems", {}, true);
 		}
 
-		enqueue (task) {
-			return new Promise(resolve => {
-
-				const run = (runnable, done) => {
-					this.process_next(runnable)
-						.catch(e => console.log("shouldn't happen", e) || true)
-						.then(should_wait => should_wait ? Promise.resolve().wait(5 * 1000) : Promise.resolve())
-						.then(() => {
-							if(this.queued_tasks.length)
-								this.queued_tasks.shift()();
-							else
-								this.running_tasks--;
-						});
-					done();
-				};
-
-				if(this.running_tasks < this.PARALLEL_TASK_LIMIT) {
-					this.running_tasks++;
-					run(task, resolve);
-				} else {
-					this.queued_tasks.push(() => run(task, resolve));
-				}
-
-			});
-		}
-
 		work_tasks () {
-			/*this.enqueue()
-				.catch(e => console.log("worker error", e))
-				.then(() => process.nextTick(() => this.work_tasks()));*/
 			for (let i = 0; i < this.PARALLEL_TASK_LIMIT; i++)
 				this.next();
 		}
@@ -219,9 +188,9 @@
 				this.errors++;
 				MetricsUtil.inc("tasks.errors");
 				let error = e.error;
-				if (e.name == "StatusCodeError")
+				if (e.name === "StatusCodeError")
 					console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
-				else if (e.message == "Error: ESOCKETTIMEDOUT")
+				else if (e.message === "Error: ESOCKETTIMEDOUT")
 					console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
 				else
 					console.log(name, e);
