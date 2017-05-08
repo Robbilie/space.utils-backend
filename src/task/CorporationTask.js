@@ -11,14 +11,14 @@
 
 			const client = await ESIUtil.get_client();
 
-			let [{ body: corporation, headers }, old_corp] = await Promise.all([
+			let [{ body: corporation, headers }, old_corporation] = await Promise.all([
 				client.apis.Corporation.get_corporations_corporation_id(this.get_data()),
 				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
 			]);
 
 			let alliance_history = undefined;
-			if (old_corp && old_corp.alliance_history && old_corp.alliance_id === corporation.alliance_id) {
-				alliance_history = old_corp.alliance_history;
+			if (old_corporation && old_corporation.alliance_history && old_corporation.alliance_id === corporation.alliance_id) {
+				alliance_history = old_corporation.alliance_history;
 			} else {
 				let { body: history } = await client.apis.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
 				alliance_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
