@@ -58,7 +58,7 @@
 
 			console.log("getting killmails for war", this.get_data().war_id);
 
-			await this.get_killmail_pages(client, this.get_info().page);
+			await this.get_killmail_pages(client, this.get_info().page, true);
 
 			await this.update({
 				expires: (finished && finished < Date.now()) ? Number.MAX_SAFE_INTEGER : new Date(headers.expires).getTime(),
@@ -67,14 +67,15 @@
 
 		}
 
-		async get_killmail_pages (client, page = 1) {
+		async get_killmail_pages (client, page = 1, start) {
 			const s = { length: 0 };
 
 			console.log("killmail page war", this.get_data().war_id, page);
 
 
 			{
-				await this.tick({ page });
+				if (!start)
+					await this.tick({ page });
 
 				const { body: killmails } = await client.apis.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 				s.length = killmails.length;
