@@ -42,7 +42,7 @@
 					{ upsert: true }
 				);
 
-				if (!old_char)
+				if (!old_character)
 					await CharacterAffiliationTask.queue_id(id);
 
 				// get corp
