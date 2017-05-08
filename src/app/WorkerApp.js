@@ -77,6 +77,7 @@
 			this.errors 		= 0;
 			this.completed 		= 0;
 
+			/*
 			this.interval = RPSUtil.monotonic_loop(difference => {
 				console.log("tasks:", ...[this.errors, this.completed].map(x => (x / difference).toLocaleString()));
 				console.log(this.running_tasks, "out of", this.PARALLEL_TASK_LIMIT, "running");
@@ -85,6 +86,7 @@
 			});
 
 			setInterval(() => console.log("~~~~~~~~~~~~~~~~~~~~"), 10 * 1000);
+			*/
 
 		}
 
