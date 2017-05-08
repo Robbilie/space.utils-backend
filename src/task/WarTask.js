@@ -24,41 +24,46 @@
 
 			let { finished, aggressor, defender, allies } = war;
 
-			console.log("updateing war", this.get_data().war_id);
+			let hash = ESIUtil.hash(war);
 
-			await this.get_store().update(
-				{ id: this.get_data().war_id },
-				{ $set: war },
-				{ upsert: true }
-			);
+			if (hash !== this.get_info().hash) {
 
-			if (aggressor.corporation_id)
-				this.enqueue_reference("Corporation", aggressor.corporation_id);
-			if (aggressor.alliance_id)
-				this.enqueue_reference("Alliance", aggressor.alliance_id);
+				console.log("updateing war", this.get_data().war_id);
 
-			if (defender.corporation_id)
-				this.enqueue_reference("Corporation", defender.corporation_id);
-			if (defender.alliance_id)
-				this.enqueue_reference("Alliance", defender.alliance_id);
+				await this.get_store().update(
+					{ id: this.get_data().war_id },
+					{ $set: war },
+					{ upsert: true }
+				);
 
-			if (allies)
-				allies.forEach(({ corporation_id, alliance_id }) => {
-					if (corporation_id)
-						this.enqueue_reference("Corporation", corporation_id);
-					if (alliance_id)
-						this.enqueue_reference("Alliance", alliance_id);
-				});
+				if (aggressor.corporation_id)
+					this.enqueue_reference("Corporation", aggressor.corporation_id);
+				if (aggressor.alliance_id)
+					this.enqueue_reference("Alliance", aggressor.alliance_id);
 
+				if (defender.corporation_id)
+					this.enqueue_reference("Corporation", defender.corporation_id);
+				if (defender.alliance_id)
+					this.enqueue_reference("Alliance", defender.alliance_id);
+
+				if (allies)
+					allies.forEach(({ corporation_id, alliance_id }) => {
+						if (corporation_id)
+							this.enqueue_reference("Corporation", corporation_id);
+						if (alliance_id)
+							this.enqueue_reference("Alliance", alliance_id);
+					});
+
+			}
 
 			console.log("getting killmails for war", this.get_data().war_id);
 
 			await this.get_killmail_pages(client, this.get_info().page);
 
-			if (finished && finished < Date.now())
-				await this.destroy();
-			else
-				await this.update({ expires: new Date(headers.expires).getTime() });
+			await this.update({
+				expires: (finished && finished < Date.now()) ? Number.MAX_SAFE_INTEGER : new Date(headers.expires).getTime(),
+				hash
+			});
 
 		}
 

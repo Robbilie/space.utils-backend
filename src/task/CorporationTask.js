@@ -16,62 +16,68 @@
 				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
 			]);
 
-			let alliance_history = undefined;
-			if (old_corp && old_corp.alliance_history && old_corp.alliance_id === corporation.alliance_id) {
-				alliance_history = old_corp.alliance_history;
-			} else {
-				let { body: history } = await client.apis.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
-				alliance_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
-			}
-
-			corporation = Object.assign(corporation, {
-				id: 				this.get_data().corporation_id,
-				name: 				corporation.name || corporation.corporation_name,
-				description: 		corporation.description || corporation.corporation_description,
-				alliance_history
-			});
-
-			// manage optional convert
-			if (corporation.creation_date)
-				corporation.creation_date = new Date(corporation.creation_date).getTime();
-
-			// TODO : ESI should fix this
-			delete corporation.corporation_name;
-			delete corporation.corporation_description;
-
-			await this.get_store().replace(
-				{ id: corporation.id },
-				corporation,
-				{ upsert: true }
-			);
-
 			let { ceo_id, alliance_id, member_count } = corporation;
 
-			// get alliance
-			if(alliance_id)
-				this.enqueue_reference("Alliance", alliance_id);
+			let hash = ESIUtil.hash(corporation);
 
-			// get all alliances
-			if (alliance_history)
-				alliance_history
-					.filter(({ alliance }) => !!alliance)
-					.map(({ alliance: { alliance_id } }) => this.enqueue_reference("Alliance", alliance_id));
+			if (hash !== this.get_info().hash) {
 
-			// get ceo
-			if(ceo_id === 1) {
-				// dead corp
-			} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
-				// is npc ceo
-			} else if (ceo_id) {
-				this.enqueue_reference("Character", ceo_id);
-			} else {
-				console.log("no ceo", this.get_data().corporation_id);
+				let alliance_history = undefined;
+				if (old_corp && old_corp.alliance_history && old_corp.alliance_id === corporation.alliance_id) {
+					alliance_history = old_corp.alliance_history;
+				} else {
+					let { body: history } = await client.apis.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
+					alliance_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
+				}
+
+				corporation = Object.assign(corporation, {
+					id: 				this.get_data().corporation_id,
+					name: 				corporation.name || corporation.corporation_name,
+					description: 		corporation.description || corporation.corporation_description,
+					alliance_history
+				});
+
+				// manage optional convert
+				if (corporation.creation_date)
+					corporation.creation_date = new Date(corporation.creation_date).getTime();
+
+				// TODO : ESI should fix this
+				delete corporation.corporation_name;
+				delete corporation.corporation_description;
+
+				await this.get_store().replace(
+					{ id: corporation.id },
+					corporation,
+					{ upsert: true }
+				);
+
+				// get alliance
+				if(alliance_id)
+					this.enqueue_reference("Alliance", alliance_id);
+
+				// get all alliances
+				if (alliance_history)
+					alliance_history
+						.filter(({ alliance }) => !!alliance)
+						.map(({ alliance: { alliance_id } }) => this.enqueue_reference("Alliance", alliance_id));
+
+				// get ceo
+				if(ceo_id === 1) {
+					// dead corp
+				} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
+					// is npc ceo
+				} else if (ceo_id) {
+					this.enqueue_reference("Character", ceo_id);
+				} else {
+					console.log("no ceo", this.get_data().corporation_id);
+				}
+
 			}
 
-			if(ceo_id === 1 || member_count === 0)
-				await this.destroy();
-			else
-				await this.update({ expires: new Date(headers.expires).getTime() });
+			await this.update({
+				expires: (ceo_id === 1 || member_count === 0) ? Number.MAX_SAFE_INTEGER : new Date(headers.expires).getTime(),
+				hash
+			});
 
 		}
 

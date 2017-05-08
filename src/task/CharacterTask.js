@@ -30,32 +30,38 @@
 				corporation_history
 			});
 
-			await this.get_store().replace(
-				{ id: character.id },
-				character,
-				{ upsert: true }
-			);
-
 			let { id, corporation_id, alliance_id } = character;
 
-			if (!old_char)
-				await CharacterAffiliationTask.queue_id(id);
+			let hash = ESIUtil.hash(character);
 
-			// get corp
-			this.enqueue_reference("Corporation", corporation_id);
+			if (hash !== this.get_info().hash) {
 
-			if (alliance_id)
-				this.enqueue_reference("Alliance", alliance_id);
+				await this.get_store().replace(
+					{ id: character.id },
+					character,
+					{ upsert: true }
+				);
 
-			// get all corps from history
-			if (corporation_history)
-				corporation_history
-					.forEach(({ corporation_id }) => this.enqueue_reference("Corporation", corporation_id));
+				if (!old_char)
+					await CharacterAffiliationTask.queue_id(id);
 
-			if (corporation_id === 1000001)
-				await this.destroy();
-			else
-				await this.update({ expires: Date.now() + (1000 * 60 * 60 * 24) /*new Date(headers.expires).getTime()*/ });
+				// get corp
+				this.enqueue_reference("Corporation", corporation_id);
+
+				if (alliance_id)
+					this.enqueue_reference("Alliance", alliance_id);
+
+				// get all corps from history
+				if (corporation_history)
+					corporation_history
+						.forEach(({ corporation_id }) => this.enqueue_reference("Corporation", corporation_id));
+
+			}
+
+			await this.update({
+				expires: (corporation_id === 1000001) ? Number.MAX_SAFE_INTEGER : Date.now() + (1000 * 60 * 60 * 24),
+				hash
+			});
 
 		}
 
