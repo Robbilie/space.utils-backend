@@ -113,7 +113,7 @@
 
 		static hash (obj) {
 			return crypto
-				.createHash("sha512")
+				.createHash("md5")
 				.update(JSON.stringify(obj && obj.constructor.name === "Array" ? obj : Object.entries(obj).sort(([a], [b]) => a > b ? 1 : -1)))
 				.digest("hex");
 		}
