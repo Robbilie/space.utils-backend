@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const crypto	= reqiure("crypto");
+	const crypto	= require("crypto");
 	const Swagger 	= require("swagger-client");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
