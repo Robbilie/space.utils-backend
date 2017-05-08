@@ -57,8 +57,8 @@
 			return DBUtil.get_store(this.get_name());
 		}
 
-		update ({ state = 0, expires, modified, page } = {}, oplog = true) {
-			let info = Object.assign({ state, page }, expires ? { expires } : {}, modified ? { modified } : {});
+		update ({ state = 0, expires, modified, page, hash } = {}, oplog = true) {
+			let info = Object.assign({ state, page }, expires ? { expires } : {}, modified ? { modified } : {}, hash ? { hash } : {});
 			this.set_info(info);
 			return BaseTask.get_tasks().update(
 				{ _id: this.get__id() },
