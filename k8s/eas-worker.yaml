@@ -62,8 +62,8 @@ spec:
           value: "300"
         - name: REFERENCE_QUEUE_MAX
           value: "500"
-        - name: EXTENDED_METRICS
-          value: "true"
+        #- name: EXTENDED_METRICS
+        #  value: "true"
         readinessProbe:
           httpGet:
             path: /ping
