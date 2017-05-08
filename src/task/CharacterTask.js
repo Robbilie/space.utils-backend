@@ -11,14 +11,14 @@
 
 			const client = await ESIUtil.get_client();
 
-			let [{ body: character }, old_char] = await Promise.all([
+			let [{ body: character }, old_character] = await Promise.all([
 				client.apis.Character.get_characters_character_id(this.get_data()),
 				CharacterStore.find_by_id(this.get_data().character_id).get_future()
 			]);
 
 			let corporation_history = undefined;
-			if (old_char && old_char.corporation_history && old_char.corporation_id === character.corporation_id) {
-				corporation_history = old_char.corporation_history;
+			if (old_character && old_character.corporation_history && old_character.corporation_id === character.corporation_id) {
+				corporation_history = old_character.corporation_history;
 			} else {
 				let { body: history } = await client.apis.Character.get_characters_character_id_corporationhistory(this.get_data());
 				corporation_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
