@@ -1,10 +1,11 @@
 
 	"use strict";
 
+	const crypto	= reqiure("crypto");
 	const Swagger 	= require("swagger-client");
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
-		//gzip: true, // actually slows down
+		gzip: true, // actually slows down
 		forever: true,
 		//timeout: 1000 * 12,
 		pool: {
@@ -82,38 +83,7 @@
 						throw e;
 					}
 				}
-			})
-			/*return new Swagger(Object.assign({
-				url: process.env.ESI_URL,
-				usePromise: true,
-				authorizations: {
-					someHeaderAuth: new Swagger.ApiKeyAuthorization("User-Agent", process.env.UA, "header")
-				},
-				client: { execute: async (obj) => {
-
-					try {
-
-						let { method, url, headers, body } = obj;
-						if (EXTENDED_METRICS)
-							MetricsUtil.inc("esi.started");
-						let response = await request({ method, url, headers, body: JSON.stringify(body) });
-						MetricsUtil.update("esi.elapsedTime", response.elapsedTime);
-						response.obj = JSON.parse(response.body);
-						obj.on.response(response);
-
-					} catch (e) {
-
-						++storage.errors;
-						obj.on.error(e);
-						MetricsUtil.inc("esi.errors");
-
-					}
-
-					++storage.completed;
-					MetricsUtil.inc("esi.completed");
-
-				} }
-			}, options));*/
+			});
 		}
 
 		static get_all_pages (fn, params = {}, parallel = 10) {
@@ -129,7 +99,7 @@
 					console.log(fn.name, "pages", skip * parallel + 1, "to", (skip + 1) * parallel);
 					const expires = Math.max(...pages.map(({ headers: { expires } }) => new Date(expires).getTime()));
 					const ids = [].concat(...pages.map(({ body }) => obj));
-					if (ids.length % 2000 == 0)
+					if (ids.length % 2000 === 0)
 						return ESIUtil.get_pages(fn, params, parallel, skip + 1)
 							.then(obj => ({ expires: Math.max(expires, obj.expires), ids: ids.concat(obj.ids) }));
 					else
@@ -139,6 +109,13 @@
 
 		static get_page (fn, params, page) {
 			return new Promise((resolve, reject) => process.nextTick(() => fn(Object.assign(params, { page})).then(resolve).catch(reject)));
+		}
+
+		static hash (obj) {
+			return crypto
+				.createHash("sha512")
+				.update(JSON.stringify(obj && obj.constructor.name === "Array" ? obj : Object.entries(obj).sort(([a], [b]) => a > b ? 1 : -1)))
+				.digest("hex");
 		}
 		
 	}
