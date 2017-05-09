@@ -72,6 +72,8 @@
 					console.log("no ceo", this.get_data().corporation_id);
 				}
 
+			} else {
+				console.log("HASH EQUALS FOR CORPORATION", corporation.id);
 			}
 
 			await this.update({
