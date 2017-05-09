@@ -45,8 +45,6 @@
 
 			if (hash !== this.get_info().hash) {
 
-				console.log("HASH DIFFERS FOR CORPORATION", corporation.id, hash, this.get_info().hash);
-
 				await this.get_store().replace(
 					{ id: corporation.id },
 					corporation,
@@ -74,8 +72,6 @@
 					console.log("no ceo", this.get_data().corporation_id);
 				}
 
-			} else {
-				console.log("HASH EQUALS FOR CORPORATION", corporation.id);
 			}
 
 			await this.update({
