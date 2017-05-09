@@ -44,6 +44,7 @@
 			let hash = ESIUtil.hash(corporation);
 
 			if (hash !== this.get_info().hash) {
+
 				console.log("HASH DIFFERS FOR CORPORATION", corporation.id, hash, this.get_info().hash);
 
 				await this.get_store().replace(
