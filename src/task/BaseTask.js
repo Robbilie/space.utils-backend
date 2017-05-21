@@ -130,7 +130,7 @@
 						tid = o._id.toString();
 						break;
 					case "u":
-						if(o && o.set && o.set["info-state"] && o.set["info-state"] === 0) {
+						if(o && o.set && o.set["info-state"] === 0) {
 							tid = o2._id.toString();
 						} else {
 							let collection = await this.get_tasks().get_collection();

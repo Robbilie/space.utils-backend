@@ -44,5 +44,7 @@ spec:
             port: 80
           initialDelaySeconds: 30
           timeoutSeconds: 30
+      nodeSelector:
+        kubernetes.io/hostname: "sheliak"
       imagePullSecrets:
       - name: myregistrykey

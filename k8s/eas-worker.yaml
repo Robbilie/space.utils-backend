@@ -80,5 +80,7 @@ spec:
       - name: config
         secret:
           secretName: eas-config
+      nodeSelector:
+        kubernetes.io/hostname: "menkar"
       imagePullSecrets:
       - name: myregistrykey
