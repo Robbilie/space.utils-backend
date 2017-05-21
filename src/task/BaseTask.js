@@ -124,6 +124,8 @@
 			this.get_tasks().get_continuous_updates({}, undefined, async ({ op, o, o2 }) => {
 				// giant BLA BLA BLA of finding the _id to call from the map
 				//console.log(JSON.stringify({ op, o, o2 }));
+				if (storage.tasks.size === 0)
+					return;
 				let tid;
 				switch (op) {
 					case "d":
