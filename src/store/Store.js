@@ -21,13 +21,13 @@
 		}
 
 		static from_promise (prom, model = this.get_model()) {
-			if (!prom || prom.constructor.name !== "Promise")
+			if (prom === undefined || prom.constructor.name !== "Promise")
 				throw new Error("method misuse");
 			return new model(prom);
 		}
 
 		static from_data (data, model) {
-			if(!model && data.constructor.name === "Array")
+			if(model === undefined && data.constructor.name === "Array")
 				return this.from_promise(Promise.resolve(data), this.get_list());
 			else
 				return this.from_promise(Promise.resolve(data), model);
@@ -132,7 +132,7 @@
 		}
 
 		static update (where, data, options, oplog = false) {
-			if (this.check_data(data) !== undefined) {
+			if (this.check_data(data) === undefined) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
 				if (oplog === true)
@@ -153,7 +153,7 @@
 		}
 
 		static modify (where, data, options, oplog = false) {
-			if (this.check_data(data) !== undefined) {
+			if (this.check_data(data) === undefined) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
 				if (oplog === true)

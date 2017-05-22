@@ -27,7 +27,7 @@
 
 	const EXTENDED_METRICS = process.env.EXTENDED_METRICS === "true";
 
-	if (process.env.ESI_URL !== undefined) {
+	if (process.env.ESI_URL === undefined) {
 		try {
 			storage.spec = require(process.env.NODE_PATH + "/../specs/_latest.json");
 		} catch (e) {}
