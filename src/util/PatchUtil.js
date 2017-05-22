@@ -40,7 +40,7 @@
 		static filter (model) {
 			return Object
 				.getOwnPropertyNames(model.prototype)
-				.filter(property => model.prototype[property].toString().slice(-2) == "{}");
+				.filter(property => model.prototype[property].toString().slice(-2) === "{}");
 		}
 
 		static store (store) {
