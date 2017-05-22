@@ -36,21 +36,21 @@
 					{ upsert: true }
 				);
 
-				if (aggressor.corporation_id)
+				if (aggressor.corporation_id !== undefined)
 					this.enqueue_reference("Corporation", aggressor.corporation_id);
-				if (aggressor.alliance_id)
+				if (aggressor.alliance_id !== undefined)
 					this.enqueue_reference("Alliance", aggressor.alliance_id);
 
-				if (defender.corporation_id)
+				if (defender.corporation_id !== undefined)
 					this.enqueue_reference("Corporation", defender.corporation_id);
-				if (defender.alliance_id)
+				if (defender.alliance_id !== undefined)
 					this.enqueue_reference("Alliance", defender.alliance_id);
 
 				if (allies)
 					allies.forEach(({ corporation_id, alliance_id }) => {
-						if (corporation_id)
+						if (corporation_id !== undefined)
 							this.enqueue_reference("Corporation", corporation_id);
-						if (alliance_id)
+						if (alliance_id !== undefined)
 							this.enqueue_reference("Alliance", alliance_id);
 					});
 
@@ -67,14 +67,14 @@
 
 		}
 
-		async get_killmail_pages (client, page = 1, start) {
+		async get_killmail_pages (client, page = 1, start = false) {
 			const s = { length: 0 };
 
 			console.log("killmail page war", this.get_data().war_id, page);
 
 
 			{
-				if (!start)
+				if (start === false)
 					await this.tick({ page });
 
 				const { body: killmails } = await client.apis.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });

@@ -52,7 +52,7 @@
 				);
 
 				// get alliance
-				if(alliance_id)
+				if(alliance_id !== undefined)
 					this.enqueue_reference("Alliance", alliance_id);
 
 				// get all alliances
@@ -66,7 +66,7 @@
 					// dead corp
 				} else if(ceo_id >= 3000000 && ceo_id < 4000000) {
 					// is npc ceo
-				} else if (ceo_id) {
+				} else if (ceo_id !== undefined) {
 					this.enqueue_reference("Character", ceo_id);
 				} else {
 					console.log("no ceo", this.get_data().corporation_id);

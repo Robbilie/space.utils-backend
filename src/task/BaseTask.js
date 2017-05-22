@@ -85,7 +85,7 @@
 
 				let _id = new ObjectID();
 
-				if (!faf)
+				if (faf === false)
 					storage.tasks.set(_id.toString(), resolve);
 
 				let response = await BaseTask.get_tasks().update(
@@ -110,8 +110,8 @@
 				);
 
 				// if fire and forget or not and its no new task, just resolve
-				if(faf || (!faf && !response.upsertedCount)) {
-					if(!faf && !response.upsertedCount) {
+				if(faf === true || (!faf && !response.upsertedCount)) {
+					if(faf === false && !response.upsertedCount) {
 						//console.log("task not upsert-ed", name, JSON.stringify(data), response);
 					}
 					resolve();
@@ -135,6 +135,7 @@
 						if(o && o.set && o.set["info-state"] === 0) {
 							tid = o2._id.toString();
 						} else {
+							console.log("DB TASK _ID SHOULD NOT HAPPEN");
 							let collection = await this.get_tasks().get_collection();
 							let task = await collection.findOne({ _id: o2._id });
 							if (task && task.info.state === 0)
@@ -142,7 +143,7 @@
 						}
 						break;
 				}
-				if(tid && storage.tasks.get(tid)) {
+				if(tid !== undefined && storage.tasks.get(tid)) {
 					storage.tasks.get(tid)();
 					storage.tasks.delete(tid);
 				}

@@ -12,13 +12,13 @@
 
 			let killmail = this.find_by_id(killmail_id, {}, faf);
 
-			if(await killmail.is_null() && killmail_hash)
+			if(await killmail.is_null() === true && killmail_hash !== undefined)
 				await KillmailTask.create({ killmail_id, killmail_hash }, faf);
 
-			if (faf)
+			if (faf === true)
 				return null;
 
-			if (await killmail.is_null())
+			if (await killmail.is_null() === true)
 				killmail = this.find_by_id(killmail_id);
 
 			return killmail.get_future();

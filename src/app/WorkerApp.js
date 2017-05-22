@@ -156,7 +156,7 @@
 
 			tss.push(Date.now());
 
-			if (this.EXTENDED_METRICS)
+			if (this.EXTENDED_METRICS === true)
 				MetricsUtil.inc("tasks.started");
 
 			this.running_task_ids[_id.toString()] = Date.now();
@@ -178,7 +178,7 @@
 				let duration = process.hrtime(start);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 				MetricsUtil.update("tasks.duration", duration);
-				if (this.EXTENDED_METRICS)
+				if (this.EXTENDED_METRICS === true)
 					MetricsUtil.update(`tasks.type.${name}`, duration);
 
 				tss.push(Date.now());

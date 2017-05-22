@@ -11,7 +11,7 @@
 				const field 	= property.split("_").slice(1).join("_");
 				const type 		= model.types[field];
 
-				if(!type)
+				if(type === undefined)
 					console.log("missing type", model.name, property);
 
 				if(type.prototype instanceof Base) {
@@ -19,7 +19,7 @@
 					Object.defineProperty(model.prototype, property, {
 						value: async function () {
 							let data = this.get_future();
-							if(data[field]) {
+							if(data[field] !== undefined) {
 								return store.from_data(data[field]);
 							} else {
 								return store.find_by_pk(data[`${field}_id`]);

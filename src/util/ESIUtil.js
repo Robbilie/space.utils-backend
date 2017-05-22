@@ -27,7 +27,7 @@
 
 	const EXTENDED_METRICS = process.env.EXTENDED_METRICS === "true";
 
-	if (!process.env.ESI_URL) {
+	if (process.env.ESI_URL !== undefined) {
 		try {
 			storage.spec = require(process.env.NODE_PATH + "/../specs/_latest.json");
 		} catch (e) {}
@@ -36,13 +36,13 @@
 	class ESIUtil {
 		
 		static get_client () {
-			if(!storage.client)
+			if(storage.client === undefined)
 				storage.client = this.new_client().catch(e => console.log("ESI Client Error", e) || !(delete storage.client) || ESIUtil.get_client());
 			return storage.client;
 		}
 
 		static new_client (options = {}) {
-			if(!storage.interval)
+			if(storage.interval === undefined)
 				storage.interval = RPSUtil.monotonic_loop(difference => {
 					console.log("esi:", ...[storage.errors, storage.completed].map(x => (x / difference).toLocaleString()));
 					storage.errors 		= 0;
@@ -59,11 +59,11 @@
 				},
 				http: async (obj) => {
 					let req = obj;
-					if (obj.requestInterceptor)
+					if (obj.requestInterceptor !== undefined)
 						req = obj.requestInterceptor(obj);
 					try {
 						let { method, url, headers, body } = req;
-						if (EXTENDED_METRICS)
+						if (EXTENDED_METRICS === true)
 							MetricsUtil.inc("esi.started");
 						let res = await request({ method, url, headers, body });
 						MetricsUtil.update("esi.elapsedTime", res.elapsedTime);

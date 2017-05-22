@@ -104,20 +104,11 @@
 			}
 		});
 
-		if(!Object.entries)
-			Object.defineProperty(Object.prototype, 'entries', {
-				value: function (obj) {
-					return Object.keys(obj).map(k => [k, obj[k]]);
-				},
-				configurable: true,
-				writable: true
-			});
-
 		global.$ = function (num, ...params) {
 			params
 				.reduce((p, c, i, a) => i % 2 ? p : p.concat([[Object.keys(c)[0], c[Object.keys(c)[0]], a[i + 1]]]), [])
 				.forEach(v => {
-					if(![v[1], typeof(v[1]), v[1] != undefined && v[1] != null ? v[1].constructor.name : ""].some(e => e == v[2]))
+					if(![v[1], typeof(v[1]), v[1] !== undefined && v[1] !== null ? v[1].constructor.name : ""].some(e => e === v[2]))
 						throw TypeError(`Parameter '${v[0]}' is of type '${v[1] && v[1].constructor ? v[1].constructor.name : typeof(v[1])}' but should be of type '${v[2]}'`);
 				});
 			return {};

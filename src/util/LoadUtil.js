@@ -29,7 +29,7 @@
 			try {
 				return require(name);
 			} catch (e) {
-				if(e.code != "MODULE_NOT_FOUND")
+				if(e.code !== "MODULE_NOT_FOUND")
 					console.log(e);
 				return null;
 			}

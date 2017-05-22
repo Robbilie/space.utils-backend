@@ -8,7 +8,7 @@
 			return this.from_promise(
 				(async () => {
 					let cursor;
-					if(param.constructor.name == "Cursor") {
+					if(param.constructor.name === "Cursor") {
 						cursor = param;
 					} else {
 						let collection = await this.get_collection();
@@ -21,13 +21,13 @@
 		}
 
 		static from_promise (prom, model = this.get_model()) {
-			if (!prom || prom.constructor.name != "Promise")
+			if (!prom || prom.constructor.name !== "Promise")
 				throw new Error("method misuse");
 			return new model(prom);
 		}
 
 		static from_data (data, model) {
-			if(!model && data.constructor.name == "Array")
+			if(!model && data.constructor.name === "Array")
 				return this.from_promise(Promise.resolve(data), this.get_list());
 			else
 				return this.from_promise(Promise.resolve(data), model);
@@ -80,7 +80,7 @@
 		static findOne (data = {}, options = {}, bare = true) {
 			return this.from_promise((async () => {
 				let collection = await this.get_collection();
-				if(bare) {
+				if(bare === true) {
 					return await collection.findOne(data, options);
 				} else {
 					return (await this
@@ -132,10 +132,10 @@
 		}
 
 		static update (where, data, options, oplog = false) {
-			if (!this.check_data(data)) {
+			if (this.check_data(data) !== undefined) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
-				if (oplog)
+				if (oplog === true)
 					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: data, o2: where }));
 				return this.get_collection().then(collection => collection.updateOne(where, data, options));
 			}
@@ -153,10 +153,10 @@
 		}
 
 		static modify (where, data, options, oplog = false) {
-			if (!this.check_data(data)) {
+			if (this.check_data(data) !== undefined) {
 				return Promise.reject("Data is missing fields, use ignore to bypass.");
 			} else {
-				if (oplog)
+				if (oplog === true)
 					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: data, o2: where }));
 				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
 			}
@@ -168,7 +168,7 @@
 		}
 
 		static insert (data, options, oplog = false) {
-			if (oplog)
+			if (oplog === true)
 				setImmediate(() => DBUtil.oplog({ op: "i", ns: this.get_name().toLowerCase().pluralize(), o: data }));
 			return this.get_collection().then(collection => collection.insertOne(data, options));
 		}
@@ -178,7 +178,7 @@
 		}
 
 		static destroy (where, oplog = false) {
-			if (oplog)
+			if (oplog === true)
 				setImmediate(() => DBUtil.oplog({ op: "d", ns: this.get_name().toLowerCase().pluralize(), o: where }));
 			return this.get_collection().then(collection => collection.remove(where));
 		}

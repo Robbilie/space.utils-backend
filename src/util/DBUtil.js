@@ -11,15 +11,14 @@
 	const collections 	= new Map();
 
 	const settings = {
-		ignoreUndefined: true,
-		poolSize: 1
+		ignoreUndefined: true
 	};
 
 	class DBUtil {
 
 		static get_connection (field, db) {
-			if(!storage[field])
-				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}?maxPoolSize=${settings.poolSize}`, settings)
+			if(storage[field] === undefined)
+				storage[field] = MongoClient.connect(`${process.env.MONGO_URL}/${db}`, settings)
 					.then(db => db.on("error", e => console.log("DB Error:", e)))
 					.catch(e => console.log("DB Connection Error", e) || !(delete storage[field]) || DBUtil.get_connection(field, db));
 			return storage[field];
@@ -43,7 +42,7 @@
 		}
 
 		static get_store (name) {
-			if(!stores.get(name))
+			if(stores.has(name) === false)
 				stores.set(name, LoadUtil.store(name));
 			return stores.get(name);
 		}
@@ -58,15 +57,15 @@
 				query.ns = { $regex: new RegExp("^" + process.env.MONGO_DB, "i") };
 			*/
 
-			if(properties.op)
-				query.op = properties.op.constructor.name == "String" ? properties.op : { $in: properties.op };
+			if(properties.op !== undefined)
+				query.op = properties.op.constructor.name === "String" ? properties.op : { $in: properties.op };
 
 			// generate key so you don't regen the same cursor twice
 			const index = JSON.stringify(query);
 			// add timestamp afterwards otherwise index would differ
 			query.ts = { $gt: timestamp };
 
-			if(!oplogs.get(index))
+			if(oplogs.has(index) === false)
 				oplogs.set(index, (async () => {
 					let oplog = await DBUtil.get_oplog();
 					let cursor = oplog
@@ -86,7 +85,7 @@
 		}
 
 		static to_id (id) {
-			return id.constructor.name == "String" ? new ObjectID(id) : id;
+			return id.constructor.name === "String" ? new ObjectID(id) : id;
 		}
 
 		static oplog ({ op, ns, ts = Timestamp(0, Date.now() / 1000 | 0), o, o2 } = {}) {
@@ -113,9 +112,9 @@
 	}
 
 	process.on("SIGINT", () => {
-		if(storage.db)
+		if(storage.db !== undefined)
 			storage.db.close();
-		if(storage.oplog)
+		if(storage.oplog !== undefined)
 			storage.oplog.close();
 	});
 

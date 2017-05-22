@@ -48,7 +48,7 @@
 				// get corp
 				this.enqueue_reference("Corporation", corporation_id);
 
-				if (alliance_id)
+				if (alliance_id !== undefined)
 					this.enqueue_reference("Alliance", alliance_id);
 
 				// get all corps from history

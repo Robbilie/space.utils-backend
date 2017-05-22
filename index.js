@@ -14,7 +14,7 @@
 	global.config = require("js-yaml").safeLoad(new Buffer(require("fs").readFileSync("/etc/secrets/config.yaml"), "base64"));
 
 	// setup sentry if dsn is set
-	if(config.sentry.dsn && config.sentry.dsn != "") {
+	if(config.sentry && config.sentry.dsn !== "") {
 
 		const Raven = require("raven");
 		Raven.config(config.sentry.dsn, { captureUnhandledRejections: true }).install();
@@ -32,7 +32,7 @@
 	app.init().catch(e => console.log(e));
 
 	// start a repl, probably not that useful anymore
-	if (process.env.REPL == "true") {
+	if (process.env.REPL === "true") {
 		const repl = require("repl");
 		const r = repl.start({
 			prompt: 'Node.js via stdin> ',

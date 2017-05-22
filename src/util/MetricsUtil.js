@@ -28,9 +28,9 @@
 		}
 
 		static get (key, type) {
-			if (!storage.reporter)
+			if (storage.reporter === undefined)
 				this.init();
-			if (!storage.metrics.has(key)) {
+			if (storage.metrics.has(key) === false) {
 				let t = new type();
 				storage.report.addMetric(key, t);
 				storage.metrics.set(key, t);
