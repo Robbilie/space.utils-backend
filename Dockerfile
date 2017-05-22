@@ -1,8 +1,7 @@
 FROM node:alpine
 
-RUN apk update && apk upgrade && apk add git
+#RUN apk update && apk upgrade && apk add git
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY ./package.json /usr/src/app/
