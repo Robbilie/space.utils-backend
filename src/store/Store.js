@@ -93,9 +93,9 @@
 			})());
 		}
 
-		static find (data = {}, options = {}, bare) {
+		static find (data = {}, options = {}, bare = false) {
 			return this.from_cursor(
-				bare ?
+				bare === true ?
 					c => c.find(data, options) :
 					c => this.aggregate(c, data, Object.entries(options).reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, []))
 			);
