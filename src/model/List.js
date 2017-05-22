@@ -13,7 +13,7 @@
 
 		get_future () {
 			if (this.list === undefined)
-				this.list = this.get_raw().then(data => data.map(doc => Store.from_data(doc, type)));
+				this.list = this.get_raw().then(data => data.map(doc => Store.from_data(doc, this.get_type())));
 			return this.list;
 		}
 
