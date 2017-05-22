@@ -136,7 +136,7 @@
 				{
 					sort: { "info.expires": 1, "info.modified": 1 },
 					returnOriginal: false,
-					maxTimeMS: 100
+					maxTimeMS: 20
 				}
 			);
 
