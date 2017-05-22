@@ -53,8 +53,6 @@
 				url: process.env.ESI_URL,
 				requestInterceptor: (req) => {
 					req.headers["User-Agent"] = process.env.UA;
-					if (req.method === "POST")
-						req.body = JSON.stringify(req.body);
 					return req;
 				},
 				http: async (obj) => {
