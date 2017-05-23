@@ -67,6 +67,8 @@
 						MetricsUtil.update("esi.elapsedTime", res.elapsedTime);
 						res.body = JSON.parse(res.body);
 
+						MetricsUtil.inc("esi.successful");
+
 						++storage.completed;
 						MetricsUtil.inc("esi.completed");
 
