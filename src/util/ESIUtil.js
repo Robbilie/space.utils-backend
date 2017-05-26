@@ -65,6 +65,10 @@
 							MetricsUtil.inc("esi.started");
 						let res = await request({ method, url, headers, body });
 						MetricsUtil.update("esi.elapsedTime", res.elapsedTime);
+
+						if (res.headers.age === undefined)
+							MetricsUtil.inc("esi.cacheMiss");
+
 						res.body = JSON.parse(res.body);
 
 						MetricsUtil.inc("esi.successful");
