@@ -2,12 +2,11 @@
 	"use strict";
 
 	const os = require("os");
-	const { Reporter, Report, Counter, Timer } = require("metrics-influxdb");
+	const { Reporter, Counter, Timer } = require("metrics-influxdb");
 
 	class Metrics {
 
 		constructor ({ host, hostname, app }) {
-			this.report = new Report();
 			this.fields = new Map();
 			this.host = host;
 			this.hostname = hostname;
