@@ -16,13 +16,6 @@
 
 		initialize () {
 			let reporter = new Reporter({ host: this.host, protocol: "udp", tags: { server: this.hostname, app: this.appname } });
-			reporter.on("log", (level, msg, exc) => {
-				if(exc) {
-					console.log(`${level} -- ${msg} (${exc})`);
-				} else {
-					console.log(`${level} -- ${msg}`);
-				}
-			});
 			reporter.start(10 * 1000);
 			this.reporter = reporter;
 			return this;
