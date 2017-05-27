@@ -15,7 +15,7 @@
 		time: true
 	});
 
-	const { RPSUtil, MetricsUtil } = require("util/");
+	const { RPSUtil, Metrics } = require("util/");
 
 	const storage = {
 		client: 		undefined,
@@ -62,27 +62,27 @@
 					try {
 						let { method, url, headers, body } = req;
 						if (EXTENDED_METRICS === true)
-							MetricsUtil.inc("esi.started");
+							Metrics.inc("esi.started");
 						let res = await request({ method, url, headers, body });
-						MetricsUtil.update("esi.elapsedTime", res.elapsedTime);
+						Metrics.update("esi.elapsedTime", res.elapsedTime);
 
 						if (res.headers.age === undefined)
-							MetricsUtil.inc("esi.cacheMiss");
+							Metrics.inc("esi.cacheMiss");
 
 						res.body = JSON.parse(res.body);
 
-						MetricsUtil.inc("esi.successful");
+						Metrics.inc("esi.successful");
 
 						++storage.completed;
-						MetricsUtil.inc("esi.completed");
+						Metrics.inc("esi.completed");
 
 						return res;
 					} catch (e) {
 						++storage.errors;
-						MetricsUtil.inc("esi.errors");
+						Metrics.inc("esi.errors");
 
 						++storage.completed;
-						MetricsUtil.inc("esi.completed");
+						Metrics.inc("esi.completed");
 
 						throw e;
 					}

@@ -3,8 +3,7 @@
 	const {
 		DBUtil,
 		LoadUtil,
-		RPSUtil,
-		MetricsUtil } = require("util/");
+		Metrics } = require("util/");
 	const { Task } 						= require("model/");
 	const { BaseTask } 					= require("task/");
 	const http 							= require("http");
@@ -18,9 +17,9 @@
 				setInterval(() => {
 					gc();
 					let { rss, heapTotal, heapUsed } = process.memoryUsage();
-					MetricsUtil.update("process.rss", rss);
-					MetricsUtil.update("process.heapTotal", heapTotal);
-					MetricsUtil.update("process.heapUsed", heapUsed);
+					Metrics.update("process.rss", rss);
+					Metrics.update("process.heapTotal", heapTotal);
+					Metrics.update("process.heapUsed", heapUsed);
 					if (rss > (175 * 1000000))
 						console.log("possible memory leak, these are running:", Object.entries(this.running_task_ids));
 				}, 1000 * 10);
@@ -157,7 +156,7 @@
 			tss.push(Date.now());
 
 			if (this.EXTENDED_METRICS === true)
-				MetricsUtil.inc("tasks.started");
+				Metrics.inc("tasks.started");
 
 			this.running_task_ids[_id.toString()] = Date.now();
 
@@ -177,9 +176,9 @@
 				this.completed++;
 				let duration = process.hrtime(start);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
-				MetricsUtil.update("tasks.duration", duration);
+				Metrics.update("tasks.duration", duration);
 				if (this.EXTENDED_METRICS === true)
-					MetricsUtil.update(`tasks.type.${name}`, duration);
+					Metrics.update(`tasks.type.${name}`, duration);
 
 				tss.push(Date.now());
 
@@ -188,7 +187,7 @@
 				await WorkerApp.get_tasks().update({ _id }, { $set: { "info.modified": Date.now() } });
 
 				this.errors++;
-				MetricsUtil.inc("tasks.errors");
+				Metrics.inc("tasks.errors");
 				let error = e.error;
 				if (e.name === "StatusCodeError")
 					console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));

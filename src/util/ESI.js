@@ -14,7 +14,7 @@
 		time: true
 	});
 
-	const { MetricsUtil } = require("util/");
+	const { Metrics } = require("util/");
 
 	const config = {
 		url: process.env.ESI_URL,
@@ -48,24 +48,24 @@
 					let { method, url, headers, body } = req;
 
 					if (EXTENDED_METRICS === true)
-						MetricsUtil.inc("esi.started");
+						Metrics.inc("esi.started");
 
 					let res = await request({ method, url, headers, body });
 
-					MetricsUtil.update("esi.elapsedTime", res.elapsedTime);
+					Metrics.update("esi.elapsedTime", res.elapsedTime);
 
 					if (res.headers.age === undefined)
-						MetricsUtil.inc("esi.cacheMiss");
+						Metrics.inc("esi.cacheMiss");
 
 					res.body = JSON.parse(res.body);
 
-					MetricsUtil.inc("esi.successful");
-					MetricsUtil.inc("esi.completed");
+					Metrics.inc("esi.successful");
+					Metrics.inc("esi.completed");
 
 					return res;
 				} catch (e) {
-					MetricsUtil.inc("esi.errors");
-					MetricsUtil.inc("esi.completed");
+					Metrics.inc("esi.errors");
+					Metrics.inc("esi.completed");
 
 					throw e;
 				}
