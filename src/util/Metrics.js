@@ -14,7 +14,7 @@
 		}
 
 		initialize () {
-			let reporter = new Reporter({ host: this.host, protocol: "udp", tags: { server: this.hostname, app: this.appname } });
+			let reporter = new Reporter({ host: this.host, /*protocol: "udp",*/ username: "root", password: "root", database: "eas-kubes", tags: { server: this.hostname, app: this.appname } });
 			reporter.start(10 * 1000);
 			this.reporter = reporter;
 			return this;
