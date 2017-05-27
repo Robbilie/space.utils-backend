@@ -142,7 +142,7 @@
 			tss.push(Date.now());
 
 			let atomic_duration = process.hrtime(atomic_start);
-			MetricsUtil.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
+			Metrics.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
 			tss.push(Date.now());
 
@@ -200,7 +200,7 @@
 
 			}
 
-			MetricsUtil.inc("tasks.completed");
+			Metrics.inc("tasks.completed");
 
 			delete this.running_task_ids[_id.toString()];
 
