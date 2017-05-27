@@ -2,19 +2,20 @@
 	"use strict";
 
 	const os = require("os");
-	const { GraphiteReporter, Report, Counter, Timer } = require("metrics");
+	const { Reporter, Report, Counter, Timer } = require("metrics-influxdb");
 
 	class Metrics {
 
-		constructor ({ host, hostname }) {
+		constructor ({ host, hostname, app }) {
 			this.report = new Report();
 			this.fields = new Map();
 			this.host = host;
 			this.hostname = hostname;
+			this.app = app;
 		}
 
 		initialize () {
-			let reporter = new GraphiteReporter(this.report, `eas-kubes.pods.${this.hostname}`, this.host);
+			let reporter = new Reporter({ host: this.host, protocol: "udp", tags: { server: this.hostname, app: this.appname } });
 			reporter.on("log", (level, msg, exc) => {
 				if(exc) {
 					console.log(`${level} -- ${msg} (${exc})`);
@@ -30,7 +31,7 @@
 		get (key, type) {
 			if (this.fields.has(key) === false) {
 				let t = new type();
-				this.report.addMetric(key, t);
+				this.reporter.addMetric(key, t);
 				this.fields.set(key, t);
 			}
 			return this.fields.get(key);
@@ -46,4 +47,4 @@
 
 	}
 
-	module.exports = new Metrics({ host: process.env.GRAPHITE_HOST, hostname: os.hostname() }).initialize();
+	module.exports = new Metrics({ host: process.env.INFLUXDB_HOST, hostname: os.hostname(), app: process.env.APP_NAME }).initialize();
