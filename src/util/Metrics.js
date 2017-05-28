@@ -14,8 +14,16 @@
 		}
 
 		initialize () {
-			let reporter = new Reporter({ host: this.host, protocol: "http", username: "root", password: "root", database: "k8s", precision: "ms", tags: { server: this.hostname, app: this.app } });
-			reporter.start(10 * 1000);
+			let reporter = new Reporter({
+				host: this.host,
+				protocol: "http",
+				username: "root",
+				password: "root",
+				database: "k8s",
+				precision: "ms",
+				tags: { server: this.hostname, app: this.app }
+			});
+			reporter.start(10 * 1000, true);
 			this.reporter = reporter;
 			return this;
 		}
