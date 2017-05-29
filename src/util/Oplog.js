@@ -32,7 +32,8 @@
 
 			if(this.oplogs.has(index) === false) {
 				this.oplogs.set(index, (async (i, q) => {
-					let cursor = (await DB.oplog.find(q))
+					let cursor = (await DB.oplog)
+						.find(q)
 						.batchSize(10000)
 						.addCursorFlag('tailable', true)
 						.addCursorFlag('awaitData', true);
