@@ -78,7 +78,7 @@
 
 		next () {
 			this.process_next()
-				.catch(e => console.log("shouldn't happen", e.toString() === "MongoError: operation exceeded time limit" ? "time limit" : e) || true)
+				.catch(e => (e.toString() === "MongoError: operation exceeded time limit" ? null : console.log("shouldn't happen", e)) || true)
 				.then(should_wait => should_wait ? Promise.resolve().wait(5 * 1000) : Promise.resolve())
 				.then(() => process.nextTick(() => this.next()));
 		}
