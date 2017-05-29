@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI } = require("util/");
+	const { DB, ESI } = require("util/");
 	const { CharacterStore, TaskStore } = require("store/");
 
 	class CharacterAffiliationTask extends BaseTask {
@@ -19,14 +19,6 @@
 					.map(char => char.get_future())
 			]);
 
-			/*
-			await Promise.all(character_affiliations
-				.map(affiliation => [affiliation, characters.find(character => character.id === affiliation.character_id) || {}])
-				.filter(([{ corporation_id, alliance_id }, old]) => corporation_id !== old.corporation_id || alliance_id !== old.alliance_id)
-				.map(([{ character_id }]) => TaskStore.update({ "data.character_id": character_id, "info.name": "Character" }, { $set: { "info.expires": Date.now() } }))
-			);
-			*/
-
 			let ids = character_affiliations
 				.map(affiliation => [affiliation, characters.find(character => character.id === affiliation.character_id) || {}])
 				.filter(([{ corporation_id, alliance_id }, old]) => corporation_id !== old.corporation_id || alliance_id !== old.alliance_id)
@@ -34,8 +26,7 @@
 
 			if (ids.length !== 0) {
 				let now = Date.now();
-				let collection = await TaskStore.get_collection();
-				await collection.updateMany({ "data.character_id": { $in: ids }, "info.name": "Character" }, { $set: { "info.expires": now } });
+				await DB.tasks.updateMany({ "data.character_id": { $in: ids }, "info.name": "Character" }, { $set: { "info.expires": now } });
 			}
 
 			await this.update({ expires: Date.now() + (1000 * 60 * 15) });
@@ -47,7 +38,7 @@
 		}
 
 		static queue_ids (ids = []) {
-			return BaseTask.get_tasks().update(
+			return DB.tasks.updateOne(
 				{ "info.name": "CharacterAffiliation", "info.count": { $lt: 1000 + 1 - ids.length } },
 				{
 					$setOnInsert: {

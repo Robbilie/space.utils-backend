@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { DBUtil } = require("util/");
+	const { LoadUtil } = require("util/");
 	const { Store } = require("store/");
 
 	class Base {
@@ -20,7 +20,7 @@
 		}
 
 		static get_store () {
-			return DBUtil.get_store(this.name);
+			return LoadUtil.store(this.name);
 		}
 
 		valueOf () {
@@ -37,6 +37,7 @@
 
 		async serialize (depth = 1) {
 			return await this.get_raw();
+			/*
 			const data = await this.get_future();
 			if (!data)
 				return data;
@@ -72,6 +73,7 @@
 				(p, c) => { if(!!c) p[c[0]] = c[1]; return p; },
 				data.constructor.name == "Object" ? {} : []
 			);
+			*/
 		}
 
 	}

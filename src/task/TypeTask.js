@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { BaseTask } 				= require("task/");
-	const { ESI } 				= require("util/");
+	const { BaseTask } = require("task/");
+	const { DB, ESI } = require("util/");
 
 	class TypeTask extends BaseTask {
 
@@ -15,7 +15,11 @@
 				type_id: 	undefined
 			});
 
-			await this.get_store().insert(type);
+			await DB.types.replaceOne(
+				{ id: type.id },
+				type,
+				{ upsert: true }
+			);
 
 			await this.destroy();
 

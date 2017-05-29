@@ -1,20 +1,17 @@
 	"use strict";
 
-	const { DBUtil, LoadUtil } 		= require("util/");
+	const { DB, LoadUtil } = require("util/");
 
 	class Store {
 
 		static from_cursor (param) {
 			return this.from_promise(
-				(async () => {
-					let cursor;
+				(() => {
 					if(param.constructor.name === "Cursor") {
-						cursor = param;
+						return param.toArray();
 					} else {
-						let collection = await this.get_collection();
-						cursor = param(collection);
+						return param(this.get_collection()).toArray();
 					}
-					return await cursor.toArray();
 				})(),
 				this.get_list()
 			);
@@ -43,26 +40,12 @@
 			return LoadUtil.model(`${this.get_name()}List`);
 		}
 
-		static get_collection () {
-			return DBUtil.get_collection(this.get_name().toLowerCase().pluralize());
+		static collection () {
+			return DB[this.get_name().toLowerCase().pluralize()];
 		}
 
 		static get_name () {
 			return this.name.slice(0, -5);
-		}
-
-		static get_updates (options, last_ts) {
-			return DBUtil.get_oplog_cursor(Object.assign(options, { ns: this.get_name().toLowerCase().pluralize() }), last_ts);
-		}
-
-		static get_continuous_updates (options, last_ts, fn) {
-			const local_storage = { last_ts };
-			this.get_updates(options, local_storage.last_ts).then(updates => {
-				updates.forEach(
-					log => !(local_storage.last_ts = log.ts) || fn(log),
-					error => console.log(error, "restarting", JSON.stringify(options), "cursor…") || this.get_continuous_updates(options, local_storage.last_ts, fn)
-				)
-			});
 		}
 
 		static get_pk () {
@@ -79,7 +62,7 @@
 
 		static findOne (data = {}, options = {}, bare = true) {
 			return this.from_promise((async () => {
-				let collection = await this.get_collection();
+				let collection = this.collection();
 				if(bare === true) {
 					return await collection.findOne(data, options);
 				} else {
@@ -101,16 +84,14 @@
 			);
 		}
 
-		static check_list ($in, field = "id") {
-			return this.get_collection()
-				.then(collection => collection
-					.aggregate([
-						{ $match: { [field]: { $in } } },
-						{ $group: { _id: "ids", ids: { $push: "$" + field } } }
-					])
-					.toArray()
-				)
-				.then(({ ids }) => ids);
+		static async check_list ($in, field = "id") {
+			let results = await this.collection()
+				.aggregate([
+					{ $match: { [field]: { $in } } },
+					{ $group: { _id: "ids", ids: { $push: "$" + field } } }
+				])
+				.toArray();
+			return results.map(({ ids }) => ids);
 		}
 
 		static all () {
@@ -132,17 +113,15 @@
 		}
 
 		static update (where, data, options, oplog = false) {
-			if (this.check_data(data) === undefined) {
-				return Promise.reject("Data is missing fields, use ignore to bypass.");
-			} else {
-				if (oplog === true)
-					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: data, o2: where }));
-				return this.get_collection().then(collection => collection.updateOne(where, data, options));
-			}
+			if (this.check_data(data) === undefined)
+				throw ("Data is missing fields, use ignore to bypass.");
+			if (oplog === true)
+				setImmediate(() => Oplog.update(this.get_name().toLowerCase().pluralize(), where, data));
+			return this.collection().updateOne(where, data, options);
 		}
 
 		static replace (...args) {
-			return this.get_collection().then(collection => collection.replaceOne(...args));
+			return this.collection().replaceOne(...args);
 		}
 
 		static modify_model (model, data, options, ignore) {
@@ -153,13 +132,11 @@
 		}
 
 		static modify (where, data, options, oplog = false) {
-			if (this.check_data(data) === undefined) {
-				return Promise.reject("Data is missing fields, use ignore to bypass.");
-			} else {
-				if (oplog === true)
-					setImmediate(() => DBUtil.oplog({ op: "u", ns: this.get_name().toLowerCase().pluralize(), o: data, o2: where }));
-				return this.get_collection().then(collection => collection.findOneAndUpdate(where, data, options));
-			}
+			if (this.check_data(data) === undefined)
+				throw ("Data is missing fields, use ignore to bypass.");
+			if (oplog === true)
+				setImmediate(() => Oplog.update(this.get_name().toLowerCase().pluralize(), where, data));
+			return this.collection().findOneAndUpdate(where, data, options);
 		}
 
 		static insert_model (model, options, ignore) {
@@ -169,8 +146,8 @@
 
 		static insert (data, options, oplog = false) {
 			if (oplog === true)
-				setImmediate(() => DBUtil.oplog({ op: "i", ns: this.get_name().toLowerCase().pluralize(), o: data }));
-			return this.get_collection().then(collection => collection.insertOne(data, options));
+				setImmediate(() => Oplog.insert(this.get_name().toLowerCase().pluralize(), data));
+			return this.collection().insertOne(data, options);
 		}
 
 		static destroy_model (model) {
@@ -179,8 +156,8 @@
 
 		static destroy (where, oplog = false) {
 			if (oplog === true)
-				setImmediate(() => DBUtil.oplog({ op: "d", ns: this.get_name().toLowerCase().pluralize(), o: where }));
-			return this.get_collection().then(collection => collection.remove(where));
+				setImmediate(() => Oplog.destroy(this.get_name().toLowerCase().pluralize(), where));
+			return this.collection().remove(where);
 		}
 
 		static check_data (data) {

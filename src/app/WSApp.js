@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { Server } 				= require("ws");
-	const { DBUtil } 				= require("util/");
+	const { Oplog } 				= require("util/");
 
 	class WSApp {
 
@@ -22,7 +22,7 @@
 						const msg = JSON.parse(message);
 						switch (msg.type) {
 							case "stream":
-								DBUtil
+								Oplog
 									.get_oplog_cursor({ ns: msg.data.name, op: "i" })
 									.then(cursor => {
 										let stream = cursor.stream()

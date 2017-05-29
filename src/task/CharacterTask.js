@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask, CharacterAffiliationTask } = require("task/");
-	const { ESI, Hash } = require("util/");
+	const { DB, ESI, Hash } = require("util/");
 	const { CharacterStore } = require("store/");
 
 	class CharacterTask extends BaseTask {
@@ -34,7 +34,7 @@
 
 			if (hash !== this.get_info().hash) {
 
-				await this.get_store().replace(
+				await DB.characters.replaceOne(
 					{ id: character.id },
 					character,
 					{ upsert: true }

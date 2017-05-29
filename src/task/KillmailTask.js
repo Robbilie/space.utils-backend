@@ -1,8 +1,8 @@
 
 	"use strict";
 
-	const { BaseTask } 				= require("task/");
-	const { ESI } 				= require("util/");
+	const { BaseTask } = require("task/");
+	const { DB, ESI } = require("util/");
 
 	class KillmailTask extends BaseTask {
 
@@ -21,9 +21,9 @@
 
 			//await this.get_store().insert(killmail);
 
-			await this.get_store().update(
+			await DB.killmails.replaceOne(
 				{ id: this.get_data().killmail_id },
-				{ $set: killmail },
+				killmail,
 				{ upsert: true }
 			);
 

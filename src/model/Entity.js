@@ -1,7 +1,6 @@
 
 	"use strict";
 
-	const { DBUtil } 	= require("util/");
 	const { Base } 		= require("model/");
 	
 	class Entity extends Base {

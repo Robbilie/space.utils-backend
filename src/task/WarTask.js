@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI, Hash } = require("util/");
+	const { DB, ESI, Hash } = require("util/");
 	const { KillmailStore } = require("store/");
 
 	class WarTask extends BaseTask {
@@ -28,9 +28,9 @@
 
 				console.log("updateing war", this.get_data().war_id);
 
-				await this.get_store().update(
+				await DB.wars.replaceOne(
 					{ id: this.get_data().war_id },
-					{ $set: war },
+					war,
 					{ upsert: true }
 				);
 

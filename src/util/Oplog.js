@@ -47,6 +47,18 @@
 			DB.oplog.insertOne({ op, ns, ts, o: op === "u" ? this.strip(o) : o, o2: op === "u" ? this.strip(o2) : o2 });
 		}
 
+		insert (ns, o, ts) {
+			return this.log({ op: "i", ns, o, ts });
+		}
+
+		update (ns, o2, o, ts) {
+			return this.log({ op: "u", ns, o, o2, ts });
+		}
+
+		destroy (ns, o, ts) {
+			return this.log({ op: "d", ns, o, ts });
+		}
+
 		strip (obj) {
 			switch (!obj || !obj.constructor || obj.constructor.name) {
 				case "Object":

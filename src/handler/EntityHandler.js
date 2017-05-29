@@ -10,9 +10,7 @@
 			console.log("get filter", this.name);
 			res.json({ items: await LoadUtil
 				.store(`${this.name.slice(0, -7)}`)
-				//.from_cursor(c => c
-					.find(InputUtil.sanitize(filter), InputUtil.limit(options))
-				//)
+				.find(InputUtil.sanitize(filter), InputUtil.limit(options))
 				.get_raw() });
 		}
 

@@ -41,12 +41,6 @@
 			return DBUtil.get_db().then(db => db.collection(name));
 		}
 
-		static get_store (name) {
-			if(stores.has(name) === false)
-				stores.set(name, LoadUtil.store(name));
-			return stores.get(name);
-		}
-
 		static get_oplog_cursor (properties = {}, timestamp = Timestamp(0, Date.now() / 1000 | 0)) {
 			const query = properties;
 

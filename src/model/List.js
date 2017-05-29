@@ -35,8 +35,10 @@
 
 		async serialize (depth = 2) {
 			return await this.get_raw();
+			/*
 			let data = await this.get_future();
 			return Promise.all(data.map(element => element.serialize(depth - 1)));
+			*/
 		}
 
 	}

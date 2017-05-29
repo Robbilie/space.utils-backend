@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { DBUtil } = require("util/");
+	const { DB } = require("util/");
 	const { ObjectID } = require("mongodb");
 
 	const storage = {
@@ -45,35 +45,29 @@
 			return this.info.name;
 		}
 
-		static get_tasks () {
-			return DBUtil.get_store("Task");
-		}
-
-		get_collection () {
-			return DBUtil.get_collection(this.get_name().toLowerCase().pluralize());
-		}
-
-		get_store () {
-			return DBUtil.get_store(this.get_name());
-		}
-
-		update ({ state = 0, expires, modified, page, hash } = {}, oplog = true) {
+		async update ({ state = 0, expires, modified, page, hash } = {}, oplog = true) {
 			let info = Object.assign({ state, page }, expires ? { expires } : {}, modified ? { modified } : {}, hash ? { hash } : {});
 			this.set_info(info);
-			return BaseTask.get_tasks().update(
-				{ _id: this.get__id() },
-				{ $set: Object.entries(info).filter(([name, value]) => value != undefined && value != null).reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) },
-				{},
-				oplog
-			);
+
+			let where = { _id: this.get__id() };
+			let data = { $set: Object
+				.entries(info)
+				.filter(([name, value]) => value !== undefined && value !== null)
+				.reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) };
+
+			await DB.tasks.updateOne(where, data);
+			if (oplog === true)
+				await Oplog.update("tasks", where, data);
 		}
 
 		tick (options = {}) {
 			return this.update(Object.assign({ state: 1, modified: Date.now() }, options), false);
 		}
 		
-		destroy (oplog = true) {
-			return BaseTask.get_tasks().destroy({ _id: this.get__id() }, oplog);
+		async destroy (oplog = true) {
+			await DB.tasks.remove({ _id: this.get__id() });
+			if (oplog === true)
+				await Oplog.destroy("tasks", { _id: this.get__id() });
 		}
 
 		static create (data = {}, faf = false) {
@@ -88,7 +82,7 @@
 				if (faf === false)
 					storage.tasks.set(_id.toString(), resolve);
 
-				let response = await BaseTask.get_tasks().update(
+				let response = await DB.tasks.updateOne(
 					Object.assign(
 						{ "info.name": name },
 						Object.entries(data).reduce((p, [name, value]) => { p[`data.${name}`] = value; return p; }, {})
@@ -121,7 +115,7 @@
 		}
 
 		static watch () {
-			this.get_tasks().get_continuous_updates({}, undefined, async ({ op, o, o2 }) => {
+			Oplog.updates({ ns: "tasks" }, undefined, async ({ op, o, o2 }) => {
 				// giant BLA BLA BLA of finding the _id to call from the map
 				//console.log(JSON.stringify({ op, o, o2 }));
 				if (storage.tasks.size === 0)
@@ -136,8 +130,7 @@
 							tid = o2._id.toString();
 						} else {
 							console.log("DB TASK _ID SHOULD NOT HAPPEN");
-							let collection = await this.get_tasks().get_collection();
-							let task = await collection.findOne({ _id: o2._id });
+							let task = await DB.tasks.findOne({ _id: o2._id });
 							if (task && task.info.state === 0)
 								tid = o2._id.toString();
 						}

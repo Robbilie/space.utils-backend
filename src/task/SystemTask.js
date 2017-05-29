@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI } = require("util/");
+	const { DB, ESI } = require("util/");
 
 	class SystemTask extends BaseTask {
 
@@ -15,7 +15,11 @@
 				system_id: 		undefined
 			});
 
-			await this.get_store().insert(system);
+			await DB.systems.replaceOne(
+				{ id: system.id },
+				system,
+				{ upsert: true }
+			);
 
 			await this.destroy();
 

@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI, Hash } = require("util/");
+	const { DB, ESI, Hash } = require("util/");
 	const { CorporationStore } = require("store/");
 
 	class CorporationTask extends BaseTask {
@@ -43,7 +43,7 @@
 
 			if (hash !== this.get_info().hash) {
 
-				await this.get_store().replace(
+				await DB.corporations.replaceOne(
 					{ id: corporation.id },
 					corporation,
 					{ upsert: true }

@@ -1,7 +1,8 @@
 
 	"use strict";
 
-	const { Base } 		= require("model/");
+	const { Base } = require("model/");
+	const { LoadUtil } = require("util/");
 
 	class PatchUtil {
 
@@ -15,7 +16,7 @@
 					console.log("missing type", model.name, property);
 
 				if(type.prototype instanceof Base) {
-					const store = type.get_store();
+					const store = LoadUtil.store(type.name);
 					Object.defineProperty(model.prototype, property, {
 						value: async function () {
 							let data = this.get_future();
