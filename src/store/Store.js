@@ -1,6 +1,6 @@
 	"use strict";
 
-	const { DB, LoadUtil } = require("util/");
+	const { DB, Oplog, LoadUtil } = require("util/");
 
 	class Store {
 

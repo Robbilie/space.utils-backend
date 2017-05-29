@@ -1,7 +1,7 @@
 
 	"use strict";
 
-	const { DB } = require("util/");
+	const { DB, Oplog } = require("util/");
 	const { ObjectID } = require("mongodb");
 
 	const storage = {
