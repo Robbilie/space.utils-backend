@@ -1,16 +1,14 @@
 
 	"use strict";
 
-	const { BaseTask } 				= require("task/");
-	const { ESIUtil } 				= require("util/");
+	const { BaseTask } = require("task/");
+	const { ESI } = require("util/");
 
 	class SystemTask extends BaseTask {
 
 		async start () {
 
-			let client = await ESIUtil.get_client();
-
-			let { body: system } = await client.apis.Universe.get_universe_systems_system_id(this.get_data());
+			let { body: system } = await ESI.Universe.get_universe_systems_system_id(this.get_data());
 
 			system = Object.assign(system, {
 				id: 			system.system_id,

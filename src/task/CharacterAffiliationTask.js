@@ -2,17 +2,15 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESIUtil } = require("util/");
+	const { ESI } = require("util/");
 	const { CharacterStore, TaskStore } = require("store/");
 
 	class CharacterAffiliationTask extends BaseTask {
 
 		async start () {
 
-			let client = await ESIUtil.get_client();
-
 			const [{ body: character_affiliations, headers }, characters] = await Promise.all([
-				client.apis.Character.post_characters_affiliation(this.get_data()),
+				ESI.Character.post_characters_affiliation(this.get_data()),
 				CharacterStore
 					.from_cursor(c => c
 						.find({ id: { $in: this.get_data().characters } })

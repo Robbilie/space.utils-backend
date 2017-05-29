@@ -2,16 +2,14 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESIUtil } = require("util/");
+	const { ESI } = require("util/");
 	const { AllianceStore } = require("store/");
 
 	class AlliancesTask extends BaseTask {
 
 		async start () {
 
-			let client = await ESIUtil.get_client();
-
-			const { body: alliances, headers } = await client.apis.Alliance.get_alliances();
+			const { body: alliances, headers } = await ESI.Alliance.get_alliances();
 
 			const alliance_ids = await AllianceStore.from_cursor(c => c.find({ id: { $in: alliances } }).project({ id: 1 })).map(alliance => alliance.get_id());
 

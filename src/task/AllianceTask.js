@@ -2,18 +2,16 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESIUtil } = require("util/");
+	const { ESI } = require("util/");
 	const { CorporationStore } = require("store/");
 
 	class AllianceTask extends BaseTask {
 
 		async start () {
 
-			const client = await ESIUtil.get_client();
-
 			let [{ body: alliance, headers }, { body: corporation_ids }] = await Promise.all([
-				client.apis.Alliance.get_alliances_alliance_id(this.get_data()),
-				client.apis.Alliance.get_alliances_alliance_id_corporations(this.get_data())
+				ESI.Alliance.get_alliances_alliance_id(this.get_data()),
+				ESI.Alliance.get_alliances_alliance_id_corporations(this.get_data())
 			]);
 
 			alliance = Object.assign(alliance, {

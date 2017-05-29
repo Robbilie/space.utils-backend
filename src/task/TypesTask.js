@@ -2,21 +2,21 @@
 	"use strict";
 
 	const { BaseTask } 	= require("task/");
-	const { ESIUtil } 	= require("util/");
+	const { ESI } = require("util/");
 	const { TypeStore } = require("store/");
 
 	class TypesTask extends BaseTask {
 
 		async start () {
-			await this.get_pages(await ESIUtil.get_client());
+			await this.get_pages();
 			await this.update({ expires: Date.now() + (60 * 60 * 1000) });
 		}
 
-		async get_pages (client, page = 1) {
+		async get_pages (page = 1) {
 			const s = { length: 0 };
 
 			{
-				const { body: types } = await client.apis.Universe.get_universe_types({ page });
+				const { body: types } = await ESI.Universe.get_universe_types({ page });
 				s.length = types.length;
 
 				const ids = await TypeStore
@@ -31,7 +31,7 @@
 			}
 
 			if (s.length === 1000)
-				return await this.get_pages(client, page + 1);
+				return await this.get_pages(page + 1);
 			else
 				return true;
 		}

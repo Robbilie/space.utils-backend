@@ -2,16 +2,14 @@
 	"use strict";
 
 	const { BaseTask } 		= require("task/");
-	const { ESIUtil } 		= require("util/");
+	const { ESI } 		= require("util/");
 	const { FactionStore } 	= require("store/");
 
 	class FactionsTask extends BaseTask {
 
 		async start () {
 
-			let client = await ESIUtil.get_client();
-
-			let { body: factions, headers } = await client.apis.Universe.get_universe_factions();
+			let { body: factions, headers } = await ESI.Universe.get_universe_factions();
 
 			await Promise.all(factions
 				.map(faction => Object.assign({}, faction, { id: faction.faction_id, faction_id: undefined }))

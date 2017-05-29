@@ -1,17 +1,15 @@
 
 	"use strict";
 
-	const { BaseTask } 		= require("task/");
-	const { ESIUtil } 		= require("util/");
+	const { BaseTask } = require("task/");
+	const { ESI } = require("util/");
 	const { KillmailStore } = require("store/");
 
 	class WarTask extends BaseTask {
 
 		async start () {
 
-			let client = await ESIUtil.get_client();
-
-			let { body: war, headers } = await client.apis.Wars.get_wars_war_id(this.get_data());
+			let { body: war, headers } = await ESI.Wars.get_wars_war_id(this.get_data());
 
 				if(war.declared)
 					war.declared = new Date(war.declared).getTime();
@@ -58,7 +56,7 @@
 
 			console.log("getting killmails for war", this.get_data().war_id);
 
-			await this.get_killmail_pages(client, this.get_info().page, true);
+			await this.get_killmail_pages(this.get_info().page, true);
 
 			await this.update({
 				expires: (finished && finished < Date.now()) ? Number.MAX_SAFE_INTEGER : new Date(headers.expires).getTime(),
@@ -67,7 +65,7 @@
 
 		}
 
-		async get_killmail_pages (client, page = 1, start = false) {
+		async get_killmail_pages (page = 1, start = false) {
 			const s = { length: 0 };
 
 			console.log("killmail page war", this.get_data().war_id, page);
@@ -77,7 +75,7 @@
 				if (start === false)
 					await this.tick({ page });
 
-				const { body: killmails } = await client.apis.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
+				const { body: killmails } = await ESI.Wars.get_wars_war_id_killmails({ war_id: this.get_data().war_id, page });
 				s.length = killmails.length;
 
 				console.log("war", this.get_data().war_id, killmails);
@@ -98,7 +96,7 @@
 			}
 
 			if (s.length === 2000)
-				return await this.get_killmail_pages(client, page + 1);
+				return await this.get_killmail_pages(page + 1);
 			else
 				return true;
 		}

@@ -2,14 +2,13 @@
 	"use strict";
 
 	const { BaseTask } 	= require("task/");
-	const { ESIUtil } 	= require("util/");
+	const { ESI } 	= require("util/");
 	const { SystemStore } = require("store/");
 
 	class SystemsTask extends BaseTask {
 
 		async start () {
-			let client = await ESIUtil.get_client();
-			const { body: systems } = await client.apis.Universe.get_universe_systems();
+			const { body: systems } = await ESI.Universe.get_universe_systems();
 
 			const ids = await SystemStore
 				.from_cursor(c => c.find({ id: { $in: systems } }).project({ id: 1 }))

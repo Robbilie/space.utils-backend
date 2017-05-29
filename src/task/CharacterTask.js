@@ -2,17 +2,15 @@
 	"use strict";
 
 	const { BaseTask, CharacterAffiliationTask } = require("task/");
-	const { ESIUtil } = require("util/");
+	const { ESI } = require("util/");
 	const { CharacterStore } = require("store/");
 
 	class CharacterTask extends BaseTask {
 
 		async start () {
 
-			const client = await ESIUtil.get_client();
-
 			let [{ body: character }, old_character] = await Promise.all([
-				client.apis.Character.get_characters_character_id(this.get_data()),
+				ESI.Character.get_characters_character_id(this.get_data()),
 				CharacterStore.find_by_id(this.get_data().character_id).get_future()
 			]);
 
@@ -20,7 +18,7 @@
 			if (old_character && old_character.corporation_history && old_character.corporation_id === character.corporation_id) {
 				corporation_history = old_character.corporation_history;
 			} else {
-				let { body: history } = await client.apis.Character.get_characters_character_id_corporationhistory(this.get_data());
+				let { body: history } = await ESI.Character.get_characters_character_id_corporationhistory(this.get_data());
 				corporation_history = history.map(entry => Object.assign(entry, { start_date: new Date(entry.start_date).getTime() }));
 			}
 
