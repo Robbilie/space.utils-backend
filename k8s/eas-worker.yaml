@@ -6,7 +6,7 @@ metadata:
     app: eas-worker
   name: eas-worker-dep
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: eas-worker
@@ -59,7 +59,7 @@ spec:
         - name: UV_THREADPOOL_SIZE
           value: "128"
         - name: PARALLEL_TASK_LIMIT
-          value: "20"
+          value: "50"
         - name: TASK_TIMEOUT_SECONDS
           value: "300"
         - name: REFERENCE_QUEUE_MAX
