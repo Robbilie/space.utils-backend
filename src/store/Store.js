@@ -6,11 +6,11 @@
 
 		static from_cursor (param) {
 			return this.from_promise(
-				(() => {
+				(async () => {
 					if(param.constructor.name === "Cursor") {
 						return param.toArray();
 					} else {
-						return param(this.collection()).toArray();
+						return param(await this.collection()).toArray();
 					}
 				})(),
 				this.get_list()
@@ -85,7 +85,8 @@
 		}
 
 		static async check_list ($in, field = "id") {
-			let results = await this.collection()
+			let collection = await this.collection();
+			let results = collection
 				.aggregate([
 					{ $match: { [field]: { $in } } },
 					{ $group: { _id: "ids", ids: { $push: "$" + field } } }

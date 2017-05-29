@@ -19,8 +19,12 @@
 		return MongoClient.connect(`${url}/${db}`, settings)
 	}
 
-	module.exports = ((dbPromise) => new Proxy({}, {
-		get: (_, collectionName) => new Proxy({}, {
-			get: (_, methodName) => (...args) => dbPromise.then(db => db.collection(collectionName)[methodName](...args))
-		})
+	module.exports = ((promise) => new Proxy(promise, {
+		get: (dbPromise, collectionName) => collectionName === "then" ?
+			cb => dbPromise.then(cb) :
+			new Proxy(dbPromise.then(db => db.collection(collectionName)), {
+				get: (collectionPromise, methodName) => methodName === "then" ?
+					cb => collectionPromise.then(cb) :
+					(...args) => collectionPromise.then(collection => collection[methodName](...args))
+			})
 	}))(get_db(config));
