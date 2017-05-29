@@ -62,9 +62,9 @@
 
 		static findOne (data = {}, options = {}, bare = true) {
 			return this.from_promise((async () => {
-				let collection = this.collection();
+				let collection = await this.collection();
 				if(bare === true) {
-					return await collection.findOne(data, options);
+					return collection.findOne(data, options);
 				} else {
 					return (await this
 						.aggregate(collection, data, Object
