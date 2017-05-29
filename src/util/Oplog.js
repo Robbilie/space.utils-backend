@@ -32,7 +32,8 @@
 
 			if(this.oplogs.has(index) === false) {
 				this.oplogs.set(index, (async (i, q) => {
-					let cursor = (await DB.oplog)
+					let cursor = await DB
+						.collection("oplog")
 						.find(q)
 						.batchSize(10000)
 						.addCursorFlag('tailable', true)
@@ -45,7 +46,7 @@
 		}
 
 		log ({ op, ns, ts = Timestamp(0, Date.now() / 1000 | 0), o, o2 } = {}) {
-			DB.oplog.insertOne({ op, ns, ts, o: op === "u" ? this.strip(o) : o, o2: op === "u" ? this.strip(o2) : o2 });
+			DB.collection("oplog").insertOne({ op, ns, ts, o: op === "u" ? this.strip(o) : o, o2: op === "u" ? this.strip(o2) : o2 });
 		}
 
 		insert (ns, o, ts) {

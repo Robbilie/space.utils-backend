@@ -55,7 +55,7 @@
 				.filter(([name, value]) => value !== undefined && value !== null)
 				.reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) };
 
-			await DB.tasks.updateOne(where, data);
+			await DB.collection("tasks").updateOne(where, data);
 			if (oplog === true)
 				await Oplog.update("tasks", where, data);
 		}
@@ -65,7 +65,7 @@
 		}
 		
 		async destroy (oplog = true) {
-			await DB.tasks.remove({ _id: this.get__id() });
+			await DB.collection("tasks").remove({ _id: this.get__id() });
 			if (oplog === true)
 				await Oplog.destroy("tasks", { _id: this.get__id() });
 		}
@@ -82,7 +82,7 @@
 				if (faf === false)
 					storage.tasks.set(_id.toString(), resolve);
 
-				let response = await DB.tasks.updateOne(
+				let response = await DB.collection("tasks").updateOne(
 					Object.assign(
 						{ "info.name": name },
 						Object.entries(data).reduce((p, [name, value]) => { p[`data.${name}`] = value; return p; }, {})
@@ -130,7 +130,7 @@
 							tid = o2._id.toString();
 						} else {
 							console.log("DB TASK _ID SHOULD NOT HAPPEN");
-							let task = await DB.tasks.findOne({ _id: o2._id });
+							let task = await DB.collection("tasks").findOne({ _id: o2._id });
 							if (task && task.info.state === 0)
 								tid = o2._id.toString();
 						}

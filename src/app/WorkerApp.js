@@ -91,7 +91,7 @@
 
 			let atomic_start = process.hrtime();
 
-			let { value } = await DB.tasks.findOneAndUpdate(
+			let { value } = await DB.collection("tasks").findOneAndUpdate(
 				{ "info.expires": { $lt: now }, "info.modified": { $lt: now - (this.TASK_TIMEOUT_SECONDS * 1000) } }
 				/*{ $or: [
 				 { "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
@@ -133,7 +133,7 @@
 
 			} catch (e) {
 
-				await DB.tasks.updateOne({ _id }, { $set: { "info.modified": Date.now() } });
+				await DB.collection("tasks").updateOne({ _id }, { $set: { "info.modified": Date.now() } });
 
 				Metrics.inc("tasks.errors");
 				let error = e.error;

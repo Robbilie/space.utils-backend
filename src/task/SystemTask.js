@@ -15,7 +15,7 @@
 				system_id: 		undefined
 			});
 
-			await DB.systems.replaceOne(
+			await DB.collection("systems").replaceOne(
 				{ id: system.id },
 				system,
 				{ upsert: true }

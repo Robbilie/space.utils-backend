@@ -28,7 +28,7 @@
 
 				console.log("updateing war", this.get_data().war_id);
 
-				await DB.wars.replaceOne(
+				await DB.collection("wars").replaceOne(
 					{ id: this.get_data().war_id },
 					war,
 					{ upsert: true }

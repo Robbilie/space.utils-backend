@@ -2,6 +2,7 @@
 	"use strict";
 
 	const { MongoClient } = require("mongodb");
+	const { ProxyWrap } = require("util/");
 
 	const config = {
 		url: process.env.MONGO_URL,
@@ -19,12 +20,4 @@
 		return MongoClient.connect(`${url}/${db}`, settings)
 	}
 
-	module.exports = ((promise) => new Proxy(promise, {
-		get: (dbPromise, collectionName) => collectionName === "then" ?
-			(...args) => dbPromise.then(...args) :
-			new Proxy(dbPromise.then(db => db.collection(collectionName)), {
-				get: (collectionPromise, methodName) => methodName === "then" ?
-					(...args) => collectionPromise.then(...args) :
-					(...args) => collectionPromise.then(collection => collection[methodName](...args))
-			})
-	}))(get_db(config));
+	module.exports = ProxyWrap(get_db(config));

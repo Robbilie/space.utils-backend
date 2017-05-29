@@ -33,7 +33,7 @@
 
 			if (hash !== this.get_info().hash) {
 
-				await DB.alliances.replaceOne(
+				await DB.collection("alliances").replaceOne(
 					{ id: alliance.id },
 					alliance,
 					{ upsert: true }

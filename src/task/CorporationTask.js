@@ -43,7 +43,7 @@
 
 			if (hash !== this.get_info().hash) {
 
-				await DB.corporations.replaceOne(
+				await DB.collection("corporations").replaceOne(
 					{ id: corporation.id },
 					corporation,
 					{ upsert: true }

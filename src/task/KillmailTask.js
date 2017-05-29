@@ -21,7 +21,7 @@
 
 			//await this.get_store().insert(killmail);
 
-			await DB.killmails.replaceOne(
+			await DB.collection("killmails").replaceOne(
 				{ id: this.get_data().killmail_id },
 				killmail,
 				{ upsert: true }

@@ -34,7 +34,7 @@
 
 			if (hash !== this.get_info().hash) {
 
-				await DB.characters.replaceOne(
+				await DB.collection("characters").replaceOne(
 					{ id: character.id },
 					character,
 					{ upsert: true }

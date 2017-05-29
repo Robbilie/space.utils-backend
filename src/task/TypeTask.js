@@ -15,7 +15,7 @@
 				type_id: 	undefined
 			});
 
-			await DB.types.replaceOne(
+			await DB.collection("types").replaceOne(
 				{ id: type.id },
 				type,
 				{ upsert: true }

@@ -26,7 +26,7 @@
 
 			if (ids.length !== 0) {
 				let now = Date.now();
-				await DB.tasks.updateMany({ "data.character_id": { $in: ids }, "info.name": "Character" }, { $set: { "info.expires": now } });
+				await DB.collection("tasks").updateMany({ "data.character_id": { $in: ids }, "info.name": "Character" }, { $set: { "info.expires": now } });
 			}
 
 			await this.update({ expires: Date.now() + (1000 * 60 * 15) });
@@ -38,7 +38,7 @@
 		}
 
 		static queue_ids (ids = []) {
-			return DB.tasks.updateOne(
+			return DB.collection("tasks").updateOne(
 				{ "info.name": "CharacterAffiliation", "info.count": { $lt: 1000 + 1 - ids.length } },
 				{
 					$setOnInsert: {
