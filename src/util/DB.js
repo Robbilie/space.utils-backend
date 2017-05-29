@@ -21,10 +21,10 @@
 
 	module.exports = ((promise) => new Proxy(promise, {
 		get: (dbPromise, collectionName) => collectionName === "then" ?
-			dbPromise.then :
+			(...args) => dbPromise.then(...args) :
 			new Proxy(dbPromise.then(db => db.collection(collectionName)), {
 				get: (collectionPromise, methodName) => methodName === "then" ?
-					collectionPromise.then :
+					(...args) => collectionPromise.then(...args) :
 					(...args) => collectionPromise.then(collection => collection[methodName](...args)).catch(e => console.log(e))
 			})
 	}))(get_db(config));
