@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI, hash } = require("util/");
+	const { ESI, Hash } = require("util/");
 	const { CorporationStore } = require("store/");
 
 	class AllianceTask extends BaseTask {
@@ -29,7 +29,7 @@
 			delete alliance.executor_corp;
 			delete alliance.alliance_name;
 
-			let hash = hash(alliance);
+			let hash = Hash(alliance);
 
 			if (hash !== this.get_info().hash) {
 
