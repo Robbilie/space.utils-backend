@@ -25,6 +25,6 @@
 			new Proxy(dbPromise.then(db => db.collection(collectionName)), {
 				get: (collectionPromise, methodName) => methodName === "then" ?
 					(...args) => collectionPromise.then(...args) :
-					(...args) => collectionPromise.then(collection => collection[methodName](...args)).catch(e => console.log(e))
+					(...args) => collectionPromise.then(collection => collection[methodName](...args))
 			})
 	}))(get_db(config));
