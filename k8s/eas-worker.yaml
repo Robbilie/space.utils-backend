@@ -44,6 +44,8 @@ spec:
           value: "test"
         - name: INFLUXDB_HOST
           value: "monitoring-influxdb.kube-system"
+        - name: GRAPHITE_HOST
+          value: "graphite-service"
         - name: XML_URL
           value: "https://api.eveonline.com"
         - name: CREST_URL
