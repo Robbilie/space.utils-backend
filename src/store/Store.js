@@ -10,7 +10,7 @@
 					if(param.constructor.name === "Cursor") {
 						return param.toArray();
 					} else {
-						return param(this.get_collection()).toArray();
+						return param(this.collection()).toArray();
 					}
 				})(),
 				this.get_list()
