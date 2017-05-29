@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI } = require("util/");
+	const { ESI, hash } = require("util/");
 	const { KillmailStore } = require("store/");
 
 	class WarTask extends BaseTask {
@@ -22,7 +22,7 @@
 
 			let { finished, aggressor, defender, allies } = war;
 
-			let hash = ESIUtil.hash(war);
+			let hash = hash(war);
 
 			if (hash !== this.get_info().hash) {
 

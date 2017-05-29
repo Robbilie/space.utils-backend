@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI } = require("util/");
+	const { ESI, hash } = require("util/");
 	const { CorporationStore } = require("store/");
 
 	class CorporationTask extends BaseTask {
@@ -39,7 +39,7 @@
 
 			let { ceo_id, alliance_id, member_count } = corporation;
 
-			let hash = ESIUtil.hash(corporation);
+			let hash = hash(corporation);
 
 			if (hash !== this.get_info().hash) {
 
