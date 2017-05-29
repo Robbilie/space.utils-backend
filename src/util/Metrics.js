@@ -19,6 +19,13 @@
 		initialize () {
 			//let reporter = new Reporter({ host: this.host, protocol: "http", username: "root", password: "root", database: "k8s", precision: "ms", tags: { server: this.hostname, app: this.app }});
 			let reporter = new GraphiteReporter(this.report, `eas-kubes.pods.${this.hostname}`, this.host);
+			reporter.on("log", (level, msg, exc) => {
+				if(exc) {
+					console.log(`${level} -- ${msg} (${exc})`);
+				} else {
+					console.log(`${level} -- ${msg}`);
+				}
+			});
 			reporter.start(10 * 1000/*, true*/);
 			this.reporter = reporter;
 			return this;
