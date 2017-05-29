@@ -41,7 +41,7 @@
 		}
 
 		static collection () {
-			return DB[this.get_name().toLowerCase().pluralize()];
+			return DB.collection(this.get_name().toLowerCase().pluralize());
 		}
 
 		static get_name () {

@@ -8,6 +8,7 @@
 	class Metrics {
 
 		constructor ({ host, hostname, app }) {
+			console.log("Metrics constructor");
 			this.report = new Report();
 			this.fields = new Map();
 			this.host = host;
