@@ -46,12 +46,12 @@
 					case "/healthcheck":
 						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
 						res.end("healthcheck");
-						console.log("HEALTHCHECK", this.heartbeat > Date.now() - (2 * 60 * 1000));
+						if (this.heartbeat > Date.now() - (2 * 60 * 1000) === false)
+							console.log("HEALTHCHECK FAIL");
 						break;
 					case "/ping":
 						res.writeHead(200, { "Content-Type": "text/plain" });
 						res.end("ping");
-						console.log("PING");
 						break;
 					default:
 						res.writeHead(200, { "Content-Type": "text/plain" });
