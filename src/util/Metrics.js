@@ -32,6 +32,8 @@
 		}
 
 		get (key, type) {
+			if (this.reporter === undefined)
+				this.initialize();
 			if (this.fields.has(key) === false) {
 				let t = new type();
 				this.report.addMetric(key, t);
@@ -50,4 +52,4 @@
 
 	}
 
-	module.exports = new Metrics({ host: process.env.GRAPHITE_HOST, hostname: os.hostname(), app: process.env.APP_NAME }).initialize();
+	module.exports = new Metrics({ host: process.env.GRAPHITE_HOST, hostname: os.hostname(), app: process.env.APP_NAME });
