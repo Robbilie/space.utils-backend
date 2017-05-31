@@ -67,6 +67,10 @@ spec:
           value: "https://login.eveonline.com"
         - name: ESI_URL
           value: "https://esi.tech.ccp.is/latest/swagger.json"
+        - name: INFLUXDB_HOST
+          value: "monitoring-influxdb.kube-system"
+        - name: GRAPHITE_HOST
+          value: "graphite-service"
         #- name: UV_THREADPOOL_SIZE
         #  value: "128"
         - name: PARALLEL_TASK_LIMIT
