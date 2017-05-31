@@ -17,7 +17,7 @@
 		static async get_by_id ({ swagger: { params } }, res) {
 			let store = LoadUtil.store(this.name.slice(0, -7));
 			res.json(await store
-				.find_by_pk(params[this.name.slice(0, -7).toLowerCase() + "_id"].value, {}, false)
+				.find_by_pk(params[this.name.slice(0, -7).toLowerCase() + "_id"].value)
 				.serialize());
 		}
 

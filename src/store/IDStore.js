@@ -6,7 +6,7 @@
 
 	class IDStore extends Store {
 
-		static async find_or_create (id, faf, {} = $(1, { [`${this.get_name().toLowerCase()}_id`]: id }, "Number")) {
+		static async find_or_create (id, faf = false, {} = $(1, { [`${this.get_name().toLowerCase()}_id`]: id }, "Number")) {
 
 			let entity = this.find_by_id(id, {}, faf);
 

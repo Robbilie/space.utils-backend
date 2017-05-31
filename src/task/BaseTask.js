@@ -104,8 +104,8 @@
 				);
 
 				// if fire and forget or not and its no new task, just resolve
-				if(faf === true || (!faf && !response.upsertedCount)) {
-					if(faf === false && !response.upsertedCount) {
+				if(faf === true || (faf === false && response.upsertedCount === 0)) {
+					if(faf === false && response.upsertedCount === 0) {
 						//console.log("task not upsert-ed", name, JSON.stringify(data), response);
 					}
 					resolve();
@@ -126,7 +126,7 @@
 						tid = o._id.toString();
 						break;
 					case "u":
-						if(o && o.set && o.set["info-state"] === 0) {
+						if(o !== undefined && o.set !== undefined && o.set["info-state"] === 0) {
 							tid = o2._id.toString();
 						} else {
 							console.log("DB TASK _ID SHOULD NOT HAPPEN");
