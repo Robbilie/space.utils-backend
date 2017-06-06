@@ -6,6 +6,10 @@
 
 	class Base {
 
+		static create (...args) {
+			return new this(...args);
+		}
+
 		constructor (future_data) {
 			this.future_data = future_data;
 			this.raw = future_data;

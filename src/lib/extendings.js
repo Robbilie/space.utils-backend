@@ -17,7 +17,7 @@
 			writable: true
 		});
 
-		Object.defineProperty(Array.prototype, 'apply', {
+		Object.defineProperty(Object.prototype, 'apply', {
 			value: function (cb) {
 				return cb(this);
 			},
