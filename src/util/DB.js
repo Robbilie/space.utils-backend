@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { MongoClient } = require("mongodb");
-	const { ProxyWrap } = require("util/");
+	const { PromiseWrap } = require("util/");
 
 	const config = {
 		url: process.env.MONGO_URL,
@@ -20,4 +20,4 @@
 		return MongoClient.connect(`${url}/${db}`, settings)
 	}
 
-	module.exports = ProxyWrap(get_db(config));
+	module.exports = PromiseWrap(get_db(config));
