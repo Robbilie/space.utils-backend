@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { DB, ESI, Hash, PropertyWrap: _ } = require("util/");
+	const { DB, ESI, Hash, PropertyWrap: { _ } } = require("util/");
 
 	class AllianceTask extends BaseTask {
 
