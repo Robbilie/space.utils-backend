@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } 		= require("task/");
-	const { ESI } 		= require("util/");
+	const { DB, ESI } 		= require("util/");
 
 	class FactionsTask extends BaseTask {
 
@@ -19,7 +19,7 @@
 						this.enqueue_reference("Corporation", faction.militia_corporation_id);
 					if (faction.solar_system_id !== undefined)
 						this.enqueue_reference("System", faction.solar_system_id);
-					return DB.collection("factions").updateOne({ id: faction.id }, { $set: faction }, { upsert: true });
+					return DB.collection("factions").replaceOne({ id: faction.id }, faction, { upsert: true });
 				})
 			);
 
