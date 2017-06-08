@@ -13,8 +13,8 @@
 				.collections("systems")
 				.find({ id: { $in: systems } })
 				.project({ id: 1 })
-				.map(_.id)
-				.toArray();
+				.toArray()
+				.map(_.id);
 
 			systems
 				.filter(id => !ids.includes(id))

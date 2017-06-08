@@ -43,8 +43,8 @@
 					.collection("corporations")
 					.find({ alliance_id })
 					.project({ id: 1 })
-					.map(_.id)
-					.toArray();
+					.toArray()
+					.map(_.id);
 
 				corporation_ids
 					.filter(corporation_id => !old_corporation_ids.includes(corporation_id))

@@ -14,8 +14,8 @@
 				.collection("alliances")
 				.find({ id: { $in: alliances } })
 				.project({ id: 1 })
-				.map(_.id)
-				.toArray();
+				.toArray()
+				.map(_.id);
 			/*
 			// old
 			 const alliance_ids = await AllianceStore

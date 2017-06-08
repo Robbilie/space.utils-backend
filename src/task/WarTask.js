@@ -83,8 +83,8 @@
 					.collection("killmails")
 					.find({ id: { $in: killmails.map(_.killmail_id) } })
 					.project({ id: 1 })
-					.map(_.id)
-					.toArray();
+					.toArray()
+					.map(_.id);
 
 				console.log("war", this.get_data().war_id, ids);
 

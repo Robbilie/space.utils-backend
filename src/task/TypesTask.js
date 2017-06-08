@@ -22,8 +22,8 @@
 					.collection("types")
 					.find({ id: { $in: types } })
 					.project({ id: 1 })
-					.map(_.id)
-					.toArray();
+					.toArray()
+					.map(_.id);
 
 				types
 					.filter(id => !ids.includes(id))
