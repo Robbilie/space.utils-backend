@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { BaseTask } 	= require("task/");
-	const { DB, ESI, PropertyWrap: { _ } } 	= require("util/");
+	const { DB, ESI, PropertyWrap: _ } 	= require("util/");
 
 	class SystemsTask extends BaseTask {
 
