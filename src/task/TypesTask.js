@@ -2,8 +2,7 @@
 	"use strict";
 
 	const { BaseTask } 	= require("task/");
-	const { ESI } = require("util/");
-	const { TypeStore } = require("store/");
+	const { DB, ESI, PropertyWrap: { _ } } = require("util/");
 
 	class TypesTask extends BaseTask {
 
@@ -19,9 +18,12 @@
 				const { body: types } = await ESI.Universe.get_universe_types({ page });
 				s.length = types.length;
 
-				const ids = await TypeStore
-					.from_cursor(c => c.find({ id: { $in: types } }).project({ id: 1 }))
-					.map(type => type.get_id());
+				const ids = await DB
+					.collection("types")
+					.find({ id: { $in: types } })
+					.project({ id: 1 })
+					.map(_.id)
+					.toArray();
 
 				types
 					.filter(id => !ids.includes(id))

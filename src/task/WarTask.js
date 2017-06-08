@@ -2,8 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { DB, ESI, Hash } = require("util/");
-	const { KillmailStore } = require("store/");
+	const { DB, ESI, Hash, PropertyWrap: { _ } } = require("util/");
 
 	class WarTask extends BaseTask {
 
@@ -80,15 +79,17 @@
 
 				console.log("war", this.get_data().war_id, killmails);
 
-				const ids = await KillmailStore
-					.from_cursor(c => c.find({ id: { $in: killmails.map(({ killmail_id }) => killmail_id) } }).project({ id: 1 }))
-					.map(killmail => killmail.get_id());
+				const ids = await DB
+					.collection("killmails")
+					.find({ id: { $in: killmails.map(_.killmail_id) } })
+					.project({ id: 1 })
+					.map(_.id)
+					.toArray();
 
 				console.log("war", this.get_data().war_id, ids);
 
 				console.log("war", this.get_data().war_id, killmails
 					.filter(({ killmail_id }) => !ids.includes(killmail_id)));
-
 
 				killmails
 					.filter(({ killmail_id }) => !ids.includes(killmail_id))

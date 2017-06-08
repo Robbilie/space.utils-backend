@@ -2,17 +2,19 @@
 	"use strict";
 
 	const { BaseTask } 	= require("task/");
-	const { ESI } 	= require("util/");
-	const { SystemStore } = require("store/");
+	const { DB, ESI, PropertyWrap: { _ } } 	= require("util/");
 
 	class SystemsTask extends BaseTask {
 
 		async start () {
 			const { body: systems } = await ESI.Universe.get_universe_systems();
 
-			const ids = await SystemStore
-				.from_cursor(c => c.find({ id: { $in: systems } }).project({ id: 1 }))
-				.map(system => system.get_id());
+			const ids = await DB
+				.collections("systems")
+				.find({ id: { $in: systems } })
+				.project({ id: 1 })
+				.map(_.id)
+				.toArray();
 
 			systems
 				.filter(id => !ids.includes(id))

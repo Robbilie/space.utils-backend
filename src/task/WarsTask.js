@@ -2,14 +2,13 @@
 	"use strict";
 
 	const { BaseTask } 	= require("task/");
-	const { ESI } = require("util/");
-	const { WarStore } 	= require("store/");
+	const { DB, ESI } = require("util/");
 
 	class WarsTask extends BaseTask {
 
 		async start () {
-			let war = WarStore.findOne({}, { sort: { id: -1 } }, true);
-			let last_war_id = 1 + (this.get_info().debug || await war.is_null() ? 0 : await war.get_id());
+			let war = await DB.collection("wars").findOne({}, { sort: { id: -1 } });
+			let last_war_id = 1 + (this.get_info().debug || war === null ? 0 : war.id);
 			await this.get_pages(last_war_id + 2000);
 			await this.update({ expires: Date.now() + (60 * 60 * 1000) });
 		}

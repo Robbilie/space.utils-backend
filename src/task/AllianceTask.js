@@ -2,8 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { DB, ESI, Hash } = require("util/");
-	const { CorporationStore } = require("store/");
+	const { DB, ESI, Hash, PropertyWrap: { _ } } = require("util/");
 
 	class AllianceTask extends BaseTask {
 
@@ -40,7 +39,12 @@
 				);
 
 				const alliance_id = alliance.id;
-				const old_corporation_ids = await CorporationStore.from_cursor(c => c.find({ alliance_id }).project({ id: 1 })).map(corporation => corporation.get_id());
+				const old_corporation_ids = await DB
+					.collection("corporations")
+					.find({ alliance_id })
+					.project({ id: 1 })
+					.map(_.id)
+					.toArray();
 
 				corporation_ids
 					.filter(corporation_id => !old_corporation_ids.includes(corporation_id))

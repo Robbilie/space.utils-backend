@@ -6,3 +6,5 @@
 			get: (P, n) => PropertyWrap(d => p(d)[n])
 		});
 	};
+
+	module.exports._ = PropertyWrap(d => d);

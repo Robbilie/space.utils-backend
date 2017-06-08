@@ -3,7 +3,6 @@
 
 	const { BaseTask } = require("task/");
 	const { DB, ESI } = require("util/");
-	const { CharacterStore, TaskStore } = require("store/");
 
 	class CharacterAffiliationTask extends BaseTask {
 
@@ -11,12 +10,11 @@
 
 			const [{ body: character_affiliations, headers }, characters] = await Promise.all([
 				ESI.Character.post_characters_affiliation(this.get_data()),
-				CharacterStore
-					.from_cursor(c => c
-						.find({ id: { $in: this.get_data().characters } })
-						.project({ id: 1, corporation_id: 1, alliance_id: 1 })
-					)
-					.map(char => char.get_future())
+				DB
+					.collection("characters")
+					.find({ id: { $in: this.get_data().characters } })
+					.project({ id: 1, corporation_id: 1, alliance_id: 1 })
+					.toArray()
 			]);
 
 			let ids = character_affiliations

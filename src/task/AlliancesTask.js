@@ -2,8 +2,7 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { ESI } = require("util/");
-	const { AllianceStore } = require("store/");
+	const { DB, ESI, PropertyWrap: { _ } } = require("util/");
 
 	class AlliancesTask extends BaseTask {
 
@@ -11,18 +10,20 @@
 
 			const { body: alliances, headers } = await ESI.Alliance.get_alliances();
 
-			const alliance_ids = await AllianceStore
-				.from_cursor(c => c
-					.find({ id: { $in: alliances } })
-					.project({ id: 1 }))
-				.map(alliance => alliance.get_id());
-			/*
 			const alliance_ids = await DB
 				.collection("alliances")
 				.find({ id: { $in: alliances } })
 				.project({ id: 1 })
-				.map(({ id }) => id)
+				.map(_.id)
 				.toArray();
+			/*
+			// old
+			 const alliance_ids = await AllianceStore
+				 .from_cursor(c => c
+					.find({ id: { $in: alliances } })
+					.project({ id: 1 }))
+				 .map(alliance => alliance.get_id());
+
 			const alliance_ids = await AllianceStore
 				.from_cursor(await DB
 					.collection("alliances")

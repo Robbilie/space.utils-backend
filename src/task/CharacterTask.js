@@ -3,7 +3,6 @@
 
 	const { BaseTask, CharacterAffiliationTask } = require("task/");
 	const { DB, ESI, Hash } = require("util/");
-	const { CharacterStore } = require("store/");
 
 	class CharacterTask extends BaseTask {
 
@@ -11,7 +10,7 @@
 
 			let [{ body: character }, old_character] = await Promise.all([
 				ESI.Character.get_characters_character_id(this.get_data()),
-				CharacterStore.find_by_id(this.get_data().character_id).get_future()
+				DB.collection("characters").findOne({ id: this.get_data().character_id })
 			]);
 
 			let corporation_history = undefined;

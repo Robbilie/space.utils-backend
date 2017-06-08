@@ -3,7 +3,6 @@
 
 	const { BaseTask } = require("task/");
 	const { DB, ESI, Hash } = require("util/");
-	const { CorporationStore } = require("store/");
 
 	class CorporationTask extends BaseTask {
 
@@ -11,7 +10,7 @@
 
 			let [{ body: corporation, headers }, old_corporation] = await Promise.all([
 				ESI.Corporation.get_corporations_corporation_id(this.get_data()),
-				CorporationStore.find_by_id(this.get_data().corporation_id).get_future()
+				DB.collection("corporations").findOne({ id: this.get_data().corporation_id })
 			]);
 
 			let alliance_history = undefined;
