@@ -10,7 +10,7 @@
 			const { body: systems } = await ESI.Universe.get_universe_systems();
 
 			const ids = await DB
-				.collections("systems")
+				.collection("systems")
 				.find({ id: { $in: systems } })
 				.project({ id: 1 })
 				.toArray()
