@@ -15,7 +15,7 @@
 			// black magic to map the controllers to a cached object for swagger
 			const controllers = [].concat(...(fs
 				.readdirSync(process.env.NODE_PATH + "/handler")
-				.filter(file => file != "index.js")
+				.filter(file => file !== "index.js")
 				.map(file => require(`handler/${file}`))
 				.map(Class => Class
 					.getMethods()
@@ -23,6 +23,8 @@
 					.map(([key, cls, fn]) => [key, function (...args) { return cls[fn](...args).catch(e => console.log(e)); }])
 				)
 			)).reduce((p, c) => !(p[c[0]] = c[1]) || p, {});
+
+			console.log(controllers);
 
 			swaggerTools.initializeMiddleware(require("js-yaml").safeLoad(fs.readFileSync(process.env.NODE_PATH + "/../specs/eas.yaml")), middleware => {
 
@@ -36,8 +38,8 @@
 				web.use(middleware.swaggerMetadata());
 				web.use(middleware.swaggerValidator());
 				web.use(middleware.swaggerRouter({
-					controllers: 	controllers,
-					useStubs: 		process.env.NODE_ENV === 'development'
+					controllers,
+					useStubs: process.env.NODE_ENV === 'development'
 				}));
 				web.use(middleware.swaggerUi({
 					//apiDocs: 		"/swagger.json"
