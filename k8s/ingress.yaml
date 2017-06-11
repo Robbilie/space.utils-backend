@@ -19,7 +19,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: eas-static-service
+          serviceName: eas-ui-service
           servicePort: 80
   - host: api.utils.space
     http:
