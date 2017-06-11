@@ -2,34 +2,34 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: eas-static-service
+  name: eas-ui-service
   labels:
-    app: eas-static
+    app: eas-ui
 spec:
   type: NodePort
   ports:
   - port: 80
   selector:
-    app: eas-static
+    app: eas-ui
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   labels:
-    app: eas-static
-  name: eas-static-dep
+    app: eas-ui
+  name: eas-ui-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eas-static
+      app: eas-ui
   template:
     metadata:
       labels:
-        app: eas-static
+        app: eas-ui
     spec:
       containers:
-      - name: eas-static-pod
+      - name: eas-ui-pod
         image: index.docker.io/robbilie/eas:space.utils
         env:
         - name: "PORT"
