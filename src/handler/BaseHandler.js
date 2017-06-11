@@ -6,7 +6,7 @@
 		static getMethods () {
 			return (Object.getPrototypeOf(this).name === "" ?
 				[] : Object.getOwnPropertyNames(Object.getPrototypeOf(this))
-			).concat(Object.getOwnPropertyNames(this)).filter(name => !["length", "prototype", "name"].includes(name));
+			).concat(Object.getOwnPropertyNames(this)).filter(name => !Object.getOwnPropertyNames(Function.prototype).includes(name));
 		}
 
 	}
