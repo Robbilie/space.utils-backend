@@ -6,7 +6,7 @@
 
 	class KillmailStore extends IDStore {
 
-		static async find_or_create (killmail_id, killmail_hash, faf, {} = $(1, { killmail_id }, "Number")) {
+		static async find_or_create (killmail_id, killmail_hash, faf = false, {} = $(1, { killmail_id }, "Number")) {
 
 			console.log("foc killmail", killmail_id, killmail_hash);
 
