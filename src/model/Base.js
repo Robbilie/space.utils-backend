@@ -30,11 +30,11 @@
 		}
 
 		is_null () {
-			return this.future().then(data => !data);
+			return this.then(data => !data);
 		}
 
 		get__id () {
-			return this.future().then(({ _id }) => _id);
+			return this.then(({ _id }) => _id);
 		}
 
 	}
