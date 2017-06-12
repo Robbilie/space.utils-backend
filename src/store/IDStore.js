@@ -22,7 +22,7 @@
 			if (await entity.is_null() === true)
 				console.log("MISSING", this.get_name().toUpperCase(), id);
 
-			return entity.get_future();
+			return entity.future();
 
 		}
 

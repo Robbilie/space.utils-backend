@@ -3,13 +3,7 @@
 
 	const { Base, List } = require("model/");
 
-	class KillmailItem extends Base {
-
-		serialize () {
-			return super.serialize(1);
-		}
-
-	}
+	class KillmailItem extends Base {}
 
 	class KillmailItemList extends List {
 
@@ -19,21 +13,9 @@
 
 	}
 
-	class KillmailVictim extends Base {
+	class KillmailVictim extends Base {}
 
-		serialize () {
-			return super.serialize(1);
-		}
-
-	}
-
-	class KillmailAttacker extends Base {
-
-		serialize () {
-			return super.serialize(1);
-		}
-
-	}
+	class KillmailAttacker extends Base {}
 
 	class KillmailAttackerList extends List {
 

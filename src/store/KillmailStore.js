@@ -21,7 +21,7 @@
 			if (await killmail.is_null() === true)
 				killmail = this.find_by_id(killmail_id);
 
-			return killmail.get_future();
+			return killmail.future();
 
 		}
 

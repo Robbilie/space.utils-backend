@@ -14,18 +14,18 @@
 			return super.get_by_id(...args);
 		}
 
-		static async get_alliances_alliance_id_executor_corporation ({ swagger: { params: { alliance_id } } }, res) {
-			/*res.json(await AllianceStore
+		static get_alliances_alliance_id_executor_corporation ({ swagger: { params: { alliance_id } } }, res) {
+			/*AllianceStore
 				.find_or_create(alliance_id.value)
 				.get_executor_corporation()
-				.serialize());*/
+				.then(res.json);*/
 		}
 
-		static async get_alliances_alliance_id_corporations ({ swagger: { params: { alliance_id } } }, res) {
-			/*res.json(await AllianceStore
+		static get_alliances_alliance_id_corporations ({ swagger: { params: { alliance_id } } }, res) {
+			/*AllianceStore
 				.find_or_create(alliance_id.value)
 				.get_corporations()
-				.serialize());*/
+				.then(res.json);*/
 		}
 
 	}

@@ -9,6 +9,10 @@
 			).concat(Object.getOwnPropertyNames(this)).filter(name => !Object.getOwnPropertyNames(Function.prototype).includes(name));
 		}
 
+		static name () {
+			return this.name.slice(0, -7);
+		}
+
 	}
 
 	module.exports = BaseHandler;

@@ -19,7 +19,7 @@
 					const store = LoadUtil.store(type.name);
 					Object.defineProperty(model.prototype, property, {
 						value: async function () {
-							let data = this.get_future();
+							let data = this.future();
 							if(data[field] !== undefined) {
 								return store.from_data(data[field]);
 							} else {
@@ -30,7 +30,7 @@
 				} else {
 					Object.defineProperty(model.prototype, property, {
 						value: function () {
-							return this.get_future().then(data => data[field] || data[`${field}_id`]);
+							return this.then(data => data[field] || data[`${field}_id`]);
 						}
 					});
 				}

@@ -6,11 +6,11 @@
 	class Task extends Base {
 
 		get_info () {
-			return this.get_future().then(data => data["info"]);
+			return this.then(data => data["info"]);
 		}
 
 		get_data () {
-			return this.get_future().then(data => data["data"]);
+			return this.then(data => data["data"]);
 		}
 
 	}
