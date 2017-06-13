@@ -8,7 +8,7 @@
 
 		static async post_filter ({ body: { filter, options } }, res) {
 			res.json({ items: await LoadUtil
-				.store(`${this.name.slice(0, -7)}`)
+				.store(`${this.getName()}`)
 				.find(InputUtil.sanitize(filter), InputUtil.limit(options)) });
 		}
 
