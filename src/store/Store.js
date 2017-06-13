@@ -104,13 +104,15 @@
 			console.log("aggregate", this.getName(), [
 				{ $match },
 				...options,
-				...(this.aggregations || [])
+				...(this.aggregations || []),
+				...options
 			]);
 			return collection
 				.aggregate([
 					{ $match },
 					...options,
-					...(this.aggregations || [])
+					...(this.aggregations || []),
+					...options
 				], { allowDiskUse }); // possibly slower?
 		}
 
