@@ -61,7 +61,6 @@
 		}
 
 		static findOne (data = {}, options = {}, bare = true) {
-			//console.log("findOne", this.name, data, options, bare);
 			return this.from_promise((async () => {
 				let collection = await this.collection();
 				if(bare === true) {
