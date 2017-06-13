@@ -101,12 +101,6 @@
 		}
 
 		static aggregate (collection, $match, options = [], allowDiskUse = false) {
-			console.log("aggregate", this.getName(), [
-				{ $match },
-				...options,
-				...(this.aggregations || []),
-				...options
-			]);
 			return collection
 				.aggregate([
 					{ $match },
