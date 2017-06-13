@@ -6,23 +6,23 @@
 
 	class IDStore extends Store {
 
-		static async find_or_create (id, faf = false, {} = $(1, { [`${this.get_name().toLowerCase()}_id`]: id }, "Number")) {
+		static async find_or_create (id, faf = false, {} = $(1, { [`${this.getName().toLowerCase()}_id`]: id }, "Number")) {
 
 			let entity = this.find_by_id(id, {}, faf);
 
-			if (await entity.is_null() === true)
-				await BaseTask.create_task(this.get_name(), { [`${this.get_name().toLowerCase()}_id`]: id }, faf);
+			if (await entity.isNull() === true)
+				await BaseTask.create_task(this.getName(), { [`${this.getName().toLowerCase()}_id`]: id }, faf);
 
 			if (faf === true)
 				return null;
 
-			if (await entity.is_null() === true)
+			if (await entity.isNull() === true)
 				entity = this.find_by_id(id);
 
-			if (await entity.is_null() === true)
-				console.log("MISSING", this.get_name().toUpperCase(), id);
+			if (await entity.isNull() === true)
+				console.log("MISSING", this.getName().toUpperCase(), id);
 
-			return entity.future();
+			return entity.getFuture();
 
 		}
 

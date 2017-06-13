@@ -10,6 +10,10 @@
 
 	class BaseTask {
 
+		static getName () {
+			return this.name.slice(0, -4);
+		}
+
 		constructor (worker, { _id, info, data }) {
 			this.worker = worker;
 			this._id = _id;
@@ -41,7 +45,7 @@
 			return this.data;
 		}
 
-		get_name () {
+		getName () {
 			return this.info.name;
 		}
 

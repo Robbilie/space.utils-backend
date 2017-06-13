@@ -2,46 +2,27 @@
 	"use strict";
 
 	const { Base } = require("model/");
-	const { LoadUtil } = require("util/");
 
 	class PatchUtil {
 
 		static model (model) {
 			PatchUtil.filter(model).forEach(property => {
+				const field = property.slice(4);
+				const type = model.types[field];
 
-				const field 	= property.split("_").slice(1).join("_");
-				const type 		= model.types[field];
-
-				if(type === undefined)
-					console.log("missing type", model.name, property);
-
-				if(type.prototype instanceof Base) {
-					const store = LoadUtil.store(type.name);
-					Object.defineProperty(model.prototype, property, {
-						value: async function () {
-							let data = this.future();
-							if(data[field] !== undefined) {
-								return store.from_data(data[field]);
-							} else {
-								return store.find_by_pk(data[`${field}_id`]);
-							}
-						}
-					});
-				} else {
-					Object.defineProperty(model.prototype, property, {
-						value: function () {
-							return this.then(data => data[field] || data[`${field}_id`]);
-						}
-					});
-				}
-
+				const value = (type !== undefined && type.prototype instanceof Base) ? function () {
+					return type.create(this.then(data => data[field] || type.getStore().find_by_pk(data[`${field}_id`]).getFuture()));
+				} : function () {
+					return this.then(data => data[field] || data[`${field}_id`]);
+				};
+				Object.defineProperty(model.prototype, property, { value });
 			});
 		}
 
 		static filter (model) {
 			return Object
 				.getOwnPropertyNames(model.prototype)
-				.filter(property => model.prototype[property].toString().slice(-2) === "{}");
+				.filter(property => property.slice(0, 4) === "get_" && model.prototype[property].toString().slice(-2) === "{}");
 		}
 
 		static store (store) {

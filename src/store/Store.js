@@ -33,18 +33,18 @@
 		static find_or_create () {}
 
 		static get_model () {
-			return LoadUtil.model(this.get_name());
+			return LoadUtil.model(this.getName());
 		}
 
 		static get_list () {
-			return LoadUtil.model(`${this.get_name()}List`);
+			return LoadUtil.model(`${this.getName()}List`);
 		}
 
 		static collection () {
-			return DB.collection(this.get_name().toLowerCase().pluralize());
+			return DB.collection(this.getName().toLowerCase().pluralize());
 		}
 
-		static get_name () {
+		static getName () {
 			return this.name.slice(0, -5);
 		}
 
@@ -118,7 +118,7 @@
 			if (this.check_data(data) === undefined)
 				throw ("Data is missing fields, use ignore to bypass.");
 			if (oplog === true)
-				setImmediate(() => Oplog.update(this.get_name().toLowerCase().pluralize(), where, data));
+				setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
 			return this.collection().updateOne(where, data, options);
 		}
 
@@ -137,7 +137,7 @@
 			if (this.check_data(data) === undefined)
 				throw ("Data is missing fields, use ignore to bypass.");
 			if (oplog === true)
-				setImmediate(() => Oplog.update(this.get_name().toLowerCase().pluralize(), where, data));
+				setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
 			return this.collection().findOneAndUpdate(where, data, options);
 		}
 
@@ -147,7 +147,7 @@
 
 		static insert (data, options, oplog = false) {
 			if (oplog === true)
-				setImmediate(() => Oplog.insert(this.get_name().toLowerCase().pluralize(), data));
+				setImmediate(() => Oplog.insert(this.getName().toLowerCase().pluralize(), data));
 			return this.collection().insertOne(data, options);
 		}
 
@@ -157,7 +157,7 @@
 
 		static destroy (where, oplog = false) {
 			if (oplog === true)
-				setImmediate(() => Oplog.destroy(this.get_name().toLowerCase().pluralize(), where));
+				setImmediate(() => Oplog.destroy(this.getName().toLowerCase().pluralize(), where));
 			return this.collection().remove(where);
 		}
 

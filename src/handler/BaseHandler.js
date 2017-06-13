@@ -9,7 +9,7 @@
 			).concat(Object.getOwnPropertyNames(this)).filter(name => !Object.getOwnPropertyNames(Function.prototype).includes(name));
 		}
 
-		static name () {
+		static getName () {
 			return this.name.slice(0, -7);
 		}
 

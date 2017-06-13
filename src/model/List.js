@@ -16,7 +16,7 @@
 		}
 
 		toArray () {
-			return this.future();
+			return this.getFuture();
 		}
 
 		map (fn, bare = false) {

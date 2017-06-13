@@ -9,7 +9,7 @@
 			return new this(...args);
 		}
 
-		static store () {
+		static getStore () {
 			return LoadUtil.store(this.name);
 		}
 
@@ -18,10 +18,10 @@
 		}
 
 		then (...args) {
-			return this.future().then(...args);
+			return this.getFuture().then(...args);
 		}
 
-		future () {
+		getFuture () {
 			return this.future;
 		}
 
@@ -29,8 +29,8 @@
 			return this;
 		}
 
-		is_null () {
-			return this.then(data => !data);
+		isNull () {
+			return this.then(data => data === null);
 		}
 
 		get__id () {

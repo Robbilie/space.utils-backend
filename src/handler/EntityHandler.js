@@ -16,8 +16,8 @@
 
 		static get_by_id ({ swagger: { params } }, res) {
 			/*
-			const model = LoadUtil.model(this.name());
-			const id = params[`${this.name().toLowerCase()}_id`].value;
+			const model = LoadUtil.model(this.getName());
+			const id = params[`${this.getName().toLowerCase()}_id`].value;
 
 			model
 				.aggregate({ id })
@@ -26,15 +26,15 @@
 				.run(res.json);
 
 			LoadUtil
-				.model(this.name())
-				.aggregate({ id: params[`${this.name().toLowerCase()}_id`].value })
+				.model(this.getName())
+				.aggregate({ id: params[`${this.getName().toLowerCase()}_id`].value })
 				.toArray()
 				.run(_[0])
 				.run(res.json);
 			*/
 			LoadUtil
-				.store(this.name())
-				.find_by_pk(params[this.name.slice(0, -7).toLowerCase() + "_id"].value)
+				.store(this.getName())
+				.find_by_pk(params[this.getName().toLowerCase() + "_id"].value)
 				.then(res.json);
 		}
 
