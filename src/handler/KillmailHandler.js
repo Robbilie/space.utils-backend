@@ -15,9 +15,8 @@
 		}
 
 		static async get_killmails_killmail_id_killmail_hash ({ swagger: { params: { killmail_id, killmail_hash } } }, res) {
-			KillmailStore
-				.find_by_pk(killmail_id.value, killmail_hash.value)
-				.then(data => res.json(data));
+			res.json(await KillmailStore
+				.find_by_pk(killmail_id.value, killmail_hash.value));
 		}
 
 	}

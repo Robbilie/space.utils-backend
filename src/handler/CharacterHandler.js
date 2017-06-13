@@ -14,11 +14,10 @@
 			return super.get_by_id(...args);
 		}
 
-		static get_characters_character_id_corporation ({ swagger: { params: { character_id } } }, res) {
-			/*CorporationStore
+		static async get_characters_character_id_corporation ({ swagger: { params: { character_id } } }, res) {
+			/*res.json(await CorporationStore
 				.find_or_create(character_id.value)
-				.get_corporation()
-				.then(data => res.json(data));*/
+				.get_corporation());*/
 		}
 
 	}
