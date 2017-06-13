@@ -6,11 +6,10 @@
 
 	class EntityHandler extends BaseHandler {
 
-		static post_filter ({ body: { filter, options } }, res) {
-			LoadUtil
+		static async post_filter ({ body: { filter, options } }, res) {
+			res.json({ items: await LoadUtil
 				.store(`${this.name.slice(0, -7)}`)
-				.find(InputUtil.sanitize(filter), InputUtil.limit(options))
-				.then(items => res.json({ items }));
+				.find(InputUtil.sanitize(filter), InputUtil.limit(options)) });
 		}
 
 		static async get_by_id ({ swagger: { params } }, res) {
