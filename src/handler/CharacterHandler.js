@@ -18,7 +18,7 @@
 			/*CorporationStore
 				.find_or_create(character_id.value)
 				.get_corporation()
-				.then(res.json);*/
+				.then(data => res.json(data));*/
 		}
 
 	}

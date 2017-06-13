@@ -35,7 +35,7 @@
 			LoadUtil
 				.store(this.getName())
 				.find_by_pk(params[this.getName().toLowerCase() + "_id"].value)
-				.then(res.json);
+				.then(data => res.json(data));
 		}
 
 	}

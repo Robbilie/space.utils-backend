@@ -18,14 +18,14 @@
 			/*AllianceStore
 				.find_or_create(alliance_id.value)
 				.get_executor_corporation()
-				.then(res.json);*/
+			 	.then(data => res.json(data));*/
 		}
 
 		static get_alliances_alliance_id_corporations ({ swagger: { params: { alliance_id } } }, res) {
 			/*AllianceStore
 				.find_or_create(alliance_id.value)
 				.get_corporations()
-				.then(res.json);*/
+			 	.then(data => res.json(data));*/
 		}
 
 	}

@@ -18,14 +18,14 @@
 			/*CorporationStore
 				.find_or_create(corporation_id.value)
 				.get_alliance()
-				.then(res.json);*/
+			 	.then(data => res.json(data));*/
 		}
 
 		static get_corporations_corporation_id_ceo ({ swagger: { params: { corporation_id } } }, res) {
 			/*CorporationStore
 				.find_or_create(corporation_id.value)
 				.get_ceo()
-				.then(res.json);*/
+			 	.then(data => res.json(data));*/
 		}
 
 	}
