@@ -36,7 +36,7 @@
 			delete corporation.corporation_name;
 			delete corporation.corporation_description;
 
-			let { ceo_id, alliance_id, member_count } = corporation;
+			let { ceo_id, alliance_id, creator_id, member_count } = corporation;
 
 			let hash = Hash(corporation);
 
@@ -51,6 +51,10 @@
 				// get alliance
 				if(alliance_id !== undefined)
 					this.enqueue_reference("Alliance", alliance_id);
+
+				// get creator
+				if(creator_id !== undefined)
+					this.enqueue_reference("Character", creator_id);
 
 				// get all alliances
 				if (alliance_history)
