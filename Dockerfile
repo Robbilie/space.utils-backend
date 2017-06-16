@@ -1,5 +1,7 @@
 FROM node:alpine
 
+RUN apk --no-cache add libc6-compat git
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
