@@ -52,7 +52,7 @@
 						Metrics.inc("esi.started");
 
 					//let res = await request({ method, url, headers, body });
-					let res = await proxy.doRequest({ method, url, headers, body });
+					let res = await proxy.getRes({ method, url, headers, body });
 
 					Metrics.update("esi.elapsedTime", res.elapsedTime);
 

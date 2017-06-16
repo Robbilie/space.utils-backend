@@ -74,8 +74,12 @@
 				credentials: request.credentials,
 				body: request.body
 			};
+			return this.getRes(req);
+		}
+
+		getRes(req) {
 			return this.doRequest(req).then(res => {
-				const serialized = this.serializeRes(res, request).then((_res) => {
+				const serialized = this.serializeRes(res, {}).then((_res) => {
 					if (request.responseInterceptor) {
 						_res = request.responseInterceptor(_res) || _res;
 					}
