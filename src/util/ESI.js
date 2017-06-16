@@ -59,7 +59,7 @@
 					if (res.headers.age === undefined)
 						Metrics.inc("esi.cacheMiss");
 
-					res.body = JSON.parse(res.body);
+					//res.body = JSON.parse(res.body);
 
 					Metrics.inc("esi.successful");
 					Metrics.inc("esi.completed");
