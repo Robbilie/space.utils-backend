@@ -46,6 +46,10 @@ spec:
           value: "monitoring-influxdb.kube-system"
         - name: GRAPHITE_HOST
           value: "graphite-service"
+        - name: GO_H2_PROXY_HOST
+          value: "go-swagger-http-worker-service"
+        - name: GO_H2_PROXY_PORT
+          value: 50051
         - name: XML_URL
           value: "https://api.eveonline.com"
         - name: CREST_URL

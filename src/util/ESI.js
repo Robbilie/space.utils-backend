@@ -14,12 +14,13 @@
 		time: true
 	});
 
-	const { Metrics } = require("util/");
+	const { Metrics, GoHTTPClient } = require("util/");
 
 	const config = {
 		url: process.env.ESI_URL,
 		ua: process.env.UA,
-		EXTENDED_METRICS: process.env.EXTENDED_METRICS === "true"
+		EXTENDED_METRICS: process.env.EXTENDED_METRICS === "true",
+		proxy: new GoHTTPClient(process.env.GO_H2_PROXY_HOST, process.env.GO_H2_PROXY_PORT)
 	};
 
 	if (config.url === undefined) {
@@ -32,7 +33,7 @@
 		return new_esi(args).catch(e => console.log("ESI ERROR", e) || get_esi(args));
 	}
 
-	function new_esi ({ url, spec, ua, EXTENDED_METRICS }) {
+	function new_esi ({ url, spec, ua, EXTENDED_METRICS, proxy }) {
 		return new Swagger({
 			spec,
 			url,
@@ -50,7 +51,8 @@
 					if (EXTENDED_METRICS === true)
 						Metrics.inc("esi.started");
 
-					let res = await request({ method, url, headers, body });
+					//let res = await request({ method, url, headers, body });
+					let res = await proxy.http2({ method, url, headers, body });
 
 					Metrics.update("esi.elapsedTime", res.elapsedTime);
 
