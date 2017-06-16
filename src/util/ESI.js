@@ -51,15 +51,15 @@
 					if (EXTENDED_METRICS === true)
 						Metrics.inc("esi.started");
 
-					//let res = await request({ method, url, headers, body });
-					let res = await proxy.http2({ method, url, headers, body });
+					let res = await request({ method, url, headers, body });
+					//let res = await proxy.http2({ method, url, headers, body });
 
 					Metrics.update("esi.elapsedTime", res.elapsedTime);
 
 					if (res.headers.age === undefined)
 						Metrics.inc("esi.cacheMiss");
 
-					//res.body = JSON.parse(res.body);
+					res.body = JSON.parse(res.body);
 
 					Metrics.inc("esi.successful");
 					Metrics.inc("esi.completed");
