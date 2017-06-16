@@ -79,12 +79,7 @@
 
 		getRes(req) {
 			return this.doRequest(req).then(res => {
-				const serialized = this.serializeRes(res, {}).then((_res) => {
-					if (request.responseInterceptor) {
-						_res = request.responseInterceptor(_res) || _res;
-					}
-					return _res;
-				});
+				const serialized = this.serializeRes(res, {});
 
 				if (!res.ok) {
 					const error = new Error(res.statusText);
