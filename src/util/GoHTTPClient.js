@@ -6,11 +6,11 @@
 	const qs = require('qs');
 	const jsYaml = require('js-yaml');
 
-	const { swaggerWorkerGrpc } = grpc.load(`${process.env.NODE_PATH}/../swagger-http-grpc/swagger-http.proto`);
+	const { SwaggerHTTPGRPC } = grpc.load(`${process.env.NODE_PATH}/../swagger-http-grpc/swagger-http.proto`);
 
 	class GoHTTPClient {
 		constructor(worker_address = "localhost", port = 50051){
-			this.client = new swaggerWorkerGrpc.Workers(`${worker_address}:${port}`, grpc.credentials.createInsecure());
+			this.client = new SwaggerHTTPGRPC.Workers(`${worker_address}:${port}`, grpc.credentials.createInsecure());
 			this.http2 = this.http2.bind(this);
 			this.serializeRes = this.serializeRes.bind(this);
 			this.doRequest = this.doRequest.bind(this);
