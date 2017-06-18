@@ -52,7 +52,7 @@
 					this.enqueue_reference("Alliance", alliance_id);
 
 				// get creator
-				if(creator_id !== undefined)
+				if(creator_id !== undefined && creator_id !== 1)
 					this.enqueue_reference("Character", creator_id);
 
 				// get all alliances
