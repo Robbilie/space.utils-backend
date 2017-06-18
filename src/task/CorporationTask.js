@@ -36,14 +36,13 @@
 			delete corporation.corporation_name;
 			delete corporation.corporation_description;
 
-			let { ceo_id, alliance_id, creator_id, member_count } = corporation;
+			const { id, ceo_id, alliance_id, creator_id, member_count } = corporation;
 
-			let hash = Hash(corporation);
-
+			const hash = Hash(corporation);
 			if (hash !== this.get_info().hash) {
 
 				await DB.collection("corporations").replaceOne(
-					{ id: corporation.id },
+					{ id },
 					corporation,
 					{ upsert: true }
 				);
@@ -75,10 +74,16 @@
 
 			}
 
-			await this.update({
-				expires: (ceo_id === 1 || member_count === 0) ? Number.MAX_SAFE_INTEGER : new Date(headers.expires).getTime(),
-				hash
-			});
+			let expires;
+			if (ceo_id === 1 || member_count === 0) {
+				expires = Number.MAX_SAFE_INTEGER;
+			} else if (alliance_id !== undefined) {
+				expires = Date.now() + (1000 * 60 * 60 * 24);
+			} else {
+				expires = new Date(headers.expires).getTime();
+			}
+
+			await this.update({ expires, hash });
 
 		}
 

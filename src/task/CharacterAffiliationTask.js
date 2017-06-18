@@ -23,8 +23,7 @@
 				.map(([{ character_id }]) => character_id);
 
 			if (ids.length !== 0) {
-				let now = Date.now();
-				await DB.collection("tasks").updateMany({ "data.character_id": { $in: ids }, "info.name": "Character" }, { $set: { "info.expires": now } });
+				await DB.collection("tasks").updateMany({ "info.name": "Character", "data.character_id": { $in: ids } }, { $set: { "info.expires": Date.now() } });
 			}
 
 			await this.update({ expires: Date.now() + (1000 * 60 * 15) });

@@ -27,24 +27,25 @@
 				corporation_history
 			});
 
-			let { id, corporation_id, alliance_id } = character;
+			const { id, corporation_id, alliance_id } = character;
 
-			let hash = Hash(character);
-
+			const hash = Hash(character);
 			if (hash !== this.get_info().hash) {
 
 				await DB.collection("characters").replaceOne(
-					{ id: character.id },
+					{ id },
 					character,
 					{ upsert: true }
 				);
 
+				// is a new char so add to an affiliation task
 				if (!old_character)
 					await CharacterAffiliationTask.queue_id(id);
 
 				// get corp
 				this.enqueue_reference("Corporation", corporation_id);
 
+				// if in an alliance, get alli
 				if (alliance_id !== undefined)
 					this.enqueue_reference("Alliance", alliance_id);
 
@@ -55,10 +56,14 @@
 
 			}
 
-			await this.update({
-				expires: (corporation_id === 1000001) ? Number.MAX_SAFE_INTEGER : Date.now() + (1000 * 60 * 60 * 24),
-				hash
-			});
+			let expires;
+			if (corporation_id === 1000001) {
+				expires = Number.MAX_SAFE_INTEGER; // doomheimed
+			} else {
+				expires = Date.now() + (1000 * 60 * 60 * 24); // wait for 24h and let char affiliation do the rest
+			}
+
+			await this.update({ expires, hash });
 
 		}
 
