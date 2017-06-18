@@ -139,6 +139,8 @@
 				let error = e.error;
 				if (e.name === "StatusCodeError")
 					console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
+				else if (e.statusCode !== undefined)
+					console.log(name, JSON.stringify({ name: e.message, statusCode: e.statusCode, error: e.response.body, href: e.response.url }));
 				else if (e.message === "Error: ESOCKETTIMEDOUT")
 					console.log(name, JSON.stringify({ name: e.message, href: e.options.url }));
 				else
