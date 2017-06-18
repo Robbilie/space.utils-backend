@@ -69,6 +69,7 @@
 			BaseTask.create_task("Wars", {}, true);			// ~265 "pages"
 			BaseTask.create_task("Types", {}, true);		// 32 pages
 			BaseTask.create_task("Systems", {}, true);
+			BaseTask.create_task("NPCCorporations", {}, true);
 		}
 
 		work_tasks () {
