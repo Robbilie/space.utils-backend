@@ -2,7 +2,7 @@
 	"use strict";
 
 	const { IDStore } = require("store/");
-	const { KillmailTask } = require("task/");
+	const { BaseTask } = require("task/");
 
 	class KillmailStore extends IDStore {
 
@@ -13,7 +13,7 @@
 			let killmail = this.find_by_id(killmail_id, {}, faf);
 
 			if(await killmail.isNull() === true && killmail_hash !== undefined)
-				await KillmailTask.create({ killmail_id, killmail_hash }, faf);
+				await BaseTask.create_task(this.getName(), { killmail_id, killmail_hash }, faf);
 
 			if (faf === true)
 				return null;
