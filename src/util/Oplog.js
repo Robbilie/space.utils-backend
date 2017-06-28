@@ -33,13 +33,13 @@
 			if(this.oplogs.has(index) === false) {
 				this.oplogs.set(index, (async (i, q) => {
 					console.log("oplog started", i, q);
-					let cursor = await DB
+					const cursor = await DB
 						.collection("oplog")
 						.find(q)
 						.batchSize(10000)
 						.addCursorFlag('tailable', true)
 						.addCursorFlag('awaitData', true);
-					cursor.forEach(() => {}, error => this.oplogs.delete(i));
+					cursor.forEach(() => {}, error => this.oplogs.get(i) === cursor ? this.oplogs.delete(i) : null);
 					return cursor;
 				})(index, query));
 			}
