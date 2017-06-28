@@ -32,6 +32,7 @@
 
 			if(this.oplogs.has(index) === false) {
 				this.oplogs.set(index, (async (i, q) => {
+					console.log("oplog started", i, q);
 					let cursor = await DB
 						.collection("oplog")
 						.find(q)
