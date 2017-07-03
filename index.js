@@ -11,7 +11,11 @@
 	Error.stackTraceLimit = Infinity;
 
 	// import the k8s secrets into a global variable
-	global.config = require("js-yaml").safeLoad(new Buffer(require("fs").readFileSync("/etc/secrets/config.yaml"), "base64"));
+	try {
+		global.config = require("js-yaml").safeLoad(new Buffer(require("fs").readFileSync("/etc/secrets/config.yaml"), "base64"));
+	} catch (e) {
+		console.log("no config");
+	}
 
 	// setup sentry if dsn is set
 	if(config.sentry && config.sentry.dsn !== "") {
