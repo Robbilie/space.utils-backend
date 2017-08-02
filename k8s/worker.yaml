@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: eas-worker-pod
-        image: index.docker.io/robbilie/eas:eas-node
+        image: robbilie/space.utils-backend
         imagePullPolicy: Always
         ports:
         - containerPort: 4001

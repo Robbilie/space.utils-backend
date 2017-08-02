@@ -32,7 +32,7 @@
 #    spec:
 #      containers:
 #      - name: eas-ws-pod
-#        image: index.docker.io/robbilie/eas:eas-node
+#        image: robbilie/space.utils-backend
 #        imagePullPolicy: Always
 #        ports:
 #        - containerPort: 4002

@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: eas-ui-pod
-        image: index.docker.io/robbilie/eas:space.utils
+        image: robbilie/space.utils-frontend
         env:
         - name: "PORT"
           value: "80"
