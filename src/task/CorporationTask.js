@@ -58,8 +58,8 @@
 				// get all alliances
 				if (alliance_history)
 					alliance_history
-						.filter(({ alliance }) => !!alliance)
-						.map(({ alliance: { alliance_id } }) => this.enqueue_reference("Alliance", alliance_id));
+						.filter(({ alliance_id }) => alliance_id !== undefined)
+						.map(({ alliance_id }) => this.enqueue_reference("Alliance", alliance_id));
 
 				// get ceo
 				if(ceo_id === 1) {
