@@ -3,14 +3,10 @@
 
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
-		// gzip: true, // actually slows down
 		forever: true,
-		//timeout: 1000 * 12,
 		pool: {
 			maxSockets: Infinity
 		},
-		//resolveWithFullResponse: true,
-		//time: true
 		json: true
 	});
 
@@ -32,8 +28,6 @@
 					await this.tick({ page });
 
 				const res = await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`);
-
-				console.log(res);
 
 				await Promise.all(Object
 					.entries(res)
