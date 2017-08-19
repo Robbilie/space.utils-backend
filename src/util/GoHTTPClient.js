@@ -25,7 +25,12 @@
 							Metrics.inc("esi.cacheMiss");
 						Metrics.inc("esi.successful");
 						Metrics.inc("esi.completed");
-						const newres = Object.assign(res, { text: async function () { return this.body; } });
+						const newres = Object.assign(res, {
+							headers: Object.entries(res.headers).reduce((res, [key, {value}]) =>
+									value.length === 1 ? Object.assign(res, { [key]: value[0] }) : Object.assign(res, { [key]: value })
+								, {}),
+							text: async function () { return this.body; }
+						});
 						console.log(newres);
 						resolve(newres);
 					}
