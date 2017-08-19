@@ -19,13 +19,13 @@
 					if (err) {
 						Metrics.inc("esi.errors");
 						Metrics.inc("esi.completed");
-						reject(err)
+						reject(err);
 					} else {
 						if (res.headers.age === undefined)
 							Metrics.inc("esi.cacheMiss");
 						Metrics.inc("esi.successful");
 						Metrics.inc("esi.completed");
-						resolve(res)
+						resolve(Object.assign(res, { text: res.body }));
 					}
 				})
 			);
