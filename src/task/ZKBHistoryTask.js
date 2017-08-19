@@ -9,8 +9,9 @@
 		pool: {
 			maxSockets: Infinity
 		},
-		resolveWithFullResponse: true,
-		time: true
+		//resolveWithFullResponse: true,
+		//time: true
+		json: true
 	});
 
 	const { BaseTask } = require("task/");
