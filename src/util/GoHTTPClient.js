@@ -13,9 +13,9 @@
 			this.doRequest = this.doRequest.bind(this);
 		}
 
-		doRequest (url, options) {
+		doRequest (url, { headers, method, body }) {
 			return new Promise((resolve, reject) =>
-				this.client.doRequest({ url, ...options }, (err, res) => {
+				this.client.doRequest({ url, headers, method, body }, (err, res) => {
 					if (err) {
 						Metrics.inc("esi.errors");
 						Metrics.inc("esi.completed");
