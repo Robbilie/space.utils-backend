@@ -29,12 +29,14 @@
 
 				const res = await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`);
 
-				await Promise.all(Object
-					.entries(res)
-					.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
-					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
-					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
-					.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash })));
+				//await Promise.all(
+					Object
+						.entries(res)
+						.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
+						.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
+						.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
+						.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }))
+				//);
 			}
 
 			if (this.get_url_date(date) !== this.get_url_date())
