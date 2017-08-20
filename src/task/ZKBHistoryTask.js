@@ -29,7 +29,7 @@
 
 				const res = await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`);
 
-				const start = Date.now();
+				const pre = Date.now();
 				//await Promise.all(
 					Object
 						.entries(res)
@@ -39,7 +39,7 @@
 						//.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }))
 						.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash))
 				//);
-				console.log(page, "took", (Date.now() - start) / 1000, "seconds");
+				console.log(page, "took", (Date.now() - pre) / 1000, "seconds");
 			}
 
 			if (this.get_url_date(date) !== this.get_url_date())
