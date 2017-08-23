@@ -38,7 +38,7 @@
 						.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
 						.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
 						//.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }))
-						.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash))
+						.map(([killmail_id, killmail_hash]) => console.log("enqueue km", killmail_id) || this.enqueue_reference("Killmail", killmail_id, killmail_hash))
 				//);
 				clearInterval(inter);
 				console.log(page, "took", (Date.now() - pre) / 1000, "seconds");
