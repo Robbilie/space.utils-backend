@@ -8,14 +8,14 @@
 
 		static async find_or_create (killmail_id, killmail_hash, faf = false, {} = $(1, { killmail_id }, "Number")) {
 
-			console.log("foc killmail", killmail_id, killmail_hash);
+			//console.log("foc killmail", killmail_id, killmail_hash);
 
 			let killmail = this.find_by_id(killmail_id, {}, faf);
 
 			if(await killmail.isNull() === true && killmail_hash !== undefined)
 				await BaseTask.create_task(this.getName(), { killmail_id, killmail_hash }, faf);
 
-			console.log("done with km", killmail_id, faf);
+			//console.log("done with km", killmail_id, faf);
 
 			if (faf === true)
 				return null;
