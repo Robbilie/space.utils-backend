@@ -28,7 +28,7 @@
 			this.EXTENDED_METRICS = process.env.EXTENDED_METRICS === "true";
 			this.reference_queue = [];
 			this.reference_queue_max = parseInt(process.env.REFERENCE_QUEUE_MAX);
-			this.reference_queue_interval = setInterval(() => this.work_reference_queue(), 10 * 1000);
+			//this.reference_queue_interval = setInterval(() => this.work_reference_queue(), 10 * 1000);
 
 			this.heartbeat = Date.now();
 
