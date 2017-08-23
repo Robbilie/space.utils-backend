@@ -28,6 +28,7 @@
 			this.EXTENDED_METRICS = process.env.EXTENDED_METRICS === "true";
 			this.reference_queue = [];
 			this.reference_queue_max = parseInt(process.env.REFERENCE_QUEUE_MAX);
+			this.reference_queue_interval = setInterval(() => this.work_reference_queue(), 10 * 1000);
 
 			this.start_heartbeat();
 
@@ -161,6 +162,11 @@
 		}
 
 		enqueue_reference (name, ...args) {
+			this.reference_queue.push([name, args]);
+			if (this.reference_queue.length >= this.reference_queue_max)
+				setImmediate(() => this.work_reference_queue());
+
+			/*
 			setImmediate(() => {
 				clearTimeout(this.reference_queue_timeout);
 				this.reference_queue_timeout = setTimeout(() => this.work_reference_queue(), 10 * 1000);
@@ -170,12 +176,13 @@
 					this.work_reference_queue();
 				}
 			});
+			*/
 		}
 
 		work_reference_queue () {
-			let queue = this.reference_queue;
+			const queue = this.reference_queue;
 			this.reference_queue = [];
-			queue.forEach(([name, args]) => setImmediate(() =>LoadUtil.store(name).find_or_create(...args, true)));
+			queue.forEach(([name, args]) => setImmediate(() => LoadUtil.store(name).find_or_create(...args, true)));
 		}
 
 	}
