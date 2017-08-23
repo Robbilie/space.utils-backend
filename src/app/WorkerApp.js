@@ -167,11 +167,10 @@
 		}
 
 		enqueue_reference (name, ...args) {
-			this.reference_queue.push([name, args]);
-			if (this.reference_queue.length >= this.reference_queue_max)
-				setImmediate(() => this.work_reference_queue());
+			//this.reference_queue.push([name, args]);
+			//if (this.reference_queue.length >= this.reference_queue_max)
+			//	setImmediate(() => this.work_reference_queue());
 
-			/*
 			setImmediate(() => {
 				clearTimeout(this.reference_queue_timeout);
 				this.reference_queue_timeout = setTimeout(() => this.work_reference_queue(), 10 * 1000);
@@ -181,14 +180,13 @@
 					this.work_reference_queue();
 				}
 			});
-			*/
 		}
 
 		work_reference_queue () {
 			const queue = this.reference_queue;
 			this.reference_queue = [];
 			queue.forEach(([name, args]) => setImmediate(() => LoadUtil.store(name).find_or_create(...args, true)));
-			console.log("worked reference queue");
+			//console.log("worked reference queue");
 		}
 
 	}
