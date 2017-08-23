@@ -76,17 +76,17 @@
 
 		work_tasks () {
 			for (let i = 0; i < this.PARALLEL_TASK_LIMIT; i++)
-				this.next();
+				this.next(i);
 		}
 
-		next () {
-			this.process_next()
+		next (lane) {
+			this.process_next(lane)
 				.catch(e => (e.toString() === "MongoError: operation exceeded time limit" ? null : console.log("shouldn't happen", e)) || true)
 				.then(should_wait => should_wait ? Promise.resolve().wait(5 * 1000) : Promise.resolve())
-				.then(() => process.nextTick(() => this.next()));
+				.then(() => process.nextTick(() => this.next(lane)));
 		}
 
-		async process_next () {
+		async process_next (lane) {
 
 			let should_wait = false;
 
@@ -117,6 +117,8 @@
 				return true;
 
 			let { _id, info: { name } } = value;
+
+			console.log("task", lane, _id, name, "started");
 
 			if (this.EXTENDED_METRICS === true)
 				Metrics.inc("tasks.started");
@@ -156,6 +158,8 @@
 			Metrics.inc("tasks.completed");
 
 			this.heartbeat = Date.now();
+
+			console.log("task", lane, _id, name, "completed");
 
 			return should_wait;
 
