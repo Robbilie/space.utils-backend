@@ -15,6 +15,8 @@
 			if(await killmail.isNull() === true && killmail_hash !== undefined)
 				await BaseTask.create_task(this.getName(), { killmail_id, killmail_hash }, faf);
 
+			console.log("done with km", killmail_id, faf);
+
 			if (faf === true)
 				return null;
 
