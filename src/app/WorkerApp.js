@@ -175,7 +175,7 @@
 		work_reference_queue () {
 			let queue = this.reference_queue;
 			this.reference_queue = [];
-			queue.forEach(([name, args]) => LoadUtil.store(name).find_or_create(...args, true));
+			queue.forEach(([name, args]) => setImmediate(() =>LoadUtil.store(name).find_or_create(...args, true)));
 		}
 
 	}
