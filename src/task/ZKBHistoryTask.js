@@ -36,13 +36,15 @@
 
 				console.log("zkb start map", page);
 
-				Object
-					.entries(res)
-					.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
-					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
-					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
-					//.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }))
-					.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
+				await Promise.all(
+					Object
+						.entries(res)
+						.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
+						.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
+						.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
+						.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }, true))
+						//.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
+				);
 
 				console.log("zkb end map", page);
 			}
