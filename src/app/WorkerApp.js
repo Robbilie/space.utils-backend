@@ -30,6 +30,8 @@
 			this.reference_queue_max = parseInt(process.env.REFERENCE_QUEUE_MAX);
 			this.reference_queue_interval = setInterval(() => this.work_reference_queue(), 10 * 1000);
 
+			this.heartbeat = Date.now();
+
 			this.start_heartbeat();
 
 			// start some basic tasks
@@ -41,9 +43,8 @@
 		}
 
 		start_heartbeat () {
-			// liveness probe from k8s
-			this.heartbeat = Date.now();
 			http.createServer((req, res) => {
+				console.log("webserver", req.url);
 				switch (req.url) {
 					case "/healthcheck":
 						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
@@ -187,6 +188,7 @@
 			const queue = this.reference_queue;
 			this.reference_queue = [];
 			queue.forEach(([name, args]) => setImmediate(() => LoadUtil.store(name).find_or_create(...args, true)));
+			console.log("worked reference queue");
 		}
 
 	}

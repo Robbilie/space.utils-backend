@@ -20,14 +20,21 @@
 		}
 
 		async get_pages (page = "2007-12-05", start = false) {
+			console.log("get page", page);
 
 			const date = new Date(page);
 
 			{
+				console.log("page tick", page);
+
 				if (start === false)
 					await this.tick({ page });
 
+				console.log("api page", page);
+
 				const res = await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`);
+
+				console.log("zkb start map", page);
 
 				Object
 					.entries(res)
@@ -36,6 +43,8 @@
 					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
 					//.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }))
 					.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
+
+				console.log("zkb end map", page);
 			}
 
 			if (this.get_url_date(date) !== this.get_url_date())
