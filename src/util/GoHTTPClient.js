@@ -23,7 +23,10 @@
 					} else {
 						if (res.headers.age === undefined)
 							Metrics.inc("esi.cacheMiss");
-						Metrics.inc("esi.successful");
+						if (res.status >= 400)
+							Metrics.inc("esi.errors");
+						else
+							Metrics.inc("esi.successful");
 						Metrics.inc("esi.completed");
 						resolve(Object.assign(res, {
 							headers: Object.assign(Object
