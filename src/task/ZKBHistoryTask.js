@@ -41,7 +41,7 @@
 						.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
 						.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
 						.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
-						.chunk(1000);
+						.chunk(2500);
 				console.log("chunked page", page);
 
 				for (let chunk in chunks)
