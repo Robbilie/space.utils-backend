@@ -29,6 +29,7 @@
 			this.reference_queue = [];
 			this.reference_queue_max = parseInt(process.env.REFERENCE_QUEUE_MAX);
 			//this.reference_queue_interval = setInterval(() => this.work_reference_queue(), 10 * 1000);
+			this.wait_queue = [];
 
 			this.heartbeat = Date.now();
 
@@ -83,7 +84,7 @@
 		next (lane) {
 			this.process_next(lane)
 				.catch(e => (e.toString() === "MongoError: operation exceeded time limit" ? null : console.log("shouldn't happen", e)) || true)
-				.then(should_wait => should_wait ? Promise.resolve().wait(5 * 1000) : Promise.resolve())
+				.then(should_wait => !this.wait_queue.push(should_wait) || this.wait_queue.pop() ? Promise.resolve().wait(5 * 1000) : Promise.resolve())
 				.then(() => process.nextTick(() => this.next(lane)));
 		}
 
