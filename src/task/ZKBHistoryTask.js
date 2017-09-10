@@ -36,6 +36,19 @@
 
 				console.log("zkb start map", page);
 
+
+				let interval = setInterval(() => this.tick(), 30 * 1000);
+
+				const kms = Object
+					.entries(res)
+					.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
+					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
+					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40);
+
+				for (let [killmail_id, killmail_hash] in kms)
+					await BaseTask.create_task("Killmail", { killmail_id, killmail_hash }, true);
+
+				/*
 				const chunks = Object
 						.entries(res)
 						.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
@@ -49,6 +62,9 @@
 						//.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }, true))
 						//.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
 				//);
+				*/
+
+				clearInterval(interval);
 
 				console.log("zkb end map", page);
 			}
