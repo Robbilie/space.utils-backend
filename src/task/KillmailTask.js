@@ -14,19 +14,23 @@
 				id: 				this.get_data().killmail_id,
 				hash: 				this.get_data().killmail_hash,
 				attacker_count: 	killmail.attackers.length,
-				time: 				new Date(killmail.killmail_time).getTime(),
-				killmail_id: 		undefined,
-				killmail_time: 		undefined
+				time: 				new Date(killmail.killmail_time).getTime()
 			});
 
+			// TODO : ESI should fix this
+			delete killmail.killmail_id;
+			delete killmail.killmail_time;
+
+			const { id, victim, attackers } = killmail;
+
 			await DB.collection("killmails").replaceOne(
-				{ id: this.get_data().killmail_id },
+				{ id },
 				killmail,
 				{ upsert: true }
 			);
 
-			if (killmail.victim) {
-				let { character_id, corporation_id, alliance_id } = killmail.victim;
+			if (victim) {
+				let { character_id, corporation_id, alliance_id } = victim;
 				if (character_id !== undefined)
 					this.enqueue_reference("Character", character_id);
 				if (corporation_id !== undefined)
@@ -35,8 +39,8 @@
 					this.enqueue_reference("Alliance", alliance_id);
 			}
 
-			if (killmail.attackers)
-				killmail.attackers.forEach(({ character_id, corporation_id, alliance_id }) => {
+			if (attackers)
+				attackers.forEach(({ character_id, corporation_id, alliance_id }) => {
 					if (character_id !== undefined)
 						this.enqueue_reference("Character", character_id);
 					if (corporation_id !== undefined)
