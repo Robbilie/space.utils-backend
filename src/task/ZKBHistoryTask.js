@@ -11,6 +11,7 @@
 	});
 
 	const { BaseTask } = require("task/");
+	const { DB, ESI, Hash, PropertyWrap: { _ } } = require("util/");
 
 	class ZKBHistoryTask extends BaseTask {
 
@@ -36,37 +37,26 @@
 
 				console.log("zkb start map", page);
 
-
-				let interval = setInterval(() => this.tick(), 30 * 1000);
-
-				const kms = Object
+				const killmails = Object
 					.entries(res)
 					.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
 					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
 					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40);
 
-				for (let [killmail_id, killmail_hash] of kms) {
-					console.log("create km task", killmail_id);
-					await BaseTask.create_task("Killmail", { killmail_id, killmail_hash }, true);
-				}
+				const ids = await DB
+					.collection("killmails")
+					.find({ id: { $in: killmails.map(_[0]) } })
+					.project({ id: 1 })
+					.toArray()
+					.map(_.id);
 
-				/*
-				const chunks = Object
-						.entries(res)
-						.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
-						.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
-						.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40)
-						.chunk(2500);
-				console.log("chunked page", page);
-
-				for (let chunk in chunks)
-					await Promise.all(chunk.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash)));
-						//.map(([killmail_id, killmail_hash]) => BaseTask.create_task("Killmail", { killmail_id, killmail_hash }, true))
-						//.map(([killmail_id, killmail_hash]) => this.enqueue_reference("Killmail", killmail_id, killmail_hash));
-				//);
-				*/
-
-				clearInterval(interval);
+				await DB
+					.collection("tasks")
+					.insertMany(
+						killmails
+							.filter(([killmail_id]) => !ids.includes(killmail_id))
+							.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id, killmail_hash }))
+					);
 
 				console.log("zkb end map", page);
 			}

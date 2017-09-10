@@ -67,7 +67,7 @@
 		tick (options = {}) {
 			return this.update(Object.assign({ state: 1, modified: Date.now() }, options), false);
 		}
-		
+
 		async destroy (oplog = true) {
 			await DB.collection("tasks").remove({ _id: this.get__id() });
 			if (oplog === true)
@@ -91,19 +91,7 @@
 						{ "info.name": name },
 						Object.entries(data).reduce((p, [name, value]) => { p[`data.${name}`] = value; return p; }, {})
 					),
-					//{ data, "info.name": name },
-					{
-						$setOnInsert: {
-							_id,
-							data,
-							info: {
-								name,
-								state: 0,
-								expires: 0,
-								modified: 0
-							}
-						}
-					},
+					{ $setOnInsert: BaseTask.create_doc(name, data, { _id }) },
 					{ upsert: true }
 				);
 
@@ -116,6 +104,10 @@
 				}
 
 			});
+		}
+
+		static create_doc (name, data, extras = {}) {
+			return { ...extras, data, info: { name, state: 0, expires: 0, modified: 0 } };
 		}
 
 		static watch () {
