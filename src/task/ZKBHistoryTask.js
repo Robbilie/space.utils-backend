@@ -45,7 +45,7 @@
 					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
 					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40);
 
-				for (let [killmail_id, killmail_hash] in kms) {
+				for (let [killmail_id, killmail_hash] of kms) {
 					console.log("create km task", killmail_id);
 					await BaseTask.create_task("Killmail", { killmail_id, killmail_hash }, true);
 				}
