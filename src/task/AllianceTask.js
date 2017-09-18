@@ -32,6 +32,7 @@
 			const { id } = alliance;
 
 			const hash = Hash(alliance);
+
 			if (hash !== this.get_info().hash) {
 
 				await DB.collection("alliances").replaceOne(

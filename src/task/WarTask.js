@@ -19,9 +19,9 @@
 				if(war.retracted)
 					war.retracted = new Date(war.retracted).getTime();
 
-			let { finished, aggressor, defender, allies } = war;
+			const { finished, aggressor, defender, allies } = war;
 
-			let hash = Hash(war);
+			const hash = Hash(war);
 
 			if (hash !== this.get_info().hash) {
 
