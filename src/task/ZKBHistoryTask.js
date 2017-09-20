@@ -43,18 +43,22 @@
 					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
 					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40);
 
+				/*
+				const killmail_ids = killmails.map(_[0]);
+
 				const ids = await DB
 					.collection("killmails")
-					.find({ id: { $in: killmails.map(_[0]) } })
+					.find({ id: { $gte: killmail_ids[0], $lte: killmail_ids[killmail_ids.length - 1] } })
 					.project({ id: 1 })
 					.toArray()
 					.map(_.id);
+				*/
 
 				await DB
 					.collection("tasks")
 					.insertMany(
 						killmails
-							.filter(([killmail_id]) => !ids.includes(killmail_id))
+							//.filter(([killmail_id]) => !ids.includes(killmail_id))
 							.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id, killmail_hash }))
 					);
 
