@@ -8,7 +8,7 @@
 
 		static async find_or_create (id, faf = false, {} = $(1, { [`${this.getName().toLowerCase()}_id`]: id }, "Number")) {
 
-			let entity = this.find_by_id(id, {}, faf);
+			let entity = this.find_by_id(id, faf === false ? {} : { fields: { id: true } }, faf);
 
 			if (await entity.isNull() === true)
 				await BaseTask.create_task(this.getName(), { [`${this.getName().toLowerCase()}_id`]: id }, faf);
