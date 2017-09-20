@@ -69,7 +69,7 @@
 		}
 
 		async destroy (oplog = true) {
-			await DB.collection("tasks").remove({ _id: this.get__id() });
+			await DB.collection("tasks").deleteOne({ _id: this.get__id() });
 			if (oplog === true)
 				await Oplog.destroy("tasks", { _id: this.get__id() });
 		}
