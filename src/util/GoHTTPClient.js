@@ -4,7 +4,7 @@
 	const grpc = require('grpc');
 	const { Metrics } = require("util/");
 
-	const { SwaggerHTTPGRPC } = grpc.load(`${process.env.NODE_PATH}/../swagger-http-grpc/swagger-http.proto`);
+	const { SwaggerHTTPGRPC } = grpc.load(`${process.env.NODE_PATH}/../node_modules/swagger-http-grpc/swagger-http.proto`);
 
 	class GoHTTPClient {
 

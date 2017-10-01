@@ -24,6 +24,7 @@
     "request-promise-native": "^1.0.4",
     "swagger-client": "^3.0.20",
     "swagger-tools": "^0.10.1",
-    "ws": "^1.1.4"
+    "ws": "^1.1.4",
+    "swagger-http-grpc": "itshouldntdothis/swagger-http-grpc"
   }
 }
