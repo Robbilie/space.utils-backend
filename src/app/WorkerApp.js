@@ -122,9 +122,6 @@
 
 			console.log("task", lane, _id, name, "started");
 
-			if (this.EXTENDED_METRICS === true)
-				Metrics.inc("tasks.started");
-
 			try {
 
 				let start = process.hrtime();
@@ -135,8 +132,7 @@
 				let duration = process.hrtime(start);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 				Metrics.update("tasks.duration", duration);
-				if (this.EXTENDED_METRICS === true)
-					Metrics.update(`tasks.type.${name}`, duration);
+				Metrics.update(`tasks.type.${name}`, duration);
 
 			} catch (e) {
 
