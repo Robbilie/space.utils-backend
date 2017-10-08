@@ -27,6 +27,7 @@
 							Metrics.inc("esi.errors");
 						else
 							Metrics.inc("esi.successful");
+						Metrics.inc(`esi.status.${res.status}`);
 						Metrics.inc("esi.completed");
 						resolve(Object.assign(res, {
 							headers: Object.assign(Object
