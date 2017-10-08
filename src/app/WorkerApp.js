@@ -96,7 +96,7 @@
 
 			let atomic_start = process.hrtime();
 
-			let { value } = await DB.collection("tasks").findOneAndUpdate(
+			const { value } = await DB.collection("tasks").findOneAndUpdate(
 				{ "info.expires": { $lt: now }, "info.modified": { $lt: now - (this.TASK_TIMEOUT_SECONDS * 1000) } }
 				/*{ $or: [
 				 { "info.state": 0, "info.expires": { $lt: (now / 1000)|0 } },
@@ -118,14 +118,14 @@
 			if (!value)
 				return true;
 
-			let { _id, info: { name } } = value;
+			const { _id, info: { name } } = value;
 
 			console.log("task", lane, _id, name, "started");
 
 			try {
 
-				let start = process.hrtime();
-				let t = new (LoadUtil.task(name))(this, value);
+				const start = process.hrtime();
+				const t = new (LoadUtil.task(name))(this, value);
 
 				await t.start();
 
