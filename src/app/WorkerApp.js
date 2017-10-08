@@ -68,17 +68,11 @@
 		}
 
 		static create_base_tasks () {
-			BaseTask.create_task("Alliances", {}, true);
-			BaseTask.create_task("Factions", {}, true);
-			BaseTask.create_task("Wars", {}, true);			// ~265 "pages"
-			BaseTask.create_task("Types", {}, true);		// 32 pages
-			BaseTask.create_task("Systems", {}, true);
-			BaseTask.create_task("NPCCorporations", {}, true);
+			["Alliances", "Factions", "Wars", "Types", "Systems", "NPCCorporations"].forEach(name => BaseTask.create_task(name, {}, true));
 		}
 
 		work_tasks () {
-			for (let i = 0; i < this.PARALLEL_TASK_LIMIT; i++)
-				this.next(i);
+			Array.from(new Array(this.PARALLEL_TASK_LIMIT)).forEach((e, i) => this.next(i));
 		}
 
 		next (lane) {
@@ -92,7 +86,7 @@
 
 			let should_wait = false;
 
-			let now = Date.now();
+			const now = Date.now();
 
 			let atomic_start = process.hrtime();
 
@@ -110,7 +104,7 @@
 				}
 			);
 
-			let atomic_duration = process.hrtime(atomic_start);
+			const atomic_duration = process.hrtime(atomic_start);
 			Metrics.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
 			this.heartbeat = Date.now();
