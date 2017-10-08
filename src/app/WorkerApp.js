@@ -72,7 +72,7 @@
 		}
 
 		work_tasks () {
-			Array.from(new Array(this.PARALLEL_TASK_LIMIT)).forEach((e, i) => this.next(i));
+			new Array(this.PARALLEL_TASK_LIMIT).fill(0).forEach((e, i) => this.next(i));
 		}
 
 		next (lane) {
