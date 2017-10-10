@@ -88,7 +88,7 @@
 
 			const now = Date.now();
 
-			let atomic_start = process.hrtime();
+			const atomic_start = process.hrtime();
 
 			const { value } = await DB.collection("tasks").findOneAndUpdate(
 				{ "info.expires": { $lt: now }, "info.modified": { $lt: now - (this.TASK_TIMEOUT_SECONDS * 1000) } }

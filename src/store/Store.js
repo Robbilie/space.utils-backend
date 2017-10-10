@@ -10,7 +10,14 @@
 					if(param.constructor.name === "Cursor") {
 						return param.toArray();
 					} else {
-						return param(await this.collection()).toArray();
+						const atomic_start = process.hrtime();
+						return param(await this.collection()).toArray().then(x => {
+							if (process.env.APP_NAME === "API") {
+								const atomic_duration = process.hrtime(atomic_start);
+								console.log("db op took", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
+							}
+							return x;
+						});
 					}
 				})(),
 				this.get_list()
