@@ -3,6 +3,7 @@
 
 	const { DB, Oplog } = require("util/");
 	const { ObjectID } = require("mongodb");
+	const ws  = require("ws");
 
 	const storage = {
 		tasks: new Map()
@@ -111,6 +112,17 @@
 		}
 
 		static watch () {
+			const reconnect = setTimeout(() => BaseTask.watch(), 1000);
+			const ws = new ws(process.env.TASKOPLOG_URL);
+			ws.on("message", tid => {
+				if(tid !== undefined && storage.tasks.get(tid)) {
+					storage.tasks.get(tid)();
+					storage.tasks.delete(tid);
+				}
+			});
+			ws.on("error", reconnect);
+			ws.on("close", reconnect);
+			/*
 			Oplog.updates({ ns: "tasks" }, undefined, async ({ op, o, o2 }) => {
 				// giant BLA BLA BLA of finding the _id to call from the map
 				//console.log(JSON.stringify({ op, o, o2 }));
@@ -137,6 +149,7 @@
 					storage.tasks.delete(tid);
 				}
 			});
+			*/
 		}
 
 	}

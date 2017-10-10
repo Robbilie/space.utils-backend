@@ -1,0 +1,63 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: eas-taskoplog-service
+  labels:
+    app: eas-taskoplog
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 4001
+    protocol: TCP
+  selector:
+    app: eas-taskoplog
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  labels:
+    app: eas-taskoplog
+  name: eas-taskoplog-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eas-taskoplog
+  template:
+    metadata:
+      labels:
+        app: eas-taskoplog
+    spec:
+      containers:
+      - name: eas-taskoplog-pod
+        image: robbilie/space.utils-backend
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4001
+        resources:
+          limits:
+            memory: "200Mi"
+            #cpu: "70m"
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/secrets"
+          readOnly: true
+        env:
+        - name: APP_NAME
+          value: "TaskOplog"
+        - name: APP_PORT
+          value: "4001"
+        - name: MONGO_URL
+          value: "mongodb://mongo-service:27017"
+        - name: MONGO_DB
+          value: "test"
+      volumes:
+      - name: config
+        secret:
+          secretName: eas-config
+      nodeSelector:
+        kubernetes.io/hostname: "sheliak"
+      imagePullSecrets:
+      - name: myregistrykey

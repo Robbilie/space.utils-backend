@@ -53,6 +53,8 @@ spec:
           value: "utils.space"
         - name: UA
           value: "utils.space-eas-node.js-kubernetes-api (Robert Schuh/Vincent Eneticum)"
+        - name: TASKOPLOG_URL
+          value: "ws://eas-taskoplog-service"
         - name: MONGO_URL
           value: "mongodb://mongo-service:27017"
         - name: MONGO_DB
@@ -83,7 +85,6 @@ spec:
           timeoutSeconds: 60
         livenessProbe:
           httpGet:
-            #path: /api-docs
             path: /alliances/434243723/ # C C P Alliance
             port: 4001
           initialDelaySeconds: 60
@@ -94,5 +95,3 @@ spec:
           secretName: eas-config
       nodeSelector:
         kubernetes.io/hostname: "sheliak"
-      imagePullSecrets:
-      - name: myregistrykey

@@ -38,6 +38,8 @@ spec:
           value: "utils.space"
         - name: UA
           value: "utils.space-eas-node.js-kubernetes-worker (Robert Schuh/Vincent Eneticum)"
+        - name: TASKOPLOG_URL
+          value: "ws://eas-taskoplog-service"
         - name: MONGO_URL
           value: "mongodb://mongo-service:27017"
         - name: MONGO_DB
@@ -87,6 +89,4 @@ spec:
         secret:
           secretName: eas-config
       nodeSelector:
-        kubernetes.io/hostname: "menkar"
-      imagePullSecrets:
-      - name: myregistrykey
+        kubernetes.io/hostname: "sheliak"

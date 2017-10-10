@@ -46,5 +46,3 @@ spec:
           timeoutSeconds: 30
       nodeSelector:
         kubernetes.io/hostname: "sheliak"
-      imagePullSecrets:
-      - name: myregistrykey
