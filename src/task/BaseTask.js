@@ -112,7 +112,7 @@
 		}
 
 		static watch () {
-			const reconnect = setTimeout(() => BaseTask.watch(), 1000);
+			const reconnect = () => setTimeout(() => BaseTask.watch(), 1000);
 			const socket = new ws(process.env.TASKOPLOG_URL);
 			socket.on("message", tid => {
 				if(tid !== undefined && storage.tasks.get(tid)) {
