@@ -35,6 +35,8 @@
 
 			this.start_heartbeat();
 
+			await DB;
+
 			// start some basic tasks
 			WorkerApp.create_base_tasks();
 
