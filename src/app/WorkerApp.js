@@ -126,14 +126,19 @@
 			try {
 
 				const start = process.hrtime();
+				console.log("process_next 6", lane);
 				const t = new (LoadUtil.task(name))(this, value);
+				console.log("process_next 7", lane);
 
 				await t.start();
+				console.log("process_next 8", lane);
 
 				let duration = process.hrtime(start);
+				console.log("process_next 9", lane);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 				Metrics.update("tasks.duration", duration);
 				Metrics.update(`tasks.type.${name}`, duration);
+				console.log("process_next 10", lane);
 
 			} catch (e) {
 
