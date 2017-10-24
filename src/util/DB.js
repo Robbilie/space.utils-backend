@@ -19,7 +19,7 @@
 
 	function new_db ({ url, db, settings }) {
 		console.log("new_db");
-		return MongoClient.connect(`${url}/${db}`, settings)
+		return MongoClient.connect(`${url}/${db}`, settings).then(db => console.log(`~ Connected to ${url}/${db}`) || db);
 	}
 
 	module.exports = PromiseWrap(get_db(config));
