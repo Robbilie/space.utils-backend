@@ -8,7 +8,10 @@
 
 		async start () {
 
+			console.log("corp 1");
+
 			let { body: corporation, headers } = await ESI.Corporation.get_corporations_corporation_id(this.get_data());
+			console.log("corp 2");
 
 			corporation = Object.assign(corporation, {
 				id: 				this.get_data().corporation_id,
@@ -26,7 +29,9 @@
 
 			const { id, ceo_id, alliance_id, creator_id, member_count } = corporation;
 
+			console.log("corp 3");
 			const hash = Hash(corporation);
+			console.log("corp 4");
 
 			if (hash !== this.get_info().hash) {
 
@@ -68,6 +73,7 @@
 				}
 
 			}
+			console.log("corp 5");
 
 			let expires;
 			if (ceo_id === 1 || member_count === 0) {
@@ -79,6 +85,7 @@
 			}
 
 			await this.update({ expires, hash });
+			console.log("corp 6");
 
 		}
 
