@@ -11,18 +11,18 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.4",
-    "express": "^4.15.4",
-    "grpc": "^1.4.1",
-    "js-yaml": "^3.9.1",
-    "metrics": "^0.1.13",
+    "express": "^4.16.2",
+    "grpc": "^1.6.6",
+    "js-yaml": "^3.10.0",
+    "metrics": "^0.1.14",
     "metrics-influxdb": "^0.1.1",
-    "mongodb": "^2.2.31",
+    "mongodb": "^2.2.33",
     "raven": "^1.2.1",
-    "request": "^2.81.0",
-    "request-promise-native": "^1.0.4",
-    "swagger-client": "^3.0.20",
-    "swagger-tools": "^0.10.1",
-    "ws": "^1.1.4",
-    "swagger-http-grpc": "itshouldntdothis/swagger-http-grpc"
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "swagger-client": "^3.3.0",
+    "swagger-http-grpc": "github:itshouldntdothis/swagger-http-grpc",
+    "swagger-tools": "^0.10.3",
+    "ws": "^1.1.4"
   }
 }
