@@ -18,6 +18,7 @@
 	}
 
 	function new_db ({ url, db, settings }) {
+		console.log("new_db");
 		return MongoClient.connect(`${url}/${db}`, settings)
 	}
 
