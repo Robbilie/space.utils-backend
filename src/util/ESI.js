@@ -13,8 +13,10 @@
 
 	if (config.url === undefined) {
 		try {
-			config.spec = require(process.env.NODE_PATH + "/../specs/_latest.json");
-		} catch (e) {}
+			config.spec = require(`${process.env.NODE_PATH}/../specs/_latest.json`);
+		} catch (e) {
+			console.log("No spec file.", e);
+		}
 	}
 
 	function get_esi (args) {
@@ -22,11 +24,12 @@
 	}
 
 	function new_esi ({ url, spec, userFetch }) {
-		return new Swagger({ spec, url, userFetch });
+		console.log(`~ Creating new Swagger`);
+		return new Swagger({ spec, url, userFetch }).then(swagger => console.log(`~ Created new Swagger`) || swagger);
 	}
 
 	module.exports = ((swaggerPromise) => new Proxy({}, {
-		get: (_, tagName) => new Proxy({}, {
-			get: (_, operationId) => (...args) => swaggerPromise.then(client => client.apis[tagName][operationId](...args))
+		get: (_1, tagName) => new Proxy({}, {
+			get: (_2, operationId) => (...args) => swaggerPromise.then(client => client.apis[tagName][operationId](...args))
 		})
 	}))(get_esi(config));
