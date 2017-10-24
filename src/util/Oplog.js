@@ -47,7 +47,7 @@
 		}
 
 		log ({ op, ns, ts = Timestamp(0, Date.now() / 1000 | 0), o, o2 } = {}) {
-			DB.collection("oplog").insertOne({ op, ns, ts, o: op === "u" ? this.strip(o) : o, o2: op === "u" ? this.strip(o2) : o2 });
+			return DB.collection("oplog").insertOne({ op, ns, ts, o: op === "u" ? this.strip(o) : o, o2: op === "u" ? this.strip(o2) : o2 });
 		}
 
 		insert (ns, o, ts) {
