@@ -25,7 +25,7 @@
 					console.log(`${level} -- ${msg}`);
 				}
 			});
-			reporter.start(10 * 1000/*, true*/);
+			//reporter.start(10 * 1000/*, true*/);
 			this.reporter = reporter;
 			return this;
 		}
