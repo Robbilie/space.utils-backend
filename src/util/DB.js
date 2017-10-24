@@ -8,8 +8,8 @@
 		url: process.env.MONGO_URL,
 		db: process.env.MONGO_DB,
 		settings: {
-			ignoreUndefined: true,
-			reconnectTries: Number.MAX_VALUE
+			ignoreUndefined: true/*,
+			reconnectTries: Number.MAX_VALUE*/
 		}
 	};
 
