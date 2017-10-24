@@ -83,13 +83,15 @@
 		}
 
 		async process_next (lane) {
-			console.log("process_next", lane);
+			console.log("process_next 1", lane);
 
 			let should_wait = false;
 
 			const now = Date.now();
 
 			const atomic_start = process.hrtime();
+
+			console.log("process_next 2", lane);
 
 			const { value } = await DB.collection("tasks").findOneAndUpdate(
 				{ "info.expires": { $lt: now }, "info.modified": { $lt: now - (this.TASK_TIMEOUT_SECONDS * 1000) } }
@@ -105,9 +107,13 @@
 				}
 			);
 
+			console.log("process_next 3", lane);
+
 			const atomic_duration = process.hrtime(atomic_start);
+			console.log("process_next 4", lane);
 			Metrics.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
+			console.log("process_next 5", lane);
 			this.heartbeat = Date.now();
 
 			if (!value)
