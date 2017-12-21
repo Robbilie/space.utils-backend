@@ -16,18 +16,9 @@
 
 			alliance = Object.assign(alliance, {
 				id: 						this.get_data().alliance_id,
-				name:						alliance.name || alliance.alliance_name,
 				date_founded: 				new Date(alliance.date_founded).getTime(),
 				corporation_ids
 			});
-
-			// manage optional convert
-			if (alliance.executor_corporation_id || alliance.executor_corp)
-				alliance.executor_corporation_id = alliance.executor_corporation_id || alliance.executor_corp;
-
-			// TODO : ESI should fix this
-			delete alliance.executor_corp;
-			delete alliance.alliance_name;
 
 			const { id } = alliance;
 
