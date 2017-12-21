@@ -8,30 +8,19 @@
 
 		async start () {
 
-			console.log("corp 1");
-
 			let { body: corporation, headers } = await ESI.Corporation.get_corporations_corporation_id(this.get_data());
-			console.log("corp 2");
 
 			corporation = Object.assign(corporation, {
 				id: 				this.get_data().corporation_id,
-				name: 				corporation.name || corporation.corporation_name,
-				description: 		corporation.description || corporation.corporation_description
 			});
 
 			// manage optional convert
-			if (corporation.creation_date)
-				corporation.creation_date = new Date(corporation.creation_date).getTime();
-
-			// TODO : ESI should fix this
-			delete corporation.corporation_name;
-			delete corporation.corporation_description;
+			if (corporation.date_founded)
+				corporation.date_founded = new Date(corporation.date_founded).getTime();
 
 			const { id, ceo_id, alliance_id, creator_id, member_count } = corporation;
 
-			console.log("corp 3");
 			const hash = Hash(corporation);
-			console.log("corp 4");
 
 			if (hash !== this.get_info().hash) {
 
@@ -73,7 +62,6 @@
 				}
 
 			}
-			console.log("corp 5");
 
 			let expires;
 			if (ceo_id === 1 || member_count === 0) {
@@ -85,7 +73,6 @@
 			}
 
 			await this.update({ expires, hash });
-			console.log("corp 6");
 
 		}
 
