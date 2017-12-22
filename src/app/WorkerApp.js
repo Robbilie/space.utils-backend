@@ -101,8 +101,8 @@
 				{ $set: { "info.state": 1, "info.modified": now } },
 				{
 					sort: { "info.expires": 1, "info.modified": 1 },
-					returnOriginal: false/*,
-					maxTimeMS: 20*/
+					returnOriginal: false,
+					maxTimeMS: 50
 				}
 			);
 
