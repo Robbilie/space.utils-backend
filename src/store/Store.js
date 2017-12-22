@@ -122,8 +122,6 @@
 		}
 
 		static update (where, data, options, oplog = false) {
-			if (this.check_data(data) === undefined)
-				throw ("Data is missing fields, use ignore to bypass.");
 			if (oplog === true)
 				setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
 			return this.collection().updateOne(where, data, options);
@@ -141,8 +139,6 @@
 		}
 
 		static modify (where, data, options, oplog = false) {
-			if (this.check_data(data) === undefined)
-				throw ("Data is missing fields, use ignore to bypass.");
 			if (oplog === true)
 				setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
 			return this.collection().findOneAndUpdate(where, data, options);
@@ -166,10 +162,6 @@
 			if (oplog === true)
 				setImmediate(() => Oplog.destroy(this.getName().toLowerCase().pluralize(), where));
 			return this.collection().remove(where);
-		}
-
-		static check_data (data) {
-			return (data.$set || data.$addToSet || data.$push || data.$pull || data.$unset || data.$setOnInsert);
 		}
 
 	}
