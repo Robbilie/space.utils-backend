@@ -38,9 +38,9 @@
 					.sort(([killmail_id_a], [killmail_id_b]) => (killmail_id_a - 0) > (killmail_id_b - 0) ? 1 : -1)
 					.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id: killmail_id - 0, killmail_hash }));
 
-				await DB
-					.collection("tasks")
-					.insertMany(killmails);
+				const collection = await DB.collection("tasks");
+
+				await collection.insertMany(killmails);
 
 				console.log("zkb end map", page);
 			}
