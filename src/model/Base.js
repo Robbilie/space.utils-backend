@@ -30,7 +30,7 @@
 		}
 
 		isNull () {
-			return this.then(data => data === null);
+			return this.then(data => data === undefined || data === null);
 		}
 
 		get__id () {
