@@ -8,7 +8,7 @@
 
 		static async find_or_create (id, faf = false, {} = $(1, { [`${this.getName().toLowerCase()}_id`]: id }, "Number")) {
 
-			let entity = this.find_by_id(id, faf === false ? {} : { fields: { id: true } }, faf);
+			let entity = this.find_by_id(id, faf === false ? {} : { projection: { id: 1 } }, faf);
 
 			if (await entity.isNull() === true)
 				await BaseTask.create_task(this.getName(), { [`${this.getName().toLowerCase()}_id`]: id }, faf);
@@ -17,7 +17,7 @@
 				return null;
 
 			if (await entity.isNull() === true)
-				entity = this.find_by_id(id/*, faf === false ? {} : { fields: { id: true } }, faf*/);
+				entity = this.find_by_id(id/*, faf === false ? {} : { projection: { id: 1 } }, faf*/);
 
 			if (await entity.isNull() === true)
 				console.log("MISSING", this.getName().toUpperCase(), id);
