@@ -51,6 +51,7 @@
 						}
 						break;
 				}
+				console.log("broadcasting", tid);
 				if(tid !== undefined) {
 					wss.broadcast(tid);
 				}
