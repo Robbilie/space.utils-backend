@@ -79,7 +79,7 @@
 
 		next (lane) {
 			this.process_next(lane)
-				.catch(e => (e.toString() === "MongoError: operation exceeded time limit" ? null : console.log("shouldn't happen", e)) || true)
+				.catch(e => (e.code === 50 ? null : console.log("shouldn't happen", e.toString(), e)) || true)
 				.then(should_wait => !this.wait_queue.push(should_wait) || this.wait_queue.pop() ? Promise.resolve().wait(5 * 1000) : Promise.resolve())
 				.then(() => process.nextTick(() => this.next(lane)));
 		}
