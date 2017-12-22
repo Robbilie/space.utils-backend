@@ -40,7 +40,12 @@
 
 				const collection = await DB.collection("tasks");
 
-				await collection.insertMany(killmails);
+				for (let chunk of killmails.chunk(200)) {
+					await collection.insertMany(chunk);
+					await this.tick({ page });
+				}
+
+				//await collection.insertMany(killmails);
 
 				console.log("zkb end map", page);
 			}
