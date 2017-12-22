@@ -57,11 +57,13 @@
 				}
 			});
 
+			/*
 			try {
 				const collection = await DB.collection("tasks");
 				const changeStream = collection.watch();
 				changeStream.on("change", change => console.log(change));
 			} catch (e) {}
+			*/
 
 		}
 
