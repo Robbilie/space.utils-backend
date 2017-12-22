@@ -134,8 +134,10 @@
 
 				Metrics.inc("tasks.errors");
 				let error = e.error;
-				if (e.name === "StatusCodeError")
+				if (e.name === "StatusCodeError" && e.statusCode !== 403)
 					console.log(name, JSON.stringify({ name: e.name, statusCode: e.statusCode, error, href: e.response.request.href }));
+				else if (e.name === "StatusCodeError" && e.statusCode === 403)
+					console.log(name, JSON.stringify({ name: e.message, statusCode: e.statusCode, error: e.response.body, href: e.response.url }));
 				else if (e.statusCode !== undefined)
 					console.log(name, JSON.stringify({ name: e.message, statusCode: e.statusCode, error: e.response.body, href: e.response.url }));
 				else if (e.message === "Error: ESOCKETTIMEDOUT")
