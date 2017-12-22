@@ -42,15 +42,13 @@
 
 				const collection = await DB.collection("tasks");
 
-				for (let chunk of killmails.chunk(100)) {
+				for (let chunk of killmails.chunk(500)) {
 					console.log("zkb insert chunk");
 					await collection.insertMany(chunk);
 					await this.tick({ page });
 				}
 
 				//await collection.insertMany(killmails);
-
-				console.log("zkb end map", page);
 			}
 
 			if (this.get_url_date(date) !== this.get_url_date())
