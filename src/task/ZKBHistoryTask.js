@@ -38,9 +38,12 @@
 					.sort(([killmail_id_a], [killmail_id_b]) => (killmail_id_a - 0) > (killmail_id_b - 0) ? 1 : -1)
 					.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id: killmail_id - 0, killmail_hash }));
 
+				console.log("zkb end map", page);
+
 				const collection = await DB.collection("tasks");
 
-				for (let chunk of killmails.chunk(200)) {
+				for (let chunk of killmails.chunk(100)) {
+					console.log("zkb insert chunk");
 					await collection.insertMany(chunk);
 					await this.tick({ page });
 				}
