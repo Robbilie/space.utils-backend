@@ -78,7 +78,7 @@
 							.entries(options)
 							.reduce((p,c) => !p.push({["$" + c[0]]: c[1] }) || p, [])
 						)
-						.toArray())[0];
+						.toArray())[0] || null;
 				}
 			})());
 		}
