@@ -60,12 +60,9 @@
 				.filter(([name, value]) => value !== undefined && value !== null)
 				.reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) };
 
-			console.log("update 1");
 			await DB.collection("tasks").updateOne(where, data);
-			console.log("update 2");
 			if (oplog === true)
 				await Oplog.update("tasks", where, data);
-			console.log("update 3");
 		}
 
 		tick (options = {}) {
