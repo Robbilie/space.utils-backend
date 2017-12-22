@@ -121,7 +121,7 @@
 			const reconnect = () => console.log("reconnecting ws") || setTimeout(() => BaseTask.watch(), 1000);
 			const socket = new ws(process.env.TASKOPLOG_URL);
 			socket.on("message", tid => {
-				console.log("message", tid);
+				console.log("message", tid, storage.tasks.has(tid));
 				if(storage.tasks.has(tid)) {
 					console.log(tid, Date.now());
 					storage.tasks.get(tid)();
