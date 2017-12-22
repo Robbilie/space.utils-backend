@@ -90,12 +90,15 @@
 				if (faf === false)
 					storage.tasks.set(_id.toString(), resolve);
 
+				let doc = BaseTask.create_doc(name, data, { _id });
+				console.log(doc, Date.now());
+
 				let response = await DB.collection("tasks").updateOne(
 					Object.assign(
 						{ "info.name": name },
 						Object.entries(data).reduce((p, [name, value]) => { p[`data.${name}`] = value; return p; }, {})
 					),
-					{ $setOnInsert: BaseTask.create_doc(name, data, { _id }) },
+					{ $setOnInsert: doc },
 					{ upsert: true }
 				);
 
@@ -118,7 +121,8 @@
 			const reconnect = () => setTimeout(() => BaseTask.watch(), 1000);
 			const socket = new ws(process.env.TASKOPLOG_URL);
 			socket.on("message", tid => {
-				if(tid !== undefined && storage.tasks.get(tid)) {
+				if(storage.tasks.has(tid)) {
+					console.log(tid, Date.now());
 					storage.tasks.get(tid)();
 					storage.tasks.delete(tid);
 				}
