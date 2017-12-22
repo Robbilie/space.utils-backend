@@ -69,7 +69,8 @@
 							tid = change.documentKey._id.toString();
 							break;
 						case "update":
-							tid = change.documentKey._id.toString();
+							if (change.updateDescription.updatedFields["info.state"] === 0)
+								tid = change.documentKey._id.toString();
 							break;
 					}
 					console.log("broadcasting", tid);
