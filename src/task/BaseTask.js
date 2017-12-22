@@ -61,8 +61,8 @@
 				.reduce((p, [name, value]) => { p[`info.${name}`] = value; return p; }, {}) };
 
 			await DB.collection("tasks").updateOne(where, data);
-			if (oplog === true)
-				await Oplog.update("tasks", where, data);
+			//if (oplog === true)
+			//	await Oplog.update("tasks", where, data);
 		}
 
 		tick (options = {}) {
@@ -71,8 +71,8 @@
 
 		async destroy (oplog = true) {
 			await DB.collection("tasks").deleteOne({ _id: this.get__id() });
-			if (oplog === true)
-				await Oplog.destroy("tasks", { _id: this.get__id() });
+			//if (oplog === true)
+			//	await Oplog.destroy("tasks", { _id: this.get__id() });
 		}
 
 		static create (data = {}, faf = false) {

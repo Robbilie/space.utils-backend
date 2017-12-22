@@ -122,8 +122,8 @@
 		}
 
 		static update (where, data, options, oplog = false) {
-			if (oplog === true)
-				setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
+			//if (oplog === true)
+			//	setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
 			return this.collection().updateOne(where, data, options);
 		}
 
@@ -139,8 +139,8 @@
 		}
 
 		static modify (where, data, options, oplog = false) {
-			if (oplog === true)
-				setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
+			//if (oplog === true)
+			//	setImmediate(() => Oplog.update(this.getName().toLowerCase().pluralize(), where, data));
 			return this.collection().findOneAndUpdate(where, data, options);
 		}
 
@@ -149,8 +149,8 @@
 		}
 
 		static insert (data, options, oplog = false) {
-			if (oplog === true)
-				setImmediate(() => Oplog.insert(this.getName().toLowerCase().pluralize(), data));
+			//if (oplog === true)
+			//	setImmediate(() => Oplog.insert(this.getName().toLowerCase().pluralize(), data));
 			return this.collection().insertOne(data, options);
 		}
 
@@ -159,9 +159,9 @@
 		}
 
 		static destroy (where, oplog = false) {
-			if (oplog === true)
-				setImmediate(() => Oplog.destroy(this.getName().toLowerCase().pluralize(), where));
-			return this.collection().remove(where);
+			//if (oplog === true)
+			//	setImmediate(() => Oplog.destroy(this.getName().toLowerCase().pluralize(), where));
+			return this.collection().deleteMany(where);
 		}
 
 	}

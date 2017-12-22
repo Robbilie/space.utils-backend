@@ -34,6 +34,7 @@
 				});
 			}, 30000);
 
+			/*
 			Oplog.updates({ ns: "tasks" }, undefined, async ({ op, o, o2 }) => {
 				let tid;
 				switch (op) {
@@ -56,14 +57,13 @@
 					wss.broadcast(tid);
 				}
 			});
+			*/
 
-			/*
 			try {
 				const collection = await DB.collection("tasks");
 				const changeStream = collection.watch();
 				changeStream.on("change", change => console.log(change));
 			} catch (e) {}
-			*/
 
 		}
 
