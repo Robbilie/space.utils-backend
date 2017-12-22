@@ -10,6 +10,8 @@
 
 			let entity = this.find_by_id(id, faf === false ? {} : { fields: { id: true } }, faf);
 
+			console.log(id, faf, await entity.isNull());
+
 			if (await entity.isNull() === true)
 				await BaseTask.create_task(this.getName(), { [`${this.getName().toLowerCase()}_id`]: id }, faf);
 
@@ -17,7 +19,7 @@
 				return null;
 
 			if (await entity.isNull() === true)
-				entity = this.find_by_id(id);
+				entity = this.find_by_id(id, faf === false ? {} : { fields: { id: true } }, faf);
 
 			if (await entity.isNull() === true)
 				console.log("MISSING", this.getName().toUpperCase(), id);
