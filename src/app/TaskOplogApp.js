@@ -62,7 +62,21 @@
 			try {
 				const collection = await DB.collection("tasks");
 				const changeStream = collection.watch();
-				changeStream.on("change", change => console.log(change));
+				changeStream.on("change", change => {
+					let tid;
+					switch (change.operationType) {
+						case "delete":
+							tid = change.documentKey._id.toString();
+							break;
+						case "update":
+							tid = change.documentKey._id.toString();
+							break;
+					}
+					console.log("broadcasting", tid);
+					if(tid !== undefined) {
+						wss.broadcast(tid);
+					}
+				});
 			} catch (e) {}
 
 		}
