@@ -85,15 +85,12 @@
 		}
 
 		async process_next (lane) {
-			console.log("process_next 1", lane);
 
 			let should_wait = false;
 
 			const now = Date.now();
 
 			const atomic_start = process.hrtime();
-
-			console.log("process_next 2", lane);
 
 			const { value } = await DB.collection("tasks").findOneAndUpdate(
 				{ "info.expires": { $lt: now }, "info.modified": { $lt: now - (this.TASK_TIMEOUT_SECONDS * 1000) } }
@@ -109,13 +106,9 @@
 				}
 			);
 
-			console.log("process_next 3", lane);
-
 			const atomic_duration = process.hrtime(atomic_start);
-			console.log("process_next 4", lane);
 			Metrics.update("tasks.atomic_duration", (atomic_duration[0] * 1e9 + atomic_duration[1]) / 1e6);
 
-			console.log("process_next 5", lane);
 			this.heartbeat = Date.now();
 
 			if (!value)
@@ -123,24 +116,17 @@
 
 			const { _id, info: { name } } = value;
 
-			console.log("task", lane, _id, name, "started");
-
 			try {
 
 				const start = process.hrtime();
-				console.log("process_next 6", lane);
 				const t = new (LoadUtil.task(name))(this, value);
-				console.log("process_next 7", lane);
 
 				await t.start();
-				console.log("process_next 8", lane);
 
 				let duration = process.hrtime(start);
-				console.log("process_next 9", lane);
 				duration = (duration[0] * 1e9 + duration[1]) / 1e6;
 				Metrics.update("tasks.duration", duration);
 				Metrics.update(`tasks.type.${name}`, duration);
-				console.log("process_next 10", lane);
 
 			} catch (e) {
 
@@ -164,8 +150,6 @@
 			Metrics.inc("tasks.completed");
 
 			this.heartbeat = Date.now();
-
-			console.log("task", lane, _id, name, "completed");
 
 			return should_wait;
 
