@@ -57,8 +57,10 @@
 				}
 			});
 
-			const changeStream = await DB.collection("tasks").watch();
-			changeStream.on("change", change => console.log(change));
+			try {
+				const changeStream = await DB.collection("tasks").watch();
+				changeStream.on("change", change => console.log(change));
+			} catch (e) {}
 
 		}
 
