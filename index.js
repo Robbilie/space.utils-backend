@@ -33,7 +33,7 @@
 	const app = new (LoadUtil.app(process.env.APP_NAME))();
 
 	// init app
-	app.init().catch(e => console.log(e));
+	app.init().catch(e => console.log("app level:", e));
 
 	// start a repl, probably not that useful anymore
 	if (process.env.REPL === "true") {
