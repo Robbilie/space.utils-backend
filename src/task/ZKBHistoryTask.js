@@ -31,36 +31,16 @@
 				if (start === false)
 					await this.tick({ page });
 
-				console.log("api page", page);
-
-				const res = await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`);
-
 				console.log("zkb start map", page);
 
 				const killmails = Object
-					.entries(res)
-					.map(([killmail_id, killmail_hash]) => [parseInt(killmail_id), killmail_hash])
-					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
-					.filter(([killmail_id, killmail_hash]) => killmail_hash.length === 40);
-
-				/*
-				const killmail_ids = killmails.map(_[0]);
-
-				const ids = await DB
-					.collection("killmails")
-					.find({ id: { $gte: killmail_ids[0], $lte: killmail_ids[killmail_ids.length - 1] } })
-					.project({ id: 1 })
-					.toArray()
-					.map(_.id);
-				*/
+					.entries(await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`))
+					.sort(([killmail_id_a], [killmail_id_b]) => (killmail_id_a - 0) > (killmail_id_b - 0) ? 1 : -1)
+					.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id: killmail_id - 0, killmail_hash }));
 
 				await DB
 					.collection("tasks")
-					.insertMany(
-						killmails
-							//.filter(([killmail_id]) => !ids.includes(killmail_id))
-							.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id, killmail_hash }))
-					);
+					.insertMany(killmails);
 
 				console.log("zkb end map", page);
 			}
