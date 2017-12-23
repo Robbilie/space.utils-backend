@@ -162,7 +162,7 @@
 			//if (this.reference_queue.length >= this.reference_queue_max)
 			//	setImmediate(() => this.work_reference_queue());
 
-			//setImmediate(() => {
+			setImmediate(() => {
 				clearTimeout(this.reference_queue_timeout);
 				this.reference_queue_timeout = setTimeout(() => this.work_reference_queue(), 10 * 1000);
 				this.reference_queue.push([name, args]);
@@ -170,13 +170,13 @@
 					console.log("queue full, dereferencing");
 					this.work_reference_queue();
 				}
-			//});
+			});
 		}
 
 		work_reference_queue () {
 			const queue = this.reference_queue;
 			this.reference_queue = [];
-			queue.forEach(([name, args]) => process.nextTick(() => LoadUtil.store(name).find_or_create(...args, true)));
+			queue.forEach(([name, args]) => process.setImmediate(() => LoadUtil.store(name).find_or_create(...args, true)));
 			//console.log("worked reference queue");
 		}
 
