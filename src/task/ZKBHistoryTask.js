@@ -40,7 +40,7 @@
 				const killmail_chunks = Object
 					.entries(await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`))
 					.sort(([killmail_id_a], [killmail_id_b]) => (killmail_id_a - 0) > (killmail_id_b - 0) ? 1 : -1)
-					.chunk(500);
+					.chunk(1000);
 
 				console.log("zkb end map", page);
 
