@@ -176,7 +176,7 @@
 		work_reference_queue () {
 			const queue = this.reference_queue;
 			this.reference_queue = [];
-			queue.forEach(([name, args]) => process.setImmediate(() => LoadUtil.store(name).find_or_create(...args, true)));
+			queue.forEach(([name, args]) => setImmediate(() => LoadUtil.store(name).find_or_create(...args, true)));
 			//console.log("worked reference queue");
 		}
 
