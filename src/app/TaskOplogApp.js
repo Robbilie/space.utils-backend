@@ -74,7 +74,7 @@
 							break;
 					}
 					if(tid !== undefined) {
-						console.log("broadcasting", tid);
+						//console.log("broadcasting", tid);
 						wss.broadcast(tid);
 					}
 				});
