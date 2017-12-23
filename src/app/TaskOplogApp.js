@@ -73,8 +73,8 @@
 								tid = change.documentKey._id.toString();
 							break;
 					}
-					console.log("broadcasting", tid);
 					if(tid !== undefined) {
+						console.log("broadcasting", tid);
 						wss.broadcast(tid);
 					}
 				});

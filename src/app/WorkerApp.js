@@ -102,7 +102,7 @@
 				{
 					sort: { "info.expires": 1, "info.modified": 1 },
 					returnOriginal: false,
-					maxTimeMS: 20
+					//maxTimeMS: 20
 				}
 			);
 
