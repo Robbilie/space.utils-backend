@@ -21,7 +21,7 @@
 
 	function new_db ({ url, db, settings }) {
 		console.log(`~ Connecting to ${url}/${db}`);
-		return MongoClient.connect(`${url}/${db}?compressors=zlib,snappy`, settings).then(client => console.log(`~ Connected to ${url}/${db}`) || client.db(db));
+		return MongoClient.connect(`${url}/${db}?compressors=snappy`, settings).then(client => console.log(`~ Connected to ${url}/${db}`) || client.db(db));
 	}
 
 	module.exports = PromiseWrap(get_db(config));
