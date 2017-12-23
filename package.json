@@ -20,6 +20,7 @@
     "raven": "^1.2.1",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
+    "snappy": "^6.0.1",
     "swagger-client": "^3.4.2",
     "swagger-http-grpc": "github:itshouldntdothis/swagger-http-grpc",
     "swagger-tools": "^0.10.3",
