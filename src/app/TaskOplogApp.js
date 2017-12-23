@@ -11,7 +11,7 @@
 
 			this.heartbeat = Date.now();
 
-			this.start_heartbeat();
+			//this.start_heartbeat();
 
 			const wss = new Server({ port: parseInt(process.env.APP_PORT) });
 
