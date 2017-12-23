@@ -11,7 +11,7 @@
 			keepAlive: true,
 			ignoreUndefined: true,
 			//reconnectTries: Number.MAX_VALUE,
-			compression: "zlib",
+			compression: { compressors: ["snappy"] },
 		}
 	};
 
