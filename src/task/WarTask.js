@@ -82,7 +82,7 @@
 				const ids = await DB
 					.collection("killmails")
 					.find({ id: { $in: killmails.map(_.killmail_id) } })
-					.project({ id: 1 })
+					.project({ id: 1, _id: 0 })
 					.toArray()
 					.map(_.id);
 
