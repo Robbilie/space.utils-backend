@@ -1,6 +1,6 @@
 FROM node:alpine
 
-RUN apk --no-cache add libc6-compat git
+RUN apk --no-cache add libc6-compat git python make g++
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
