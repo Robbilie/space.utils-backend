@@ -3,10 +3,15 @@
 
 	const { Server, OPEN } 	= require("ws");
 	const { DB, Oplog } 	= require("util/");
+	const http 				= require("http");
 
 	class TaskOplogApp {
 
 		async init () {
+
+			this.heartbeat = Date.now();
+
+			this.start_heartbeat();
 
 			const wss = new Server({ port: parseInt(process.env.APP_PORT) });
 
@@ -76,10 +81,35 @@
 					if(tid !== undefined) {
 						//console.log("broadcasting", tid);
 						wss.broadcast(tid);
+						this.heartbeat = Date.now();
 					}
 				});
 			} catch (e) {}
 
+		}
+
+		start_heartbeat () {
+			http.createServer((req, res) => {
+				console.log("webserver", req.url);
+				switch (req.url) {
+					case "/healthcheck":
+						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
+						res.end("healthcheck");
+						if (this.heartbeat > Date.now() - (2 * 60 * 1000) === false)
+							console.log("HEALTHCHECK FAIL");
+						break;
+					case "/ping":
+						res.writeHead(200, { "Content-Type": "text/plain" });
+						res.end("ping");
+						break;
+					default:
+						res.writeHead(200, { "Content-Type": "text/plain" });
+						res.end("ok");
+						console.log("WTF HEARTBEAT DEFAULT");
+						console.log(req);
+						break;
+				}
+			}).listen(parseInt(process.env.APP_PORT));
 		}
 
 	}
