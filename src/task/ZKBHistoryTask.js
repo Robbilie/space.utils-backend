@@ -3,7 +3,11 @@
 
 	const rp 		= require("request-promise-native");
 	const request 	= rp.defaults({
-		gzip: true,
+		//gzip: true,
+		//json: true,
+		headers: {
+			"User-Agent": "zkbhistoryfetcher/utils.space (Vincent Eneticum / Robert Schuh)"
+		},
 		forever: true,
 		pool: {
 			maxSockets: Infinity
