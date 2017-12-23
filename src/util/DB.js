@@ -9,8 +9,9 @@
 		db: process.env.MONGO_DB,
 		settings: {
 			keepAlive: true,
-			ignoreUndefined: true/*,
-			reconnectTries: Number.MAX_VALUE*/
+			ignoreUndefined: true,
+			//reconnectTries: Number.MAX_VALUE,
+			compression: "snappy",
 		}
 	};
 
