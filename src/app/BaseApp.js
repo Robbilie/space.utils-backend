@@ -10,7 +10,7 @@
 		}
 
 		start_heartbeat (port = parseInt(process.env.APP_PORT)) {
-			http.createServer((req, res) => {
+			return http.createServer((req, res) => {
 				console.log("webserver", req.url);
 				switch (req.url) {
 					case "/healthcheck":
