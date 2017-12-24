@@ -53,11 +53,21 @@ spec:
           value: "mongodb://mongo-service:27017"
         - name: MONGO_DB
           value: "test"
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 4001
+          initialDelaySeconds: 60
+          timeoutSeconds: 60
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 4001
+          initialDelaySeconds: 60
+          timeoutSeconds: 60
       volumes:
       - name: config
         secret:
           secretName: eas-config
       nodeSelector:
         kubernetes.io/hostname: "sheliak"
-      imagePullSecrets:
-      - name: myregistrykey

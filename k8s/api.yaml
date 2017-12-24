@@ -73,8 +73,8 @@ spec:
           value: "monitoring-influxdb.kube-system"
         - name: GRAPHITE_HOST
           value: "graphite-service"
-        #- name: UV_THREADPOOL_SIZE
-        #  value: "128"
+        - name: UV_THREADPOOL_SIZE
+          value: "128"
         - name: PARALLEL_TASK_LIMIT
           value: "20"
         readinessProbe:

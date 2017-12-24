@@ -75,5 +75,3 @@
 #      - name: config
 #        secret:
 #          secretName: eas-config
-#      imagePullSecrets:
-#      - name: myregistrykey

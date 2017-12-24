@@ -69,7 +69,7 @@ spec:
         - name: TASK_TIMEOUT_SECONDS
           value: "300"
         - name: REFERENCE_QUEUE_MAX
-          value: "500"
+          value: "1000"
         #- name: EXTENDED_METRICS
         #  value: "true"
         readinessProbe:
