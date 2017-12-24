@@ -1,14 +1,16 @@
 
 	"use strict";
 
-	const { Server } 				= require("ws");
-	const { Oplog } 				= require("util/");
+	const { Server } 		= require("ws");
+	const { Oplog } 		= require("util/");
+	const { BaseApp } 		= require("app/");
 
-	class WSApp {
+	class WSApp extends BaseApp {
 
 		async init () {
 
-			this.ws = new Server({ port: parseInt(process.env.APP_PORT) });
+			const server = this.start_heartbeat();
+			this.ws = new Server({ server });
 			this.ws.on("connection", socket => {
 				socket.json = function (data) { try { return this.send(JSON.stringify(data)); } catch (e) { return e; } };
 				const onData = data => socket.json(data);

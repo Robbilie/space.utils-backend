@@ -1,6 +1,8 @@
 
 	"use strict";
 
+	const { BaseApp } 				= require("app/");
+
 	const http 						= require("http");
 	const express 					= require("express");
 	const cors 						= require("cors");
@@ -8,7 +10,7 @@
 	const fs 						= require("fs");
 	const swaggerTools 				= require("swagger-tools");
 
-	class APIApp {
+	class APIApp extends BaseApp {
 
 		async init () {
 

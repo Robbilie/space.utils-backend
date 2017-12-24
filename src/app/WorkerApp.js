@@ -4,11 +4,11 @@
 	const {
 		DB,
 		LoadUtil,
-		Metrics } = require("util/");
-	const { BaseTask } 					= require("task/");
-	const http 							= require("http");
+		Metrics } 			= require("util/");
+	const { BaseTask } 		= require("task/");
+	const { BaseApp } 		= require("app/");
 
-	class WorkerApp {
+	class WorkerApp extends BaseApp {
 
 		async init () {
 
@@ -31,11 +31,7 @@
 			//this.reference_queue_interval = setInterval(() => this.work_reference_queue(), 10 * 1000);
 			this.wait_queue = [];
 
-			this.heartbeat = Date.now();
-
 			this.start_heartbeat();
-
-			await DB;
 
 			// start some basic tasks
 			WorkerApp.create_base_tasks();
@@ -43,30 +39,6 @@
 			// start polling for old tasks that have to be fetched
 			this.work_tasks();
 
-		}
-
-		start_heartbeat () {
-			http.createServer((req, res) => {
-				console.log("webserver", req.url);
-				switch (req.url) {
-					case "/healthcheck":
-						res.writeHead(this.heartbeat > Date.now() - (2 * 60 * 1000) ? 200 : 500, { "Content-Type": "text/plain" });
-						res.end("healthcheck");
-						if (this.heartbeat > Date.now() - (2 * 60 * 1000) === false)
-							console.log("HEALTHCHECK FAIL");
-						break;
-					case "/ping":
-						res.writeHead(200, { "Content-Type": "text/plain" });
-						res.end("ping");
-						break;
-					default:
-						res.writeHead(200, { "Content-Type": "text/plain" });
-						res.end("ok");
-						console.log("WTF HEARTBEAT DEFAULT");
-						console.log(req);
-						break;
-				}
-			}).listen(parseInt(process.env.APP_PORT));
 		}
 
 		static create_base_tasks () {

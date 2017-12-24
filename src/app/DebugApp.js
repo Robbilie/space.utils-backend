@@ -1,7 +1,9 @@
 
 	"use strict";
 
-	class DebugApp {
+	const { BaseApp } 	= require("app/");
+
+	class DebugApp extends BaseApp {
 
 		async init () {
 
