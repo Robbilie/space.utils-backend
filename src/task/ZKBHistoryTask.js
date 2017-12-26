@@ -37,27 +37,28 @@
 
 				console.log("zkb start map", page);
 
-				let killmails = Object
+				const killmail_chunks = Object
 					.entries(await request(`https://zkillboard.com/api/history/${this.get_url_date(date)}/`))
 					.map(([killmail_id, killmail_hash]) => [killmail_id - 0, killmail_hash])
-					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1);
-
-				const ids = await DB.collection("killmails")
-					.find({ id: { $in: killmails.map(([killmail_id]) => killmail_id) } })
-					.sort({ id: 1 })
-					.project({ id: 1, _id: 0 })
-					.toArray()
-					.map(_.id);
-
-				killmails = killmails.filter(([killmail_id]) => !ids.includes(killmail_id)).chunk(1000);
+					.sort(([killmail_id_a], [killmail_id_b]) => killmail_id_a > killmail_id_b ? 1 : -1)
+					.chunk(1000);
 
 				console.log("zkb end map", page);
 
 				const collection = await DB.collection("tasks");
 
-				for (let chunk of killmails) {
+				for (let chunk of killmail_chunks) {
 					console.log("zkb insert chunk");
-					await collection.insertMany(chunk.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id: killmail_id - 0, killmail_hash })));
+					let ids = await DB.collection("killmails")
+						.find({ id: { $in: chunk.map(([killmail_id]) => killmail_id) } })
+						.sort({ id: 1 })
+						.project({ id: 1, _id: 0 })
+						.toArray()
+						.map(_.id);
+					await collection.insertMany(chunk
+						.filter(([killmail_id]) => !ids.includes(killmail_id))
+						.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id: killmail_id - 0, killmail_hash }))
+					);
 					await this.tick({ page });
 				}
 
