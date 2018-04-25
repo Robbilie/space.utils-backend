@@ -8,6 +8,7 @@
 	"host": "esi.tech.ccp.is",
 	"schemes": ["https"],
 	"produces": ["application/json"],
+	"consumes": ["application/json"],
 	"securityDefinitions": {
 		"evesso": {
 			"type": "oauth2",
