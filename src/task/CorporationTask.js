@@ -9,7 +9,7 @@
 		async start () {
 
 			try {
-				let { body: corporation, headers } = await this.getCachedData(ESI.Corporation.get_corporations_corporation_id);
+				let { body: corporation, headers } = await this.getCachedData((args) => ESI.Corporation.get_corporations_corporation_id(args));
 
 				let expires;
 				if (corporation) {
