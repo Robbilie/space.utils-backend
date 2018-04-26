@@ -50,6 +50,22 @@
 			return this.info.name;
 		}
 
+		async getCachedData (method) {
+			try {
+				return await method(Object.assign(
+					{},
+					this.get_data(),
+					{ "If-None-Match": this.get_info().hash },
+				));
+			} catch (e) {
+				if (e.statusCode === 304) {
+					return e.response;
+				} else {
+					throw e;
+				}
+			}
+		}
+
 		async update ({ state = 0, expires, modified, page, hash } = {}, oplog = true) {
 			let info = Object.assign({ state, page }, expires ? { expires } : {}, modified ? { modified } : {}, hash ? { hash } : {});
 			this.set_info(info);

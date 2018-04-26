@@ -2,27 +2,26 @@
 	"use strict";
 
 	const { BaseTask } = require("task/");
-	const { DB, ESI, Hash } = require("util/");
+	const { DB, ESI } = require("util/");
 
 	class CorporationTask extends BaseTask {
 
 		async start () {
 
-			let { body: corporation, headers } = await ESI.Corporation.get_corporations_corporation_id(this.get_data());
+			let { body: corporation, headers } = await this.getCachedData(ESI.Corporation.get_corporations_corporation_id);
 
-			corporation = Object.assign(corporation, {
-				id: 				this.get_data().corporation_id,
-			});
+			let expires;
+			if (corporation) {
 
-			// manage optional convert
-			if (corporation.date_founded)
-				corporation.date_founded = new Date(corporation.date_founded).getTime();
+				corporation = Object.assign(corporation, {
+					id: 				this.get_data().corporation_id,
+				});
 
-			const { id, ceo_id, alliance_id, creator_id, member_count } = corporation;
+				// manage optional convert
+				if (corporation.date_founded)
+					corporation.date_founded = new Date(corporation.date_founded).getTime();
 
-			const hash = Hash(corporation);
-
-			if (hash !== this.get_info().hash) {
+				const { id, ceo_id, alliance_id, creator_id, member_count } = corporation;
 
 				let { body: history } = await ESI.Corporation.get_corporations_corporation_id_alliancehistory(this.get_data());
 
@@ -61,18 +60,19 @@
 					console.log("no ceo", this.get_data().corporation_id);
 				}
 
+				if (ceo_id === 1 || member_count === 0) {
+					expires = Number.MAX_SAFE_INTEGER;
+				} else if (alliance_id !== undefined) {
+					expires = new Date(headers.expires).getTime() + (1000 * 60 * 60 * 24);
+				}
+
 			}
 
-			let expires;
-			if (ceo_id === 1 || member_count === 0) {
-				expires = Number.MAX_SAFE_INTEGER;
-			} else if (alliance_id !== undefined) {
-				expires = new Date(headers.expires).getTime() + (1000 * 60 * 60 * 24);
-			} else {
+			if (!expires) {
 				expires = new Date(headers.expires).getTime();
 			}
 
-			await this.update({ expires, hash });
+			await this.update({ expires, hash: headers.etag });
 
 		}
 

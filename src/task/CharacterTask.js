@@ -2,24 +2,23 @@
 	"use strict";
 
 	const { BaseTask, CharacterAffiliationTask } = require("task/");
-	const { DB, ESI, Hash } = require("util/");
+	const { DB, ESI } = require("util/");
 
 	class CharacterTask extends BaseTask {
 
 		async start () {
 
-			let { body: character, headers } = await ESI.Character.get_characters_character_id(this.get_data());
+			let { body: character, headers } = await this.getCachedData(ESI.Character.get_characters_character_id);
 
-			character = Object.assign(character, {
-				id: 				this.get_data().character_id,
-				birthday: 			new Date(character.birthday).getTime()
-			});
+			let expires;
+			if (character) {
 
-			const { id, corporation_id, alliance_id } = character;
+				character = Object.assign(character, {
+					id: 				this.get_data().character_id,
+					birthday: 			new Date(character.birthday).getTime()
+				});
 
-			const hash = Hash(character);
-
-			if (hash !== this.get_info().hash) {
+				const { id, corporation_id, alliance_id } = character;
 
 				let { body: history } = await ESI.Character.get_characters_character_id_corporationhistory(this.get_data());
 
@@ -49,16 +48,16 @@
 					character.corporation_history
 						.forEach(({ corporation_id }) => this.enqueue_reference("Corporation", corporation_id));
 
+				if (corporation_id === 1000001) {
+					expires = Number.MAX_SAFE_INTEGER; // doomheimed
+				}
 			}
 
-			let expires;
-			if (corporation_id === 1000001) {
-				expires = Number.MAX_SAFE_INTEGER; // doomheimed
-			} else {
-				expires = new Date(headers.expires).getTime() + (1000 * 60 * 60 * 24); // wait for 24h and let char affiliation do the rest
+			if (!expires) {
+				expires = new Date(headers.expires).getTime();
 			}
 
-			await this.update({ expires, hash });
+			await this.update({ expires, hash: headers.etag });
 
 		}
 
