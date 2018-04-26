@@ -35,6 +35,7 @@
 					client.isAlive = false;
 					client.ping("", false, true);
 				});
+				this.heartbeat = Date.now();
 			}, 30000);
 
 			/*
@@ -79,7 +80,6 @@
 					if(tid !== undefined) {
 						//console.log("broadcasting", tid);
 						wss.broadcast(tid);
-						this.heartbeat = Date.now();
 					}
 				});
 			} catch (e) {}
