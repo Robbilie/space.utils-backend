@@ -34,7 +34,8 @@
 								.entries(res.headers)
 								.reduce((res, [key, { value }]) => Object.assign(res, { [key]: value.length === 1 ? value[0] : value }), {}),
 								{ forEach: function (cb) { Object.entries(this).filter(([k]) => k !== "forEach").forEach(([k, v], i, o) => cb(v, k, o)) } }),
-							text: async function () { return this.body; }
+							text: async function () { return this.body; },
+							blob: async function () { return this.body; },
 						}));
 					}
 				})
