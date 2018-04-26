@@ -58,7 +58,6 @@
 					{ "If-None-Match": this.get_info().hash },
 				));
 			} catch (e) {
-				console.log("call", e);
 				if (e.statusCode === 304) {
 					return e.response;
 				} else {
