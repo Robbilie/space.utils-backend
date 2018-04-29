@@ -10,7 +10,7 @@
 
 			let { body: corporation, headers } = await this.getCachedData(ESI.Corporation.get_corporations_corporation_id);
 
-			let expires;
+			let expires = new Date(headers.expires).getTime();
 			if (corporation) {
 
 				corporation = Object.assign(corporation, {
@@ -66,10 +66,6 @@
 					expires = new Date(headers.expires).getTime() + (1000 * 60 * 60 * 24);
 				}
 
-			}
-
-			if (!expires) {
-				expires = new Date(headers.expires).getTime();
 			}
 
 			await this.update({ expires, hash: headers.etag });

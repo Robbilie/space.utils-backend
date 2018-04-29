@@ -10,7 +10,7 @@
 
 			let { body: character, headers } = await this.getCachedData(ESI.Character.get_characters_character_id);
 
-			let expires;
+			let expires = new Date(headers.expires).getTime() + (1000 * 60 * 60 * 24); // wait for 24h and let char affiliation do the rest
 			if (character) {
 
 				character = Object.assign(character, {
@@ -51,10 +51,6 @@
 				if (corporation_id === 1000001) {
 					expires = Number.MAX_SAFE_INTEGER; // doomheimed
 				}
-			}
-
-			if (!expires) {
-				expires = new Date(headers.expires).getTime();
 			}
 
 			await this.update({ expires, hash: headers.etag });
