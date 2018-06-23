@@ -214,7 +214,7 @@
 					alliance_id: 1,
 					faction_id: 1,
 					ship_type_id: 1,
-					items: "$items"
+					items: { $cond: { if: { $eq: ["$items", [{}]] }, then: [], else: "$items" } }
 				}
 			}
 		},
