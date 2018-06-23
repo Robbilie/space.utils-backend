@@ -49,16 +49,17 @@
 
 				for (let chunk of killmail_chunks) {
 					console.log("zkb insert chunk");
-					let ids = await DB.collection("killmails")
+					const ids = await DB.collection("killmails")
 						.find({ id: { $in: chunk.map(([killmail_id]) => killmail_id) } })
 						.sort({ id: 1 })
 						.project({ id: 1, _id: 0 })
 						.toArray()
 						.map(_.id);
-					await collection.insertMany(chunk
+					const docs = chunk
 						.filter(([killmail_id]) => !ids.includes(killmail_id))
-						.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id: killmail_id - 0, killmail_hash }))
-					);
+						.map(([killmail_id, killmail_hash]) => BaseTask.create_doc("Killmail", { killmail_id: killmail_id - 0, killmail_hash }));
+					if (docs.length !== 0)
+						await collection.insertMany(docs);
 					await this.tick({ page });
 				}
 
