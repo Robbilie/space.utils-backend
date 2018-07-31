@@ -18,7 +18,7 @@
 	}
 
 	// setup sentry if dsn is set
-	if(config && config.sentry && config.sentry.dsn && config.sentry.dsn !== "") {
+	if(global.config && config.sentry && config.sentry.dsn && config.sentry.dsn !== "") {
 
 		const Raven = require("raven");
 		Raven.config(config.sentry.dsn, { captureUnhandledRejections: true }).install();
